@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <title>Guard - Soluções em Segurança e Monitoramento</title>
+    
+    <link rel="icon" type="image/png" href="imagens\Airbrush-IMAGE-ENHANCER-1778007192247-1778007192247.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guard</title>
@@ -11,7 +15,6 @@
 </head>
 
 <body>
-    <div id="sidebar-overlay"></div>
 
     <div id="sidebar-menu" class="sidebar">
         <div class="sidebar-header">
@@ -95,8 +98,6 @@
         </div>
     </div>
     <header>
-
-        <div id="teste1"></div>
     
         <div id="header">
             
@@ -113,7 +114,7 @@
 
             <nav id="nav-container">
                 <ul id="navigation-bar">
-                    <li><a href="#">Alarme para casa</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
                     <li><a href="#">Alarme para empresa</a></li>
                     <li><a href="#">Nossos alarmes</a></li>
                     <li><a href="#">Ajuda e informações</a></li>
@@ -156,10 +157,10 @@
                         Se preferir <strong id="call-strong">LIGAMOS</strong> para você
                     </div>
                     <div id="phone-container-background">
-                        <form class="phone-container">
-                            <input type="tel" placeholder="Seu telefone" class="phone-input" maxlength="15" />
-                                <button type="submit" class="submit-btn">
-                                    ENVIAR
+                        <form id="form-telefone-rapido" class="phone-container" action="https://formspree.io/f/mjgzyoyg" method="POST">
+                            <input type="tel" name="Ligacao_Solicitada" placeholder="Seu telefone" class="phone-input" maxlength="15" required />
+                            <button type="submit" class="submit-btn">
+                                ENVIAR
                                 <span class="icon-arrow">&#8250;</span>
                             </button>
                         </form>
@@ -174,7 +175,7 @@
                     </p>
                     <small>
                         <p>
-                             Ao clicar em enviar, você aceita nossa <a>política de privacidade</a> e <a>política de cookies.</a>
+                             Ao clicar em enviar, você aceita nossa <a href="./privacy-policy.html">política de privacidade</a> e <a href="./politica-cookies.html">política de cookies.</a>
                         </p>
                     </small>
                 </div>
@@ -429,7 +430,7 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
                 </div>
                 <div class="guard-banner-text">
-                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <h3 class="guard-banner-title">Sua segurança não pode esperar</h3>
                     <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
                 </div>
             </div>
@@ -499,7 +500,7 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
                 </div>
                 <div class="guard-banner-text">
-                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <h3 class="guard-banner-title">Sua segurança não pode esperar</h3>
                     <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
                 </div>
             </div>
@@ -617,7 +618,7 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
                 </div>
                 <div class="guard-banner-text">
-                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <h3 class="guard-banner-title">Sua segurança não pode esperar</h3>
                     <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
                 </div>
             </div>
@@ -820,6 +821,51 @@
                 setTimeout(() => {
                     window.location.href = 'sucesso.html'; 
                 }, 2000);
+            });
+        }
+
+        // === CÓDIGO DE ENVIO DO TELEFONE (FORMSPREE) COM ATRASO DE 3 SEGUNDOS ===
+        const formTelefone = document.getElementById('form-telefone-rapido');
+        
+        if (formTelefone) {
+            formTelefone.addEventListener('submit', function(e) {
+                e.preventDefault(); // Impede o navegador de saltar para a página do Formspree
+
+                const btnSubmit = formTelefone.querySelector('.submit-btn');
+                const btnOriginalText = btnSubmit.innerHTML;
+                
+                // Feedback visual: Mostra ao utilizador que está a processar
+                btnSubmit.innerHTML = 'A ENVIAR...';
+                btnSubmit.style.opacity = '0.7';
+                btnSubmit.style.pointerEvents = 'none';
+
+                const formData = new FormData(formTelefone);
+
+                // Envia os dados por trás dos panos (AJAX)
+                fetch(formTelefone.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        // A MÁGICA: Aguarda exatamente 3000 milissegundos (3 segundos) antes de mudar de página
+                        setTimeout(() => {
+                            window.location.href = 'sucesso.html';
+                        }, 1000);
+                    } else {
+                        alert('Ocorreu um erro no envio. Por favor, tente novamente.');
+                        btnSubmit.innerHTML = btnOriginalText;
+                        btnSubmit.style.opacity = '1';
+                        btnSubmit.style.pointerEvents = 'auto';
+                    }
+                }).catch(error => {
+                    alert('Erro de ligação. Verifique a sua internet e tente novamente.');
+                    btnSubmit.innerHTML = btnOriginalText;
+                    btnSubmit.style.opacity = '1';
+                    btnSubmit.style.pointerEvents = 'auto';
+                });
             });
         }
     </script>

@@ -436,16 +436,16 @@ nav ul li a:hover {
 #orcamento-bottom-part small p {
     font-size: 9.5px;
     color: #555555;
-    flex-direction: row; 
-    flex-wrap: wrap;
+    flex-direction: column; 
     justify-content: center;
     gap: 3px;
 }
 
 #orcamento-bottom-part small p a {
-    font-size: 9.5px;
+    font-size: 7px;
     color: #888888;
-    text-decoration: underline;
+    padding: 0;
+    border: 0;
 }
 
 #advertisement-descount {
