@@ -464,10 +464,10 @@ nav ul li a:hover {
 }
 
 #text-header .hero-subtitle {
-    font-size: 20px !important; /* Força o tamanho correto */
+    font-size: 10px !important; /* Força o tamanho correto */
     font-weight: 400 !important; /* Tira o negrito */
-    color: #cccccc !important; /* Força a cor cinza claro */
-    margin-top: 20px;
+    color: #f4f4f4 !important; /* Força a cor cinza claro */
+    margin-top: 5px;
     text-shadow: 0px 2px 10px rgba(0,0,0,0.9);
     line-height: 1.4;
     font-family: 'Fira Sans', sans-serif;
@@ -1387,408 +1387,6 @@ nav ul li a:hover {
 }
 
 
-/* Ajustes para ecrãs menores (Tablets e Telemóveis) */
-@media (max-width: 768px) {
-    .anos-experiencia-section {
-        height: 200px;
-    }
-
-    .anos-experiencia-overlay h2 {
-        font-size: 24px;
-    }
-
-    .footer-links {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .footer-links .separator {
-        display: none; /* Oculta as barras verticais no telemóvel para ficar mais limpo */
-    }
-
-    .footer-contact {
-        font-size: 9px;
-        line-height: 1.8;
-        padding: 0 15px;
-    }
-}
-
-/* Ajuste para celulares */
-@media (max-width: 768px) {
-    .footer-disclaimer {
-        padding: 30px 20px 40px 20px;
-    }
-    .footer-disclaimer p {
-        font-size: 12px;
-    }
-}
-
-/* Responsividade: Transforma em 1 coluna em telas menores (celulares) */
-@media (max-width: 900px) {
-    .monitoring-services-section {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================================
-   RESPONSIVIDADE (Tablets e Celulares)
-   ========================================= */
-
-/* Ajustes para Tablets (Telas menores que 1024px) */
-@media (max-width: 1024px) {
-
-    .header-action-btn {
-        display: none !important;
-    }
-
-    #teste1 {
-        display: none !important;
-    }
-
-    /* =======================================
-       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
-       ======================================= */
-       
-   #background-image {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.197)), url("imagens/background-house-mobile.png");
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-top: -80px !important; 
-        padding: 160px 0px 0px 0px !important; 
-        background-size: 100% auto !important; /* Trava a largura na tela e tira o zoom */
-        background-repeat: no-repeat !important; /* Impede que a imagem se repita */
-        background-position: center top !important; 
-        
-        background-color: #000000 !important; /* Fundo preto caso a imagem acabe antes do formulário */
-    }
-
-    #text-header {
-        color: #FFFFFF !important;
-        font-size: 26px !important;
-        font-weight: 800 !important;
-        line-height: 1.2 !important; 
-        text-align: center !important;
-        
-        /* A MÁGICA: Espaço gigante revelando a foto */
-        margin: 0 0 200px 0 !important; 
-        
-        padding: 0 20px !important;
-        max-width: 100% !important;
-        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
-    }
-
-    #menu-orcamento {
-        width: 100% !important;
-        max-width: 100% !important;
-        
-        /* Zera a margem negativa para a caixa não subir e engolir a foto */
-        margin: 0 !important; 
-        
-        background-color: #121212 !important;
-        backdrop-filter: none !important;
-        border: none !important;
-        border-top: 3px solid #FFFF00 !important;
-        border-radius: 40px 40px 0 0 !important;
-        padding: 30px 20px !important;
-        height: auto !important;
-        box-shadow: 0 -5px 15px rgba(0,0,0,0.5) !important;
-    }
-
-    #menu-orcamento-tittle {
-        font-size: 32px;
-        margin-top: 0;
-        color: #ffffff;
-    }
-
-    #menu-orcamento-subtittle {
-        font-size: 16px;
-        color: #ffffff;
-    }
-
-    /* 3. Botão "Calcular Agora" */
-    #actionbutton {
-        border-radius: 50px; /* Deixa o botão oval como na referência */
-        height: 65px;
-        font-size: 24px;
-        margin: 20px 0;
-        box-shadow: none;
-    }
-
-    /* 4. Campo de Telefone */
-    .phone-container {
-        max-width: 100%; /* Ocupa a tela toda */
-        height: 55px; /* Deixa o campo mais alto para clicar fácil no celular */
-    }
-
-    /* 5. Seção do Número de Telefone Gigante */
-    #orcamento-bottom-part {
-        padding: 15px 0 0 0;
-    }
-
-    #orcamento-bottom-part p {
-        display: flex;
-        flex-direction: column; /* Coloca o texto em cima e o número embaixo */
-        align-items: center;
-        font-size: 14px;
-        color: #cccccc;
-        gap: 5px;
-    }
-
-    #orcamento-bottom-part p a {
-        font-size: 38px; /* Número gigante igual à foto */
-        color: #FFFF00;
-        font-weight: 800;
-    }
-
-    .best-protection-section {
-        gap: 60px; /* Reduz aquele gap de 200px para telas médias */
-    }
-}
-
-/* Ajustes para Celulares (Telas menores que 768px) */
-@media (max-width: 768px) {
-    
-    /* Header e Navegação Mobile */
-    #header {
-        display: flex !important;
-        flex-direction: row !important; /* Coloca os itens lado a lado */
-        justify-content: space-between !important; /* Espalha nas pontas */
-        align-items: center !important;
-        height: 80px !important;
-        padding: 0 20px !important;
-        background-color: rgba(109, 109, 109, 0);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-    }
-
-    #nav-container {
-        display: none !important; /* Esconde a lista de links gigante */
-    }
-
-    #logo-container {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        flex: 1 !important; /* Empurra a logo para o centro exato */
-    }
-
-    /* Essa regra nova zera os espaçamentos do link que estava em volta da logo */
-    #logo-container a {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        border: none !important; 
-        padding: 0 !important; 
-        margin: 0 !important;
-    }
-
-    #logo {
-        height: 50px !important; /* Trava a altura para ser menor que o header (70px) */
-        width: auto !important; /* A largura se ajusta sozinha sem amassar a imagem */
-        object-fit: contain !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .mobile-icon {
-        display: flex !important; /* Força os ícones a aparecerem no celular */
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: #FFFF00 !important;
-        width: 60px !important;
-    }
-
-    .mobile-icon span {
-        font-size: 10px !important;
-        margin-top: 5px !important;
-        font-weight: 600 !important;
-    }
-
-    /* ... mantenha o restante (Títulos Grandes, Formulário, etc) como estava ... */
-
-    #navigation-bar li a {
-        font-size: 12px;
-    }
-
-   /* =======================================
-       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
-       ======================================= */
-       
-   /* 1. Imagem de Fundo (Ajuste de espaço) */
-    #background-image {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
-        padding: 40px 0px 0px 0px !important; /* Tiramos o excesso de padding embaixo */
-    }
-
-    /* 2. Título (Branco, moderno e com espaço para não ser engolido) */
-    #text-header {
-        color: #FFFFFF !important;
-        font-size: 28px !important;
-        font-weight: 800 !important;
-        line-height: 1.2 !important; 
-        text-align: center !important;
-        margin: 0 0 90px 0 !important; /* ← A MÁGICA: Essa margem de 90px embaixo salva o texto da caixa preta! */
-        padding: 0 !important;
-        max-width: 340px !important;
-        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
-    }
-
-    /* 3. Caixa do Formulário (Aumentando a sobreposição) */
-    #menu-orcamento {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: -60px 0 0 0 !important; /* Puxa a caixa para cima da imagem */
-        background-color: #121212 !important;
-        backdrop-filter: none !important;
-        border: none !important;
-        border-top: 3px solid #FFFF00 !important;
-        border-radius: 40px 40px 0 0 !important;
-        padding: 30px 20px !important;
-        height: auto !important;
-        box-shadow: 0 -10px 25px rgba(0,0,0,0.6) !important;
-    }
-
-    #advertisement-calculator,
-    .subtittle-cards {
-        font-size: 28px !important;
-        padding: 0 15px;
-        text-align: center;
-    }
-
-    /* Formulário Calculadora */
-    #form-etapas {
-        padding: 0;
-    }
-    
-    .pergunta-form {
-        font-size: 20px;
-    }
-
-    .opcao-radio {
-        padding: 15px;
-    }
-
-    .opcao-radio span {
-        font-size: 16px;
-    }
-
-    /* 3 Cards Iniciais (Detecção, Intervenção, Polícia) */
-    #subtittle-cards-displayer {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-
-    #subtittle-cards-displayer > li {
-        width: 100%;
-        max-width: 400px;
-    }
-
-    /* Adaptação da Seção da Empresa para Celular */
-    #company-info-section {
-        justify-content: center;
-        padding: 40px 20px;
-        /* No celular, o gradiente escurece de cima para baixo para dar leitura */
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.9) 60%, rgba(0, 0, 0, 1) 100%), 
-                    url('imagens/teste3.png');
-        background-size: cover;
-        background-position: center;
-    }
-
-    .company-info-content {
-        max-width: 100%;
-        text-align: left;
-        margin-top: 80px; /* Empurra o texto um pouco para baixo para mostrar a imagem no topo */
-    }
-
-    .company-info-content h2 {
-        font-size: 32px;
-    }
-
-    /* Sessão Videomonitoramento */
-    .video-control-section {
-        flex-direction: column;
-        gap: 40px;
-        padding: 20px;
-    }
-
-    /* Banners Vermelhos de Promoção */
-    .background-red-promotion {
-        flex-direction: column;
-        height: auto;
-        padding: 30px 20px;
-        gap: 20px;
-        text-align: center;
-    }
-
-    .announce-promotion {
-        font-size: 18px;
-    }
-
-    /* Sessão Melhor Proteção contra Roubo */
-    .best-protection-section {
-        flex-direction: column;
-        gap: 40px;
-        padding: 20px;
-    }
-
-    .best-protection-column {
-        gap: 40px;
-    }
-
-    .offset-top {
-        margin-top: 0; /* Remove o efeito zigue-zague no celular para não ficar um buraco em branco */
-    }
-
-    /* Linha e Animação Central */
-    .best-protection-line {
-        display: none; /* Esconde a linha vertical, pois os cards agora estão um embaixo do outro */
-    }
-
-    .center-animation-container {
-        position: relative; /* Tira do meio da tela e coloca no fluxo normal */
-        top: 0;
-        left: 0;
-        transform: none;
-        margin: 0 auto 40px auto; /* Mantém a animação centralizada no topo desta sessão */
-    }
-
-    /* Grade de Serviços 24h */
-    .monitoring-services-section {
-        grid-template-columns: 1fr; /* Força tudo a ficar em 1 única coluna */
-        padding: 20px;
-    }
-
-    #background-image {
-        margin-top: -80px !important; 
-        padding: 115px 0px 0px 0px !important; 
-        background-position: center top !important;
-        
-        /* AS 3 REGRAS PARA ESTICAR DE PONTA A PONTA: */
-        width: 100% !important;
-        background-size: 100% auto !important; 
-        background-repeat: no-repeat !important;
-    }
-    
-    #text-header {
-        margin: 0 0 220px 0 !important; /* Cria o abismo de 220px para revelar a casa */
-    }
-    
-    #menu-orcamento {
-        margin: 0 !important; /* Impede a caixa de subir por cima da imagem */
-    }
-    
-}
 
 /* =======================================
    MENU LATERAL (OFF-CANVAS)
@@ -2167,4 +1765,395 @@ nav ul li a:hover {
 .btn-avancar-input:hover {
     background-color: #FFFF00;
     color: #000000;
+}
+
+
+/* Ajustes para ecrãs menores (Tablets e Telemóveis) */
+@media (max-width: 768px) {
+    .anos-experiencia-section {
+        height: 200px;
+    }
+
+    .anos-experiencia-overlay h2 {
+        font-size: 24px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .footer-links .separator {
+        display: none; /* Oculta as barras verticais no telemóvel para ficar mais limpo */
+    }
+
+    .footer-contact {
+        font-size: 9px;
+        line-height: 1.8;
+        padding: 0 15px;
+    }
+}
+
+/* Ajuste para celulares */
+@media (max-width: 768px) {
+    .footer-disclaimer {
+        padding: 30px 20px 40px 20px;
+    }
+    .footer-disclaimer p {
+        font-size: 12px;
+    }
+}
+
+/* Responsividade: Transforma em 1 coluna em telas menores (celulares) */
+@media (max-width: 900px) {
+    .monitoring-services-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   RESPONSIVIDADE (Tablets e Celulares)
+   ========================================= */
+
+/* Ajustes para Tablets (Telas menores que 1024px) */
+@media (max-width: 1024px) {
+
+    .header-action-btn {
+        display: none !important;
+    }
+
+    #teste1 {
+        display: none !important;
+    }
+
+    /* =======================================
+       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
+       ======================================= */
+       
+   #background-image {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: auto !important;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.197)), url("imagens/background-house-mobile.png");
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: -80px !important; 
+        padding: 160px 0px 0px 0px !important; 
+        background-size: 100% auto !important; /* Trava a largura na tela e tira o zoom */
+        background-repeat: no-repeat !important; /* Impede que a imagem se repita */
+        background-position: center top !important; 
+        
+        background-color: #000000 !important; /* Fundo preto caso a imagem acabe antes do formulário */
+    }
+
+    #text-header {
+        color: #FFFFFF !important;
+        font-size: 26px !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important; 
+        text-align: center !important;
+        padding-top: 60px !important;
+        max-width: 100% !important;
+        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
+    }
+
+    #menu-orcamento {
+        width: 100% !important;
+        max-width: 100% !important;  
+        background-color: #121212 !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        border-top: 3px solid #FFFF00 !important;
+        border-radius: 40px 40px 0 0 !important;
+        padding: 30px 20px !important;
+        height: auto !important;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.5) !important;
+    }
+
+    #menu-orcamento-tittle {
+        font-size: 32px;
+        margin-top: 0;
+        color: #ffffff;
+    }
+
+    #menu-orcamento-subtittle {
+        font-size: 16px;
+        color: #ffffff;
+    }
+
+    /* 3. Botão "Calcular Agora" */
+    #actionbutton {
+        border-radius: 50px; /* Deixa o botão oval como na referência */
+        height: 65px;
+        font-size: 24px;
+        margin: 20px 0;
+        box-shadow: none;
+    }
+
+    /* 4. Campo de Telefone */
+    .phone-container {
+        max-width: 100%; /* Ocupa a tela toda */
+        height: 55px; /* Deixa o campo mais alto para clicar fácil no celular */
+    }
+
+    /* 5. Seção do Número de Telefone Gigante */
+    #orcamento-bottom-part {
+        padding: 15px 0 0 0;
+    }
+
+    #orcamento-bottom-part p {
+        display: flex;
+        flex-direction: column; /* Coloca o texto em cima e o número embaixo */
+        align-items: center;
+        font-size: 14px;
+        color: #cccccc;
+        gap: 5px;
+    }
+
+    #orcamento-bottom-part p a {
+        font-size: 38px; /* Número gigante igual à foto */
+        color: #FFFF00;
+        font-weight: 800;
+    }
+
+    .best-protection-section {
+        gap: 60px; /* Reduz aquele gap de 200px para telas médias */
+    }
+}
+
+/* Ajustes para Celulares (Telas menores que 768px) */
+@media (max-width: 768px) {
+    
+    /* Header e Navegação Mobile */
+    #header {
+        display: flex !important;
+        flex-direction: row !important; /* Coloca os itens lado a lado */
+        justify-content: space-between !important; /* Espalha nas pontas */
+        align-items: center !important;
+        height: 80px !important;
+        padding: 0 20px !important;
+        background-color: rgba(109, 109, 109, 0);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    #nav-container {
+        display: none !important; /* Esconde a lista de links gigante */
+    }
+
+    #logo-container {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex: 1 !important; /* Empurra a logo para o centro exato */
+    }
+
+    /* Essa regra nova zera os espaçamentos do link que estava em volta da logo */
+    #logo-container a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: none !important; 
+        padding: 0 !important; 
+        margin: 0 !important;
+    }
+
+    #logo {
+        height: 50px !important; /* Trava a altura para ser menor que o header (70px) */
+        width: auto !important; /* A largura se ajusta sozinha sem amassar a imagem */
+        object-fit: contain !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .mobile-icon {
+        display: flex !important; /* Força os ícones a aparecerem no celular */
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #FFFF00 !important;
+        width: 60px !important;
+    }
+
+    .mobile-icon span {
+        font-size: 10px !important;
+        margin-top: 5px !important;
+        font-weight: 600 !important;
+    }
+
+    /* ... mantenha o restante (Títulos Grandes, Formulário, etc) como estava ... */
+
+    #navigation-bar li a {
+        font-size: 12px;
+    }
+
+   /* =======================================
+       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
+       ======================================= */
+       
+   /* 1. Imagem de Fundo (Ajuste de espaço) */
+    #background-image {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: auto !important;
+        padding: 40px 0px 0px 0px !important; /* Tiramos o excesso de padding embaixo */
+    }
+
+    /* 2. Título (Branco, moderno e com espaço para não ser engolido) */
+    #text-header {
+        color: #FFFFFF !important;
+        font-size: 28px !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important; 
+        text-align: center !important;
+        margin: 0 0 90px 0 !important; /* ← A MÁGICA: Essa margem de 90px embaixo salva o texto da caixa preta! */
+        max-width: 340px !important;
+        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
+    }
+
+    /* 3. Caixa do Formulário (Aumentando a sobreposição) */
+    #menu-orcamento {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: -60px 0 0 0 !important; /* Puxa a caixa para cima da imagem */
+        background-color: #121212 !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        border-top: 3px solid #FFFF00 !important;
+        border-radius: 40px 40px 0 0 !important;
+        padding: 30px 20px !important;
+        height: auto !important;
+        box-shadow: 0 -10px 25px rgba(0,0,0,0.6) !important;
+    }
+
+    #advertisement-calculator,
+    .subtittle-cards {
+        font-size: 28px !important;
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    /* Formulário Calculadora */
+    #form-etapas {
+        padding: 0;
+    }
+    
+    .pergunta-form {
+        font-size: 20px;
+    }
+
+    .opcao-radio {
+        padding: 15px;
+    }
+
+    .opcao-radio span {
+        font-size: 16px;
+    }
+
+    /* 3 Cards Iniciais (Detecção, Intervenção, Polícia) */
+    #subtittle-cards-displayer {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    #subtittle-cards-displayer > li {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Adaptação da Seção da Empresa para Celular */
+    #company-info-section {
+        justify-content: center;
+        padding: 40px 20px;
+        /* No celular, o gradiente escurece de cima para baixo para dar leitura */
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.9) 60%, rgba(0, 0, 0, 1) 100%), 
+                    url('imagens/teste3.png');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .company-info-content {
+        max-width: 100%;
+        text-align: left;
+        margin-top: 80px; /* Empurra o texto um pouco para baixo para mostrar a imagem no topo */
+    }
+
+    .company-info-content h2 {
+        font-size: 32px;
+    }
+
+    /* Sessão Videomonitoramento */
+    .video-control-section {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    /* Banners Vermelhos de Promoção */
+    .background-red-promotion {
+        flex-direction: column;
+        height: auto;
+        padding: 30px 20px;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .announce-promotion {
+        font-size: 18px;
+    }
+
+    /* Sessão Melhor Proteção contra Roubo */
+    .best-protection-section {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .best-protection-column {
+        gap: 40px;
+    }
+
+    .offset-top {
+        margin-top: 0; /* Remove o efeito zigue-zague no celular para não ficar um buraco em branco */
+    }
+
+    /* Linha e Animação Central */
+    .best-protection-line {
+        display: none; /* Esconde a linha vertical, pois os cards agora estão um embaixo do outro */
+    }
+
+    .center-animation-container {
+        position: relative; /* Tira do meio da tela e coloca no fluxo normal */
+        top: 0;
+        left: 0;
+        transform: none;
+        margin: 0 auto 40px auto; /* Mantém a animação centralizada no topo desta sessão */
+    }
+
+    /* Grade de Serviços 24h */
+    .monitoring-services-section {
+        grid-template-columns: 1fr; /* Força tudo a ficar em 1 única coluna */
+        padding: 20px;
+    }
+
+    #background-image {
+        margin-top: -80px !important; 
+        padding: 115px 0px 0px 0px !important; 
+        background-position: center top !important;
+        
+        /* AS 3 REGRAS PARA ESTICAR DE PONTA A PONTA: */
+        width: 100% !important;
+        background-size: 100% auto !important; 
+        background-repeat: no-repeat !important;
+    }
+    
+    #menu-orcamento {
+        margin: 0 !important; /* Impede a caixa de subir por cima da imagem */
+    }
+    
 }
