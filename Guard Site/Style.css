@@ -462,6 +462,7 @@ nav ul li a:hover {
 }
 
 #advertisement-calculator {
+    scroll-margin-top: 130px;
     font-size: 50px !important;
     margin-top: 130px;
     margin-bottom: 3%;
@@ -2165,7 +2166,7 @@ nav ul li a:hover {
         align-items: center !important;
         height: 85px !important;
         padding: 0 20px !important;
-        background-color: rgba(15, 15, 15, 0.85) !important; /* Fundo escuro premium */
+        background-color: rgba(15, 15, 15, 0.6) !important; /* Fundo escuro premium */
         backdrop-filter: blur(25px) !important;
         -webkit-backdrop-filter: blur(25px) !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
