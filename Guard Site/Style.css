@@ -346,7 +346,7 @@ nav ul li a:hover {
     display: flex;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.162);
     border-radius: 50px;
     padding: 4px; /* Ajustado */
     box-sizing: border-box;
