@@ -1492,10 +1492,9 @@ nav ul li a:hover {
     max-width: 360px;
     height: 100dvh; /* Altura do ecrã visível */
     background-color: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(25px);
     z-index: 10000;
-    display: flex; /* Define o container como flexível */
-    flex-direction: column; /* Coloca os elementos um embaixo do outro */
-    transition: left 0.4s ease;
+    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sidebar.active {
