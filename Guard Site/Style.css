@@ -1484,26 +1484,18 @@ nav ul li a:hover {
 
 
 
-/* =======================================
-   MENU LATERAL ESTILO DASHBOARD PREMIUM
-   ======================================= */
 .sidebar {
     position: fixed;
     top: 0;
-    bottom: 0; /* SUBSTITUI O HEIGHT: Trava o menu do topo até ao fundo do ecrã */
-    left: -100%; 
-    width: 88%; 
+    left: -100%;
+    width: 88%;
     max-width: 360px;
-    background-color: rgba(10, 10, 10, 0.82);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    height: 100dvh; /* Altura do ecrã visível */
+    background-color: rgba(10, 10, 10, 0.95);
     z-index: 10000;
-    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* A MÁGICA 1: Impede que o menu inteiro role */
-    border-right: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 15px 0 40px rgba(0, 0, 0, 0.6);
+    display: flex; /* Define o container como flexível */
+    flex-direction: column; /* Coloca os elementos um embaixo do outro */
+    transition: left 0.4s ease;
 }
 
 .sidebar.active {
@@ -1580,14 +1572,9 @@ nav ul li a:hover {
 }
 
 .sidebar-nav {
-    list-style: none;
-    padding: 10px 16px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1; /* A MÁGICA 3: Ocupa todo o espaço do meio */
-    overflow-y: auto; /* A MÁGICA 4: Se não couber, rola SÓ os links */
+    flex-grow: 1; /* A MÁGICA: Empurra o footer para baixo */
+    overflow-y: auto; /* Rola apenas o que estiver no meio */
+    padding-bottom: 20px;
 }
 
 .sidebar-nav li {
@@ -1667,10 +1654,10 @@ nav ul li a:hover {
 }
 
 .sidebar-footer {
-    padding: 20px 18px 30px 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0; /* A MÁGICA: Impede que este bloco diminua de tamanho */
     background-color: rgba(10, 10, 10, 0.98);
-    flex-shrink: 0; /* Impede que seja esmagado */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 20px 18px 30px 18px;
 }
 
 /* Card de Suporte */
@@ -2420,42 +2407,6 @@ nav ul li a:hover {
         margin-top: 0px !important;
     }
 
-    /* =======================================
-    TRAVA ABSOLUTA DO MENU (ANTI-BUG MOBILE)
-    ======================================= */
-    .sidebar {
-    position: fixed;
-    top: 0;
-    left: -100%; 
-    width: 88%; 
-    max-width: 360px;
-    height: 100dvh; /* A MÁGICA: Altura dinâmica do dispositivo */
-    background-color: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(25px);
-    z-index: 10000;
-    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    /* Estrutura Flex para fixar topo e fundo */
-    display: flex;
-    flex-direction: column;
-}
-
-    #sidebar-overlay {
-        overscroll-behavior: none !important;
-        touch-action: none !important; /* Impede qualquer rolagem se o utilizador puxar o fundo escuro */
-    }
-
-    .sidebar-nav {
-    list-style: none;
-    padding: 10px 16px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1; /* Ocupa todo o espaço disponível */
-    overflow-y: auto; /* Rola SÓ esta parte */
-    padding-bottom: 20px;
-    }
     
     }
 }
