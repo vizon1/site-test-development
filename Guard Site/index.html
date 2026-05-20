@@ -1,2424 +1,826 @@
-@font-face {
-    font-family: 'QuinoaLogo';
-    src: url('fonts/quinoa-ultrabold.otf') format('opentype'); 
-    font-weight: normal;
-    font-style: normal;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
 
-* {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Fira Sans', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
+<body>
+    <div id="sidebar-overlay"></div>
 
-body {
-    font-family: 'Fira Sans', sans-serif;
-    background-color: #000000;
-}
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
 
-:root {
-    font-family: 'Fira Sans', sans-serif;
-}
+        <ul class="sidebar-nav">
+            <li class="active">
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <span>Início</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H5v-2h5v2zm0-4H5v-2h5v2zm0-4H5V7h5v2zm9 8h-7v-2h7v2zm0-4h-7v-2h7v2zm0-4h-7V7h7v2z"/></svg>
+                        <span>Alarme para casa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                        <span>Alarme para empresa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        <span>Nossos Alarmes</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                        <span>Ajuda e Informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                        <span>Produtos</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+        </ul>
 
-/* =========================================
-   NOVO BANNER PROMOCIONAL GUARD (AQUI NO TOPO!)
-   ========================================= */
-.guard-premium-banner {
-    background: linear-gradient(90deg, #0a0a0a 0%, #1a1a1a 100%);
-    border-top: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    width: 100%;
-    padding: 35px 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
+        <div class="sidebar-footer">
+            <div class="sidebar-support-card">
+                <span class="support-title">Central de Atendimento</span>
+                <a href="tel:15988246986" class="support-phone">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    (15) 98824-6986
+                </a>
+            </div>
+            <div class="sidebar-actions">
+                <a href="#" class="sidebar-btn-secondary">TRABALHE NA GUARD</a>
+                <a href="#" class="sidebar-btn-primary" onclick="toggleMenu(); document.getElementById('calculator').scrollIntoView({behavior: 'smooth'});">SOLICITAR ORÇAMENTO</a>
+            </div>
+        </div>
+    </div>
+    <header>
 
-.guard-premium-banner::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background-color: #FFFF00;
-    box-shadow: 0 0 15px #FFFF00;
-}
-
-.guard-banner-content {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    z-index: 1;
-}
-
-.guard-banner-icon {
-    width: 55px;
-    height: 55px;
-    background: rgba(255, 255, 0, 0.05);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #FFFF00;
-    flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 0, 0.2);
-}
-
-.guard-banner-icon svg {
-    width: 28px;
-    height: 28px;
-}
-
-.guard-banner-text {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.guard-banner-title {
-    color: #FFFFFF;
-    font-size: 24px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.guard-banner-subtitle {
-    color: #cccccc;
-    font-size: 16px;
-    font-weight: 400;
-}
-
-.guard-banner-subtitle .highlight-yellow {
-    color: #FFFF00;
-    font-weight: 700;
-}
-
-.guard-banner-action {
-    z-index: 1;
-}
-
-.btn-guard-glow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #FFFF00;
-    color: #000000;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 14px 10px 24px;
-    font-size: 15px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.15); 
-}
-
-.btn-guard-glow:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
-    background-color: #e6e600;
-}
-
-.btn-guard-glow .icon-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #000000;
-    color: #FFFF00;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 1;
-    padding-bottom: 2px;
-}
-
-/* Responsividade do Novo Banner para Celulares */
-@media (max-width: 900px) {
-    .guard-premium-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 40px 20px;
-        gap: 25px;
-    }
+        <div id="teste1"></div>
     
-    .guard-banner-content {
-        flex-direction: column;
-    }
-    
-    .guard-banner-title {
-        font-size: 22px;
-    }
-    
-    .guard-premium-banner::before {
-        width: 100%;
-        height: 4px;
-        top: 0;
-        left: 0;
-    }
-}
-
-header {
-    position: -webkit-sticky; /* Comando mágico para o menu travar no iPhone */
-    position: sticky;
-    background-color: transparent;
-    top: 0;
-    z-index: 9999; /* Valor bem alto para garantir que fique por cima de todas as imagens */
-    width: 100%;
-}
-
-.mobile-icon {
-    display: none;
-}
-
-#teste1 {
-    background-color: rgb(255, 238, 0);
-    width: 100%;
-    height: 2vh;
-}
-
-#header {
-    background-color: rgba(20, 20, 20, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    width: 100%;
-    height: 140px; /* Alterado de 22vh para px fixo para a transição ficar perfeita */
-    display: flex;
-    align-items: center;
-    padding-left: 10%;
-    padding-right: 10%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    /* A MÁGICA: Prepara o header para animar altura, margens e cor */
-    transition: height 0.4s ease, padding 0.4s ease, background-color 0.4s ease; 
-}
-
-/* Novo estado do header quando a página rolar para baixo */
-#header.header-scrolled {
-    height: 100px; /* O cabeçalho fica mais fino */
-    padding-left: 3%; /* Abre bastante espaço na esquerda... */
-    padding-right: 3%; /* ...e na direita, para o botão caber folgado */
-    background-color: rgba(50, 50, 50, 0.3); /* Fica mais escuro para leitura */
-}
-
-#logo {
-    width: 5.5vw; /* Reduzido o tamanho padrão inicial (era 7vw) */
-    padding-left: 1vw;
-    display: block;
-    /* A MÁGICA: Faz a logo encolher suavemente junto com o header */
-    transition: width 0.4s ease; 
-}
-
-/* Tamanho da logo quando o usuário rolar a página para baixo */
-#header.header-scrolled #logo {
-    width: 4.2vw; /* Fica menor para se ajustar perfeitamente ao header de 80px */
-}
-
-#nav-container {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
-
-#navigation-bar {
-    display: flex;
-    justify-content: flex-end; /* Empurra todos os links para a direita */
-    gap: 3vw; /* Cria um espaçamento perfeito e responsivo entre os links */
-    width: 100%;
-    padding: 0;
-}
-
-ul {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
-    color: rgb(224, 224, 224);;
-    font-family: var(--fira-sans);
-    text-transform: uppercase;
-    font-weight: 500;
-    text-decoration: none;
-    padding-bottom: 5px;
-    border-bottom: 3px solid transparent;
-    transition: 0.3s;
-}
-
-nav ul li a:hover {
-    border-bottom: 3px solid #FFFF00;
-    color: #FFFF00;
-}
-
-#background-image {
-    /* A MÁGICA: Puxa a imagem para trás do cabeçalho */
-    margin-top: -140px; 
-    
-    /* Dá um respiro para o texto e a calculadora não ficarem escondidos sob o menu */
-    padding-top: 140px; 
-    
-    height: auto;
-    min-height: 100vh; /* Garante que a imagem preencha a tela */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url("imagens/background-house.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    justify-content: space-around;
-    align-items: center; /* Mantém os itens alinhados no topo respeitando o padding */
-}
-
-/* =========================================
-   CAIXA DE ORÇAMENTO (HERO) - COMPACTA COMPUTADOR (-20%)
-   ========================================= */
-#menu-orcamento {
-    width: 100%;
-    max-width: 290px; /* Reduzido de 350px */
-    height: auto;
-    padding: 25px 20px; /* Espaçamento interno reduzido */
-    background-color: rgba(18, 18, 18, 0.75);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    margin-right: 8vw;
-    margin-top: -30px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-}
-
-#menu-orcamento-tittle {
-    text-align: center;
-    color: #FFFF00;
-    font-size: 26px; /* Reduzido de 32px */
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-#menu-orcamento-subtittle {
-    text-align: center;
-    color: #cccccc;
-    font-size: 13px; /* Reduzido de 15px */
-    margin: 4px 0 18px 0;
-}
-
-#actionbutton {
-    background-color: #FFFF00;
-    color: #000000;
-    width: 100%;
-    height: 48px; /* Reduzido de 60px */
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px; /* Reduzido de 20px */
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255, 255, 0, 0.15);
-    transition: all 0.3s ease;
-}
-
-#actionbutton:hover {
-    background-color: #e6e600;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(255, 255, 0, 0.25);
-}
-
-#information-above {
-    color: #999999;
-    font-size: 11px; /* Reduzido de 13px */
-    margin: 15px 0 10px 0;
-}
-
-#call-strong {
-    color: #FFFFFF;
-}
-
-/* Campo de Telefone mais compacto */
-.phone-container {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    padding: 4px; /* Ajustado */
-    box-sizing: border-box;
-    width: 100%;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.phone-container:focus-within {
-    border-color: #FFFF00;
-    background-color: rgba(255, 255, 0, 0.05);
-}
-
-.phone-input {
-    flex: 1;
-    width: 100%;
-    border: none;
-    outline: none;
-    padding: 8px 12px; /* Reduzido de 10px 15px */
-    font-size: 14px; /* Reduzido de 16px */
-    background: transparent;
-    color: #FFFFFF;
-}
-
-.phone-input::placeholder {
-    color: #666666;
-}
-
-.submit-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #FFFF00;
-    color: #000000;
-    border: none;
-    border-radius: 50px;
-    padding: 8px 14px; /* Reduzido */
-    font-size: 12.5px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.submit-btn:hover {
-    background-color: #d4d400;
-}
-
-.icon-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px; /* Reduzido de 24px */
-    height: 20px;
-    background-color: #000000;
-    border-radius: 50%;
-    color: #FFFF00;
-    font-size: 15px;
-    font-weight: bold;
-    padding-bottom: 2px;
-}
-
-#orcamento-bottom-part {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 18px;
-    width: 100%;
-}
-
-#orcamento-bottom-part p {
-    color: #888888;
-    font-size: 11px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 12px;
-}
-
-#orcamento-bottom-part p a {
-    font-size: 24px; /* Número gigante reduzido de 32px */
-    font-weight: 800;
-    color: #FFFF00;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-}
-
-#orcamento-bottom-part small p {
-    font-size: 9.5px;
-    color: #555555;
-    flex-direction: row; 
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 3px;
-}
-
-#orcamento-bottom-part small p a {
-    font-size: 9.5px;
-    color: #888888;
-    text-decoration: underline;
-}
-
-#advertisement-descount {
-    height: 80px;
-    background-color: #121212;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    color: #F5F5F5;
-    text-align: center;
-    text-shadow: 0px 0px 4px black;
-}
-
-#advertisement-calculator {
-    scroll-margin-top: 130px;
-    font-size: 50px !important;
-    margin-top: 130px;
-    margin-bottom: 3%;
-    background-color: #000000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    color: #F5F5F5;
-    text-align: center;
-    font-family: "Fira sans", sans-serif;
-}
-
-#calculator {
-    height: 700px;
-    padding: 0 25px;
-}
-
-#text-header {
-    font-size: 52px; /* Tamanho adequado para destaque */
-    font-weight: 800;
-    max-width: 700px;
-    margin-left: 0; /* Puxa um pouquinho mais para a esquerda */
-    margin-top: -100px; /* REMOVIDO o margin-top para o alinhamento central funcionar */
-    background-color: transparent;
-    font-family: 'Fira Sans', sans-serif;
-    line-height: 1.1;
-}
-
-#text-header .linha-branca {
-    color: #FFFFFF;
-}
-
-#text-header .linha-amarela {
-    color: #FFFF00;
-}
-
-#text-header .hero-subtitle {
-    font-size: 10px !important; /* Força o tamanho correto */
-    font-weight: 400 !important; /* Tira o negrito */
-    color: #f4f4f4 !important; /* Força a cor cinza claro */
-    margin-top: 5px;
-    text-shadow: 0px 2px 10px rgba(0,0,0,0.9);
-    line-height: 1.4;
-    font-family: 'Fira Sans', sans-serif;
-    display: block; /* Garante que ele pule para a linha de baixo */
-}
-
-#menu-orcamento-top {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;;
-    background-color: transparent;
-}
-#orcamento-bottom-part {
-    flex:1;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    padding: 25px;
-}
-
-#calculator {
-    height: auto;
-    min-height: 400px;
-    background-color: transparent; 
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
-    width: 100%;
-}
-
-#form-etapas {
-    background-color: transparent;
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 0 20px;
-}
-
-.pergunta-form {
-    color: #F5F5F5;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    background-color: transparent;
-    text-align: left;
-}
-
-.opcao-radio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #121212;
-    border: 2px solid #333;
-    border-radius: 20px;
-    padding: 20px 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.opcao-radio:hover {
-    border-color: #FFFF00;
-}
-
-.opcao-radio span {
-    color: #F5F5F5;
-    font-size: 18px;
-    font-weight: 600;
-    background-color: transparent;
-}
-
-.opcao-radio input[type="radio"] {
-    display: none;
-}
-
-.custom-radio {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #777;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-    background-color: transparent;
-}
-
-.opcao-radio:has(input[type="radio"]:checked) {
-    border-color: #FFFF00;
-    background-color: rgba(255, 255, 0, 0.05);
-}
-
-.opcao-radio input[type="radio"]:checked + .custom-radio {
-    border-color: #FFFF00;
-}
-
-.opcao-radio input[type="radio"]:checked + .custom-radio::after {
-    content: '';
-    width: 12px;
-    height: 12px;
-    background-color: #FFFF00;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.step {
-    display: none;
-    flex-direction: column;
-    gap: 15px;
-    animation: fadeIn 0.5s ease;
-}
-
-.step.active {
-    display: flex;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-#subtittle-cards-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.subtittle-cards {
-    color:#F5F5F5;
-    font-size: 50px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px !important;
-    margin-bottom: 30px !important;
-}
-/* =========================================
-   SEÇÃO: CARDS DE PROTEÇÃO (NOVO DESIGN SÓLIDO)
-   ========================================= */
-#subtittle-cards-displayer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 30px;
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px;
-    list-style: none;
-    background-color: transparent;
-}
-
-/* Base do Card */
-#subtittle-cards-displayer > li {
-    flex: 1;
-    background-color: #121212; /* Fundo sólido elegante */
-    border: 2px solid #333333; /* Borda cinza sutil */
-    border-radius: 20px;
-    padding: 0 0 35px 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efeito Hover (Acende ao passar o mouse) */
-#subtittle-cards-displayer > li:hover {
-    transform: translateY(-8px);
-    border-color: #FFFF00;
-    box-shadow: 0 10px 30px rgba(255, 255, 0, 0.1);
-}
-
-/* Imagem do Card */
-.card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 20px 20px 0 0;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #222222;
-}
-
-/* Títulos */
-#subtittle-cards-displayer h3 {
-    color: #FFFFFF;
-    font-size: 22px;
-    margin-bottom: 8px;
-    padding: 0 30px;
-    font-weight: 700;
-    text-align: left;
-}
-
-.card-subtitle {
-    color: #999999;
-    font-size: 14px;
-    margin-bottom: 25px;
-    padding: 0 30px;
-}
-
-/* Lista e Textos */
-.card-features {
-    list-style: none;
-    padding: 0 30px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* A MÁGICA QUE CONSERTA O TEXTO QUEBRADO */
-.card-features li {
-    color: #cccccc;
-    font-size: 14.5px;
-    line-height: 1.6;
-    position: relative; /* Base de ancoragem para o ícone */
-    padding-left: 36px; /* Abre espaço na esquerda para o ícone não amassar o texto */
-    display: block; /* Garante que o texto flua normalmente como um parágrafo */
-}
-
-/* Ícone da Seta Amarela */
-.card-features .icon-arrow {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 22px;
-    height: 22px;
-    border: 2px solid #FFFF00;
-    border-radius: 50%;
-    color: #FFFF00;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 2px;
-    background-color: transparent;
-}
-
-/* Palavras em Destaque */
-.card-features strong {
-    color: #FFFF00;
-    font-weight: 700;
-}
-
-/* =========================================
-   SEÇÃO: VIDEOMONITORAMENTO (DESIGN SÓLIDO 2PX)
-   ========================================= */
-.video-control-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch; /* Força as duas colunas a terem a exata mesma altura */
-    gap: 30px; /* Alinhado com o espaçamento da seção superior */
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 20px 80px 20px;
-    background-color: transparent;
-}
-
-/* Transformando as colunas em Cards Idênticos */
-.video-control-left, 
-.video-control-right {
-    flex: 1;
-    background-color: #121212;
-    border: 2px solid #333333; /* Borda cinza de 2px conforme solicitado */
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* O card da esquerda não tem padding em cima para a imagem colar na borda */
-.video-control-left {
-    padding: 0 0 35px 0;
-    overflow: hidden;
-}
-
-/* O card da direita tem padding por igual */
-.video-control-right {
-    flex: 1.2; /* Ligeiramente mais largo para acomodar bem as listas */
-    padding: 35px 30px;
-}
-
-/* Efeito Hover (Acende em amarelo) */
-.video-control-left:hover, 
-.video-control-right:hover {
-    transform: translateY(-8px);
-    border-color: #FFFF00;
-    box-shadow: 0 10px 30px rgba(255, 255, 0, 0.1);
-}
-
-/* =========================================
-   INTERNO: COLUNA DA ESQUERDA (IMAGEM)
-   ========================================= */
-.camera-image-container {
-    width: 100%;
-    height: 250px;
-    background-color: #121212;
-    border: none; /* Substitui o antigo formato arredondado irregular */
-    border-radius: 20px 20px 0 0;
-    border-bottom: 2px solid #222222;
-    margin-bottom: 25px;
-    padding: 0;
-    display: flex;
-}
-
-.camera-dome-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.video-control-text {
-    padding: 0 30px;
-    background-color: transparent;
-}
-
-.video-control-text h3 {
-    color: #FFFFFF; /* Padronizado para branco igual ao título principal */
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    background-color: transparent;
-}
-
-.video-control-text p {
-    color: #cccccc;
-    font-size: 15px;
-    line-height: 1.6;
-    background-color: transparent;
-}
-
-.video-control-text strong {
-    color: #FFFF00;
-    font-weight: 700;
-    background-color: transparent;
-}
-
-/* =========================================
-   INTERNO: COLUNA DA DIREITA (LISTA)
-   ========================================= */
-.benefits-title {
-    color: #FFFFFF;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    background-color: transparent;
-}
-
-.benefits-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    position: relative;
-    background-color: transparent;
-}
-
-/* Linha central tracejada que conecta os ícones */
-.benefits-list::before {
-    content: '';
-    position: absolute;
-    left: 20px; /* Eixo Y centralizado com os novos ícones */
-    top: 25px;
-    bottom: 30px;
-    width: 2px;
-    border-left: 2px dashed #333333; /* Começa discreta */
-    z-index: 0;
-    transition: border-color 0.3s ease;
-}
-
-/* A linha e as bordas acendem juntas quando o mouse passa no card */
-.video-control-right:hover .benefits-list::before {
-    border-color: #FFFF00;
-}
-
-.benefits-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    z-index: 1;
-}
-
-/* Círculos dos ícones */
-.benefit-icon {
-    width: 42px;
-    height: 42px;
-    border: 2px solid #333333; /* Borda cinza inicial (2px) */
-    border-radius: 50%;
-    background-color: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    color: #FFFF00;
-    transition: border-color 0.3s ease;
-}
-
-.video-control-right:hover .benefit-icon {
-    border-color: #FFFF00;
-}
-
-.benefit-icon svg {
-    width: 20px;
-    height: 20px;
-    background-color: transparent;
-}
-
-.benefit-text {
-    color: #cccccc;
-    font-size: 14.5px;
-    line-height: 1.6;
-    padding-top: 10px; /* Centraliza visualmente o texto com o ícone lateral */
-    background-color: transparent;
-}
-
-.background-red-promotion {
-    background-color: red;
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20%;
-}
-
-.announce-promotion {
-    background-color: transparent;
-    font-size: 30px;
-}
-
-.announce-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #FFFF00;
-    border: 0;
-    border-radius: 50px;
-    padding: 10px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.announce-promotion {
-    font-size: 20px;
-    font-weight: 600;
-    color: #F5F5F5;
-}
-
-.submit-button-ads {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #000000;
-    color: #FFFF00;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button-ads:hover {
-    background-color: #3d3d16;
-}
-
-.best-protection-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 200px; /* ← AUMENTE AQUI: Mudei de 120px para 200px para afastar as colunas */
-    width: 100%;
-    max-width: 1100px; /* ← AUMENTE AQUI: Mudei de 1000px para 1100px para dar mais espaço na tela */
-    margin: 0 auto;
-    padding: 20px 20px 100px 20px;
-    background-color: transparent;
-}
-
-/* Linha divisória central */
-.best-protection-line {
-    position: absolute;
-    top: 0;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    background-color: #333333;
-    z-index: 0;
-}
-
-/* Ícone central com efeito de círculos/ondas (ripple) */
-/* Container que alinha as ondas e o ícone perfeitamente no centro */
-.center-animation-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-}
-
-/* O ícone da casinha sem as sombras antigas */
-.best-protection-icon {
-    width: 60px;
-    height: 60px;
-    background-color: #000000;
-    border: 2px solid #FFFF00;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #FFFF00;
-    z-index: 10;
-}
-
-.best-protection-icon svg {
-    background-color: transparent;
-}
-
-/* O truque das ondas: Bordas transparentes em cima e embaixo, amarelas dos lados */
-.wave {
-    position: absolute;
-    border-radius: 50%;
-    border: 5px solid transparent; 
-    border-left-color: #FFFF00;
-    border-right-color: #FFFF00;
-    opacity: 0;
-    animation: signalWave 1.5s infinite;
-    background-color: transparent;
-}
-
-/* Tamanhos crescendo e tempos de atraso diferentes para a onda ir de 1 a 3 */
-.wave1 {
-    width: 90px;
-    height: 90px;
-    animation-delay: 0.2s;
-}
-
-.wave2 {
-    width: 120px;
-    height: 120px;
-    animation-delay: 0.5s;
-}
-
-.wave3 {
-    width: 150px;
-    height: 150px;
-    animation-delay: 0.8s;
-}
-
-/* A animação que faz a onda piscar e sumir suavemente */
-@keyframes signalWave {
-    0% { opacity: 0; }
-    25% { opacity: 1; }
-    100% { opacity: 0; }
-}
-/* Colunas do Grid */
-.best-protection-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 60px; /* Distância entre os cards na mesma coluna */
-    background-color: transparent;
-    z-index: 1;
-}
-
-/* Empurra a coluna da direita para baixo criando o zigue-zague */
-.offset-top {
-    margin-top: 100px; 
-}
-
-/* Cards individuais */
-/* Cards individuais */
-.bp-card {
-    background-color: #121212; /* Fundo sólido elegante */
-    border: 2px solid #333333; /* Borda cinza 2px */
-    border-radius: 20px;
-    padding: 0 0 35px 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efeito Hover (Acende em amarelo) */
-.bp-card:hover {
-    transform: translateY(-8px);
-    border-color: #FFFF00;
-    box-shadow: 0 10px 30px rgba(255, 255, 0, 0.1);
-}
-
-/* Contêiner da imagem */
-.bp-img-wrapper {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    border: none; /* Remove a borda amarela antiga */
-    border-bottom: 2px solid #222222; /* Divisória sutil para o texto */
-    margin-bottom: 25px;
-    background-color: #121212;
-}
-
-/* Anula os recortes antigos para a imagem preencher o card de ponta a ponta */
-.shape-left, 
-.shape-right {
-    border-radius: 0; 
-}
-
-.bp-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    background-color: transparent;
-}
-
-/* Textos dos cards */
-.bp-card h3 {
-    color: #FFFFFF;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding: 0 30px;
-    background-color: transparent;
-}
-
-.bp-card p {
-    color: #cccccc;
-    font-size: 14.5px;
-    line-height: 1.6;
-    padding: 0 30px;
-    background-color: transparent;
-}
-
-.monitoring-services-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas exatas */
-    gap: 30px; /* Espaço entre os cards */
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 20px 100px 20px;
-    background-color: transparent;
-}
-
-.service-card {
-    background-color: #121212;
-    border: 2px solid #333333; /* Borda cinza inicial sutil */
-    border-radius: 20px;
-    padding: 35px 30px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease; /* Transição suave para o hover */
-}
-
-/* Efeito de iluminação e elevação ao passar o mouse */
-.service-card:hover {
-    border-color: #FFFF00;
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(255, 238, 0, 0.15);
-}
-
-.service-icon {
-    color: #FFFF00;
-    margin-bottom: 25px;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-}
-
-.service-icon svg {
-    background-color: transparent;
-    width: 36px;
-    height: 36px;
-}
-
-.service-card h3 {
-    color: #FFFF00;
-    font-size: 20px;
-    margin-bottom: 15px;
-    background-color: transparent;
-    line-height: 1.3;
-}
-
-.service-card p {
-    color: #F5F5F5;
-    font-size: 14.5px;
-    line-height: 1.6;
-    background-color: transparent;
-}
-
-/* =========================================
-   SEÇÃO SOBRE A EMPRESA / 24 HORAS
-   ========================================= */
-#company-info-section {
-    width: 100%;
-    min-height: 600px;
-    display: flex;
-    justify-content: flex-end; /* Joga o texto para a direita */
-    align-items: center;
-    padding: 40px 10%;
-    
-    /* A MÁGICA: Mistura um gradiente escuro com a sua imagem de fundo */
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.95) 100%), 
-                url('imagens/teste2.png'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-top: 1px solid #333333;
-    border-bottom: 2px solid #333333;
-}
-
-.company-info-content {
-    max-width: 50%; /* O texto ocupa só metade da tela na direita */
-    color: #F5F5F5;
-}
-
-.company-info-content h2 {
-    font-size: 42px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    color: #FFFFFF;
-    line-height: 1.1;
-    letter-spacing: -1px;
-}
-
-.company-info-content p {
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #cccccc;
-}
-
-.company-features-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.company-features-list li {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 12px;
-    font-size: 14px;
-    color: #F5F5F5;
-}
-
-/* Bolinhas vazadas personalizadas (estilo da referência) */
-.company-features-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 6px;
-    width: 6px;
-    height: 6px;
-    border: 2px solid #FFFF00; /* Bolinha com borda amarela */
-    border-radius: 50%;
-    background-color: transparent;
-}
-
-/* =========================================
-   BOTÃO SOLICITAR ORÇAMENTO (HEADER)
-   ========================================= */
-.header-action-btn {
-    margin-left: 0; 
-    max-width: 0; /* A MÁGICA: Zera o espaço físico do botão quando invisível */
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: max-width 0.4s ease, margin-left 0.4s ease, opacity 0.4s ease;
-}
-
-.header-action-btn.show-btn {
-    max-width: 300px; /* Abre o espaço físico na barra para o botão aparecer */
-    margin-left: 2vw; /* Cria o espaço entre "PRODUTOS" e o botão */
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.header-submit-button {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #FFFF00;
-    color: #000000;
-    border: none;
-    border-radius: 50px;
-    padding: 8px 12px 8px 20px; /* Espaço ajustado para acomodar o círculo preto */
-    font-size: 13px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap; /* Impede o botão de quebrar em duas linhas */
-}
-
-.header-submit-button:hover {
-    background-color: #d4d400; /* Fica um pouco mais escuro ao passar o mouse */
-    transform: scale(1.02);
-}
-
-.header-submit-button .icon-circle-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #000000;
-    color: #FFFF00;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 1;
-    padding-bottom: 2px;
-    margin-left: 5px;
-}
-
-/* =========================================
-   RODAPÉ DE AVISOS LEGAIS (DISCLAIMER)
-   ========================================= */
-.footer-disclaimer {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 20px 60px 20px;
-    text-align: center;
-    border-top: 1px solid #333333;
-    background-color: transparent;
-}
-
-.footer-disclaimer p {
-    color: #888888;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    background-color: transparent;
-}
-
-.footer-disclaimer p strong {
-    color: #cccccc;
-    font-weight: 600;
-    background-color: transparent;
-}
-
-.footer-disclaimer .destaque-amarelo {
-    color: #FFFF00;
-    font-weight: 700;
-}
-
-/* =========================================
-   SEÇÃO: MAIS DE 13 ANOS
-   ========================================= */
-.anos-experiencia-section {
-    width: 100%;
-    height: 500px;
-    /* Aqui reaproveitamos a imagem de fundo que já tem no site */
-    background-image: url('imagens/teste1.png'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    border-top: 2px solid #333333;
-}
-
-.anos-experiencia-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Escurece bastante a imagem de fundo */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    text-align: center;
-}
-
-.anos-experiencia-overlay h2 {
-    color: #cccccc;
-    font-size: 32px;
-    font-weight: 400;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    background-color: transparent;
-}
-
-.anos-experiencia-overlay h2 strong {
-    font-weight: 800;
-    color: #FFFFFF; /* Dá o destaque no "Mais de 13 anos" */
-    background-color: transparent;
-}
-
-/* =========================================
-   RODAPÉ FINAL (LINKS E COPYRIGHT)
-   ========================================= */
-.main-footer {
-    background-color: #000000;
-    padding: 50px 20px 40px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    max-width: 1100px;
-    background-color: transparent;
-}
-
-.footer-links a {
-    color: #777777;
-    font-size: 11px;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    transition: color 0.3s ease;
-    border-bottom: none; /* Remove a borda padrão de links do site */
-    padding: 0;
-    background-color: transparent;
-}
-
-.footer-links a:hover {
-    color: #FFFF00;
-    border-bottom: none;
-}
-
-.footer-links .separator {
-    color: #333333;
-    font-size: 12px;
-    background-color: transparent;
-}
-
-.footer-contact {
-    color: #666666;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background-color: transparent;
-}
-
-.footer-contact strong {
-    color: #F5F5F5;
-    font-weight: 700;
-    background-color: transparent;
-}
-
-
-
-/* =======================================
-   MENU LATERAL ESTILO DASHBOARD PREMIUM
-   ======================================= */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -100%; 
-    width: 88%; 
-    max-width: 360px;
-    height: 100vh;
-    background-color: rgba(10, 10, 10, 0.82); /* Fundo ultraclaro escuro acrílico */
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    z-index: 10000;
-    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Animação de transição suave de painel */
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    border-right: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 15px 0 40px rgba(0, 0, 0, 0.6);
-}
-
-.sidebar.active {
-    left: 0;
-}
-
-#sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 9999;
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-#sidebar-overlay.active {
-    display: block;
-}
-
-/* Cabeçalho Alinhado do Painel */
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 24px 20px 24px;
-    background-color: transparent;
-}
-
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Pequeno ponto de status neon dinâmico próximo à logo */
-.sidebar-logo-dot {
-    width: 7px;
-    height: 7px;
-    background-color: #FFFF00;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #FFFF00;
-}
-
-.sidebar-logo-text {
-    font-family: 'QuinoaLogo', sans-serif !important; 
-    color: #FFFFFF !important;
-    font-size: 26px !important;
-    letter-spacing: -0.5px !important; 
-    font-weight: 800;
-}
-
-.close-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #aaaaaa;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-    color: #FFFF00;
-    background-color: rgba(255, 255, 0, 0.05);
-    border-color: rgba(255, 255, 0, 0.3);
-}
-
-/* Lista de Links (Estilo Dashboard Pills) */
-.sidebar-nav {
-    list-style: none;
-    padding: 10px 16px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px; /* Espaço entre as linhas do menu */
-}
-
-.sidebar-nav li {
-    width: 100%;
-}
-
-.sidebar-nav li a {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 14px 18px !important;
-    color: #bbbbbb !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    text-transform: none !important; 
-    border-radius: 12px !important; /* Cria as caixas arredondadas da interface */
-    border: none !important;
-    transition: all 0.25s ease !important;
-    background: transparent;
-}
-
-.nav-item-content {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: transparent;
-}
-
-.sidebar-nav-icon {
-    width: 20px;
-    height: 20px;
-    color: #666666; /* Ícone padrão mais apagado como no design */
-    transition: color 0.25s ease;
-    background: transparent;
-}
-
-.sidebar-arrow {
-    color: #444444;
-    font-size: 20px;
-    font-weight: 400;
-    transition: transform 0.25s ease, color 0.25s ease;
-    background: transparent;
-}
-
-/* Efeito Hover nos itens */
-.sidebar-nav li a:hover {
-    color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.03) !important;
-}
-
-.sidebar-nav li a:hover .sidebar-nav-icon {
-    color: #ffffff;
-}
-
-/* Item Ativo/Selecionado (Igual aos prints das plataformas) */
-.sidebar-nav li.active a {
-    color: #FFFF00 !important;
-    background-color: rgba(255, 255, 0, 0.06) !important;
-    position: relative;
-}
-
-.sidebar-nav li.active .sidebar-nav-icon {
-    color: #FFFF00;
-}
-
-/* Pequena barra vertical luminosa na lateral esquerda do item ativo */
-.sidebar-nav li.active a::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 25%;
-    width: 3px;
-    height: 50%;
-    background-color: #FFFF00;
-    border-radius: 0 4px 4px 0;
-    box-shadow: 2px 0 10px #FFFF00;
-}
-
-/* Rodapé do Menu Reestruturado */
-.sidebar-footer {
-    margin-top: auto;
-    padding: 24px 18px 30px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-/* Card de Suporte */
-.sidebar-support-card {
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 14px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.support-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #666666;
-    letter-spacing: 1px;
-    font-weight: 700;
-}
-
-.support-phone {
-    color: #ffffff !important;
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px;
-    border: none !important;
-    padding: 0 !important;
-}
-
-.support-phone svg {
-    color: #FFFF00;
-}
-
-/* Botões de Ação */
-.sidebar-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar-btn-secondary {
-    display: block !important;
-    text-align: center !important;
-    padding: 14px !important;
-    border-radius: 12px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #cccccc !important;
-    transition: all 0.2s ease !important;
-}
-
-.sidebar-btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.02);
-    color: #ffffff !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.sidebar-btn-primary {
-    display: block !important;
-    text-align: center !important;
-    padding: 14px !important;
-    border-radius: 12px !important;
-    font-weight: 800 !important;
-    font-size: 14px !important;
-    background-color: #FFFF00 !important;
-    color: #000000 !important;
-    border: none !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 4px 15px rgba(255, 255, 0, 0.1);
-}
-
-.sidebar-btn-primary:hover {
-    background-color: #e6e600 !important;
-    transform: translateY(-1px);
-}
-
-/* Botão Solicitar na Calculadora (Amarelo com Ícone Circulado) */
-.btn-calculadora-solicitar {
-    width: 100%;
-    background-color: #FFFF00;
-    color: #000000;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 15px; /* Ajuste do padding para acomodar o ícone */
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-
-    /* A MÁGICA: Flexbox para alinhar texto e ícone centralizados */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px; /* Espaço entre o texto e o círculo */
-}
-
-.btn-calculadora-solicitar .icon-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #000000; /* Círculo preto */
-    color: #FFFF00; /* Seta amarela */
-    font-size: 24px; /* Tamanho do caractere › */
-    font-weight: 300; /* Seta mais fina igual à referência */
-    line-height: 1;
-    padding-bottom: 2px; /* Ajuste visual de centralização do caractere */
-}
-
-/* =========================================
-   SEÇÃO DE AVALIAÇÕES (REVIEWS)
-   ========================================= */
-#reviews-section {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 20px 100px 20px;
-    background-color: transparent;
-    text-align: center;
-}
-
-.reviews-subtitle {
-    color: #cccccc;
-    font-size: 18px;
-    margin-top: -10px; 
-    margin-bottom: 50px;
-}
-
-.reviews-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-.review-card {
-    background-color: #121212;
-    border: 2px solid #333333;
-    border-radius: 20px;
-    padding: 35px 30px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.review-card:hover {
-    border-color: #FFFF00;
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(255, 238, 0, 0.15);
-}
-
-.quote-icon {
-    color: #FFFF00;
-    font-size: 70px;
-    font-family: Georgia, serif; /* Fonte serifada dá aquele visual clássico de aspas */
-    line-height: 0.5;
-    margin-bottom: 20px;
-}
-
-.review-text {
-    color: #F5F5F5;
-    font-size: 15px;
-    line-height: 1.6;
-    flex-grow: 1; /* Empurra o rodapé (foto e estrelas) lá para o fundo do card */
-    margin-bottom: 25px;
-}
-
-.review-author {
-    color: #cccccc;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 25px;
-}
-
-.review-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #333333;
-    padding-top: 20px;
-}
-
-.review-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #222222;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.review-avatar svg {
-    width: 30px;
-    height: 30px;
-    fill: #777777; /* Cor do ícone de avatar */
-}
-
-/* Se você usar imagens em vez do SVG no futuro */
-.review-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.review-stars {
-    color: #FFFF00;
-    font-size: 22px;
-    letter-spacing: 2px;
-}
-
-/* Animação de Carregamento no Botão Finalizar */
-.spinner-calc {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 0, 0.3);
-    border-radius: 50%;
-    border-top-color: #FFFF00; /* Cor amarela principal */
-    animation: girarSpinner 0.8s ease-in-out infinite;
-    background-color: transparent;
-}
-
-
-
-@keyframes girarSpinner {
-    to { transform: rotate(360deg); }
-}
-
-/* Deixa as avaliações em 1 coluna nos celulares e tablets */
-@media (max-width: 900px) {
-    .reviews-container {
-        grid-template-columns: 1fr;
-    }
-    .reviews-subtitle {
-        font-size: 16px;
-        padding: 0 15px;
-        margin-bottom: 40px;
-    }
-}
-
-/* =========================================
-   CAMPO DE TEXTO (DIGITE A CIDADE)
-   ========================================= */
-.opcao-input-texto {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #121212;
-    border: 2px solid #333;
-    border-radius: 20px;
-    padding: 12px 25px; /* Alinhado com o padding da opção de cima */
-    transition: all 0.3s ease;
-    width: 100%;
-}
-
-/* Efeito de foco quando o usuário clica para digitar */
-.opcao-input-texto:focus-within {
-    border-color: #FFFF00;
-    background-color: rgba(255, 255, 0, 0.05);
-}
-
-.input-cidade-campo {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #F5F5F5;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 10px 0;
-}
-
-.input-cidade-campo::placeholder {
-    color: #666666;
-    font-weight: 500;
-}
-
-/* Botão de seta (Avançar) */
-.btn-avancar-input {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: #000000;
-    border: 2px solid #FFFF00;
-    color: #FFFF00;
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    padding-bottom: 4px; /* Ajuste óptico para centralizar a seta */
-    margin-left: 15px;
-    transition: all 0.3s ease;
-}
-
-.btn-avancar-input:hover {
-    background-color: #FFFF00;
-    color: #000000;
-}
-
-
-/* Ajustes para ecrãs menores (Tablets e Telemóveis) */
-@media (max-width: 768px) {
-    .anos-experiencia-section {
-        height: 200px;
-    }
-
-    .anos-experiencia-overlay h2 {
-        font-size: 24px;
-    }
-
-    .footer-links {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .footer-links .separator {
-        display: none; /* Oculta as barras verticais no telemóvel para ficar mais limpo */
-    }
-
-    .footer-contact {
-        font-size: 9px;
-        line-height: 1.8;
-        padding: 0 15px;
-    }
-}
-
-/* Ajuste para celulares */
-@media (max-width: 768px) {
-    .footer-disclaimer {
-        padding: 30px 20px 40px 20px;
-    }
-    .footer-disclaimer p {
-        font-size: 12px;
-    }
-}
-
-/* Responsividade: Transforma em 1 coluna em telas menores (celulares) */
-@media (max-width: 900px) {
-    .monitoring-services-section {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================================
-   RESPONSIVIDADE (Tablets e Celulares)
-   ========================================= */
-
-/* Ajustes para Tablets (Telas menores que 1024px) */
-@media (max-width: 1024px) {
-
-    .header-action-btn {
-        display: none !important;
-    }
-
-    #teste1 {
-        display: none !important;
-    }
-
-    /* =======================================
-       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
-       ======================================= */
-       
-   #background-image {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.197)), url("imagens/background-house-mobile.png");
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-top: -80px !important; 
-        padding: 160px 0px 0px 0px !important; 
-        background-size: 100% auto !important; /* Trava a largura na tela e tira o zoom */
-        background-repeat: no-repeat !important; /* Impede que a imagem se repita */
-        background-position: center top !important; 
+        <div id="header">
+            
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                <span>MENU</span>
+            </div>
+
+            <div id="logo-container"> 
+                <a href="">
+                    <img src="imagens/Airbrush-IMAGE-ENHANCER-1778007192247-1778007192247.png" alt="Logo Guard" id="logo">
+                </a>
+            </div>
+
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="#">Alarme para casa</a></li>
+                    <li><a href="#">Alarme para empresa</a></li>
+                    <li><a href="#">Nossos alarmes</a></li>
+                    <li><a href="#">Ajuda e informações</a></li>
+                    <li><a href="#">Produtos</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-action-btn">
+                <button class="header-submit-button" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                    SOLICITAR ORÇAMENTO <div class="icon-circle-header">&#8250;</div>
+                </button>
+            </div>
+
+            <a href="tel:15988246986" id="mobile-call-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <span>LIGAR</span>
+            </a>
+
+        </div>
+    </header>
+    <section>
+        <div id="background-image">
+            <div id="text-header">
+                <span class="linha-branca">Líder em monitoramento</span><br>
+                <span class="linha-amarela">residencial e empresarial</span>
+                <p class="hero-subtitle">Controle total e proteção 24h na palma da sua mão.</p>
+            </div>
+            <div id="menu-orcamento">
+                <div id="menu-orcamento-top">
+                    <div id="menu-orcamento-tittle">
+                        CALCULE
+                    </div>
+                    <div id="menu-orcamento-subtittle">
+                        o orçamento do Alarme Guard
+                    </div>
+                    <div id="actionbutton" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                        CALCULAR AGORA
+                    </div>
+                    <div id="information-above">
+                        Se preferir <strong id="call-strong">LIGAMOS</strong> para você
+                    </div>
+                    <div id="phone-container-background">
+                        <form class="phone-container">
+                            <input type="tel" placeholder="Seu telefone" class="phone-input" maxlength="15" />
+                                <button type="submit" class="submit-btn">
+                                    ENVIAR
+                                <span class="icon-arrow">&#8250;</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div id="orcamento-bottom-part">
+                    <p>
+                    ligue agora 
+                    <a>
+                        (15) 98824-6986
+                    </a>
+                    </p>
+                    <small>
+                        <p>
+                             Ao clicar em enviar, você aceita nossa <a>política de privacidade</a> e <a>política de cookies.</a>
+                        </p>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div id="advertisement-descount">
+            <span>Alarme monitorado Guard</span>
+            <span>Sistema de Monitoramento 24 horas</span>
+        </div>
+        <div id="advertisement-calculator">
+            <span>Qual sistema melhor atende</span>
+            <span>sua necessidade?</span>
+        </div>
+        <div id="calculator">
+            <form id="form-etapas">
+            
+                <div class="step active" id="step-1" data-next="step-2">
+                    <h3 class="pergunta-form">Defina o foco do seu sistema de segurança:</h3>
+                    <label class="opcao-radio"><span>Sistema de videomonitoramento (Câmeras)</span><input type="radio" name="q1" value="cameras" data-skip-to="step-2-cameras"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sistema de alarme</span><input type="radio" name="q1" value="alarme" data-skip-to="step-2-alarme"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Ambos (Alarme e câmeras)</span><input type="radio" name="q1" value="ambos" data-skip-to="step-2-cameras"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-cameras">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="q2_cam" value="residencia" data-skip-to="step-tipo-res-cam"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="q2_cam" value="empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-alarme">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="q2_ala" value="residencia" data-skip-to="step-tipo-res-ala"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="q2_ala" value="empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-ambos">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="q2_amb" value="residencia" data-skip-to="step-tipo-res-amb"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="q2_amb" value="empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-cam" data-next="step-veg-cam">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="q_tipo_res_cam" value="bairro_aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="q_tipo_res_cam" value="condominio"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="q_tipo_res_cam" value="rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-veg-cam" data-next="step-4-res">
+                    <h3 class="pergunta-form">Há árvores ou vegetação alta que possam bloquear o ângulo de visão das câmeras?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="q_veg_cam" value="sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q_veg_cam" value="nao"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-ala" data-next="step-3-ala">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="q_tipo_res_ala" value="bairro_aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="q_tipo_res_ala" value="condominio"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="q_tipo_res_ala" value="rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-amb" data-next="step-roubo-ala">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="q_tipo_res_amb" value="bairro_aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="q_tipo_res_amb" value="condominio"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="q_tipo_res_amb" value="rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-3-ala" data-next="step-roubo-ala">
+                    <h3 class="pergunta-form">Você tem câmeras em sua casa?</h3>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q3" value="nao"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim, Intelbras</span><input type="radio" name="q3" value="intelbras"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim, de outra marca</span><input type="radio" name="q3" value="outras"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-roubo-ala" data-next="step-pets">
+                    <h3 class="pergunta-form">A sua casa ou a do seu vizinho foi roubada recentemente?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="q_roubo_ala" value="sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q_roubo_ala" value="nao"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-pets" data-next="step-4-res">
+                    <h3 class="pergunta-form">Existem animais de estimação na casa?</h3>
+                    <label class="opcao-radio"><span>Sim - pequeno porte</span><input type="radio" name="q_pets" value="pequeno_porte"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim - grande porte</span><input type="radio" name="q_pets" value="grande_porte"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q_pets" value="nao"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-4-res" data-next="step-final">
+                    <h3 class="pergunta-form">Qual é a área aproximada do local?</h3>
+                    <label class="opcao-radio"><span>Até 100m²</span><input type="radio" name="q_res_area" value="ate_100"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>100 a 200m²</span><input type="radio" name="q_res_area" value="100_200"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Mais de 200m²</span><input type="radio" name="q_res_area" value="mais_200"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-emp-1" data-next="step-emp-2">
+                    <h3 class="pergunta-form">Como você classifica a sua empresa?</h3>
+                    <label class="opcao-radio"><span>Varejo ou ponto comercial</span><input type="radio" name="q_emp_class" value="comercio_rua"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Ambiente Corporativo</span><input type="radio" name="q_emp_class" value="corporativo"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Setor Industrial ou galpão</span><input type="radio" name="q_emp_class" value="industrial"><span class="custom-radio"></span></label>
+                    
+                    <div class="opcao-input-texto">
+                        <input type="text" id="q_emp_class_outra" placeholder="Outro segmento (digite qual...)" class="input-cidade-campo">
+                        <button type="button" class="btn-avancar-input" id="btn-avancar-segmento">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-emp-2" data-next="step-emp-3">
+                    <h3 class="pergunta-form">Onde está localizada a sua empresa?</h3>
+                    <label class="opcao-radio"><span>Itararé-SP</span><input type="radio" name="q_emp_loc" value="cidade"><span class="custom-radio"></span></label>
+                    
+                    <div class="opcao-input-texto">
+                        <input type="text" id="q_emp_loc_outra" placeholder="Outra (digite a cidade...)" class="input-cidade-campo">
+                        <button type="button" class="btn-avancar-input" id="btn-avancar-cidade">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-emp-3" data-next="step-emp-4">
+                    <h3 class="pergunta-form">Sua empresa ou alguma na proximidade foi roubada recentemente?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="q_emp_roubo" value="sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q_emp_roubo" value="nao"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-emp-4" data-next="step-emp-5">
+                    <h3 class="pergunta-form">Qual é a área aproximada do local?</h3>
+                    <label class="opcao-radio"><span>Até 100m²</span><input type="radio" name="q_emp_area" value="ate_100"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>100 a 200m²</span><input type="radio" name="q_emp_area" value="100_200"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Mais de 200m²</span><input type="radio" name="q_emp_area" value="mais_200"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-emp-5" data-next="step-final">
+                    <h3 class="pergunta-form">O imóvel possui área externa, pátio ou estacionamento aberto?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="q_emp_ext" value="sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="q_emp_ext" value="nao"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-final">
+                    <h3 class="pergunta-form">Estamos quase lá! Para finalizar seu orçamento, por favor, nos informe seu número de telefone abaixo:</h3>
+                    <div class="phone-container" style="max-width: 100%; margin-top: 15px;">
+                        <input type="tel" id="telefone-final" placeholder="Seu telefone com DDD" class="phone-input" maxlength="15" required>
+                        <button type="submit" class="submit-btn" id="btn-finalizar-calc" style="width: auto; min-width: 140px; justify-content: center;">
+                            <span id="texto-finalizar">FINALIZAR</span>
+                            <div class="spinner-calc" id="loader-finalizar" style="display: none;"></div>
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" id="subtitle-1">
+                <span>Proteja-se com o novo Alarme com</span>
+                <span>Videomonitoramento</span>
+            </h2>
+        </div>
+        <ul id="subtittle-cards-displayer">
+            <li>
+                <img src="imagens/bubble-lasers.png" alt="Descrição da imagem" class="card-image">
+                <h3>Detecção antecipada</h3>
+                <p class="card-subtitle">sem risco de sabotagem</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Placa <strong>Guard</strong> faz o ladrão pensar duas vezes antes de invadir.</li>
+                    <li><span class="icon-arrow">&#8250;</span> As <strong>melhores câmeras de segurança e sensores</strong> de última geração para detecção antecipada.</li>
+                    <li><span class="icon-arrow">&#8250;</span> <strong>Em caso de violação</strong>, o alarme dispara e sinaliza a Central.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/guard-operator-monitor.png" alt="Descrição da imagem" class="card-image">
+                <h3>Intervenção humana imediata</h3>
+                <p class="card-subtitle">pela nossa Central de Monitoramento 24 horas</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Recebemos as imagens das câmeras, <strong>verificamos se há uma invasão</strong> acontecendo e agimos em segundos.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Profissionais <strong>Guard</strong> treinados para agir em situações de emergência, <strong>24 horas por dia, 7 dias por semana</strong>.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/sirene.png" alt="Descrição da imagem" class="card-image">
+                <h3>Aviso à polícia em até 60 seg</h3>
+                <p class="card-subtitle">ação rápida para garantir sua proteção</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Resposta rápida e eficaz, <strong>com notificação da polícia</strong> e dos serviços de emergência.</li>
+                    <li><span class="icon-arrow">&#8250;</span> <strong>Suporte e acompanhamento remoto</strong> até a chegada de ajuda especializada.</li>
+                </ul>
+            </li>
+        </ul>
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards">
+                <span>Videomonitoramento e controle</span>
+                <span>na palma da sua mão</span>
+            </h2>
+        </div>
+        <div class="video-control-section">
+            <div class="video-control-left">
+                <div class="camera-image-container">
+                    <img src="imagens/camera-dome.png" alt="Câmera Intelbras Dome" class="camera-dome-img">
+                </div>
+                <div class="video-control-text">
+                    <h3>Para não se preocupar</h3>
+                    <p>Na <strong>Guard</strong> você pode gerenciar tudo o que acontece no seu imóvel direto pelo celular. Controle tudo pelo app, arme e desarme, veja quem tem acesso ao seu imóvel, faça a gestão de chaves e tenha o controle das câmeras em tempo real.</p>
+                </div>
+            </div>
+
+            <div class="video-control-right">
+                <h3 class="benefits-title">Benefícios de ter a câmera de segurança</h3>
+                <ul class="benefits-list">
+                    
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Acesso às câmeras e envio de notificações em tempo real, controlando os acessos da sua residência ou negócio.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Gravação de imagens em alta resolução para visualização e coletas de provas.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Garantia total de privacidade das imagens, acesso da Central de Monitoramento apenas após o disparo do sistema.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM12 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5-4H7V4h10v13z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Aplicativo móvel com usabilidade intuitiva para ativar e desativar o alarme de qualquer lugar.
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="guard-premium-banner">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <button class="btn-guard-glow" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </button>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center;">
+                <span>Melhor proteção contra roubo e</span>
+                <span>ocupação</span>
+            </h2>
+        </div>
+        <div class="best-protection-section">
+            <div class="best-protection-line"></div>
+            
+            <div class="center-animation-container">
+                <div class="wave wave1"></div>
+                <div class="wave wave2"></div>
+                <div class="wave wave3"></div>
+                <div class="best-protection-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.7l5 4.5v6.8H7v-6.8l5-4.5z"/></svg>
+                </div>
+            </div>
+            
+            <div class="best-protection-column">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/infra-red-detector.png" alt="Sensores avançados" class="bp-img">
+                    </div>
+                    <h3>Proteção perimetral avançada</h3>
+                    <p>Utilizamos sensores de ultima geração para criar uma barreira invisível ao redor do seu imóvel. A invasão é detectada e a Central Guard é alertada antes mesmo que o invasor adentre à residencia.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/operator-monitoring.png" alt="Intervenção humana" class="bp-img">
+                    </div>
+                    <h3>Central de monitoramento 24h</h3>
+                    <p>Especialistas treinados acompanham os sinais do seu sistema em tempo real. Ao receber um alerta, nossa equipe analisa a situação e, se houver ameaça real, intervém acionando a polícia de forma imediata e assertiva.</p>
+                </div>
+            </div>
+
+            <div class="best-protection-column offset-top">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/app-guard-alarm.png" alt="Proteção antissabotagem" class="bp-img">
+                    </div>
+                    <h3>Controle total na palma da mão</h3>
+                    <p>Gerencie o sistema de alarme de qualquer lugar. Arme, desarme e receba notificações instantâneas sobre o status da sua propriedade em tempo real através do nosso aplicativo exclusivo.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/person-detected.png" alt="Gravação de imagem" class="bp-img">
+                    </div>
+                    <h3>Videomonitoramento Inteligente</h3>
+                    <p>Acompanhe as imagens do seu imóvel ao vivo pelo aplicativo. Em caso de disparo do alarme, a Central Guard acessa as câmeras instantaneamente para confirmar a invasão e tomar as providências necessárias.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="guard-premium-banner">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <button class="btn-guard-glow" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </button>
+            </div>
+        </div>
         
-        background-color: #000000 !important; /* Fundo preto caso a imagem acabe antes do formulário */
-    }
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 40px;">
+                <span>Serviços de Monitoramento 24H</span>
+            </h2>
+        </div>
 
-    #text-header {
-        color: #FFFFFF !important;
-        font-size: 26px !important;
-        font-weight: 800 !important;
-        line-height: 1.2 !important; 
-        text-align: center !important;
-        padding-top: 60px !important;
-        max-width: 100% !important;
-        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
-    }
+        <div class="monitoring-services-section">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+                </div>
+                <h3>Monitoramento profissional</h3>
+                <p>Com o serviço de monitoramento profissional 24h da Guard, a sua proteção contra invasões é reforçada. Contamos com uma equipe de especialistas que analisam disparos e acionam a polícia imediatamente.</p>
+            </div>
 
-    #menu-orcamento {
-        width: 100% !important;
-        max-width: 100% !important;  
-        background-color: rgba(18, 18, 18, 0.85) !important; /* Mantém translúcido no mobile */
-        backdrop-filter: blur(25px) !important;
-        -webkit-backdrop-filter: blur(25px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-bottom: none !important;
-        border-top: 2px solid #FFFF00 !important; /* Neon no topo */
-        border-radius: 30px 30px 0 0 !important;
-        padding: 35px 25px !important;
-        height: auto !important;
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.7) !important;
-    }
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                </div>
+                <h3>Sua segurança em qualquer lugar</h3>
+                <p>Através do aplicativo exclusivo Guard você gerencia o seu alarme de qualquer lugar do mundo, acessando através do seu Smartphone ou Tablet e solicitando fotos e imagens em tempo real.</p>
+            </div>
 
-    #menu-orcamento-tittle {
-        font-size: 32px;
-        margin-top: 0;
-        color: #ffffff;
-    }
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <h3>Botão SOS</h3>
+                <p>Em caso de emergência, você aciona o botão SOS pelo painel ou aplicativo, e nós enviamos a ajuda necessária rapidamente para o seu local: polícia, bombeiros ou ambulância.</p>
+            </div>
 
-    #menu-orcamento-subtittle {
-        font-size: 16px;
-        color: #ffffff;
-    }
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                </div>
+                <h3>Resposta em Poucos Segundos</h3>
+                <p>A Central de Monitoramento do Alarme Guard é altamente capacitada para verificar o acionamento do alarme e atuar em menos de 60 segundos, de acordo com o nível da ocorrência.</p>
+            </div>
 
-    #advertisement-descount {
-        background-color: #151515;
-        border-top:3px solid #212121;
-        border-bottom:3px solid #212121;
-    }
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                </div>
+                <h3>Garantia Vitalícia do Produto</h3>
+                <p>Os dispositivos dos Alarmes Guard possuem garantia vitalícia durante o período de contrato, assim como a atualização constante e gratuita de software para os novos serviços e tecnologias.</p>
+            </div>
 
-    .subtitle-1 {
-        margin-top: 50px;
-    }
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                </div>
+                <h3>Serviço Técnico</h3>
+                <p>Clientes Guard têm à disposição um atendimento especializado. Nossa equipe técnica e de suporte funciona de forma eficiente para sanar dúvidas ou resolver problemas no equipamento.</p>
+            </div>
+        </div>
+        <div id="reviews-section">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 60px; margin-bottom: 20px !important;">
+                <span>Opiniões dos nossos clientes sobre o</span>
+                <span>alarme Guard</span>
+            </h2>
+            <p class="reviews-subtitle">Com a Guard, milhares de clientes deixaram o medo no passado</p>
 
-    /* 3. Botão "Calcular Agora" */
-    #actionbutton {
-        border-radius: 50px; /* Deixa o botão oval como na referência */
-        height: 65px;
-        font-size: 24px;
-        margin: 20px 0;
-        box-shadow: none;
-    }
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">O sistema funciona muito bem, é moderno e com tecnologia super avançada. O aplicativo que uso para acessar as informações e imagens é muito bom e fácil de usar.</p>
+                    <p class="review-author">Ana Clara - 32 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-1.png" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
 
-    /* 4. Campo de Telefone */
-    .phone-container {
-        max-width: 100%; /* Ocupa a tela toda */
-        height: 55px; /* Deixa o campo mais alto para clicar fácil no celular */
-    }
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">Por uma real tentativa de roubo, pude comprovar que o videomonitoramento é realmente muito efetivo, identificou os bandidos e foram presos logo em seguida.</p>
+                    <p class="review-author">Marisa - 61 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-2.png" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
 
-    /* 5. Seção do Número de Telefone Gigante */
-    #orcamento-bottom-part {
-        padding: 15px 0 0 0;
-    }
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">Estou muito contente com a Guard, o atendimento foi sempre rápido nas ocasiões que precisei. Gosto muito do produto e do serviço da empresa e recomendo com certeza.</p>
+                    <p class="review-author">Pedro - 65 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-3.png" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    #orcamento-bottom-part p {
-        display: flex;
-        flex-direction: column; /* Coloca o texto em cima e o número embaixo */
-        align-items: center;
-        font-size: 14px;
-        color: #cccccc;
-        gap: 5px;
-    }
+        <div class="guard-premium-banner">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">Sua tranquilidade não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <button class="btn-guard-glow" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </button>
+            </div>
+        </div>
 
-    #orcamento-bottom-part p a {
-        font-size: 38px; /* Número gigante igual à foto */
-        color: #FFFF00;
-        font-weight: 800;
-    }
+        <div id="company-info-section">
+            <div class="company-info-content">
+                <h2>24 horas por dia, 7 dias por semana</h2>
+                <p>A Guard possui uma Central de Monitoramento moderna e altamente preparada para proteger o seu patrimônio. Ligue a qualquer hora do dia, qualquer dia do ano, para pedir uma manutenção, consultar sobre o gerenciamento do seu sistema de alarme ou solicitar suporte imediato.</p>
+                
+                <ul class="company-features-list">
+                    <li>Atendimento 24h, todos os dias do ano.</li>
+                    <li>Ação imediata com acionamento das autoridades em caso de invasão confirmada.</li>
+                    <li>Equipe de pronta-resposta qualificada para verificação tática no local.</li>
+                </ul>
+            </div>
+        </div>
 
-    .best-protection-section {
-        gap: 60px; /* Reduz aquele gap de 200px para telas médias */
-    }
-}
+        <div class="footer-disclaimer">
+            <p>*<strong>Calcular on-line</strong> faz parte do processo de estudo de segurança, um processo onde recebemos informações on-line das necessidades de segurança do usuário que continua com uma chamada telefônica para tratar a informação sensível e finaliza com um estudo de segurança na casa/empresa do usuário.</p>
+            <p>*Consulte as condições através do telefone <strong class="destaque-amarelo">(15) 98824-6986</strong></p>
+        </div>
 
-/* Ajustes para Celulares (Telas menores que 768px) */
-@media (max-width: 768px) {
+        <div class="anos-experiencia-section">
+            <div class="anos-experiencia-overlay">
+                <h2><strong>Mais de 11 anos</strong> cuidando do seu patrimônio</h2>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-links">
+                <a href="#">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+                <a href="#">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
+                <a href="#">CÓDIGO DE CONDUTA</a> <span class="separator">|</span>
+                <a href="#">ÁREA DE CLIENTE</a> <span class="separator">|</span>
+                <a href="#">TERMOS E CONDIÇÕES GERAIS DE CONTRATAÇÃO</a>
+            </div>
+            
+            <div class="footer-contact">
+                GUARD BRASIL 2026 | BASES DE PROMOÇÃO: CONSULTE AS CONDIÇÕES ATRAVÉS DO EMAIL <strong>CONTATO@GUARD.COM.BR</strong> OU LIGUE <strong>(15) 98824-6986</strong>
+            </div>
+        </footer>
+
+    </section>
     
-    /* Ajustes para Celulares (Telas menores que 768px) */
-@media (max-width: 768px) {
-    
-    /* =======================================
-       NOVO HEADER MOBILE (ESTILO DASHBOARD APP)
-       ======================================= */
-    #header {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important; 
-        align-items: center !important;
-        height: 85px !important;
-        padding: 0 20px !important;
-        background-color: rgba(15, 15, 15, 0.6) !important; /* Fundo escuro premium */
-        backdrop-filter: blur(25px) !important;
-        -webkit-backdrop-filter: blur(25px) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
-    }
+    <script>
+        // === MÁSCARA PARA TODOS OS CAMPOS DE TELEFONE ===
+        const phoneInputs = document.querySelectorAll('.phone-input');
 
-    #nav-container {
-        display: none !important; /* Esconde a lista de links gigante */
-    }
+        phoneInputs.forEach(function(phoneInput) {
+            phoneInput.addEventListener('input', function (e) {
+                let numeroLimpo = e.target.value.replace(/\D/g, '');
+                let formatado = '';
 
-    #logo-container {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        flex: 1 !important; 
-    }
+                if (numeroLimpo.length > 0) {
+                    formatado = '(' + numeroLimpo.substring(0, 2);
+                    if (numeroLimpo.length > 2) {
+                        formatado += ') ' + numeroLimpo.substring(2, 7);
+                        if (numeroLimpo.length > 7) {
+                            formatado += '-' + numeroLimpo.substring(7, 11);
+                        }
+                    }
+                }
+                e.target.value = formatado;
+            });
+        });
 
-    #logo-container a {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        border: none !important; 
-        padding: 0 !important; 
-        margin: 0 !important;
-    }
+        // === CÓDIGO DA CALCULADORA ===
+        document.querySelectorAll('.opcao-radio input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const currentStep = this.closest('.step');
+                
+                // A MÁGICA: Ele tenta ler o atalho do botão clicado. Se não tiver, usa o caminho normal do step.
+                const nextStepId = this.getAttribute('data-skip-to') || currentStep.getAttribute('data-next');       
 
-    #logo {
-        height: 48px !important; /* Tamanho mais elegante para a logo */
-        width: auto !important; 
-        object-fit: contain !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+                if (nextStepId) {
+                    setTimeout(() => {
+                        currentStep.classList.remove('active');
+                        document.getElementById(nextStepId).classList.add('active');
+                    }, 400); 
+                }
+            });
+        });
 
-    /* Transformando os ícones em Botões Acrílicos (estilo App) */
-    .mobile-icon {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 48px !important;
-        height: 48px !important;
-        background-color: rgba(255, 255, 255, 0.03) !important; /* Fundo de vidro */
-        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Borda suave */
-        border-radius: 14px !important; /* Quadrado com cantos arredondados (squircle) */
-        color: #cccccc !important; /* Ícone cinza claro elegante */
-        transition: all 0.3s ease !important;
-        cursor: pointer;
-    }
+        // === CÓDIGO DO MENU LATERAL ===
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
 
-    .mobile-icon svg {
-        width: 22px !important;
-        height: 22px !important;
-    }
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
 
-    /* Oculta os textos "MENU" e "LIGAR" para ficar minimalista */
-    .mobile-icon span {
-        display: none !important;
-    }
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (overlay) overlay.addEventListener('click', toggleMenu);
 
-    /* Efeito ao tocar no botão (Acende em neon) */
-    .mobile-icon:active, 
-    .mobile-icon:hover {
-        background-color: rgba(255, 255, 0, 0.08) !important;
-        border-color: rgba(255, 255, 0, 0.3) !important;
-        color: #FFFF00 !important;
-        box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
-    }
+        // === CÓDIGO DO BOTÃO DO HEADER E EFEITO SCROLL ===
+        window.addEventListener('scroll', function() {
+            const headerBtn = document.querySelector('.header-action-btn');
+            const header = document.getElementById('header');
+            
+            if (window.scrollY > 40) {
+                if (headerBtn) headerBtn.classList.add('show-btn');
+                if (header) header.classList.add('header-scrolled');
+            } else {
+                if (headerBtn) headerBtn.classList.remove('show-btn');
+                if (header) header.classList.remove('header-scrolled');
+            }
+        });
 
-    /* ... mantenha o restante do código mobile daqui para baixo ... */
+        // === CÓDIGO PARA AVANÇAR OS CAMPOS DE TEXTO (CIDADE E SEGMENTO) ===
+        function configurarCampoTexto(inputId, btnId) {
+            const inputElement = document.getElementById(inputId);
+            const btnElement = document.getElementById(btnId);
 
-   /* =======================================
-       ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
-       ======================================= */
-       
-   /* 1. Imagem de Fundo (Ajuste de espaço) */
-    #background-image {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
-        padding: 40px 0px 0px 0px !important; /* Tiramos o excesso de padding embaixo */
-    }
+            function avancarEtapa() {
+                if (inputElement && inputElement.value.trim() !== "") {
+                    const currentStep = inputElement.closest('.step');
+                    const nextStepId = currentStep.getAttribute('data-next');
+                    if (nextStepId) {
+                        currentStep.classList.remove('active');
+                        document.getElementById(nextStepId).classList.add('active');
+                    }
+                } else if (inputElement) {
+                    // Alerta visual se tentar avançar com o campo vazio
+                    inputElement.focus();
+                    inputElement.closest('.opcao-input-texto').style.borderColor = "#FFFF00"; 
+                }
+            }
 
-    /* 2. Título (Branco, moderno e com espaço para não ser engolido) */
-    #text-header {
-        color: #FFFFFF !important;
-        font-size: 28px !important;
-        font-weight: 800 !important;
-        line-height: 1.2 !important; 
-        text-align: center !important;
-        margin: 0 0 90px 0 !important; /* ← A MÁGICA: Essa margem de 90px embaixo salva o texto da caixa preta! */
-        max-width: 340px !important;
-        text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
-    }
+            if (btnElement) {
+                btnElement.addEventListener('click', avancarEtapa);
+            }
 
-    /* 3. Caixa do Formulário (Aumentando a sobreposição) */
-    #menu-orcamento {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: -60px 0 0 0 !important; /* Puxa a caixa para cima da imagem */
-        background-color: #121212 !important;
-        backdrop-filter: none !important;
-        border: none !important;
-        border-top: 3px solid #FFFF00 !important;
-        border-radius: 40px 40px 0 0 !important;
-        padding: 30px 20px !important;
-        height: auto !important;
-        box-shadow: 0 -10px 25px rgba(0,0,0,0.6) !important;
-    }
+            if (inputElement) {
+                inputElement.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // Impede o recarregamento da página
+                        avancarEtapa();
+                    }
+                });
+                
+                // Retira a borda de alerta quando o usuário começa a digitar
+                inputElement.addEventListener('input', function() {
+                    this.closest('.opcao-input-texto').style.borderColor = "";
+                });
+            }
+        }
 
-    #advertisement-calculator {
-        font-size: 25px !important;
-        margin-top: 50px;
-        padding-top: 130px;
-        padding-bottom: 50px;
-        padding-right: 20px;
-        padding-left: 20px;
-        text-align: center;
-    }
+        // Ativa a função para os dois campos de texto do site
+        configurarCampoTexto('q_emp_loc_outra', 'btn-avancar-cidade');
+        configurarCampoTexto('q_emp_class_outra', 'btn-avancar-segmento');
 
-    .subtittle-cards {
-        font-size: 28px !important;
-        padding-top: 50px;
-        padding-bottom: 10px;
-        padding-right: 15px;
-        padding-left: 15px;
-        text-align: center;
-    }
 
-    /* Formulário Calculadora */
-    #form-etapas {
-        padding: 0;
-    }
-    
-    .pergunta-form {
-        font-size: 20px;
-    }
+        // === EVENTO DE ENVIO DA CALCULADORA COM ANIMAÇÃO ===
+        const formEtapas = document.getElementById('form-etapas');
 
-    .opcao-radio {
-        padding: 15px;
-    }
+        if (formEtapas) {
+            formEtapas.addEventListener('submit', function(e) {
+                e.preventDefault(); // Impede a página de recarregar
 
-    .opcao-radio span {
-        font-size: 16px;
-    }
+                const inputTel = document.getElementById('telefone-final');
+                const btnFinalizar = document.getElementById('btn-finalizar-calc');
+                const textoFinalizar = document.getElementById('texto-finalizar');
+                const loaderFinalizar = document.getElementById('loader-finalizar');
 
-    /* 3 Cards Iniciais (Detecção, Intervenção, Polícia) */
-    #subtittle-cards-displayer {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
+                // Validação: Exige no mínimo 14 caracteres (ex: (15) 9999-9999)
+                if (!inputTel || inputTel.value.length < 14) {
+                    inputTel.focus();
+                    inputTel.closest('.phone-container').style.borderColor = "#FFFF00";
+                    return;
+                }
 
-    #subtittle-cards-displayer > li {
-        width: 100%;
-        max-width: 400px;
-    }
+                // Remove a borda amarela de erro (se houver)
+                inputTel.closest('.phone-container').style.borderColor = "#ced4da";
 
-    /* Adaptação da Seção da Empresa para Celular */
-    #company-info-section {
-        justify-content: center;
-        padding: 40px 20px;
-        /* No celular, o gradiente escurece de cima para baixo para dar leitura */
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.9) 60%, rgba(0, 0, 0, 1) 100%), 
-                    url('imagens/teste3.png');
-        background-size: cover;
-        background-position: center;
-    }
+                // Inicia a animação de carregamento
+                if (textoFinalizar && loaderFinalizar) {
+                    textoFinalizar.style.display = 'none';
+                    loaderFinalizar.style.display = 'block';
+                    btnFinalizar.style.pointerEvents = 'none'; // Evita que o usuário clique 2x
+                    btnFinalizar.style.opacity = '0.9';
+                }
 
-    .company-info-content {
-        max-width: 100%;
-        text-align: left;
-        margin-top: 80px; /* Empurra o texto um pouco para baixo para mostrar a imagem no topo */
-    }
-
-    .company-info-content h2 {
-        font-size: 32px;
-    }
-
-    /* Sessão Videomonitoramento */
-    .video-control-section {
-        flex-direction: column;
-        gap: 40px;
-        padding: 20px;
-    }
-
-    /* Banners Vermelhos de Promoção */
-    .background-red-promotion {
-        flex-direction: column;
-        height: auto;
-        padding: 30px 20px;
-        gap: 20px;
-        text-align: center;
-    }
-
-    .announce-promotion {
-        font-size: 18px;
-    }
-
-    /* Sessão Melhor Proteção contra Roubo */
-    .best-protection-section {
-        flex-direction: column;
-        gap: 40px;
-        padding: 20px;
-    }
-
-    .best-protection-column {
-        gap: 40px;
-    }
-
-    .offset-top {
-        margin-top: 0; /* Remove o efeito zigue-zague no celular para não ficar um buraco em branco */
-    }
-
-    /* Linha e Animação Central */
-    .best-protection-line {
-        display: none; /* Esconde a linha vertical, pois os cards agora estão um embaixo do outro */
-    }
-
-    .center-animation-container {
-        position: relative; /* Tira do meio da tela e coloca no fluxo normal */
-        top: 0;
-        left: 0;
-        transform: none;
-        margin: 0 auto 40px auto; /* Mantém a animação centralizada no topo desta sessão */
-    }
-
-    /* Grade de Serviços 24h */
-    .monitoring-services-section {
-        grid-template-columns: 1fr; /* Força tudo a ficar em 1 única coluna */
-        padding: 20px;
-    }
-
-    #background-image {
-        margin-top: -80px !important; 
-        padding: 115px 0px 0px 0px !important; 
-        background-position: center top !important;
-        
-        /* AS 3 REGRAS PARA ESTICAR DE PONTA A PONTA: */
-        width: 100% !important;
-        background-size: 100% auto !important; 
-        background-repeat: no-repeat !important;
-    }
-    
-    #menu-orcamento {
-        margin: 0 !important; /* Impede a caixa de subir por cima da imagem */
-    }
-
-    #subtitle-1 {
-        margin-top: 30px !important;
-    }
-    
-    }
-}
+                // Simula o processamento por 2 segundos e redireciona
+                setTimeout(() => {
+                    window.location.href = 'sucesso.html'; 
+                }, 2000);
+            });
+        }
+    </script>
+</body>
