@@ -426,7 +426,7 @@ nav ul li a:hover {
 }
 
 #orcamento-bottom-part p a {
-    font-size: 26px; /* Número gigante reduzido de 32px */
+    font-size: 24px; /* Número gigante reduzido de 32px */
     font-weight: 800;
     color: #FFFF00;
     cursor: pointer;
