@@ -2422,6 +2422,25 @@ nav ul li a:hover {
     #subtitle-1 {
         margin-top: 0px !important;
     }
+
+    /* =======================================
+    TRAVA ABSOLUTA DO MENU (ANTI-BUG MOBILE)
+    ======================================= */
+    .sidebar {
+        bottom: auto !important;
+        height: 100dvh !important; /* Altura dinâmica: ignora a barra do navegador */
+        overscroll-behavior: none !important; /* Bloqueia o arrasto da tela de fundo */
+    }
+
+    #sidebar-overlay {
+        overscroll-behavior: none !important;
+        touch-action: none !important; /* Impede qualquer rolagem se o utilizador puxar o fundo escuro */
+    }
+
+    .sidebar-nav {
+        overscroll-behavior: contain !important; /* Garante que só os links rolam, de forma independente */
+        padding-bottom: 20px !important; /* Dá um respiro extra no final da lista */
+    }
     
     }
 }
