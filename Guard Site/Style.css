@@ -2042,7 +2042,7 @@ nav ul li a:hover {
         justify-content: flex-start !important;
         align-items: center !important;
         height: auto !important;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.197)), url("imagens/background-house-mobile.png");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5)), url("imagens/background-house-mobile.png");
         width: 100% !important;
         max-width: 100% !important;
         margin-top: -80px !important; 
