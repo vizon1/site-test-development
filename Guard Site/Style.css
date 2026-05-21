@@ -211,7 +211,7 @@ header {
 }
 
 #logo {
-    width: 5.5vw; /* Reduzido o tamanho padrão inicial (era 7vw) */
+    width: 6vw; /* Reduzido o tamanho padrão inicial (era 7vw) */
     padding-left: 1vw;
     display: block;
     /* A MÁGICA: Faz a logo encolher suavemente junto com o header */
@@ -220,7 +220,7 @@ header {
 
 /* Tamanho da logo quando o usuário rolar a página para baixo */
 #header.header-scrolled #logo {
-    width: 4.2vw; /* Fica menor para se ajustar perfeitamente ao header de 80px */
+    width: 5vw; /* Fica menor para se ajustar perfeitamente ao header de 80px */
 }
 
 #nav-container {
@@ -563,6 +563,7 @@ nav ul li a:hover {
     margin-bottom: 15px;
     background-color: transparent;
     text-align: left;
+    text-align: center;
 }
 
 .opcao-radio {
@@ -2043,7 +2044,7 @@ nav ul li a:hover {
         justify-content: flex-start !important;
         align-items: center !important;
         height: auto !important;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5)), url("imagens/background-house-mobile.png");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.541)), url("imagens/background-house-mobile.png");
         width: 100% !important;
         max-width: 100% !important;
         margin-top: -80px !important; 
@@ -2186,7 +2187,7 @@ nav ul li a:hover {
     }
 
     #logo {
-        height: 48px !important; /* Tamanho mais elegante para a logo */
+        height: 60px !important; /* Tamanho mais elegante para a logo */
         width: auto !important; 
         object-fit: contain !important;
         margin: 0 !important;
