@@ -1675,6 +1675,7 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    margin-bottom: 10px;
 }
 
 .support-title {
