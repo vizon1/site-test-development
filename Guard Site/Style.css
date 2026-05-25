@@ -2570,7 +2570,7 @@ nav ul li a:hover {
     margin-top: -140px; 
     padding-top: 180px; 
     padding-bottom: 80px;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("imagens/background-rural.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("imagens/background-house.png");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -2623,7 +2623,7 @@ nav ul li a:hover {
         margin-top: -85px;
         padding-top: 140px;
         min-height: 60vh;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("imagens/background-rural-mobile.png");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("imagens/background-house.png");
     }
     .rural-hero-text .linha-branca { font-size: 28px; }
     .rural-hero-text .linha-amarela { font-size: 34px; }
