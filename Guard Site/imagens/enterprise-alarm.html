@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Alarme Empresarial Guard - Proteção para o seu Negócio</title>
+    
+    <link rel="icon" type="image/png" href="imagens/Airbrush-IMAGE-ENHANCER-1778007192247-1778007192247.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li>
+                <a href="index.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <span>Início</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="home-alarm.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H5v-2h5v2zm0-4H5v-2h5v2zm0-4H5V7h5v2zm9 8h-7v-2h7v2zm0-4h-7v-2h7v2zm0-4h-7V7h7v2z"/></svg>
+                        <span>Alarme para casa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="empresa-alarm.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                        <span>Alarme para empresa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="index.html#subtittle-cards-container">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        <span>Nossos Alarmes</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="index.html#company-info-section">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                        <span>Ajuda e Informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-support-card">
+                <span class="support-title">Central de Atendimento</span>
+                <a href="tel:15988246986" class="support-phone">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    (15) 98824-6986
+                </a>
+            </div>
+            <div class="sidebar-actions">
+                <a href="#" class="sidebar-btn-secondary">TRABALHE NA GUARD</a>
+                <a href="index.html#advertisement-calculator" class="sidebar-btn-primary">SOLICITAR ORÇAMENTO</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+
+            <div id="logo-container"> 
+                <a href="index.html">
+                    <img src="imagens/Airbrush-IMAGE-ENHANCER-1778007192247-1778007192247.png" alt="Logo Guard" id="logo">
+                </a>
+            </div>
+
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Alarme para empresa</a></li>
+                    <li><a href="rural-alarm.html">Alarme para zona rural</a></li>
+                    <li><a href="index.html#company-info-section">Câmeras</a></li>
+                    <li><a href="index.html#company-info-section">Ajuda e informações</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-action-btn">
+                <a href="index.html#advertisement-calculator" style="text-decoration: none;">
+                    <button class="header-submit-button">
+                        SOLICITAR ORÇAMENTO <div class="icon-circle-header">&#8250;</div>
+                    </button>
+                </a>
+            </div>
+
+            <a href="tel:15988246986" id="mobile-call-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </a>
+        </div>
+    </header>
+
+    <section>
+        <div class="enterprise-hero">
+            <div class="enterprise-hero-text">
+                <span class="linha-branca">Proteção completa para o seu negócio</span><br>
+                <span class="linha-amarela">Alarme Empresarial Guard</span>
+                <p class="hero-subtitle">Mantenha sua empresa segura fora do horário comercial. Proteja seu estoque, controle o acesso de funcionários pelo app e garanta resposta policial em até 60 segundos.</p>
+                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="margin-top: 40px; text-decoration: none;">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center;">
+                <span>Como a Guard protege a sua empresa</span>
+            </h2>
+        </div>
+        
+        <ul id="subtittle-cards-displayer">
+            <li>
+                <img src="imagens/house-protected-home.png" alt="Sensores Infravermelhos e de Feixe" class="card-image">
+                <h3>1. Blindagem de Acessos</h3>
+                <p class="card-subtitle">Vitrines, Portas e Estoques</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> A Placa <strong>Guard</strong> atua como a primeira barreira de dissuasão comercial.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Sensores de alta precisão blindam entradas, pátios e áreas restritas, identificando invasões antes de causarem prejuízos.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/operator-image-viewer-home.png" alt="Central de Monitoramento" class="card-image">
+                <h3>2. Monitoramento 24h</h3>
+                <p class="card-subtitle">Vigilância em horários críticos</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Noites, madrugadas e fins de semana: nossa <strong>Central de Monitoramento</strong> analisa imediatamente qualquer disparo no seu estabelecimento.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Acesso seguro às imagens do local para verificação visual tática e em tempo real.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/sirene-image-viewer-home.png" alt="Resposta Rápida" class="card-image">
+                <h3>3. Ação Anti-Furto</h3>
+                <p class="card-subtitle">Aviso ágil às autoridades</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Sirene de alta potência inibe a ação criminosa no local.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Confirmado o risco ao patrimônio, <strong>acionamos a polícia em até 60 segundos</strong> para proteger o seu negócio.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="guard-premium-banner" style="margin-top: 50px;">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">O seu patrimônio não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto empresarial agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 60px;">
+                <span>Soluções para o setor Comercial e Corporativo</span>
+            </h2>
+        </div>
+        
+        <div class="best-protection-section">
+            <div class="best-protection-line"></div>
+            
+            <div class="center-animation-container">
+                <div class="wave wave1"></div>
+                <div class="wave wave2"></div>
+                <div class="wave wave3"></div>
+                <div class="best-protection-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                </div>
+            </div>
+            
+            <div class="best-protection-column">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/sensor-image-viewer-home.png" alt="Sensores Comerciais" class="bp-img">
+                    </div>
+                    <h3>Sensores de Intrusão</h3>
+                    <p>Proteção dedicada para pontos vulneráveis. Sensores de barreira e infravermelho blindam acessos a estoques, pátios de carga, vitrines e portas principais, detectando qualquer movimento não autorizado.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/night-operator-image-viewer-home.png" alt="Central 24 Horas" class="bp-img">
+                    </div>
+                    <h3>Foco Extracomercial 24h</h3>
+                    <p>Sua empresa nunca fica sozinha após o fechamento. Nossa base operacional garante vigilância e triagem de alarmes durante toda a madrugada e feriados, intervindo com máxima agilidade.</p>
+                </div>
+            </div>
+
+            <div class="best-protection-column offset-top">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/app-guard-alarm.png" alt="Controle por Aplicativo" class="bp-img">
+                    </div>
+                    <h3>Gestão de Acessos via App</h3>
+                    <p>Verifique o status do sistema de onde estiver. Controle quem arma ou desarma o alarme e receba relatórios de horários de abertura e fechamento da empresa diretamente no seu celular.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/person-detected.png" alt="Botão de Pânico Físico" class="bp-img">
+                    </div>
+                    <h3>Botão de Pânico sob Medida</h3>
+                    <p>Dispositivos físicos discretos instalados sob balcões de atendimento, caixas ou recepções. Permite o acionamento silencioso e instantâneo da polícia em casos de assalto a mão armada ou coação.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center;">
+                <span>Serviços inclusos no monitoramento empresarial</span>
+            </h2>
+        </div>
+
+        <div class="monitoring-services-section">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                </div>
+                <h3>Resposta em menos de 60s</h3>
+                <p>Nossa infraestrutura tecnológica de ponta garante o tratamento rápido de ocorrências corporativas, mitigando perdas financeiras com tempo de resposta recorde.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <h3>Botão de Pânico para Caixas</h3>
+                <p>Projetado para ambientes de risco comercial. Instalação de hardware dedicado para envio de alerta prioritário e silencioso à nossa Central.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                </div>
+                <h3>Serviço Técnico Eficiente</h3>
+                <p>Nossa equipe atua rapidamente para realizar manutenções ou ajustar configurações dos equipamentos sem interferir no fluxo de trabalho da sua empresa.</p>
+            </div>
+        </div>
+
+        <div class="anos-experiencia-section">
+            <div class="anos-experiencia-overlay">
+                <h2><strong>Mais de 11 anos</strong> protegendo empresas com excelência</h2>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-links">
+                <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+                <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
+                <a href="#">CÓDIGO DE CONDUTA</a> <span class="separator">|</span>
+                <a href="#">ÁREA DE CLIENTE</a> <span class="separator">|</span>
+                <a href="#">TERMOS E CONDIÇÕES GERAIS DE CONTRATAÇÃO</a>
+            </div>
+            
+            <div class="footer-contact">
+                GUARD BRASIL 2026 | BASES DE PROMOÇÃO: CONSULTE AS CONDIÇÕES ATRAVÉS DO EMAIL <strong>CONTATO@GUARD.COM.BR</strong> OU LIGUE <strong>(15) 98824-6986</strong>
+            </div>
+        </footer>
+    </section>
+    
+    <script>
+        // === CÓDIGO DO MENU LATERAL ===
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (overlay) overlay.addEventListener('click', toggleMenu);
+
+        // === SCROLL ANIMATION DO HEADER ===
+        window.addEventListener('scroll', function() {
+            const headerBtn = document.querySelector('.header-action-btn');
+            const header = document.getElementById('header');
+            
+            if (window.scrollY > 40) {
+                if (headerBtn) headerBtn.classList.add('show-btn');
+                if (header) header.classList.add('header-scrolled');
+            } else {
+                if (headerBtn) headerBtn.classList.remove('show-btn');
+                if (header) header.classList.remove('header-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
