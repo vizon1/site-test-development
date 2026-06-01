@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Câmeras de Segurança Guard - Videomonitoramento Integrado</title>
+    
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li>
+                <a href="index.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <span>Início</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="home-alarm.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H5v-2h5v2zm0-4H5v-2h5v2zm0-4H5V7h5v2zm9 8h-7v-2h7v2zm0-4h-7v-2h7v2zm0-4h-7V7h7v2z"/></svg>
+                        <span>Alarme para casa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="enterprise-alarm.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                        </svg>
+                        <span>Alarme para empresa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="rural-alarm.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11 20H3V11L11 5V20M21 11H19V13H21V11M21 15H19V17H21V15M21 7H19V9H21V7M19 5V5.5C19 5.8 18.2 6 17 6S15 5.8 15 5.5V5C15 3.3 16.8 2 19 2S23 3.3 23 5V20H15V18H17V16H15V11H13V20H11V9.4L17 4.9V5H19Z"/>
+                        </svg>
+                        <span>Alarme para zona rural</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="cameras.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 3H2v18h2v-7h3v2h15V8l-2-2H7v2H4V3zm8 6h6v4h-6V9z" />
+                        </svg>
+                        <span>Câmeras</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="help-informations.html">
+                    <div class="nav-item-content">
+                        <svg class="sidebar-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                        <span>Ajuda e Informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-support-card">
+                <span class="support-title">Central de Atendimento</span>
+                <a href="tel:15988246986" class="support-phone">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    (15) 98824-6986
+                </a>
+            </div>
+            <div class="sidebar-actions">
+                <a href="#" class="sidebar-btn-secondary">TRABALHE NA GUARD</a>
+                <a href="index.html#advertisement-calculator" class="sidebar-btn-primary">SOLICITAR ORÇAMENTO</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+
+            <div id="logo-container"> 
+                <a href="index.html">
+                    <img src="imagens/logo.webp" alt="Logo Guard" id="logo">
+                </a>
+            </div>
+
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
+                    <li><a href="rural-alarm.html">Alarme para zona rural</a></li>
+                    <li><a href="cameras.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Câmeras</a></li>
+                    <li><a href="help-informations.html">Ajuda e informações</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-action-btn">
+                <a href="index.html#advertisement-calculator" style="text-decoration: none;">
+                    <button class="header-submit-button">
+                        SOLICITAR ORÇAMENTO <div class="icon-circle-header">&#8250;</div>
+                    </button>
+                </a>
+            </div>
+
+            <a href="tel:15988246986" id="mobile-call-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </a>
+        </div>
+    </header>
+
+    <section>
+        <div class="cameras-hero">
+            <div class="cameras-hero-text">
+                <span class="linha-branca">Seus próprios olhos no local</span><br>
+                <span class="linha-amarela">Videomonitoramento Guard</span>
+                <p class="hero-subtitle">Um alarme avisa que algo aconteceu. A câmera mostra exatamente o que é. Aumente a precisão da sua segurança, controle acessos ao vivo pelo app e grave provas em alta resolução.</p>
+                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="margin-top: 40px; text-decoration: none;">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center;">
+                <span>Por que adicionar câmeras ao seu Alarme?</span>
+            </h2>
+        </div>
+        
+        <ul id="subtittle-cards-displayer">
+            <li>
+                <img src="imagens/app-guard-alar-cam.webp" alt="Acesso ao vivo" class="card-image">
+                <h3>Controle 24h na sua mão</h3>
+                <p class="card-subtitle">Acesso pelo App Guard</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Está longe e bateu a dúvida? Abra o aplicativo e <strong>veja ao vivo</strong> tudo o que está acontecendo no seu imóvel.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Monitore a chegada de funcionários, prestadores de serviço ou certifique-se de que sua <strong>família está bem</strong>.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/operator-image-viewer-home.webp" alt="Verificação de Disparo" class="card-image">
+                <h3>Verificação Imediata</h3>
+                <p class="card-subtitle">O diferencial contra alarmes falsos</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Se o alarme disparar, nossa Central acessa as câmeras <strong>instantaneamente</strong> para avaliar a situação.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Ao confirmar visualmente a invasão, acionamos as <strong>forças competentes</strong>, garantindo uma resposta imediata.</li>
+                </ul>
+            </li>
+
+            <li>
+                <img src="imagens/person-detected.webp" alt="Gravação de Provas" class="card-image">
+                <h3>Coleta de Evidências</h3>
+                <p class="card-subtitle">Gravação em Alta Resolução</p>
+                <ul class="card-features">
+                    <li><span class="icon-arrow">&#8250;</span> Mais do que <strong>inibir crimes</strong>, as câmeras são fundamentais para <strong>identificar invasores</strong>.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Tenha um histórico visual gravado com <strong>qualidade HD</strong> para resgate rápido de imagens caso sejam necessárias <strong>provas legais</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="guard-premium-banner" style="margin-top: 50px;">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">O complemento perfeito para o seu alarme</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto com videomonitoramento e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 60px;">
+                <span>Tecnologia de ponta a favor da sua tranquilidade</span>
+            </h2>
+        </div>
+        
+        <div class="best-protection-section">
+            <div class="best-protection-line"></div>
+            
+            <div class="center-animation-container">
+                <div class="wave wave1"></div>
+                <div class="wave wave2"></div>
+                <div class="wave wave3"></div>
+                <div class="best-protection-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 8A4 4 0 0 0 8 12A4 4 0 0 0 12 16A4 4 0 0 0 16 12A4 4 0 0 0 12 8Z" /></svg>
+                </div>
+            </div>
+            
+            <div class="best-protection-column">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/noturn-view-camera.webp" alt="Visão Noturna" class="bp-img">
+                    </div>
+                    <h3>Visão Noturna Inteligente</h3>
+                    <p>A escuridão <strong>não é um obstáculo</strong>. Nossas câmeras contam com sensores infravermelhos que garantem <strong>imagens nítidas</strong> e claras mesmo durante a madrugada ou em ambientes com pouca luz.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-left">
+                        <img src="imagens/cam-house-hard.webp" alt="Privacidade Garantida" class="bp-img">
+                    </div>
+                    <h3>Expertise Técnica Guard</h3>
+                    <p>Nossa equipe técnica projeta o posicionamento dos seus equipamentos com <strong>engenharia e expertise</strong>. O perímetro dos seus muros e recuos é mapeado milimetricamente para que <strong>nenhum movimento passe despercebido</strong>.</p>
+                </div>
+            </div>
+
+            <div class="best-protection-column offset-top">
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/house-cam-front.webp" alt="Integração Total" class="bp-img">
+                    </div>
+                    <h3>Dupla Barreira de Proteção</h3>
+                    <p>Um alarme sozinho avisa a invasão, mas as câmeras unidas ao sistema <strong>evitam o início da ação</strong>. O invasor desiste antes mesmo de tentar tocar no seu patrimônio, sabendo que a sua <strong>imagem já está sendo monitorada pela nossa central</strong>.</p>
+                </div>
+                <div class="bp-card">
+                    <div class="bp-img-wrapper shape-right">
+                        <img src="imagens/delivery-guy.webp" alt="Alta Resolução" class="bp-img">
+                    </div>
+                    <h3>Gravação em Alta Resolução HD</h3>
+                    <p>Identifique detalhes cruciais, como rostos e placas de veículos. Com captura em <strong>alta definição e gravação contínua</strong>, você não perde nenhum detalhe do que acontece no seu patrimônio.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="guard-premium-banner" style="margin-top: 50px;">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">O complemento perfeito para o seu alarme</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto com videomonitoramento e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" style="text-align: center;">
+                <span>Diferenciais da Guard</span>
+            </h2>
+        </div>
+
+        <div class="monitoring-services-section">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                </div>
+                <h3>Verificação imediata</h3>
+                <p>Com o auxílio do vídeo, a triagem e o tratamento das ocorrências pela nossa Central ganham agilidade máxima, filtrando as ameaças reais com tempo de resposta recorde.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                </div>
+                <h3>Visualização Móvel pelo App</h3>
+                <p>Acesse as imagens ao vivo das suas câmeras com apenas um clique e de qualquer lugar do mundo.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                </div>
+                <h3>Instalação e Suporte Técnico</h3>
+                <p>Contamos com uma equipe qualificada para realizar a instalação, manutenções ou ajustes de equipamentos sempre que solicitado.</p>
+            </div>
+        </div>
+
+        <div class="anos-experiencia-section">
+            <div class="anos-experiencia-overlay">
+                <h2><strong>Mais de 11 anos</strong> monitorando seu patrimônio com excelência</h2>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-links">
+                <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+                <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
+                <a href="help-informations.html">AJUDA E INFORMAÇÕES</a> <span class="separator"></span>
+            </div>
+            
+            <div class="footer-contact">
+                GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
+            </div>
+        </footer>
+    </section>
+    
+    <script>
+        // === CÓDIGO DO MENU LATERAL ===
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (overlay) overlay.addEventListener('click', toggleMenu);
+
+        // === SCROLL ANIMATION DO HEADER ===
+        window.addEventListener('scroll', function() {
+            const headerBtn = document.querySelector('.header-action-btn');
+            const header = document.getElementById('header');
+            
+            if (window.scrollY > 40) {
+                if (headerBtn) headerBtn.classList.add('show-btn');
+                if (header) header.classList.add('header-scrolled');
+            } else {
+                if (headerBtn) headerBtn.classList.remove('show-btn');
+                if (header) header.classList.remove('header-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
