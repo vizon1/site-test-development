@@ -224,7 +224,7 @@ header {
     padding-left: 3%; /* Abre bastante espaço na esquerda... */
     padding-right: 3%; /* ...e na direita, para o botão caber folgado */
     background-color: rgba(50, 50, 50, 0.3); /* Fica mais escuro para leitura */
-    font-size: 20px;
+    font-size: 15px;
 }
 
 #logo {
