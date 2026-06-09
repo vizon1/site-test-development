@@ -875,5 +875,43 @@
             });
 
         }
+        // === EVENTO DE ENVIO DO TELEFONE RÁPIDO (FORMSPREE) ===
+        const formTelefoneRapido = document.getElementById('form-telefone-rapido');
+        
+        if (formTelefoneRapido) {
+            formTelefoneRapido.addEventListener('submit', function(e) {
+                e.preventDefault(); // Impede que o navegador vá para a página padrão do Formspree
+        
+                const formData = new FormData(formTelefoneRapido);
+                const btnEnviar = formTelefoneRapido.querySelector('.submit-btn');
+                const textoOriginal = btnEnviar.innerHTML;
+        
+                // Muda o botão para mostrar que está carregando
+                btnEnviar.innerHTML = 'ENVIANDO...';
+                btnEnviar.style.pointerEvents = 'none';
+        
+                // Envia os dados silenciosamente via FETCH
+                fetch(formTelefoneRapido.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        // Redireciona para a SUA página de sucesso
+                        window.location.href = 'sucesso.html'; 
+                    } else {
+                        alert('Ocorreu um erro no envio. Por favor, tente novamente.');
+                        btnEnviar.innerHTML = textoOriginal;
+                        btnEnviar.style.pointerEvents = 'auto';
+                    }
+                }).catch(error => {
+                    alert('Erro de conexão. Verifique a sua internet.');
+                    btnEnviar.innerHTML = textoOriginal;
+                    btnEnviar.style.pointerEvents = 'auto';
+                });
+            });
+        }
     </script>
 </body>
