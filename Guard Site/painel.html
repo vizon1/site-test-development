@@ -134,6 +134,23 @@
             const previewPrice = document.getElementById('previewPrice');
             const previewImg = document.getElementById('previewImg');
 
+            // Novos campos de avaliação
+            const productRating = document.getElementById('productRating');
+            const productReviews = document.getElementById('productReviews');
+            const previewStars = document.getElementById('previewStars');
+            const previewReviewCount = document.getElementById('previewReviewCount');
+
+            // Evento: Atualizar Estrelas
+            productRating.addEventListener('change', (e) => {
+                previewStars.textContent = e.target.value;
+            });
+
+            // Evento: Atualizar Número de Avaliações
+            productReviews.addEventListener('input', (e) => {
+                const count = e.target.value || 0;
+                previewReviewCount.textContent = `(${count} avaliações)`;
+            });
+
             // Mapeamento visual das opções do select para exibição amigável
             const categoriaNomes = {
                 cameras: 'Câmeras',
