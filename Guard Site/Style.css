@@ -3165,6 +3165,7 @@ strong {
 }
 
 .input-group input[type="text"],
+.input-group input[type="number"], /* <-- Adicionado aqui */
 .input-group select,
 .input-group textarea {
     background: #0a0a0a;
