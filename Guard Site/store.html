@@ -201,6 +201,57 @@
                 if (header) header.classList.remove('header-scrolled');
             }
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const filterLinks = document.querySelectorAll('#categoryFilter a');
+        const products = document.querySelectorAll('.shop-card');
+
+        // Função mágica para remover acentos e deixar tudo minúsculo
+        const removeAcentos = (texto) => {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        };
+
+        // Função principal que filtra os produtos
+        const filtrarProdutos = () => {
+            const termoPesquisa = removeAcentos(searchInput.value);
+            const categoriaAtiva = document.querySelector('#categoryFilter li.active a').getAttribute('data-filter');
+
+            products.forEach(product => {
+                // Pega o título do produto dentro da tag <h4>
+                const tituloProduto = removeAcentos(product.querySelector('h4').textContent);
+                const categoriaProduto = product.getAttribute('data-category');
+
+                // Verifica se bate com a pesquisa E com a categoria clicada
+                const bateComPesquisa = tituloProduto.includes(termoPesquisa);
+                const bateComCategoria = categoriaAtiva === 'all' || categoriaProduto === categoriaAtiva;
+
+                // Mostra ou esconde o card
+                if (bateComPesquisa && bateComCategoria) {
+                    product.style.display = 'flex'; 
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        };
+
+        // Ativa o filtro ao digitar na barra de pesquisa
+        searchInput.addEventListener('input', filtrarProdutos);
+        searchBtn.addEventListener('click', filtrarProdutos);
+
+        // Ativa o filtro ao clicar nas categorias da barra lateral
+        filterLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Evita que a página pule pro topo
+                    
+                    // Remove a classe 'active' de todas as categorias e coloca na clicada
+                    document.querySelectorAll('#categoryFilter li').forEach(li => li.classList.remove('active'));
+                    link.parentElement.classList.add('active');
+                    
+                    filtrarProdutos();
+                });
+            });
     </script>
 </body>
 </html>
