@@ -64,8 +64,8 @@
 
         <div class="shop-controls-bar">
             <div class="shop-search">
-                <input type="text" placeholder="Procurar equipamentos...">
-                <button class="btn-search">Procurar</button>
+                <input type="text" id="searchInput" placeholder="Procurar equipamentos...">
+                <button class="btn-search" id="searchBtn">Procurar</button>
             </div>
         </div>
 
@@ -73,18 +73,18 @@
             <aside class="shop-sidebar-filters">
                 <div class="filter-group">
                     <h3>Categorias</h3>
-                    <ul class="filter-list">
-                        <li class="active"><a href="#">Todos os Produtos <span class="badge">12</span></a></li>
-                        <li><a href="#">Câmeras <span class="badge">4</span></a></li>
-                        <li><a href="#">DVRs / NVRs <span class="badge">3</span></a></li>
-                        <li><a href="#">Centrais de Alarme <span class="badge">2</span></a></li>
-                        <li><a href="#">Sensores <span class="badge">3</span></a></li>
+                   <ul class="filter-list" id="categoryFilter">
+                        <li class="active"><a href="#" data-filter="all">TODOS OS PRODUTOS <span class="badge">12</span></a></li>
+                        <li><a href="#" data-filter="cameras">CÂMERAS <span class="badge">4</span></a></li>
+                        <li><a href="#" data-filter="dvrs">DVRS / NVRS <span class="badge">3</span></a></li>
+                        <li><a href="#" data-filter="alarmes">CENTRAIS DE ALARME <span class="badge">2</span></a></li>
+                        <li><a href="#" data-filter="sensores">SENSORES <span class="badge">3</span></a></li>
                     </ul>
                 </div>
             </aside>
 
             <div class="shop-product-grid">
-                <div class="shop-card">
+                <div class="shop-card" data-category="cameras">
                     <span class="shop-card-category">Câmeras</span>
                     <div class="shop-card-img">
                         <img src="imagens/camera-bullet.webp" alt="Câmera Bullet">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="shop-card">
+                <div class="shop-card" data-category="DVRs">
                     <span class="shop-card-category">DVRs</span>
                     <div class="shop-card-img">
                         <img src="imagens/dvr-4ch.webp" alt="DVR 4 Canais">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
 
-                <div class="shop-card">
+                <div class="shop-card" data-category="centrais">
                     <span class="shop-card-category">Alarmes</span>
                     <div class="shop-card-img">
                         <img src="imagens/central-alarme.webp" alt="Central de Alarme">
