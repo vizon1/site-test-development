@@ -132,7 +132,7 @@
         // Importa as ferramentas de leitura do Firestore
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    
+
         // Suas credenciais do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
@@ -142,10 +142,10 @@
             messagingSenderId: "1084706871985",
             appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
         };
-    
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-    
+
         // Tags automáticas ocultas para garantir a pesquisa redundante
         const tagsDaCategoria = {
             cameras: "camera camara cftv video monitoramento vigilancia ip wifi wi-fi sem fio bullet dome lente filmagem externa interna seguranca",
@@ -153,29 +153,29 @@
             dvrs: "dvr nvr gravador gravacao armazenamento hd disco rigido memoria video cftv stand alone canais imagem receptor",
             sensores: "sensor movimento infravermelho presenca porta janela magnetico"
         };
-    
+
         const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores' };
-    
+
         // 1. FUNÇÃO PARA PUXAR DO FIREBASE E DESENHAR OS PRODUTOS
         async function carregarLoja() {
             const grid = document.getElementById('produtosGrid');
-            grid.innerHTML = '<p style="color:#FFFF00; grid-column: 1 / -1; text-align:center;">A carregar equipamentos...</p>';
-    
+            grid.innerHTML = '<p style="color:#FFFF00; grid-column: 1 / -1; text-align:center; padding: 20px;">A carregar equipamentos...</p>';
+
             try {
                 const querySnapshot = await getDocs(collection(db, "produtos"));
                 grid.innerHTML = ''; // Apaga a mensagem de carregamento
-    
+
                 if (querySnapshot.empty) {
-                    grid.innerHTML = '<p style="color:#aaa; grid-column: 1 / -1; text-align:center;">Nenhum produto cadastrado no momento.</p>';
+                    grid.innerHTML = '<p style="color:#aaa; grid-column: 1 / -1; text-align:center; padding: 20px;">Nenhum produto cadastrado no momento.</p>';
                     return;
                 }
-    
+
                 // Para cada produto encontrado no banco de dados, desenha um card
                 querySnapshot.forEach((doc) => {
                     const p = doc.data();
                     const tags = tagsDaCategoria[p.categoria] || "";
                     const nomeCat = nomesCategorias[p.categoria] || p.categoria;
-    
+
                     const cardHTML = `
                         <div class="shop-card" data-category="${p.categoria}" data-tags="${tags}">
                             <span class="shop-card-category">${nomeCat}</span>
@@ -195,56 +195,97 @@
                     `;
                     grid.innerHTML += cardHTML;
                 });
-    
+
                 // Após todos os cards aparecerem na tela, ativamos o sistema de pesquisa
                 ativarFiltros();
-    
+
             } catch (error) {
                 console.error("Erro ao buscar produtos:", error);
-                grid.innerHTML = '<p style="color:red; grid-column: 1 / -1; text-align:center;">Erro de ligação ao banco de dados.</p>';
+                grid.innerHTML = '<p style="color:red; grid-column: 1 / -1; text-align:center; padding: 20px;">Erro de ligação ao banco de dados. Verifique a consola.</p>';
             }
         }
-    
+
         // 2. FUNÇÃO DA BARRA DE PESQUISA E CATEGORIAS (Ignora acentos)
         function ativarFiltros() {
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
             const filterLinks = document.querySelectorAll('#categoryFilter a');
-            const products = document.querySelectorAll('.shop-card');
-    
+            
+            // Garantir que a pesquisa não falha caso não existam produtos ainda
+            const getProducts = () => document.querySelectorAll('.shop-card');
+
             const removeAcentos = (texto) => texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    
+
             const filtrarProdutos = () => {
-                const termoPesquisa = removeAcentos(searchInput.value);
-                const categoriaAtiva = document.querySelector('#categoryFilter li.active a').getAttribute('data-filter');
-    
+                const products = getProducts();
+                if(!products.length) return;
+
+                const termoPesquisa = searchInput ? removeAcentos(searchInput.value) : "";
+                
+                // Encontra a categoria ativa com cuidado
+                const activeFilterLink = document.querySelector('#categoryFilter li.active a');
+                const categoriaAtiva = activeFilterLink ? activeFilterLink.getAttribute('data-filter') : 'all';
+
                 products.forEach(product => {
-                    const tituloProduto = removeAcentos(product.querySelector('h4').textContent);
+                    const h4 = product.querySelector('h4');
+                    const tituloProduto = h4 ? removeAcentos(h4.textContent) : "";
                     const tagsProduto = removeAcentos(product.getAttribute('data-tags') || "");
                     const categoriaProduto = product.getAttribute('data-category');
-    
+
                     const bateComPesquisa = tituloProduto.includes(termoPesquisa) || tagsProduto.includes(termoPesquisa);
                     const bateComCategoria = categoriaAtiva === 'all' || categoriaProduto === categoriaAtiva;
-    
+
                     product.style.display = (bateComPesquisa && bateComCategoria) ? 'flex' : 'none';
                 });
             };
-    
-            searchInput.addEventListener('input', filtrarProdutos);
-            searchBtn.addEventListener('click', filtrarProdutos);
-    
-            filterLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.querySelectorAll('#categoryFilter li').forEach(li => li.classList.remove('active'));
-                    link.parentElement.classList.add('active');
-                    filtrarProdutos();
+
+            if(searchInput) searchInput.addEventListener('input', filtrarProdutos);
+            if(searchBtn) searchBtn.addEventListener('click', filtrarProdutos);
+
+            if(filterLinks) {
+                filterLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.querySelectorAll('#categoryFilter li').forEach(li => li.classList.remove('active'));
+                        link.parentElement.classList.add('active');
+                        filtrarProdutos();
+                    });
                 });
-            });
+            }
         }
-    
+
+        // --- SISTEMA DE MENU MOBILE (Reposição do código que se perdeu) ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleMenu() {
+            if(sidebar) sidebar.classList.toggle('active');
+            if(overlay) overlay.classList.toggle('active');
+            document.body.style.overflow = (sidebar && sidebar.classList.contains('active')) ? 'hidden' : 'auto';
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (overlay) overlay.addEventListener('click', toggleMenu);
+
+        window.addEventListener('scroll', function() {
+            const headerBtn = document.querySelector('.header-action-btn');
+            const header = document.getElementById('header');
+            if (window.scrollY > 40) {
+                if (headerBtn) headerBtn.classList.add('show-btn');
+                if (header) header.classList.add('header-scrolled');
+            } else {
+                if (headerBtn) headerBtn.classList.remove('show-btn');
+                if (header) header.classList.remove('header-scrolled');
+            }
+        });
+
         // Dispara a busca no banco de dados assim que a página abre
-        carregarLoja();
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarLoja();
+        });
     
     </script>
 </body>
