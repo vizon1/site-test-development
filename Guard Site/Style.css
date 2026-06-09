@@ -3094,3 +3094,182 @@ strong {
         font-size: 3rem;
     }
 }
+
+/* =========================================
+   PAINEL ADMINISTRATIVO (CADASTRO)
+   ========================================= */
+
+.panel-header-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #ffffff;
+    border-left: 2px solid #FFFF00;
+    padding-left: 15px;
+    letter-spacing: 1px;
+}
+
+.panel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 5% 60px 5%; /* Top elevado para compensar o header fixo */
+    display: flex;
+    gap: 50px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+.panel-form-section {
+    flex: 1;
+}
+
+.panel-form-section h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.panel-subtitle {
+    color: #888888;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.panel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .input-group {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group input[type="text"],
+.input-group select,
+.input-group textarea {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: #FFFF00;
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.2);
+}
+
+/* Estilização Customizada para Upload de Arquivo */
+.input-group input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #111;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #cccccc;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.custom-file-upload:hover {
+    border-color: #FFFF00;
+    color: #ffffff;
+    background: #151515;
+}
+
+.file-name-text {
+    font-size: 0.85rem;
+    color: #666666;
+    margin-top: -4px;
+}
+
+.btn-panel-submit {
+    background: #FFFF00;
+    color: #000000;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-panel-submit:hover {
+    background: #e6e600;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+}
+
+/* Coluna de Visualização Direita */
+.panel-preview-section {
+    flex: 0 0 350px;
+    background: #050505;
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    height: fit-content;
+}
+
+.panel-preview-section h3 {
+    font-size: 1.3rem;
+    color: #FFFF00;
+    margin-bottom: 5px;
+}
+
+.preview-card-container {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Responsividade do Painel */
+@media (max-width: 850px) {
+    .panel-container {
+        flex-direction: column;
+        padding-top: 90px;
+    }
+    .panel-preview-section {
+        width: 100%;
+        flex: auto;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
