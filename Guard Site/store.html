@@ -1,89 +1,206 @@
-<section class="shop-section">
-    <div class="shop-header">
-        <h2 class="subtittle-cards">
-            <span>Equipamentos de Alta Performance</span>
-            <span>Loja Oficial Guard</span>
-        </h2>
-    </div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Loja Oficial Guard - Equipamentos de Segurança</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div id="sidebar-overlay"></div>
 
-    <div class="shop-container">
-        <aside class="shop-sidebar">
-            <h3>Categorias</h3>
-            <ul class="category-list">
-                <li class="active"><a href="#">Todos os Produtos</a></li>
-                <li><a href="#">Câmeras de Segurança</a></li>
-                <li><a href="#">Gravadores (DVR/NVR)</a></li>
-                <li><a href="#">Centrais de Alarme</a></li>
-                <li><a href="#">Sensores e Acessórios</a></li>
-            </ul>
-        </aside>
-
-        <div class="shop-grid">
-            
-            <div class="product-card">
-                <span class="category-badge">Câmeras</span>
-                <div class="product-image">
-                    <img src="imagens/camera-bullet.webp" alt="Câmera Bullet">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Câmera Bullet Multi HD Black</h3>
-                    <div class="product-rating">★★★★★ <span class="review-count">(24 avaliações)</span></div>
-                    <p class="product-price">R$ 189,90</p>
-                    <div class="product-actions">
-                        <button class="btn-cart">Carrinho</button>
-                        <button class="btn-buy">Comprar</button>
-                    </div>
-                </div>
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
             </div>
-
-            <div class="product-card">
-                <span class="category-badge">DVRs</span>
-                <div class="product-image">
-                    <img src="imagens/dvr-4ch.webp" alt="DVR 4 Canais">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">DVR 4 Canais Inteligência de Vídeo</h3>
-                    <div class="product-rating">★★★★★ <span class="review-count">(12 avaliações)</span></div>
-                    <p class="product-price">R$ 450,00</p>
-                    <div class="product-actions">
-                        <button class="btn-cart">Carrinho</button>
-                        <button class="btn-buy">Comprar</button>
-                    </div>
-                </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </div>
-
-            <div class="product-card">
-                <span class="category-badge">Alarmes</span>
-                <div class="product-image">
-                    <img src="imagens/central-alarme.webp" alt="Central de Alarme">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Central de Alarme Inteligente Wi-Fi</h3>
-                    <div class="product-rating">★★★★☆ <span class="review-count">(38 avaliações)</span></div>
-                    <p class="product-price">R$ 320,00</p>
-                    <div class="product-actions">
-                        <button class="btn-cart">Carrinho</button>
-                        <button class="btn-buy">Comprar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <span class="category-badge">Sensores</span>
-                <div class="product-image">
-                    <img src="imagens/sensor-movimento.webp" alt="Sensor de Movimento">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Sensor de Movimento Infravermelho</h3>
-                    <div class="product-rating">★★★★★ <span class="review-count">(56 avaliações)</span></div>
-                    <p class="product-price">R$ 85,90</p>
-                    <div class="product-actions">
-                        <button class="btn-cart">Carrinho</button>
-                        <button class="btn-buy">Comprar</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
+        <ul class="sidebar-nav">
+            <li><a href="index.html"><div class="nav-item-content"><span>Início</span></div></a></li>
+            <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
+            <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
+            <li class="active"><a href="loja.html"><div class="nav-item-content"><span>Loja</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
+        </ul>
     </div>
-</section>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
+                    <li><a href="cameras.html">Câmeras</a></li>
+                    <li><a href="loja.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Loja</a></li>
+                </ul>
+            </nav>
+            <div class="header-action-btn">
+                <a href="index.html#advertisement-calculator" style="text-decoration: none;">
+                    <button class="header-submit-button">ORÇAMENTO <div class="icon-circle-header">&#8250;</div></button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="shop-page-wrapper">
+        <div class="shop-hero-banner">
+            <h1 class="shop-huge-title">Loja</h1>
+            <p>Tudo o que precisa para a sua segurança num só lugar.</p>
+        </div>
+
+        <div class="shop-controls-bar">
+            <div class="shop-search">
+                <input type="text" placeholder="Procurar equipamentos...">
+                <button class="btn-search">Procurar</button>
+            </div>
+        </div>
+
+        <div class="shop-main-layout">
+            <aside class="shop-sidebar-filters">
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                    <ul class="filter-list">
+                        <li class="active"><a href="#">Todos os Produtos <span class="badge">12</span></a></li>
+                        <li><a href="#">Câmaras <span class="badge">4</span></a></li>
+                        <li><a href="#">DVRs / NVRs <span class="badge">3</span></a></li>
+                        <li><a href="#">Centrais de Alarme <span class="badge">2</span></a></li>
+                        <li><a href="#">Sensores <span class="badge">3</span></a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="shop-product-grid">
+                <div class="shop-card">
+                    <span class="shop-card-category">Câmaras</span>
+                    <div class="shop-card-img">
+                        <img src="imagens/camera-bullet.webp" alt="Câmara Bullet">
+                    </div>
+                    <div class="shop-card-body">
+                        <h4>Câmara Bullet Multi HD Black</h4>
+                        <div class="shop-card-rating">★★★★★ <span>(24 avaliações)</span></div>
+                        <div class="shop-card-price">R$ 189,90</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart">Carrinho</button>
+                            <button class="btn-buy-now">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-card">
+                    <span class="shop-card-category">DVRs</span>
+                    <div class="shop-card-img">
+                        <img src="imagens/dvr-4ch.webp" alt="DVR 4 Canais">
+                    </div>
+                    <div class="shop-card-body">
+                        <h4>DVR 4 Canais IA</h4>
+                        <div class="shop-card-rating">★★★★★ <span>(12 avaliações)</span></div>
+                        <div class="shop-card-price">R$ 450,00</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart">Carrinho</button>
+                            <button class="btn-buy-now">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-card">
+                    <span class="shop-card-category">Alarmes</span>
+                    <div class="shop-card-img">
+                        <img src="imagens/central-alarme.webp" alt="Central de Alarme">
+                    </div>
+                    <div class="shop-card-body">
+                        <h4>Central Inteligente Wi-Fi</h4>
+                        <div class="shop-card-rating">★★★★☆ <span>(38 avaliações)</span></div>
+                        <div class="shop-card-price">R$ 320,00</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart">Carrinho</button>
+                            <button class="btn-buy-now">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shop-pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span>...</span>
+            <button class="page-btn">Próximo &#8250;</button>
+        </div>
+
+        <div class="shop-recommendations">
+            <h2>Explore as nossas recomendações</h2>
+            <div class="shop-product-grid">
+                <div class="shop-card">
+                    <span class="shop-card-category">Acessórios</span>
+                    <div class="shop-card-img">
+                        <img src="imagens/sensor-movimento.webp" alt="Sensor">
+                    </div>
+                    <div class="shop-card-body">
+                        <h4>Sensor Infravermelho</h4>
+                        <div class="shop-card-rating">★★★★★ <span>(56 avaliações)</span></div>
+                        <div class="shop-card-price">R$ 85,90</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart">Carrinho</button>
+                            <button class="btn-buy-now">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a>
+        </div>
+        <div class="footer-contact">
+            GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (overlay) overlay.addEventListener('click', toggleMenu);
+
+        window.addEventListener('scroll', function() {
+            const headerBtn = document.querySelector('.header-action-btn');
+            const header = document.getElementById('header');
+            if (window.scrollY > 40) {
+                if (headerBtn) headerBtn.classList.add('show-btn');
+                if (header) header.classList.add('header-scrolled');
+            } else {
+                if (headerBtn) headerBtn.classList.remove('show-btn');
+                if (header) header.classList.remove('header-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
