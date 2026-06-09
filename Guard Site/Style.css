@@ -2506,7 +2506,7 @@ nav ul li a:hover {
         margin-top: -85px;
         padding-top: 140px;
         min-height: 60vh;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)), url("imagens/background-house-alarm-mobile.webp");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)), url("imagens/house-protected-home.webp");
     }
     .residential-hero-text .linha-branca { font-size: 28px; }
     .residential-hero-text .linha-amarela { font-size: 34px; }
