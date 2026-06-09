@@ -55,7 +55,6 @@
                         <input type="text" id="productPrice" placeholder="0,00" required>
                     </div>
 
-                    <div class="form-row">
                     <div class="input-group">
                         <label for="productRating">Avaliação (Estrelas)</label>
                         <select id="productRating" required>
@@ -71,7 +70,6 @@
                         <label for="productReviews">Nº de Avaliações</label>
                         <input type="number" id="productReviews" placeholder="Ex: 24" value="0" min="0" required>
                     </div>
-                </div>
                 </div>
 
                 <div class="input-group">
@@ -115,86 +113,107 @@
         </section>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const productTitle = document.getElementById('productTitle');
-            const productCategory = document.getElementById('productCategory');
-            const productPrice = document.getElementById('productPrice');
-            const productImage = document.getElementById('productImage');
-            const fileName = document.getElementById('fileName');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-            // Elementos do Card de Preview
-            const previewTitle = document.getElementById('previewTitle');
-            const previewCategory = document.getElementById('previewCategory');
-            const previewPrice = document.getElementById('previewPrice');
-            const previewImg = document.getElementById('previewImg');
+        // =====================================================================
+        // SUBSTITUA ESTE BLOCO PELAS SUAS CHAVES DO FIREBASE AQUI ABAIXO:
+        // =====================================================================
+        const firebaseConfig = {
+          apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+          authDomain: "loja-guard.firebaseapp.com",
+          projectId: "loja-guard",
+          storageBucket: "loja-guard.firebasestorage.app",
+          messagingSenderId: "1084706871985",
+          appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
 
-            // Novos campos de avaliação
-            const productRating = document.getElementById('productRating');
-            const productReviews = document.getElementById('productReviews');
-            const previewStars = document.getElementById('previewStars');
-            const previewReviewCount = document.getElementById('previewReviewCount');
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-            // Evento: Atualizar Estrelas
-            productRating.addEventListener('change', (e) => {
-                previewStars.textContent = e.target.value;
-            });
+        // Elementos da página
+        const productTitle = document.getElementById('productTitle');
+        const productCategory = document.getElementById('productCategory');
+        const productPrice = document.getElementById('productPrice');
+        const productRating = document.getElementById('productRating');
+        const productReviews = document.getElementById('productReviews');
+        const productDescription = document.getElementById('productDescription');
+        const productImageUrl = document.getElementById('productImageUrl');
 
-            // Evento: Atualizar Número de Avaliações
-            productReviews.addEventListener('input', (e) => {
-                const count = e.target.value || 0;
-                previewReviewCount.textContent = `(${count} avaliações)`;
-            });
+        const previewTitle = document.getElementById('previewTitle');
+        const previewCategory = document.getElementById('previewCategory');
+        const previewPrice = document.getElementById('previewPrice');
+        const previewImg = document.getElementById('previewImg');
+        const previewStars = document.getElementById('previewStars');
+        const previewReviewCount = document.getElementById('previewReviewCount');
+        
+        const form = document.getElementById('productForm');
+        const submitBtn = document.querySelector('.btn-panel-submit');
 
-            // Mapeamento visual das opções do select para exibição amigável
-            const categoriaNomes = {
-                cameras: 'Câmeras',
-                dvrs: 'DVRs',
-                alarmes: 'Alarmes',
-                sensores: 'Sensores'
-            };
+        const categoriaNomes = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores' };
+        const svgPadrao = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%23333'><path d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/></svg>";
 
-            // Evento: Atualizar Título
-            productTitle.addEventListener('input', (e) => {
-                previewTitle.textContent = e.target.value.trim() || 'Nome do Equipamento';
-            });
-
-            // Evento: Atualizar Categoria
-            productCategory.addEventListener('change', (e) => {
-                previewCategory.textContent = categoriaNomes[e.target.value];
-            });
-
-            // Evento: Máscara de Moeda e Atualização do Preço
-            productPrice.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, '');
-                v = (v / 100).toFixed(2) + '';
-                v = v.replace(".", ",");
-                v = v.replace(/(\d)(\d{3})(?=\d)/g, "$1.$2");
-                e.target.value = v === "0,00" ? "" : v;
-                previewPrice.textContent = v === "0,00" ? "R$ 0,00" : "R$ " + v;
-            });
-
-            // Evento: Upload e Renderização da Imagem no Card
-            productImage.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    fileName.textContent = file.name;
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        previewImg.src = event.target.result;
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    fileName.textContent = "Nenhum arquivo selecionado";
-                }
-            });
-
-            // Tratamento do Envio do Formulário (Pronto para conectar ao seu backend futuramente)
-            document.getElementById('productForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Produto validado e pronto para a integração com banco de dados!');
-            });
+        // --- Atualizações Visuais no Preview ---
+        productTitle.addEventListener('input', (e) => previewTitle.textContent = e.target.value.trim() || 'Nome do Equipamento');
+        productCategory.addEventListener('change', (e) => previewCategory.textContent = categoriaNomes[e.target.value]);
+        productRating.addEventListener('change', (e) => previewStars.textContent = e.target.value);
+        productReviews.addEventListener('input', (e) => previewReviewCount.textContent = `(${e.target.value || 0} avaliações)`);
+        
+        productPrice.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            v = (v / 100).toFixed(2) + '';
+            v = v.replace(".", ",");
+            v = v.replace(/(\d)(\d{3})(?=\d)/g, "$1.$2");
+            e.target.value = v === "0,00" ? "" : v;
+            previewPrice.textContent = v === "0,00" ? "R$ 0,00" : "R$ " + v;
         });
-    </script>
+
+        productImageUrl.addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            previewImg.src = url ? url : svgPadrao;
+        });
+
+        // --- Envio de dados para o Firestore ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const textoOriginal = submitBtn.innerHTML;
+            submitBtn.innerHTML = "PUBLICANDO... AGUARDE";
+            submitBtn.style.pointerEvents = "none";
+            submitBtn.style.opacity = "0.7";
+
+            try {
+                await addDoc(collection(db, "produtos"), {
+                    titulo: productTitle.value,
+                    categoria: productCategory.value,
+                    preco: productPrice.value,
+                    estrelas: productRating.value,
+                    avaliacoes: Number(productReviews.value),
+                    descricao: productDescription.value,
+                    imagem: productImageUrl.value,
+                    dataCadastro: new Date()
+                });
+
+                alert('✅ Produto publicado com sucesso!');
+                form.reset();
+                previewImg.src = svgPadrao;
+                previewTitle.textContent = "Nome do Equipamento";
+                previewPrice.textContent = "R$ 0,00";
+                previewReviewCount.textContent = "(0 avaliações)";
+                previewStars.textContent = "★★★★★";
+
+            } catch (error) {
+                console.error("Erro ao salvar:", error);
+                alert('❌ Erro de conexão. Certifique-se de que colou as suas credenciais do Firebase corretamente.');
+            } finally {
+                submitBtn.innerHTML = textoOriginal;
+                submitBtn.style.pointerEvents = "auto";
+                submitBtn.style.opacity = "1";
+            }
+        });
+    });
+</script>
 </body>
 </html>
