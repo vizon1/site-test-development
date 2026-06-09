@@ -3144,10 +3144,12 @@ strong {
 .form-row {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap; /* Permite que os itens pulem para a linha de baixo se faltar espaço */
 }
 
 .form-row .input-group {
     flex: 1;
+    min-width: 200px; /* Garante uma largura mínima, forçando a quebra de linha elegante */
 }
 
 .input-group {
