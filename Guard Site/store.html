@@ -395,6 +395,29 @@
                 abrirCarrinho();
             }
 
+            // COMPRA DIRETA (Adiciona e vai direto para o checkout)
+            if (e.target.classList.contains('btn-buy-now')) {
+                const btn = e.target;
+                const itemId = btn.dataset.id;
+                const itemExistente = carrinho.find(i => i.id === itemId);
+                
+                if (itemExistente) {
+                    itemExistente.quantidade += 1;
+                } else {
+                    carrinho.push({
+                        id: itemId,
+                        titulo: btn.dataset.titulo,
+                        preco: btn.dataset.preco,
+                        imagem: btn.dataset.imagem,
+                        quantidade: 1
+                    });
+                }
+                
+                // Salva no armazenamento e muda de página imediatamente
+                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+                window.location.href = "checkout.html";
+            }
+
             // Aumentar (+)
             if (e.target.classList.contains('qty-plus')) {
                 const item = carrinho.find(i => i.id === e.target.dataset.id);
