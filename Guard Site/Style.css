@@ -3810,3 +3810,10 @@ select:-webkit-autofill:active {
     overflow: hidden;
     color: #FFFF00; /* Estrela de cima (cheia) */
 }
+
+/* Oculta o carrinho desktop em ecrãs menores */
+@media (max-width: 1024px) {
+    #desktop-cart-group {
+        display: none !important;
+    }
+}
