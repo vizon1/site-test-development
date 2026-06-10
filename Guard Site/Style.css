@@ -3351,7 +3351,7 @@ select:-webkit-autofill:active {
     width: 20px;
     height: 20px;
     background-color: #0a0a0a; /* Fundo preto escuro */
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Borda sutil cinza */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Borda sutil cinza */
     border-radius: 4px; /* Bordas arredondadas */
     transition: all 0.2s ease; /* Transição suave de cor */
 }
