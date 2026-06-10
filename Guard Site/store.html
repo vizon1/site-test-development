@@ -313,8 +313,8 @@
         document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
         document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
 
-        // =========================================
-        // MOTOR DO CARRINHO DE COMPRAS
+       // =========================================
+        // MOTOR DO CARRINHO DE COMPRAS (Atualizado)
         // =========================================
         let carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
 
@@ -324,12 +324,18 @@
             const totalDisplay = document.getElementById('cart-total-price');
             
             container.innerHTML = '';
-            let total = 0;
+            let totalDinheiro = 0;
+            let totalItens = 0;
 
-            carrinho.forEach((item, index) => {
-                // Remove os pontos e substitui a vírgula do padrão R$ para somar corretamente
+            if (carrinho.length === 0) {
+                container.innerHTML = '<p style="color:#888; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
+            }
+
+            carrinho.forEach((item) => {
+                // Matemática do preço: remove pontos, troca vírgula e multiplica pela quantidade
                 const precoNumerico = parseFloat(item.preco.replace(/\./g, '').replace(',', '.'));
-                total += precoNumerico;
+                totalDinheiro += (precoNumerico * item.quantidade);
+                totalItens += item.quantidade;
 
                 container.innerHTML += `
                     <div class="cart-item">
@@ -337,59 +343,98 @@
                         <div class="cart-item-details">
                             <div class="cart-item-title">${item.titulo}</div>
                             <div class="cart-item-price">R$ ${item.preco}</div>
+                            <div class="cart-item-qty">
+                                <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
+                                <span class="qty-number">${item.quantidade}</span>
+                                <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                            </div>
                         </div>
-                        <div class="cart-item-remove" data-index="${index}">&times;</div>
+                        <div class="cart-item-remove" data-id="${item.id}">&times;</div>
                     </div>
                 `;
             });
 
-            countBadge.textContent = carrinho.length;
-            totalDisplay.textContent = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // Atualiza a bolinha vermelha e o valor total
+            if(countBadge) countBadge.textContent = totalItens;
+            if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
         }
 
-        // Listener Global para capturar cliques de Adicionar/Remover
+        // Delegação de eventos para todos os botões do Carrinho
         document.addEventListener('click', (e) => {
+            // ADICIONAR DA LOJA PARA O CARRINHO
             if (e.target.classList.contains('btn-add-cart')) {
                 const btn = e.target;
-                carrinho.push({
-                    id: btn.dataset.id,
-                    titulo: btn.dataset.titulo,
-                    preco: btn.dataset.preco,
-                    imagem: btn.dataset.imagem
-                });
+                const itemId = btn.dataset.id;
+                
+                // Verifica se já existe
+                const itemExistente = carrinho.find(i => i.id === itemId);
+                
+                if (itemExistente) {
+                    itemExistente.quantidade += 1;
+                } else {
+                    carrinho.push({
+                        id: itemId,
+                        titulo: btn.dataset.titulo,
+                        preco: btn.dataset.preco,
+                        imagem: btn.dataset.imagem,
+                        quantidade: 1 // Começa com 1
+                    });
+                }
                 atualizarCarrinho();
                 abrirCarrinho();
             }
             
-            if (e.target.classList.contains('cart-item-remove')) {
-                carrinho.splice(e.target.dataset.index, 1);
+            // AUMENTAR QUANTIDADE (+)
+            if (e.target.classList.contains('qty-plus')) {
+                const item = carrinho.find(i => i.id === e.target.dataset.id);
+                if (item) item.quantidade += 1;
                 atualizarCarrinho();
+            }
+
+            // DIMINUIR QUANTIDADE (-)
+            if (e.target.classList.contains('qty-minus')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (carrinho[index].quantidade > 1) {
+                        carrinho[index].quantidade -= 1;
+                    } else {
+                        carrinho.splice(index, 1); // Remove se chegar a zero
+                    }
+                    atualizarCarrinho();
+                }
+            }
+
+            // REMOVER ITEM INTEIRO (X)
+            if (e.target.classList.contains('cart-item-remove')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    carrinho.splice(index, 1);
+                    atualizarCarrinho();
+                }
             }
         });
 
+        // Controles de Abertura e Fechamento
         const cartSidebar = document.getElementById('cart-sidebar');
         const cartOverlay = document.getElementById('cart-overlay');
 
         function abrirCarrinho() {
-            cartSidebar.classList.add('active');
-            cartOverlay.classList.add('active');
+            if(cartSidebar) cartSidebar.classList.add('active');
+            if(cartOverlay) cartOverlay.classList.add('active');
         }
 
         function fecharCarrinho() {
-            cartSidebar.classList.remove('active');
-            cartOverlay.classList.remove('active');
+            if(cartSidebar) cartSidebar.classList.remove('active');
+            if(cartOverlay) cartOverlay.classList.remove('active');
         }
 
         document.getElementById('open-cart-btn')?.addEventListener('click', abrirCarrinho);
         document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
         cartOverlay?.addEventListener('click', fecharCarrinho);
 
-        // Renderiza o carrinho ao abrir o site
+        // Renderiza o carrinho assim que o script carrega
         atualizarCarrinho();
-        
-        // INICIA O SISTEMA
-        document.addEventListener('DOMContentLoaded', inicializarLoja);
     </script>
 </body>
 </html>
