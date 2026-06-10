@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Carregando Produto... - Guard Store</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div id="sidebar-overlay"></div>
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="index.html"><div class="nav-item-content"><span>Início</span></div></a></li>
+            <li class="active"><a href="store.html"><div class="nav-item-content"><span>Loja</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
+            <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
+            <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
+        </ul>
+    </div>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <div id="mobile-cart-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                <span class="mobile-cart-badge" id="mobile-cart-count">0</span>
+            </div>
+            
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="store.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Loja</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
+                    <li><a href="cameras.html">Câmeras</a></li>
+                </ul>
+            </nav>
+            
+            <div id="desktop-cart-group" style="display: flex; align-items: center;">
+                <div id="open-cart-btn" style="cursor: pointer; color: #FFFF00; display: flex; align-items: center; position: relative; margin-left: 2vw;">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <span id="cart-count" style="position: absolute; top: -8px; right: -12px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold;">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="singleProductContainer">
+        <p style="color:#FFFF00; text-align:center; padding: 200px 20px;">Carregando detalhes do produto...</p>
+    </main>
+
+    <section class="shop-recommendations" id="recommendationsSection" style="display: none; margin-top: 80px;">
+        <h2 style="text-align: center; border-top: 1px solid #333; padding-top: 50px;">Produtos Similares</h2>
+        <div class="shop-product-grid" id="recomendacoesGrid">
+        </div>
+    </section>
+
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <div id="close-cart-btn" class="close-btn" style="font-size: 2rem; cursor: pointer;">&times;</div>
+        </div>
+        <div class="cart-items" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
+            <a href="checkout.html" style="text-decoration: none; width: 100%;">
+                <button class="btn-checkout">Finalizar Compra</button>
+            </a>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a>
+        </div>
+        <div class="footer-contact">
+            GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores', outros: 'Outros' };
+
+        async function inicializarProduto() {
+            if (!productId) {
+                alert("Produto não encontrado.");
+                window.location.href = "store.html";
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "produtos", productId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const p = { id: docSnap.id, ...docSnap.data() };
+                    document.title = p.titulo + " - Guard Store";
+                    
+                    const nomeCat = nomesCategorias[p.categoria] || p.categoria;
+                    const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
+
+                    document.getElementById('singleProductContainer').innerHTML = `
+                        <div class="product-page-container">
+                            <div class="product-image-col">
+                                <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'">
+                            </div>
+                            <div class="product-info-col">
+                                <div class="product-info-category">${nomeCat}</div>
+                                <h1 class="product-info-title">${p.titulo}</h1>
+                                <div class="product-info-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
+                                <div class="product-info-desc">${p.descricao}</div>
+                                <div class="product-info-price">R$ ${p.preco}</div>
+                                
+                                <div class="product-action-buttons">
+                                    <button class="btn-add-cart btn-add-cart" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">CARRINHO</button>
+                                    <button class="btn-buy-now btn-buy-now" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">COMPRAR AGORA</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Puxar produtos da mesma categoria para recomendações
+                    carregarSimilares(p.categoria, p.id);
+                } else {
+                    alert("Este produto já não existe ou foi removido.");
+                    window.location.href = "store.html";
+                }
+            } catch (error) {
+                console.error("Erro ao carregar produto:", error);
+            }
+        }
+
+        async function carregarSimilares(categoriaRef, currentId) {
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                let similares = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const data = { id: doc.id, ...doc.data() };
+                    // Pega da mesma categoria e exclui o próprio produto aberto
+                    if (data.categoria === categoriaRef && data.id !== currentId) {
+                        similares.push(data);
+                    }
+                });
+
+                if (similares.length > 0) {
+                    const recSection = document.getElementById('recommendationsSection');
+                    const recGrid = document.getElementById('recomendacoesGrid');
+                    recSection.style.display = 'block';
+                    recGrid.innerHTML = similares.slice(0, 4).map(p => criarHTMLdoCard(p)).join('');
+                }
+            } catch(e) {
+                console.error("Erro similares:", e);
+            }
+        }
+
+        function criarHTMLdoCard(p) {
+            const nomeCat = nomesCategorias[p.categoria] || p.categoria;
+            const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
+
+            return `
+                <div class="shop-card">
+                    <span class="shop-card-category">${nomeCat}</span>
+                    <a href="produto.html?id=${p.id}" style="text-decoration: none; color: inherit; display: contents;">
+                        <div class="shop-card-img">
+                            <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'">
+                        </div>
+                    </a>
+                    <div class="shop-card-body">
+                        <a href="produto.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                            <h4>${p.titulo}</h4>
+                        </a>
+                        <div class="shop-card-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
+                        <div class="shop-card-price">R$ ${p.preco}</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Carrinho</button>
+                            <button class="btn-buy-now" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // =========================================
+        // SISTEMA DO CARRINHO DE COMPRAS
+        // =========================================
+        let carrinho = [];
+        try { carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || []; } catch(e) { carrinho = []; }
+
+        function atualizarCarrinho() {
+            try {
+                const container = document.getElementById('cart-items-container');
+                const countBadge = document.getElementById('cart-count');
+                const mobileCountBadge = document.getElementById('mobile-cart-count');
+                const totalDisplay = document.getElementById('cart-total-price');
+                
+                container.innerHTML = '';
+                let totalDinheiro = 0, totalItens = 0;
+
+                if (carrinho.length === 0) container.innerHTML = '<p style="color:#888; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
+
+                carrinho.forEach((item) => {
+                    const precoNumerico = parseFloat(String(item.preco || "0,00").replace(/\./g, '').replace(',', '.'));
+                    if (!isNaN(precoNumerico)) totalDinheiro += (precoNumerico * item.quantidade);
+                    totalItens += item.quantidade;
+
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.titulo}</div>
+                                <div class="cart-item-price">R$ ${item.preco}</div>
+                                <div class="cart-item-qty">
+                                    <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
+                                    <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-remove" data-id="${item.id}">&times;</div>
+                        </div>
+                    `;
+                });
+
+                if(countBadge) countBadge.textContent = totalItens;
+                if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+                if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+            } catch(e) {}
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-add-cart')) {
+                const btn = e.target;
+                const itemExistente = carrinho.find(i => i.id === btn.dataset.id);
+                if (itemExistente) itemExistente.quantidade += 1;
+                else carrinho.push({ id: btn.dataset.id, titulo: btn.dataset.titulo, preco: btn.dataset.preco, imagem: btn.dataset.imagem, quantidade: 1 });
+                atualizarCarrinho();
+                abrirCarrinho();
+            }
+
+            if (e.target.classList.contains('btn-buy-now')) {
+                const btn = e.target;
+                const itemExistente = carrinho.find(i => i.id === btn.dataset.id);
+                if (itemExistente) itemExistente.quantidade += 1;
+                else carrinho.push({ id: btn.dataset.id, titulo: btn.dataset.titulo, preco: btn.dataset.preco, imagem: btn.dataset.imagem, quantidade: 1 });
+                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+                window.location.href = "checkout.html";
+            }
+
+            if (e.target.classList.contains('qty-plus')) {
+                const item = carrinho.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade += 1; atualizarCarrinho(); }
+            }
+
+            if (e.target.classList.contains('qty-minus')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (carrinho[index].quantidade > 1) carrinho[index].quantidade -= 1;
+                    else carrinho.splice(index, 1);
+                    atualizarCarrinho();
+                }
+            }
+
+            if (e.target.classList.contains('cart-item-remove')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) { carrinho.splice(index, 1); atualizarCarrinho(); }
+            }
+        });
+
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                let novaQuantidade = parseInt(e.target.value);
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
+                const item = carrinho.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade = novaQuantidade; atualizarCarrinho(); }
+            }
+        });
+
+        // Menu Mobile & Header
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
+        document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
+        
+        // Carrinho Controls
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        function abrirCarrinho() { if(cartSidebar) cartSidebar.classList.add('active'); if(cartOverlay) cartOverlay.classList.add('active'); }
+        function fecharCarrinho() { if(cartSidebar) cartSidebar.classList.remove('active'); if(cartOverlay) cartOverlay.classList.remove('active'); }
+        document.getElementById('open-cart-btn')?.addEventListener('click', abrirCarrinho);
+        document.getElementById('mobile-cart-btn')?.addEventListener('click', abrirCarrinho);
+        document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
+        cartOverlay?.addEventListener('click', fecharCarrinho);
+
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth > 1024) {
+                const header = document.getElementById('header');
+                if (window.scrollY > 40) header.classList.add('header-scrolled');
+                else header.classList.remove('header-scrolled');
+            }
+        });
+
+        atualizarCarrinho();
+        inicializarProduto();
+    </script>
+</body>
+</html>
