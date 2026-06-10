@@ -531,6 +531,23 @@
         // Inicializadores de Partida
         atualizarCarrinho();
         inicializarLoja();
+
+        // === SCROLL ANIMATION DO HEADER (APENAS PC) ===
+        window.addEventListener('scroll', function() {
+            // A condição abaixo garante que a animação só ocorre em ecrãs de computador
+            if (window.innerWidth > 1024) {
+                const headerBtn = document.querySelector('.header-action-btn');
+                const header = document.getElementById('header');
+                
+                if (window.scrollY > 40) {
+                    if (headerBtn) headerBtn.classList.add('show-btn');
+                    if (header) header.classList.add('header-scrolled');
+                } else {
+                    if (headerBtn) headerBtn.classList.remove('show-btn');
+                    if (header) header.classList.remove('header-scrolled');
+                }
+            }
+        });
     </script>
 </body>
 </html>
