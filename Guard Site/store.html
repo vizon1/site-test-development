@@ -196,7 +196,7 @@
 
         // 2. ATUALIZAR NÚMEROS DAS CATEGORIAS
         function atualizarContadores() {
-            const contagens = { all: todosProdutos.length, cameras: 0, dvrs: 0, alarmes: 0, sensores: 0 };
+            const contagens = { all: todosProdutos.length, cameras: 0, dvrs: 0, alarmes: 0, sensores: 0, outros: 0 };
             todosProdutos.forEach(p => {
                 if (contagens[p.categoria] !== undefined) contagens[p.categoria]++;
             });
@@ -206,6 +206,7 @@
             document.getElementById('badge-dvrs').textContent = contagens.dvrs;
             document.getElementById('badge-alarmes').textContent = contagens.alarmes;
             document.getElementById('badge-sensores').textContent = contagens.sensores;
+            document.getElementById('badge-outros').textContent = contagens.outros;
         }
 
         // 3. RENDERIZAR RECOMENDAÇÕES
