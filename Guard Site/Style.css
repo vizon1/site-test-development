@@ -3114,6 +3114,18 @@ strong {
     color: #fff;
 }
 
+/* Força a secção de recomendações a ter 4 cards por linha */
+.shop-recommendations .shop-product-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Mantém 2 cards por linha no celular para não esmagar os produtos */
+@media (max-width: 900px) {
+    .shop-recommendations .shop-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* Responsividade */
 @media (max-width: 900px) {
     .shop-main-layout {
