@@ -313,6 +313,81 @@
         document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
         document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
 
+        // =========================================
+        // MOTOR DO CARRINHO DE COMPRAS
+        // =========================================
+        let carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+
+        function atualizarCarrinho() {
+            const container = document.getElementById('cart-items-container');
+            const countBadge = document.getElementById('cart-count');
+            const totalDisplay = document.getElementById('cart-total-price');
+            
+            container.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach((item, index) => {
+                // Remove os pontos e substitui a vírgula do padrão R$ para somar corretamente
+                const precoNumerico = parseFloat(item.preco.replace(/\./g, '').replace(',', '.'));
+                total += precoNumerico;
+
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.titulo}</div>
+                            <div class="cart-item-price">R$ ${item.preco}</div>
+                        </div>
+                        <div class="cart-item-remove" data-index="${index}">&times;</div>
+                    </div>
+                `;
+            });
+
+            countBadge.textContent = carrinho.length;
+            totalDisplay.textContent = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+        }
+
+        // Listener Global para capturar cliques de Adicionar/Remover
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-add-cart')) {
+                const btn = e.target;
+                carrinho.push({
+                    id: btn.dataset.id,
+                    titulo: btn.dataset.titulo,
+                    preco: btn.dataset.preco,
+                    imagem: btn.dataset.imagem
+                });
+                atualizarCarrinho();
+                abrirCarrinho();
+            }
+            
+            if (e.target.classList.contains('cart-item-remove')) {
+                carrinho.splice(e.target.dataset.index, 1);
+                atualizarCarrinho();
+            }
+        });
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function abrirCarrinho() {
+            cartSidebar.classList.add('active');
+            cartOverlay.classList.add('active');
+        }
+
+        function fecharCarrinho() {
+            cartSidebar.classList.remove('active');
+            cartOverlay.classList.remove('active');
+        }
+
+        document.getElementById('open-cart-btn')?.addEventListener('click', abrirCarrinho);
+        document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
+        cartOverlay?.addEventListener('click', fecharCarrinho);
+
+        // Renderiza o carrinho ao abrir o site
+        atualizarCarrinho();
+        
         // INICIA O SISTEMA
         document.addEventListener('DOMContentLoaded', inicializarLoja);
     </script>
