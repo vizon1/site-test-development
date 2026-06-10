@@ -2931,10 +2931,9 @@ strong {
     font-size: 0.8rem;
 }
 
-/* Grelha de Produtos */
 .shop-product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(4, 1fr); /* Força exatamente 4 colunas no computador */
     gap: 20px;
     flex-grow: 1;
 }
@@ -3018,7 +3017,7 @@ strong {
 }
 
 .shop-card-img {
-    height: 220px;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3735,4 +3734,41 @@ select:-webkit-autofill:active {
     margin-top: 6px;
     display: block;
     font-weight: bold;
+}
+
+/* =========================================
+   RESPONSIVIDADE DOS CARDS (CELULAR / 2 POR LINHA)
+   ========================================= */
+@media (max-width: 900px) {
+    .shop-product-grid {
+        grid-template-columns: repeat(2, 1fr); /* Força exatamente 2 colunas no celular */
+        gap: 12px; /* Reduz o espaço entre eles */
+    }
+    
+    .shop-card-img {
+        height: 150px; /* Reduz a altura da imagem no mobile para não ficar gigante */
+    }
+    
+    .shop-card-body {
+        padding: 12px; /* Menos margem interna para ganhar espaço */
+    }
+    
+    .shop-card-body h4 {
+        font-size: 0.95rem; /* Texto do título menor */
+    }
+    
+    .shop-card-price {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .shop-card-actions {
+        flex-direction: column; /* Coloca o botão Comprar embaixo do Carrinho */
+        gap: 8px;
+    }
+    
+    .shop-card-actions button {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
 }
