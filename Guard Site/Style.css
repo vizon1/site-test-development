@@ -3215,6 +3215,15 @@ strong {
     font-size: 1rem;
     outline: none;
     transition: 0.3s;
+    box-sizing: border-box; 
+    height: 50px; /* Garante alinhamento milimétrico na mesma reta */
+}
+
+/* Regra específica para travar a área da descrição */
+.input-group textarea {
+    height: auto; 
+    min-height: 120px;
+    resize: none; /* Desativa a alça que permite esticar a caixa */
 }
 
 .input-group input:focus,
