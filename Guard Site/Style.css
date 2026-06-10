@@ -3023,7 +3023,6 @@ strong {
     align-items: center;
     justify-content: center;
     background: #111;
-    border-radius: 10px;
     margin-bottom: 20px;
     overflow: hidden; /* Garante que a imagem não vaze para fora das bordas arredondadas */
 }
