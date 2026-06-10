@@ -3948,8 +3948,7 @@ body {
 
 /* Container da coluna da imagem na página do produto */
 .product-image-container {
-    flex: 1; /* Ajuste conforme seu layout flexbox */
-    padding: 20px; /* Espaçamento interno */
+    flex: 1; /* Ajuste conforme seu layout flexbox */ /* Espaçamento interno */
 }
 
 /* A div mágica que força a proporção quadrada (1:1) */
