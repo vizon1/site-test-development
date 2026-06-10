@@ -3933,3 +3933,57 @@ select:-webkit-autofill:active {
         padding: 20px;
     }
 }
+
+/* =========================================
+   ESTILO PARA CAIXA DE IMAGEM QUADRADA
+   (AESTHETIC & PROFISSIONAL)
+   ========================================= */
+
+/* Estilo geral do site para contexto (fundo escuro, detalhes amarelos) */
+body {
+    background-color: #000; /* Fundo preto aesthetic */
+    color: #fff; /* Texto branco */
+    font-family: 'Fira Sans', sans-serif;
+}
+
+/* Container da coluna da imagem na página do produto */
+.product-image-container {
+    flex: 1; /* Ajuste conforme seu layout flexbox */
+    padding: 20px; /* Espaçamento interno */
+}
+
+/* A div mágica que força a proporção quadrada (1:1) */
+.square-image-box {
+    width: 100%; /* Ocupa toda a largura da coluna */
+    aspect-ratio: 1 / 1; /* Força a caixa a ser sempre um quadrado perfeito */
+    
+    /* Estilo "Aesthetic" combinando com o site */
+    background-color: #111; /* Fundo cinza muito escuro para a caixa */
+    border: 1px solid #FFFF00; /* Borda amarela fina */
+    border-radius: 12px; /* Cantos arredondados elegantes */
+    
+    /* Configurações para o corte da imagem */
+    overflow: hidden; /* Corta o que estiver fora da caixa */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo para a imagem dentro da caixa quadrada */
+.square-image-box img {
+    width: 100%; /* Preenche a largura da caixa */
+    height: 100%; /* Preenche a altura da caixa */
+    
+    /* A propriedade crucial para não distorcer */
+    object-fit: cover; /* Escala a imagem para preencher, cortando o excesso se necessário, sem esticar */
+    object-position: center; /* Mantém o centro da imagem visível no corte */
+    
+    /* Suavidade e consistência */
+    border-radius: inherit; /* Herda os cantos arredondados da caixa pai */
+    transition: transform 0.3s ease; /* Transição suave para hover, opcional */
+}
+
+/* Efeito de zoom sutil ao passar o mouse, opcional e aesthetic */
+.square-image-box:hover img {
+    transform: scale(1.03); /* Zoom de 3% para um toque profissional */
+}
