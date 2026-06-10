@@ -334,6 +334,7 @@
             const container = document.getElementById('cart-items-container');
             const countBadge = document.getElementById('cart-count');
             const totalDisplay = document.getElementById('cart-total-price');
+            const mobileCountBadge = document.getElementById('mobile-cart-count');
             
             container.innerHTML = '';
             let totalDinheiro = 0;
@@ -368,6 +369,7 @@
 
             // Atualiza a bolinha vermelha e o valor total
             if(countBadge) countBadge.textContent = totalItens;
+            if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
             if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
         }
