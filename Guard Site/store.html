@@ -384,6 +384,25 @@
                 atualizarCarrinho();
                 abrirCarrinho();
             }
+
+        // Captura a digitação direta no campo de quantidade
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                const itemId = e.target.dataset.id;
+                let novaQuantidade = parseInt(e.target.value);
+
+                // Garante que a quantidade mínima digitada seja 1
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) {
+                    novaQuantidade = 1;
+                }
+
+                const item = carrinho.find(i => i.id === itemId);
+                if (item) {
+                    item.quantidade = novaQuantidade;
+                    atualizarCarrinho();
+                }
+            }
+        });
             
             // AUMENTAR QUANTIDADE (+)
             if (e.target.classList.contains('qty-plus')) {
