@@ -80,11 +80,11 @@
                 <div class="form-row">
                     <div class="input-group">
                         <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" placeholder="Sua cidade" required readonly style="background: #111;">
+                        <input type="text" id="cidade" placeholder="Sua cidade" required>
                     </div>
                     <div class="input-group">
                         <label for="estado">Estado</label>
-                        <input type="text" id="estado" placeholder="UF" required readonly style="background: #111;">
+                        <input type="text" id="estado" placeholder="UF" maxlength="2" required>
                     </div>
                 </div>
 
@@ -131,10 +131,8 @@
             const subtotalEl = document.getElementById('checkout-subtotal');
             const totalFinalEl = document.getElementById('checkout-total-final');
             
-            // Valor fixo de frete para exemplo (pode ser dinâmico depois)
             const valorFrete = 25.00; 
 
-            // Redireciona de volta para a loja se o carrinho estiver vazio
             if (carrinho.length === 0) {
                 alert("O seu carrinho está vazio. Vamos levá-lo de volta para a loja.");
                 window.location.href = "loja.html";
@@ -163,17 +161,41 @@
                 `;
             });
 
-            // Calcula o Total Final (Subtotal + Frete)
             const totalFinal = subtotal + valorFrete;
 
-            // Atualiza os textos na tela
             subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 
-            // --- LÓGICA DE BUSCA DE CEP AUTOMÁTICA (API ViaCEP) ---
-            document.getElementById('cep').addEventListener('blur', async (e) => {
-                let cepVal = e.target.value.replace(/\D/g, ''); // Tira o traço
+            // --- 1. MÁSCARAS DE FORMATAÇÃO (Auto-formatação ao digitar) ---
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+            const cepInput = document.getElementById('cep');
+
+            cpfInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, "");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                e.target.value = v.substring(0, 14);
+            });
+
+            telefoneInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, "");
+                v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+                v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+                e.target.value = v.substring(0, 15);
+            });
+
+            cepInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, "");
+                v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+                e.target.value = v.substring(0, 9);
+            });
+
+            // --- 2. BUSCA DE CEP AUTOMÁTICA VIA API ---
+            cepInput.addEventListener('blur', async (e) => {
+                let cepVal = e.target.value.replace(/\D/g, ''); 
                 if (cepVal.length === 8) {
                     try {
                         const res = await fetch(`https://viacep.com.br/ws/${cepVal}/json/`);
@@ -183,9 +205,9 @@
                             document.getElementById('bairro').value = data.bairro;
                             document.getElementById('cidade').value = data.localidade;
                             document.getElementById('estado').value = data.uf;
-                            document.getElementById('numero').focus(); // Joga o cursor para o número
+                            document.getElementById('numero').focus(); 
                         } else {
-                            alert("CEP não encontrado.");
+                            alert("CEP não encontrado. Por favor, preencha manualmente.");
                         }
                     } catch (err) {
                         console.error("Erro na busca de CEP:", err);
@@ -193,19 +215,42 @@
                 }
             });
 
-            // --- LÓGICA DE FINALIZAÇÃO DA COMPRA ---
+            // --- 3. VALIDAÇÃO ESTrita E FINALIZAÇÃO ---
             document.getElementById('checkoutForm').addEventListener('submit', (e) => {
-                e.preventDefault(); // Impede o envio real do formulário para teste
+                e.preventDefault(); 
                 
-                // Pega a forma de pagamento selecionada
+                // Validações
+                const nome = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+                
+                if (nome.split(' ').length < 2) {
+                    return alert('Por favor, informe seu nome e sobrenome.');
+                }
+                
+                if (cpfInput.value.length !== 14) {
+                    return alert('Por favor, informe um CPF válido.');
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    return alert('Por favor, informe um e-mail válido.');
+                }
+
+                if (telefoneInput.value.length < 14) {
+                    return alert('Por favor, informe um telefone ou WhatsApp válido com DDD.');
+                }
+
+                if (cepInput.value.length !== 9) {
+                    return alert('Por favor, informe um CEP válido.');
+                }
+                
+                // Processamento se tudo estiver correto
                 const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
                 
-                alert(`✅ Pedido realizado com sucesso!\n\nO seu pedido no valor de ${totalFinalEl.textContent} será processado via ${pagamento}.\nObrigado por comprar na Guard!`);
+                alert(`✅ Pedido Validado com Sucesso!\n\nDados confirmados. O seu pedido no valor de ${totalFinalEl.textContent} será processado via ${pagamento}.\nObrigado por comprar na Guard!`);
                 
-                // Limpa o carrinho
+                // Limpa o carrinho e redireciona
                 localStorage.removeItem('guard_carrinho');
-                
-                // Volta para a página inicial
                 window.location.href = "index.html";
             });
         });
