@@ -3629,6 +3629,17 @@ select:-webkit-autofill:active {
 /* =========================================
    PÁGINA DE CHECKOUT
    ========================================= */
+
+.checkout-wrapper, 
+.checkout-wrapper input, 
+.checkout-wrapper select, 
+.checkout-wrapper button,
+.checkout-wrapper label,
+.checkout-wrapper span,
+.checkout-wrapper h2 {
+    font-family: 'Inter', sans-serif !important;
+}
+
 .checkout-wrapper {
     max-width: 1200px;
     margin: 160px auto 60px auto; /* 160px no topo afasta o corpo do cabeçalho fixo */
