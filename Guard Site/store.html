@@ -172,8 +172,11 @@
         };
         const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores' };
 
-        // 1. CARREGAR DADOS DO BANCO
+        // 1. CARREGAR DADOS DO BANCO (Com aviso de carregamento)
         async function inicializarLoja() {
+            const grid = document.getElementById('produtosGrid');
+            grid.innerHTML = '<p style="color:#FFFF00; text-align:center; width:100%; padding:20px;">A carregar catálogo Guard...</p>';
+
             try {
                 const querySnapshot = await getDocs(collection(db, "produtos"));
                 querySnapshot.forEach((doc) => {
@@ -185,7 +188,7 @@
                 aplicarFiltros();
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
-                document.getElementById('produtosGrid').innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação com o banco de dados.</p>';
+                grid.innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação com o banco de dados.</p>';
             }
         }
 
@@ -217,14 +220,17 @@
             }
         }
 
-        // 4. SISTEMA DE FILTRAGEM (Pesquisa + Categoria)
-        const removeAcentos = (texto) => texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        // 4. SISTEMA DE FILTRAGEM COM PROTEÇÃO ANTI-CRASH
+        const removeAcentos = (texto) => {
+            if (!texto) return ""; // Proteção: se o texto for nulo, devolve vazio e não trava
+            return String(texto).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        };
         
         function aplicarFiltros() {
             const termoPesquisa = removeAcentos(document.getElementById('searchInput').value || "");
             
             produtosFiltrados = todosProdutos.filter(p => {
-                const titulo = removeAcentos(p.titulo);
+                const titulo = removeAcentos(p.titulo || "");
                 const tags = removeAcentos(tagsDaCategoria[p.categoria] || "");
                 const batePesquisa = titulo.includes(termoPesquisa) || tags.includes(termoPesquisa);
                 const bateCategoria = filtroCategoriaAtiva === 'all' || p.categoria === filtroCategoriaAtiva;
@@ -326,50 +332,67 @@
         document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
 
         // =========================================
-        // MOTOR DO CARRINHO DE COMPRAS
+        // MOTOR DO CARRINHO COM PROTEÇÃO ANTI-CRASH
         // =========================================
-        let carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+        let carrinho = [];
+        try {
+            carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+        } catch (e) {
+            carrinho = [];
+            localStorage.removeItem('guard_carrinho');
+        }
 
         function atualizarCarrinho() {
-            const container = document.getElementById('cart-items-container');
-            const countBadge = document.getElementById('cart-count');
-            const mobileCountBadge = document.getElementById('mobile-cart-count');
-            const totalDisplay = document.getElementById('cart-total-price');
-            
-            container.innerHTML = '';
-            let totalDinheiro = 0;
-            let totalItens = 0;
+            try {
+                const container = document.getElementById('cart-items-container');
+                const countBadge = document.getElementById('cart-count');
+                const mobileCountBadge = document.getElementById('mobile-cart-count');
+                const totalDisplay = document.getElementById('cart-total-price');
+                
+                container.innerHTML = '';
+                let totalDinheiro = 0;
+                let totalItens = 0;
 
-            if (carrinho.length === 0) {
-                container.innerHTML = '<p style="color:#888; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
-            }
+                if (carrinho.length === 0) {
+                    container.innerHTML = '<p style="color:#888; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
+                }
 
-            carrinho.forEach((item) => {
-                const precoNumerico = parseFloat(item.preco.replace(/\./g, '').replace(',', '.'));
-                totalDinheiro += (precoNumerico * item.quantidade);
-                totalItens += item.quantidade;
+                carrinho.forEach((item) => {
+                    // Proteção: Transforma sempre em texto antes de substituir
+                    const precoStr = String(item.preco || "0,00");
+                    const precoNumerico = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
+                    
+                    if (!isNaN(precoNumerico)) {
+                        totalDinheiro += (precoNumerico * item.quantidade);
+                    }
+                    totalItens += item.quantidade;
 
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
-                        <div class="cart-item-details">
-                            <div class="cart-item-title">${item.titulo}</div>
-                            <div class="cart-item-price">R$ ${item.preco}</div>
-                            <div class="cart-item-qty">
-                                <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
-                                <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
-                                <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.titulo}</div>
+                                <div class="cart-item-price">R$ ${item.preco}</div>
+                                <div class="cart-item-qty">
+                                    <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
+                                    <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                                </div>
                             </div>
+                            <div class="cart-item-remove" data-id="${item.id}">&times;</div>
                         </div>
-                        <div class="cart-item-remove" data-id="${item.id}">&times;</div>
-                    </div>
-                `;
-            });
+                    `;
+                });
 
-            if(countBadge) countBadge.textContent = totalItens;
-            if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
-            if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+                if(countBadge) countBadge.textContent = totalItens;
+                if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+                if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+            } catch(e) {
+                console.error("Erro no motor do carrinho:", e);
+                localStorage.removeItem('guard_carrinho'); // Reset de segurança
+                carrinho = [];
+            }
         }
 
         // --- EVENTO ÚNICO PARA CLIQUES NO CARRINHO ---
@@ -413,7 +436,6 @@
                     });
                 }
                 
-                // Salva no armazenamento e muda de página imediatamente
                 localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
                 window.location.href = "checkout.html";
             }
