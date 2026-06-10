@@ -3781,3 +3781,20 @@ select:-webkit-autofill:active {
         font-size: 0.85rem;
     }
 }
+
+/* =========================================
+   MEIA ESTRELA VISUAL (AVALIAÇÃO)
+   ========================================= */
+.star-half {
+    position: relative;
+    display: inline-block;
+    color: #FFFF00; /* Estrela de fundo (vazia) */
+}
+.star-half .star-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%; /* Corta a estrela cheia exatamente ao meio */
+    overflow: hidden;
+    color: #FFFF00; /* Estrela de cima (cheia) */
+}
