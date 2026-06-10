@@ -174,7 +174,10 @@
         // --- Atualizações Visuais no Preview ---
         productTitle.addEventListener('input', (e) => previewTitle.textContent = e.target.value.trim() || 'Nome do Equipamento');
         productCategory.addEventListener('change', (e) => previewCategory.textContent = categoriaNomes[e.target.value]);
-        productRating.addEventListener('change', (e) => previewStars.textContent = e.target.value);
+        productRating.addEventListener('change', (e) => {
+        
+            previewStars.innerHTML = e.target.value.replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
+        });
         productReviews.addEventListener('input', (e) => previewReviewCount.textContent = `(${e.target.value || 0} avaliações)`);
         
         productPrice.addEventListener('input', (e) => {
