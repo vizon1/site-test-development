@@ -3828,3 +3828,108 @@ select:-webkit-autofill:active {
         display: none !important;
     }
 }
+
+/* =========================================
+   PÁGINA DO PRODUTO INDIVIDUAL
+   ========================================= */
+.product-page-container {
+    max-width: 1200px;
+    margin: 160px auto 60px;
+    padding: 0 5%;
+    display: flex;
+    gap: 50px;
+}
+
+.product-image-col {
+    flex: 1;
+    background: #111;
+    border: 2px solid #222;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-image-col img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.product-info-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-info-category {
+    color: #FFFF00;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.product-info-title {
+    font-size: 2.5rem;
+    color: #fff;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 15px;
+}
+
+.product-info-rating {
+    color: #FFFF00;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.product-info-rating span {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.product-info-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.product-info-desc {
+    color: #ccc;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    white-space: pre-wrap; /* Mantém as quebras de linha digitadas no painel */
+}
+
+.product-action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.product-action-buttons button {
+    flex: 1;
+    padding: 18px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+}
+
+/* Responsividade do Produto */
+@media (max-width: 900px) {
+    .product-page-container {
+        flex-direction: column;
+        margin-top: 100px;
+        gap: 30px;
+    }
+    .product-info-title {
+        font-size: 2rem;
+    }
+    .product-image-col {
+        padding: 20px;
+    }
+}
