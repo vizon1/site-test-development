@@ -2889,7 +2889,7 @@ strong {
 }
 
 .filter-group {
-    background: #0a0a0a;
+    background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%);
     padding: 25px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.05);
