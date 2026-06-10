@@ -142,7 +142,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // SUAS CREDENCIAIS AQUI
+        // SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -155,7 +155,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Variáveis Globais de Estado
+        // VARIÁVEIS GLOBAIS
         let todosProdutos = [];
         let produtosFiltrados = [];
         let paginaAtual = 1;
@@ -180,10 +180,10 @@
                 
                 atualizarContadores();
                 renderizarRecomendacoes();
-                aplicarFiltros(); // Inicia a renderização do grid principal
+                aplicarFiltros();
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
-                document.getElementById('produtosGrid').innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação.</p>';
+                document.getElementById('produtosGrid').innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação com o banco de dados.</p>';
             }
         }
 
@@ -230,11 +230,11 @@
                 return batePesquisa && bateCategoria;
             });
 
-            paginaAtual = 1; // Volta para a página 1 ao pesquisar
+            paginaAtual = 1;
             renderizarGridPrincipal();
         }
 
-        // 5. RENDERIZAR GRID COM PAGINAÇÃO (Max 6)
+        // 5. RENDERIZAR GRID COM PAGINAÇÃO
         function renderizarGridPrincipal() {
             const grid = document.getElementById('produtosGrid');
             const paginationContainer = document.getElementById('paginationContainer');
@@ -306,7 +306,7 @@
             `;
         }
 
-        // 8. EVENTOS DE INTERFACE
+        // 8. EVENTOS DE INTERFACE DA LOJA
         document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
         document.getElementById('searchBtn').addEventListener('click', aplicarFiltros);
 
@@ -320,20 +320,19 @@
             });
         });
 
-        // MENU MOBILE
         document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
         document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
 
-       // =========================================
-        // MOTOR DO CARRINHO DE COMPRAS (Atualizado)
+        // =========================================
+        // MOTOR DO CARRINHO DE COMPRAS
         // =========================================
         let carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
 
         function atualizarCarrinho() {
             const container = document.getElementById('cart-items-container');
             const countBadge = document.getElementById('cart-count');
-            const totalDisplay = document.getElementById('cart-total-price');
             const mobileCountBadge = document.getElementById('mobile-cart-count');
+            const totalDisplay = document.getElementById('cart-total-price');
             
             container.innerHTML = '';
             let totalDinheiro = 0;
@@ -344,7 +343,6 @@
             }
 
             carrinho.forEach((item) => {
-                // Matemática do preço: remove pontos, troca vírgula e multiplica pela quantidade
                 const precoNumerico = parseFloat(item.preco.replace(/\./g, '').replace(',', '.'));
                 totalDinheiro += (precoNumerico * item.quantidade);
                 totalItens += item.quantidade;
@@ -366,21 +364,18 @@
                 `;
             });
 
-            // Atualiza a bolinha vermelha e o valor total
             if(countBadge) countBadge.textContent = totalItens;
             if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
             if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
         }
 
-        // Delegação de eventos para todos os botões do Carrinho
-       // Delegação de eventos para todos os cliques do Carrinho
+        // --- EVENTO ÚNICO PARA CLIQUES NO CARRINHO ---
         document.addEventListener('click', (e) => {
-            // ADICIONAR DA LOJA PARA O CARRINHO
+            // Adicionar ao carrinho
             if (e.target.classList.contains('btn-add-cart')) {
                 const btn = e.target;
                 const itemId = btn.dataset.id;
-                
                 const itemExistente = carrinho.find(i => i.id === itemId);
                 
                 if (itemExistente) {
@@ -397,15 +392,17 @@
                 atualizarCarrinho();
                 abrirCarrinho();
             }
-            
-            // AUMENTAR QUANTIDADE (+)
+
+            // Aumentar (+)
             if (e.target.classList.contains('qty-plus')) {
                 const item = carrinho.find(i => i.id === e.target.dataset.id);
-                if (item) item.quantidade += 1;
-                atualizarCarrinho();
+                if (item) {
+                    item.quantidade += 1;
+                    atualizarCarrinho();
+                }
             }
 
-            // DIMINUIR QUANTIDADE (-)
+            // Diminuir (-)
             if (e.target.classList.contains('qty-minus')) {
                 const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
@@ -418,7 +415,7 @@
                 }
             }
 
-            // REMOVER ITEM INTEIRO (X)
+            // Remover (X)
             if (e.target.classList.contains('cart-item-remove')) {
                 const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
@@ -426,11 +423,9 @@
                     atualizarCarrinho();
                 }
             }
-        }); // <-- AQUI FECHA O EVENTO DE CLIQUE CORRETAMENTE
+        });
 
-        // ========================================================
-        // EVENTO DE DIGITAÇÃO (Totalmente separado do clique!)
-        // ========================================================
+        // --- EVENTO ÚNICO PARA DIGITAÇÃO DE QUANTIDADE ---
         document.addEventListener('change', (e) => {
             if (e.target.classList.contains('qty-input')) {
                 const itemId = e.target.dataset.id;
@@ -447,57 +442,8 @@
                 }
             }
         });
-        
-        // Captura a digitação direta no campo de quantidade
-        document.addEventListener('change', (e) => {
-            if (e.target.classList.contains('qty-input')) {
-                const itemId = e.target.dataset.id;
-                let novaQuantidade = parseInt(e.target.value);
 
-                // Garante que a quantidade mínima digitada seja 1
-                if (isNaN(novaQuantidade) || novaQuantidade < 1) {
-                    novaQuantidade = 1;
-                }
-
-                const item = carrinho.find(i => i.id === itemId);
-                if (item) {
-                    item.quantidade = novaQuantidade;
-                    atualizarCarrinho();
-                }
-            }
-        });
-            
-            // AUMENTAR QUANTIDADE (+)
-            if (e.target.classList.contains('qty-plus')) {
-                const item = carrinho.find(i => i.id === e.target.dataset.id);
-                if (item) item.quantidade += 1;
-                atualizarCarrinho();
-            }
-
-            // DIMINUIR QUANTIDADE (-)
-            if (e.target.classList.contains('qty-minus')) {
-                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
-                if (index !== -1) {
-                    if (carrinho[index].quantidade > 1) {
-                        carrinho[index].quantidade -= 1;
-                    } else {
-                        carrinho.splice(index, 1); // Remove se chegar a zero
-                    }
-                    atualizarCarrinho();
-                }
-            }
-
-            // REMOVER ITEM INTEIRO (X)
-            if (e.target.classList.contains('cart-item-remove')) {
-                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
-                if (index !== -1) {
-                    carrinho.splice(index, 1);
-                    atualizarCarrinho();
-                }
-            }
-        });
-
-        // Controles de Abertura e Fechamento
+        // Controles Visuais do Carrinho
         const cartSidebar = document.getElementById('cart-sidebar');
         const cartOverlay = document.getElementById('cart-overlay');
 
@@ -517,9 +463,8 @@
         document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
         cartOverlay?.addEventListener('click', fecharCarrinho);
 
-        // Renderiza o carrinho assim que o script carrega
+        // Inicializadores de Partida
         atualizarCarrinho();
-
         inicializarLoja();
     </script>
 </body>
