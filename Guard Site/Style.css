@@ -2939,29 +2939,29 @@ strong {
     flex-grow: 1;
 }
 
+/* =========================================
+   ESTILO DO CARD (BORDA 2PX CINZA E CORTES PRECISOS)
+   ========================================= */
 .shop-card {
-    background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%); /* Efeito fosco/matte sem transparência */
-    border: 1px solid rgba(255, 255, 255, 0.05); /* Borda sutil imitando bisel de vidro */
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 15px rgba(0,0,0,0.4);
-    border-radius: 12px;
-    overflow: hidden; /* Corta a imagem perfeitamente nas bordas arredondadas do topo */
-    padding: 0; /* Remove o padding global para a imagem colar nas bordas laterais e superior */
+    background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%);
+    border: 2px solid #4a4a4a; /* Borda cinza mais clara com 2px de espessura */
+    border-radius: 12px; /* O arredondamento do card */
+    overflow: hidden; /* É este comando que atua como uma "máscara" e corta a imagem nas pontas */
+    padding: 0;
     position: relative;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    outline: none; /* Remove qualquer marcação padrão do navegador ao clicar */
-}
-
-/* Remove a borda amarela e aplica apenas uma elevação suave com brilho */
-.shop-card:hover, .shop-card:active, .shop-card:focus {
-    transform: translateY(-5px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 25px rgba(0,0,0,0.7);
-    border: 1px solid rgba(255, 255, 255, 0.12); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     outline: none;
 }
 
-/* A etiqueta da categoria flutua por cima da imagem */
+.shop-card:hover, .shop-card:active, .shop-card:focus {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    border-color: #666666; /* A borda cinza acende ligeiramente ao passar o mouse */
+    outline: none;
+}
+
 .shop-card-category {
     position: absolute;
     top: 12px;
@@ -2975,22 +2975,20 @@ strong {
     border: 1px solid rgba(255,255,255,0.15);
 }
 
-/* Contêiner da imagem ocupando 100% da largura */
 .shop-card-img {
     width: 100%;
-    height: 220px; /* Altura fixa para manter a vitrine alinhada */
-    background: #ffffff; /* Fundo branco caso importe imagens transparentes */
+    height: 220px;
+    background: #ffffff;
     margin: 0;
 }
 
 .shop-card-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Faz a imagem preencher todo o espaço de ponta a ponta */
-    border-radius: 0; /* A borda arredondada já é controlada pelo card principal */
+    object-fit: cover; /* Faz a imagem preencher todo o bloco de cima a baixo */
+    border-radius: 0; /* Imagem sem bordas arredondadas próprias */
 }
 
-/* O espaçamento volta apenas para a parte do texto e botões */
 .shop-card-body {
     padding: 20px; 
     display: flex;
