@@ -166,6 +166,30 @@
             totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             // ==========================================
+            // FUNÇÕES DE AVISO VISUAL (ERROS)
+            // ==========================================
+            function mostrarErro(input, mensagem) {
+                input.style.borderColor = '#ff4444';
+                let pai = input.parentElement;
+                let erroTag = pai.querySelector('.error-text');
+                if (!erroTag) {
+                    erroTag = document.createElement('span');
+                    erroTag.className = 'error-text';
+                    pai.appendChild(erroTag);
+                }
+                erroTag.textContent = mensagem;
+            }
+
+            function limparErro(input) {
+                input.style.borderColor = '';
+                let pai = input.parentElement;
+                let erroTag = pai.querySelector('.error-text');
+                if (erroTag) {
+                    erroTag.remove();
+                }
+            }
+
+            // ==========================================
             // MÁSCARAS E PREVENÇÃO DE ENTRADA DE DADOS
             // ==========================================
             const nomeInput = document.getElementById('nome');
@@ -179,16 +203,13 @@
                 e.target.value = e.target.value.replace(/[0-9]/g, '');
             });
 
-            // Máscara CPF (Trava em 11 dígitos estritos)
+            // Máscara CPF
             cpfInput.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, ""); // Tira tudo que não é número
-                v = v.substring(0, 11); // Limita a exatamente 11 números
-                
-                // Aplica a formatação 000.000.000-00
+                let v = e.target.value.replace(/\D/g, ""); 
+                v = v.substring(0, 11); 
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
                 v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-                
                 e.target.value = v;
             });
 
@@ -215,10 +236,9 @@
             nomeInput.addEventListener('blur', (e) => {
                 const val = e.target.value.trim();
                 if (val && val.split(' ').length < 2) {
-                    alert('Por favor, informe o seu nome completo (Nome e Sobrenome).');
-                    e.target.style.borderColor = 'red';
+                    mostrarErro(e.target, 'Por favor, informe nome e sobrenome.');
                 } else {
-                    e.target.style.borderColor = '';
+                    limparErro(e.target);
                 }
             });
 
@@ -227,40 +247,37 @@
                 const val = e.target.value.trim();
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (val && !emailRegex.test(val)) {
-                    alert('Por favor, informe um e-mail válido.');
-                    e.target.style.borderColor = 'red';
+                    mostrarErro(e.target, 'Por favor, informe um e-mail válido.');
                 } else {
-                    e.target.style.borderColor = '';
+                    limparErro(e.target);
                 }
             });
 
             // Valida Telefone
             telefoneInput.addEventListener('blur', (e) => {
                 if (e.target.value && e.target.value.length < 14) {
-                    alert('Por favor, informe um telefone válido com DDD.');
-                    e.target.style.borderColor = 'red';
+                    mostrarErro(e.target, 'O telefone precisa ter o DDD e o número completo.');
                 } else {
-                    e.target.style.borderColor = '';
+                    limparErro(e.target);
                 }
             });
 
             // Função Matemática Oficial para Validar CPF
             function testaCPF(strCPF) {
-                let Soma;
+                let Soma = 0;
                 let Resto;
-                Soma = 0;
-                strCPF = strCPF.replace(/\D/g, ""); // Remove pontuação
+                strCPF = strCPF.replace(/\D/g, ""); 
                 
                 if (strCPF == "00000000000" || strCPF.length !== 11) return false;
 
-                for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
                 Resto = (Soma * 10) % 11;
 
                 if ((Resto == 10) || (Resto == 11)) Resto = 0;
                 if (Resto != parseInt(strCPF.substring(9, 10))) return false;
 
                 Soma = 0;
-                for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
                 Resto = (Soma * 10) % 11;
 
                 if ((Resto == 10) || (Resto == 11)) Resto = 0;
@@ -273,11 +290,9 @@
             cpfInput.addEventListener('blur', (e) => {
                 const val = e.target.value;
                 if (val && !testaCPF(val)) {
-                    alert('O CPF informado é inválido. Verifique os números.');
-                    e.target.style.borderColor = 'red';
-                    e.target.value = ''; // Limpa o campo se for falso
+                    mostrarErro(e.target, 'CPF inválido. Verifique os números digitados.');
                 } else {
-                    e.target.style.borderColor = '';
+                    limparErro(e.target);
                 }
             });
 
@@ -293,34 +308,55 @@
                             document.getElementById('bairro').value = data.bairro;
                             document.getElementById('cidade').value = data.localidade;
                             document.getElementById('estado').value = data.uf;
-                            e.target.style.borderColor = '';
+                            limparErro(e.target);
                             document.getElementById('numero').focus(); 
                         } else {
-                            alert("CEP não encontrado no sistema dos Correios.");
-                            e.target.style.borderColor = 'red';
+                            mostrarErro(e.target, 'CEP não encontrado no sistema dos Correios.');
                         }
                     } catch (err) {
                         console.error("Erro na busca de CEP:", err);
                     }
                 } else if (cepVal.length > 0) {
-                    alert("O CEP precisa ter 8 números.");
-                    e.target.style.borderColor = 'red';
+                    mostrarErro(e.target, 'O CEP precisa de ter 8 números.');
+                } else {
+                    limparErro(e.target);
                 }
             });
 
             // ==========================================
-            // SUBMISSÃO FINAL
+            // SUBMISSÃO FINAL E TRAVA DE SEGURANÇA
             // ==========================================
             document.getElementById('checkoutForm').addEventListener('submit', (e) => {
                 e.preventDefault(); 
                 
-                // Dupla checagem de segurança antes de prosseguir
-                if (!testaCPF(cpfInput.value)) return alert("CPF Inválido. Corrija antes de finalizar.");
-                if (nomeInput.value.trim().split(' ').length < 2) return alert("Preencha o nome completo.");
+                let temErro = false;
+
+                // Faz uma varredura final antes de enviar
+                if (nomeInput.value.trim().split(' ').length < 2) {
+                    mostrarErro(nomeInput, 'Preenchimento obrigatório.');
+                    temErro = true;
+                }
+                if (!testaCPF(cpfInput.value)) {
+                    mostrarErro(cpfInput, 'Preenchimento obrigatório com CPF real.');
+                    temErro = true;
+                }
+                if (telefoneInput.value.length < 14) {
+                    mostrarErro(telefoneInput, 'Preenchimento obrigatório.');
+                    temErro = true;
+                }
+                if (cepInput.value.replace(/\D/g, '').length !== 8) {
+                    mostrarErro(cepInput, 'Preenchimento obrigatório.');
+                    temErro = true;
+                }
+
+                // Verifica se existe alguma mensagem vermelha ativa na tela
+                if (temErro || document.querySelectorAll('.error-text').length > 0) {
+                    return alert("Existem campos preenchidos incorretamente. Por favor, verifique os avisos a vermelho.");
+                }
                 
                 const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
                 
-                alert(`✅ Pedido Validado com Sucesso!\n\nDados confirmados matematicamente.\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.\n\nObrigado por escolher a Guard!`);
+                alert(`✅ Pedido Validado com Sucesso!\n\nDados validados. O seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.\n\nObrigado por escolher a Guard!`);
                 
                 localStorage.removeItem('guard_carrinho');
                 window.location.href = "index.html";
