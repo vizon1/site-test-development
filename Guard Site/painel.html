@@ -39,8 +39,9 @@
                     <input type="text" id="productTitle" placeholder="Ex: Câmera Dome IP 4K Intelbras" required>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <div class="input-group">
+                        <label for="productCategory">Categoria</label>
                         <select id="productCategory" required>
                             <option value="cameras">Câmeras</option>
                             <option value="dvrs">DVRs / NVRs</option>
@@ -65,11 +66,18 @@
                             <option value="★☆☆☆☆">★☆☆☆☆ (1 Estrela)</option>
                         </select>
                     </div>
+                </div>
 
-                    <div class="input-group">
+                <div class="form-row">
+                    <div class="input-group" style="width: 100%;">
                         <label for="productReviews">Nº de Avaliações</label>
                         <input type="number" id="productReviews" placeholder="Ex: 24" value="0" min="0" required>
                     </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="productDescription">Descrição do Produto</label>
+                    <textarea id="productDescription" rows="4" placeholder="Descreva os principais diferenciais técnicos deste item..." required></textarea>
                 </div>
 
                 <div class="input-group">
