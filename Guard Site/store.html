@@ -32,7 +32,6 @@
     </div>
 
     <header>
-        <header>
         <div id="header">
             <div id="mobile-menu-btn" class="mobile-icon">
                 <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
@@ -375,13 +374,13 @@
         }
 
         // Delegação de eventos para todos os botões do Carrinho
+       // Delegação de eventos para todos os cliques do Carrinho
         document.addEventListener('click', (e) => {
             // ADICIONAR DA LOJA PARA O CARRINHO
             if (e.target.classList.contains('btn-add-cart')) {
                 const btn = e.target;
                 const itemId = btn.dataset.id;
                 
-                // Verifica se já existe
                 const itemExistente = carrinho.find(i => i.id === itemId);
                 
                 if (itemExistente) {
@@ -392,13 +391,63 @@
                         titulo: btn.dataset.titulo,
                         preco: btn.dataset.preco,
                         imagem: btn.dataset.imagem,
-                        quantidade: 1 // Começa com 1
+                        quantidade: 1
                     });
                 }
                 atualizarCarrinho();
                 abrirCarrinho();
             }
+            
+            // AUMENTAR QUANTIDADE (+)
+            if (e.target.classList.contains('qty-plus')) {
+                const item = carrinho.find(i => i.id === e.target.dataset.id);
+                if (item) item.quantidade += 1;
+                atualizarCarrinho();
+            }
 
+            // DIMINUIR QUANTIDADE (-)
+            if (e.target.classList.contains('qty-minus')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (carrinho[index].quantidade > 1) {
+                        carrinho[index].quantidade -= 1;
+                    } else {
+                        carrinho.splice(index, 1);
+                    }
+                    atualizarCarrinho();
+                }
+            }
+
+            // REMOVER ITEM INTEIRO (X)
+            if (e.target.classList.contains('cart-item-remove')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    carrinho.splice(index, 1);
+                    atualizarCarrinho();
+                }
+            }
+        }); // <-- AQUI FECHA O EVENTO DE CLIQUE CORRETAMENTE
+
+        // ========================================================
+        // EVENTO DE DIGITAÇÃO (Totalmente separado do clique!)
+        // ========================================================
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                const itemId = e.target.dataset.id;
+                let novaQuantidade = parseInt(e.target.value);
+
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) {
+                    novaQuantidade = 1;
+                }
+
+                const item = carrinho.find(i => i.id === itemId);
+                if (item) {
+                    item.quantidade = novaQuantidade;
+                    atualizarCarrinho();
+                }
+            }
+        });
+        
         // Captura a digitação direta no campo de quantidade
         document.addEventListener('change', (e) => {
             if (e.target.classList.contains('qty-input')) {
