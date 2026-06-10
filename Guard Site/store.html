@@ -48,7 +48,12 @@
                     <li><a href="loja.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Loja</a></li>
                 </ul>
             </nav>
-            <div class="header-action-btn">
+            <div class="header-action-btn" style="display: flex; align-items: center; gap: 20px;">
+                <div id="open-cart-btn" style="cursor: pointer; color: #FFFF00; display: flex; align-items: center; position: relative;">
+                    <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <span id="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;">0</span>
+                </div>
+
                 <a href="index.html#advertisement-calculator" style="text-decoration: none;">
                     <button class="header-submit-button">ORÇAMENTO <div class="icon-circle-header">&#8250;</div></button>
                 </a>
@@ -98,6 +103,20 @@
         </div>
     </section>
 
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <div id="close-cart-btn" class="close-btn" style="font-size: 2rem; cursor: pointer;">&times;</div>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            </div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
+            <button class="btn-checkout" onclick="alert('Checkout em desenvolvimento!')">Finalizar Compra</button>
+        </div>
+    </div>
+    
     <footer class="main-footer">
         <div class="footer-links">
             <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
