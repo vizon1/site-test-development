@@ -2933,7 +2933,7 @@ strong {
 
 .shop-product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Força exatamente 4 colunas no computador */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     flex-grow: 1;
 }
