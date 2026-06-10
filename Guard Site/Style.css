@@ -3570,3 +3570,110 @@ select:-webkit-autofill:active {
         display: none !important; /* Desativa por completo o botão flutuante amarelo */
     }
 }
+
+/* =========================================
+   PÁGINA DE CHECKOUT
+   ========================================= */
+.checkout-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.checkout-section {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.checkout-section h2 {
+    color: #FFFF00;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 10px;
+}
+
+/* Resumo do Pedido */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.summary-item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.summary-item-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.summary-item-title {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.summary-item-qty {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.summary-item-price {
+    color: #FFFF00;
+    font-weight: bold;
+}
+
+.summary-totals {
+    margin-top: 20px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    color: #aaa;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.summary-total-final {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #444;
+}
+
+.summary-total-final span:last-child {
+    color: #FFFF00;
+}
+
+/* Responsividade do Checkout */
+@media (max-width: 900px) {
+    .checkout-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .checkout-section {
+        order: 2; /* Formulário fica embaixo no celular */
+    }
+    .checkout-summary {
+        order: 1; /* Resumo fica no topo no celular */
+    }
+}
