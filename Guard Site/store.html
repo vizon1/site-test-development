@@ -345,7 +345,7 @@
                             <div class="cart-item-price">R$ ${item.preco}</div>
                             <div class="cart-item-qty">
                                 <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
-                                <span class="qty-number">${item.quantidade}</span>
+                                <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
                                 <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
                             </div>
                         </div>
