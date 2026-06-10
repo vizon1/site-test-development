@@ -145,6 +145,7 @@
         const productReviews = document.getElementById('productReviews');
         const productDescription = document.getElementById('productDescription');
         const productImageUrl = document.getElementById('productImageUrl');
+        const productRecommended = document.getElementById('productRecommended');
 
         const previewTitle = document.getElementById('previewTitle');
         const previewCategory = document.getElementById('previewCategory');
@@ -197,6 +198,7 @@
                     avaliacoes: Number(productReviews.value),
                     descricao: productDescription.value,
                     imagem: productImageUrl.value,
+                    recomendado: productRecommended.checked,
                     dataCadastro: new Date()
                 });
 
