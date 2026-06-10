@@ -3308,3 +3308,83 @@ select:-webkit-autofill:active {
     -webkit-text-fill-color: #ffffff !important; /* Força a fonte branca */
     transition: background-color 5000s ease-in-out 0s; /* Evita que a cor pisque */
 }
+
+/* =========================================
+   CHECKBOX PERSONALIZADO (DESTACAR ITEM)
+   ========================================= */
+
+/* Contêiner principal para posicionamento */
+.custom-checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+/* Oculta o checkbox nativo visualmente, mas o mantém acessível */
+.custom-checkbox-container input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+/* Estiliza o rótulo (texto) e cria o contêiner visual */
+.custom-checkbox-container label {
+    position: relative;
+    padding-left: 32px; /* Espaço para o quadrado personalizado */
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #ffffff;
+    text-transform: none; /* Mantém o texto em minúsculas/maiúsculas normais */
+    letter-spacing: 0.3px;
+    display: inline-block;
+}
+
+/* Cria o quadrado personalizado (estado desmarcado) */
+.custom-checkbox-container label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    width: 20px;
+    height: 20px;
+    background-color: #0a0a0a; /* Fundo preto escuro */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil cinza */
+    border-radius: 4px; /* Bordas arredondadas */
+    transition: all 0.2s ease; /* Transição suave de cor */
+}
+
+/* Cria o ícone de marcação (o "v") */
+.custom-checkbox-container label::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-55%) rotate(45deg); /* Posição e rotação do 'v' */
+    width: 6px;
+    height: 11px;
+    border: solid #000; /* Cor preta para o 'v' */
+    border-width: 0 2px 2px 0; /* Cria as bordas que formam o 'v' */
+    opacity: 0; /* Oculto inicialmente */
+    transition: all 0.2s ease;
+}
+
+/* --- ESTADOS INTERATIVOS --- */
+
+/* Hover: Borda amarela ao passar o mouse */
+.custom-checkbox-container label:hover::before {
+    border-color: #FFFF00;
+}
+
+/* Estado Marcado: Fundo amarelo, borda amarela e ícone visível */
+.custom-checkbox-container input[type="checkbox"]:checked + label::before {
+    background-color: #FFFF00;
+    border-color: #FFFF00;
+}
+
+/* Mostra o ícone de marcação preto quando marcado */
+.custom-checkbox-container input[type="checkbox"]:checked + label::after {
+    opacity: 1;
+}
