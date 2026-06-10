@@ -3025,7 +3025,6 @@ strong {
     background: #111;
     border-radius: 10px;
     margin-bottom: 20px;
-    margin-top: 20px;
     overflow: hidden; /* Garante que a imagem não vaze para fora das bordas arredondadas */
 }
 
