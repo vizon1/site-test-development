@@ -296,8 +296,13 @@
         }
 
         // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
+        // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
         function criarHTMLdoCard(p) {
             const nomeCat = nomesCategorias[p.categoria] || p.categoria;
+            
+            // Procura o "½" no banco de dados e substitui pelo desenho da meia estrela em HTML
+            const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
+
             return `
                 <div class="shop-card">
                     <span class="shop-card-category">${nomeCat}</span>
@@ -306,7 +311,7 @@
                     </div>
                     <div class="shop-card-body">
                         <h4>${p.titulo}</h4>
-                        <div class="shop-card-rating">${p.estrelas} <span>(${p.avaliacoes} avaliações)</span></div>
+                        <div class="shop-card-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
                         <div class="shop-card-price">R$ ${p.preco}</div>
                         <div class="shop-card-actions">
                             <button class="btn-add-cart" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Carrinho</button>
