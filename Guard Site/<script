@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Loja Oficial Guard - Equipamentos de Segurança</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div id="sidebar-overlay"></div>
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="index.html"><div class="nav-item-content"><span>Início</span></div></a></li>
+            <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
+            <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
+            <li class="active"><a href="loja.html"><div class="nav-item-content"><span>Loja</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
+        </ul>
+    </div>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="home-alarm.html">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
+                    <li><a href="cameras.html">Câmeras</a></li>
+                    <li><a href="loja.html" style="color: #FFFF00; border-bottom: 3px solid #FFFF00;">Loja</a></li>
+                </ul>
+            </nav>
+            <div class="header-action-btn">
+                <a href="index.html#advertisement-calculator" style="text-decoration: none;">
+                    <button class="header-submit-button">ORÇAMENTO <div class="icon-circle-header">&#8250;</div></button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="shop-page-wrapper">
+        <div class="shop-hero-banner">
+            <h1 class="shop-huge-title">Loja</h1>
+            <p>Tudo o que precisa para a sua segurança num só lugar.</p>
+        </div>
+
+        <div class="shop-controls-bar">
+            <div class="shop-search">
+                <input type="text" id="searchInput" placeholder="Procurar equipamentos...">
+                <button class="btn-search" id="searchBtn">Procurar</button>
+            </div>
+        </div>
+
+        <div class="shop-main-layout">
+            <aside class="shop-sidebar-filters">
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                   <ul class="filter-list" id="categoryFilter">
+                        <li class="active"><a href="#" data-filter="all">TODOS OS PRODUTOS <span class="badge" id="badge-all">0</span></a></li>
+                        <li><a href="#" data-filter="cameras">CÂMERAS <span class="badge" id="badge-cameras">0</span></a></li>
+                        <li><a href="#" data-filter="dvrs">DVRS / NVRS <span class="badge" id="badge-dvrs">0</span></a></li>
+                        <li><a href="#" data-filter="alarmes">CENTRAIS DE ALARME <span class="badge" id="badge-alarmes">0</span></a></li>
+                        <li><a href="#" data-filter="sensores">SENSORES <span class="badge" id="badge-sensores">0</span></a></li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <div class="shop-product-grid" id="produtosGrid">
+            </div>
+            
+        </div>
+
+        <div class="shop-pagination" id="paginationContainer">
+        </div>
+
+        <div class="shop-recommendations" id="recommendationsSection" style="display: none;">
+            <h2>Explore as nossas recomendações</h2>
+            <div class="shop-product-grid" id="recomendacoesGrid">
+                </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a>
+        </div>
+        <div class="footer-contact">
+            GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // SUAS CREDENCIAIS AQUI
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Variáveis Globais de Estado
+        let todosProdutos = [];
+        let produtosFiltrados = [];
+        let paginaAtual = 1;
+        const itensPorPagina = 6;
+        let filtroCategoriaAtiva = 'all';
+
+        const tagsDaCategoria = {
+            cameras: "camera camara cftv video monitoramento vigilancia ip wifi wi-fi sem fio bullet dome lente filmagem externa interna seguranca",
+            alarmes: "central alarme sirene sensor intrusao panico seguranca protecao movimento presenca barreira choque painel teclado bateria",
+            dvrs: "dvr nvr gravador gravacao armazenamento hd disco rigido memoria video cftv stand alone canais imagem receptor",
+            sensores: "sensor movimento infravermelho presenca porta janela magnetico"
+        };
+        const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores' };
+
+        // 1. CARREGAR DADOS DO BANCO
+        async function inicializarLoja() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                querySnapshot.forEach((doc) => {
+                    todosProdutos.push({ id: doc.id, ...doc.data() });
+                });
+                
+                atualizarContadores();
+                renderizarRecomendacoes();
+                aplicarFiltros(); // Inicia a renderização do grid principal
+            } catch (error) {
+                console.error("Erro ao buscar dados:", error);
+                document.getElementById('produtosGrid').innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação.</p>';
+            }
+        }
+
+        // 2. ATUALIZAR NÚMEROS DAS CATEGORIAS
+        function atualizarContadores() {
+            const contagens = { all: todosProdutos.length, cameras: 0, dvrs: 0, alarmes: 0, sensores: 0 };
+            todosProdutos.forEach(p => {
+                if (contagens[p.categoria] !== undefined) contagens[p.categoria]++;
+            });
+            
+            document.getElementById('badge-all').textContent = contagens.all;
+            document.getElementById('badge-cameras').textContent = contagens.cameras;
+            document.getElementById('badge-dvrs').textContent = contagens.dvrs;
+            document.getElementById('badge-alarmes').textContent = contagens.alarmes;
+            document.getElementById('badge-sensores').textContent = contagens.sensores;
+        }
+
+        // 3. RENDERIZAR RECOMENDAÇÕES
+        function renderizarRecomendacoes() {
+            const recGrid = document.getElementById('recomendacoesGrid');
+            const recSection = document.getElementById('recommendationsSection');
+            const recomendados = todosProdutos.filter(p => p.recomendado === true);
+
+            if (recomendados.length > 0) {
+                recSection.style.display = 'block';
+                recGrid.innerHTML = recomendados.map(p => criarHTMLdoCard(p)).join('');
+            } else {
+                recSection.style.display = 'none';
+            }
+        }
+
+        // 4. SISTEMA DE FILTRAGEM (Pesquisa + Categoria)
+        const removeAcentos = (texto) => texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        
+        function aplicarFiltros() {
+            const termoPesquisa = removeAcentos(document.getElementById('searchInput').value || "");
+            
+            produtosFiltrados = todosProdutos.filter(p => {
+                const titulo = removeAcentos(p.titulo);
+                const tags = removeAcentos(tagsDaCategoria[p.categoria] || "");
+                const batePesquisa = titulo.includes(termoPesquisa) || tags.includes(termoPesquisa);
+                const bateCategoria = filtroCategoriaAtiva === 'all' || p.categoria === filtroCategoriaAtiva;
+                
+                return batePesquisa && bateCategoria;
+            });
+
+            paginaAtual = 1; // Volta para a página 1 ao pesquisar
+            renderizarGridPrincipal();
+        }
+
+        // 5. RENDERIZAR GRID COM PAGINAÇÃO (Max 6)
+        function renderizarGridPrincipal() {
+            const grid = document.getElementById('produtosGrid');
+            const paginationContainer = document.getElementById('paginationContainer');
+            grid.innerHTML = '';
+            paginationContainer.innerHTML = '';
+
+            if (produtosFiltrados.length === 0) {
+                grid.innerHTML = '<p style="color:#aaa; text-align:center; width:100%; grid-column: 1/-1;">Nenhum produto encontrado.</p>';
+                return;
+            }
+
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = inicio + itensPorPagina;
+            const produtosDaPagina = produtosFiltrados.slice(inicio, fim);
+
+            grid.innerHTML = produtosDaPagina.map(p => criarHTMLdoCard(p)).join('');
+            renderizarBotoesPaginacao();
+        }
+
+        // 6. RENDERIZAR BOTÕES DE PAGINAÇÃO
+        function renderizarBotoesPaginacao() {
+            const container = document.getElementById('paginationContainer');
+            const totalPaginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
+
+            if (totalPaginas <= 1) return;
+
+            for (let i = 1; i <= totalPaginas; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === paginaAtual ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => mudarPagina(i);
+                container.appendChild(btn);
+            }
+
+            if (paginaAtual < totalPaginas) {
+                const btnProximo = document.createElement('button');
+                btnProximo.className = 'page-btn';
+                btnProximo.innerHTML = 'Próximo &#8250;';
+                btnProximo.onclick = () => mudarPagina(paginaAtual + 1);
+                container.appendChild(btnProximo);
+            }
+        }
+
+        function mudarPagina(novaPagina) {
+            paginaAtual = novaPagina;
+            renderizarGridPrincipal();
+            document.querySelector('.shop-main-layout').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
+        function criarHTMLdoCard(p) {
+            const nomeCat = nomesCategorias[p.categoria] || p.categoria;
+            return `
+                <div class="shop-card">
+                    <span class="shop-card-category">${nomeCat}</span>
+                    <div class="shop-card-img">
+                        <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'">
+                    </div>
+                    <div class="shop-card-body">
+                        <h4>${p.titulo}</h4>
+                        <div class="shop-card-rating">${p.estrelas} <span>(${p.avaliacoes} avaliações)</span></div>
+                        <div class="shop-card-price">R$ ${p.preco}</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart">Carrinho</button>
+                            <button class="btn-buy-now">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 8. EVENTOS DE INTERFACE
+        document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
+        document.getElementById('searchBtn').addEventListener('click', aplicarFiltros);
+
+        document.querySelectorAll('#categoryFilter a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('#categoryFilter li').forEach(li => li.classList.remove('active'));
+                link.parentElement.classList.add('active');
+                filtroCategoriaAtiva = link.getAttribute('data-filter');
+                aplicarFiltros();
+            });
+        });
+
+        // MENU MOBILE
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
+        document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
+
+        // INICIA O SISTEMA
+        document.addEventListener('DOMContentLoaded', inicializarLoja);
+    </script>
+</body>
+</html>
