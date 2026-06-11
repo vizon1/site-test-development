@@ -3986,3 +3986,62 @@ body {
 .square-image-box:hover img {
     transform: scale(1.03); /* Zoom de 3% para um toque profissional */
 }
+
+/* =========================================
+   ANIMAÇÃO E VALIDAÇÃO DA BARRA DE PESQUISA
+   ========================================= */
+.shop-search {
+    position: relative; /* Necessário para posicionar o texto de erro abaixo */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado de Erro na Caixa */
+.shop-search.error-border {
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 12px rgba(255, 68, 68, 0.25);
+}
+
+/* Mensagem de Erro Profissional */
+.search-error-msg {
+    position: absolute;
+    bottom: -25px; /* Fica pendurado logo abaixo da barra */
+    left: 15px;
+    color: #ff4444;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.search-error-msg.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Oculta o texto do botão durante o carregamento */
+.btn-search.loading {
+    color: transparent !important;
+    pointer-events: none;
+}
+
+/* Cria o círculo giratório de carregamento */
+.btn-search.loading::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-top-color: #000000;
+    border-radius: 50%;
+    animation: spin-search 0.8s linear infinite;
+}
+
+@keyframes spin-search {
+    to { transform: rotate(360deg); }
+}
