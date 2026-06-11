@@ -342,13 +342,24 @@
                 abrirCarrinho();
             }
 
+            // COMPRA DIRETA (Cria uma sessão isolada e vai para o checkout)
             if (e.target.classList.contains('btn-buy-now')) {
                 const btn = e.target;
-                const itemExistente = carrinho.find(i => i.id === btn.dataset.id);
-                if (itemExistente) itemExistente.quantidade += 1;
-                else carrinho.push({ id: btn.dataset.id, titulo: btn.dataset.titulo, preco: btn.dataset.preco, imagem: btn.dataset.imagem, quantidade: 1 });
-                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
-                window.location.href = "checkout.html";
+                
+                // Cria um carrinho temporário apenas com este item
+                const itemComprado = [{
+                    id: btn.dataset.id,
+                    titulo: btn.dataset.titulo,
+                    preco: btn.dataset.preco,
+                    imagem: btn.dataset.imagem,
+                    quantidade: 1
+                }];
+                
+                // Salva na memória paralela
+                localStorage.setItem('guard_compra_direta', JSON.stringify(itemComprado));
+                
+                // Redireciona com o parâmetro "direto=true" para o checkout saber a origem
+                window.location.href = "checkout.html?direto=true";
             }
 
             if (e.target.classList.contains('qty-plus')) {
