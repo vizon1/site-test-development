@@ -322,8 +322,49 @@
         }
 
         // 8. EVENTOS DE INTERFACE DA LOJA
-        document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
-        document.getElementById('searchBtn').addEventListener('click', aplicarFiltros);
+        // 8. EVENTOS DE INTERFACE DA LOJA E PESQUISA COM ANIMAÇÃO
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchContainer = document.querySelector('.shop-search');
+        
+        // Cria a mensagem de erro dinamicamente abaixo da barra
+        const errorText = document.createElement('div');
+        errorText.className = 'search-error-msg';
+        errorText.textContent = 'Por favor, informe o equipamento desejado.';
+        searchContainer.appendChild(errorText);
+
+        // Validação e Animação ao clicar no botão
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const termo = searchInput.value.trim();
+            
+            // Reseta estados de erro e inicia a animação
+            searchContainer.classList.remove('error-border');
+            errorText.classList.remove('show');
+            searchBtn.classList.add('loading');
+            
+            if (termo === "") {
+                // Se vazio: Carrega por 1 segundo e avisa o erro
+                setTimeout(() => {
+                    searchBtn.classList.remove('loading');
+                    searchContainer.classList.add('error-border');
+                    errorText.classList.add('show');
+                }, 1000);
+            } else {
+                // Se preenchido: Dá um efeito visual de carregamento rápido e filtra
+                setTimeout(() => {
+                    searchBtn.classList.remove('loading');
+                    aplicarFiltros();
+                }, 500); 
+            }
+        });
+
+        // Limpa o erro ao começar a digitar e faz a filtragem em tempo real (opcional)
+        searchInput.addEventListener('input', (e) => {
+            searchContainer.classList.remove('error-border');
+            errorText.classList.remove('show');
+            aplicarFiltros();
+        });
 
         document.querySelectorAll('#categoryFilter a').forEach(link => {
             link.addEventListener('click', (e) => {
