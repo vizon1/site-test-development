@@ -128,43 +128,94 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+            
+            // LÓGICA DE SEPARAÇÃO DE CARRINHO VS COMPRA DIRETA
+            const urlParams = new URLSearchParams(window.location.search);
+            const isDireto = urlParams.get('direto') === 'true';
+            
+            // Define qual "gaveta" de memória vamos ler e salvar
+            const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
+            let itensCheckout = JSON.parse(localStorage.getItem(storageKey)) || [];
+            
             const itemsContainer = document.getElementById('checkout-items-container');
             const subtotalEl = document.getElementById('checkout-subtotal');
             const totalFinalEl = document.getElementById('checkout-total-final');
-            
             const valorFrete = 25.00; 
 
-            if (carrinho.length === 0) {
-                alert("O seu carrinho está vazio. Vamos levá-lo de volta para a loja.");
-                window.location.href = "loja.html";
-                return;
+            // Função para renderizar tudo na tela e calcular
+            function renderizarResumo() {
+                if (itensCheckout.length === 0) {
+                    alert("A sua sessão de compra está vazia. Vamos levá-lo de volta para a loja.");
+                    window.location.href = "store.html";
+                    return;
+                }
+
+                itemsContainer.innerHTML = '';
+                let subtotal = 0;
+
+                itensCheckout.forEach(item => {
+                    const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
+                    const totalDoItem = precoNumerico * item.quantidade;
+                    subtotal += totalDoItem;
+
+                    itemsContainer.innerHTML += `
+                        <div class="summary-item">
+                            <div class="summary-item-info">
+                                <img src="${item.imagem}" class="summary-item-img" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                                <div>
+                                    <div class="summary-item-title">${item.titulo}</div>
+                                    <div class="summary-qty-controls">
+                                        <button type="button" class="summary-qty-btn qty-minus" data-id="${item.id}">-</button>
+                                        <input type="number" class="summary-qty-input qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
+                                        <button type="button" class="summary-qty-btn qty-plus" data-id="${item.id}">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-item-price">R$ ${(totalDoItem).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        </div>
+                    `;
+                });
+
+                const totalFinal = subtotal + valorFrete;
+                subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                
+                // Salva a alteração na memória correspondente
+                localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
             }
 
-            let subtotal = 0;
+            // Inicializa a tela
+            renderizarResumo();
 
-            carrinho.forEach(item => {
-                const precoNumerico = parseFloat(item.preco.replace(/\./g, '').replace(',', '.'));
-                const totalDoItem = precoNumerico * item.quantidade;
-                subtotal += totalDoItem;
+            // EVENTOS DE CLIQUE PARA ALTERAR A QUANTIDADE NO CHECKOUT
+            itemsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('qty-plus')) {
+                    const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                    if (item) { item.quantidade += 1; renderizarResumo(); }
+                }
 
-                itemsContainer.innerHTML += `
-                    <div class="summary-item">
-                        <div class="summary-item-info">
-                            <img src="${item.imagem}" class="summary-item-img" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
-                            <div>
-                                <div class="summary-item-title">${item.titulo}</div>
-                                <div class="summary-item-qty">Qtd: ${item.quantidade}</div>
-                            </div>
-                        </div>
-                        <div class="summary-item-price">R$ ${(totalDoItem).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    </div>
-                `;
+                if (e.target.classList.contains('qty-minus')) {
+                    const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
+                    if (index !== -1) {
+                        if (itensCheckout[index].quantidade > 1) {
+                            itensCheckout[index].quantidade -= 1;
+                        } else {
+                            itensCheckout.splice(index, 1);
+                        }
+                        renderizarResumo();
+                    }
+                }
             });
 
-            const totalFinal = subtotal + valorFrete;
-            subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // EVENTO DE DIGITAÇÃO DE QUANTIDADE NO CHECKOUT
+            itemsContainer.addEventListener('change', (e) => {
+                if (e.target.classList.contains('qty-input')) {
+                    let novaQuantidade = parseInt(e.target.value);
+                    if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
+                    const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                    if (item) { item.quantidade = novaQuantidade; renderizarResumo(); }
+                }
+            });
 
             function mostrarErro(input, mensagem) {
                 input.style.borderColor = '#ff4444';
