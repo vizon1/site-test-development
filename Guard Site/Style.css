@@ -4046,3 +4046,58 @@ body {
 @keyframes spin-search {
     to { transform: rotate(360deg); }
 }
+
+/* =========================================
+   CONTROLADORES DE QUANTIDADE NO CHECKOUT
+   ========================================= */
+.summary-qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.summary-qty-btn {
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.summary-qty-btn:hover {
+    background: #FFFF00;
+    color: #000;
+    border-color: #FFFF00;
+}
+
+.summary-qty-input {
+    width: 35px;
+    height: 24px;
+    background: #111;
+    border: 1px solid #444;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.summary-qty-input::-webkit-outer-spin-button,
+.summary-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.summary-qty-input:focus {
+    border-color: #FFFF00;
+}
