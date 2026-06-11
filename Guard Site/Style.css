@@ -3090,7 +3090,7 @@ strong {
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     padding: 8px 16px;
-    border-radius: 25px;
+    border-radius: 12px;
     cursor: pointer;
     font-family: 'Fira Sans', sans-serif;
 }
