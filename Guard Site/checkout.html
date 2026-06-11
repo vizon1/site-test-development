@@ -410,7 +410,7 @@
                 const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
                 alert(`✅ Pedido Validado com Sucesso!\n\nDados confirmados matematicamente.\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.\n\nObrigado por escolher a Guard!`);
                 
-                localStorage.removeItem('guard_carrinho');
+                localStorage.removeItem(storageKey);
                 window.location.href = "index.html";
             });
         });
