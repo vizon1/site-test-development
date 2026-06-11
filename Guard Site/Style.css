@@ -2845,7 +2845,7 @@ strong {
 
 .shop-search {
     display: flex;
-    background: #111;
+    background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%);
     border-radius: 30px;
     padding: 5px;
     border: 1px solid rgba(255, 255, 255, 0.1);
