@@ -4101,3 +4101,46 @@ body {
 .summary-qty-input:focus {
     border-color: #FFFF00;
 }
+
+/* =========================================
+   OPÇÕES DE FRETE NO CHECKOUT
+   ========================================= */
+.frete-opcao {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.frete-opcao:hover {
+    border-color: #888;
+}
+
+/* Quando o cliente seleciona a opção */
+.frete-opcao.selecionado {
+    border-color: #FFFF00;
+    background: rgba(255, 255, 0, 0.05);
+}
+
+.frete-nome {
+    font-weight: 700;
+    color: #fff;
+}
+
+.frete-prazo {
+    font-size: 0.8rem;
+    color: #888;
+    display: block;
+    margin-top: 4px;
+}
+
+.frete-valor {
+    color: #FFFF00;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
