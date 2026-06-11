@@ -4020,10 +4020,11 @@ body {
     visibility: visible;
 }
 
-/* Oculta o texto do botão durante o carregamento */
+/* Oculta o texto do botão durante o carregamento e ancora a animação */
 .btn-search.loading {
     color: transparent !important;
     pointer-events: none;
+    position: relative; /* A MÁGICA: Esta linha prende o círculo dentro do botão */
 }
 
 /* Cria o círculo giratório de carregamento */
