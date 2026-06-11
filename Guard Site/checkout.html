@@ -190,6 +190,77 @@
                 localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
             }
 
+            // MOTOR DO CALCULADOR DE FRETE (SIMULADOR FRONT-END)
+            const btnFrete = document.getElementById('btn-calcular-frete');
+            const inputCep = document.getElementById('cep-frete');
+            const resultadosFrete = document.getElementById('frete-resultados');
+
+            // Mascara simples para o CEP
+            inputCep.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '').replace(/^(\d{5})(\d)/, '$1-$2');
+            });
+
+            btnFrete.addEventListener('click', () => {
+                if(inputCep.value.length < 9) {
+                    alert("Por favor, digite um CEP válido.");
+                    return;
+                }
+
+                // Efeito visual de carregamento
+                const textoOriginal = btnFrete.innerHTML;
+                btnFrete.innerHTML = '<div class="spinner-calc" style="display:block; width:16px; height:16px; border-color:#000; border-top-color:transparent;"></div>';
+                btnFrete.style.pointerEvents = 'none';
+
+                // Simula o tempo de resposta da API do Melhor Envio (1.5 segundos)
+                setTimeout(() => {
+                    btnFrete.innerHTML = textoOriginal;
+                    btnFrete.style.pointerEvents = 'auto';
+                    
+                    // Valores simulados (futuramente virão do JSON do Melhor Envio)
+                    const pacValor = 22.50;
+                    const sedexValor = 45.90;
+
+                    // Mostra as opções na tela
+                    resultadosFrete.style.display = 'flex';
+                    resultadosFrete.innerHTML = `
+                        <div class="frete-opcao" data-valor="${pacValor}" onclick="selecionarFrete(this)">
+                            <div>
+                                <span class="frete-nome">Correios PAC</span>
+                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                            </div>
+                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
+                            <div>
+                                <span class="frete-nome">Correios SEDEX</span>
+                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                            </div>
+                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                    `;
+                }, 1500);
+            });
+
+            // Função chamada ao clicar em uma opção de frete
+            window.selecionarFrete = function(elemento) {
+                // Remove a cor amarela de todas as opções
+                document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+                
+                // Pinta a opção clicada de amarelo
+                elemento.classList.add('selecionado');
+                
+                // Atualiza a variável global do frete e re-renderiza o resumo da direita
+                valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+                
+                // Atualiza o texto do frete na tela (ajuste o ID se o seu HTML for diferente)
+                const freteDisplay = document.getElementById('checkout-frete-display');
+                if(freteDisplay) {
+                    freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+                
+                renderizarResumo(); // Chama a função que soma o Subtotal + Frete
+            };
+
             // Inicializa a tela
             renderizarResumo();
 
