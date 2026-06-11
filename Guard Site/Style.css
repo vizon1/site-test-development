@@ -2816,7 +2816,7 @@ strong {
 .shop-hero-banner {
     text-align: center;
     padding: 60px 20px;
-    background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(0,0,0,1) 100%);
+    background: black;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
