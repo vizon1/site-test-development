@@ -4227,8 +4227,6 @@ body {
    PAINEL ADMINISTRATIVO (ADMIN.HTML)
    ========================================= */
 .admin-table-container {
-    background-color: #111;
-    border: 1px solid #333;
     border-radius: 12px;
     overflow-x: auto;
 }
