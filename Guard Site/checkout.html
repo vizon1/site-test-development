@@ -189,92 +189,6 @@
                 localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
             }
 
-            // MOTOR DO CALCULADOR DE FRETE (SIMULADOR FRONT-END)
-            const btnFrete = document.getElementById('btn-calcular-frete');
-            const inputCep = document.getElementById('cep-frete');
-            const resultadosFrete = document.getElementById('frete-resultados');
-
-            // Mascara simples para o CEP
-            inputCep.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/\D/g, '').replace(/^(\d{5})(\d)/, '$1-$2');
-            });
-
-            btnFrete.addEventListener('click', () => {
-                const cepLimpo = inputCep.value.replace(/\D/g, '');
-
-                if(cepLimpo.length !== 8) {
-                    alert("Por favor, digite um CEP válido com 8 dígitos.");
-                    return;
-                }
-
-                // Efeito visual de carregamento no botão
-                const textoOriginal = btnFrete.innerHTML;
-                btnFrete.innerHTML = '<div class="spinner-calc" style="display:block; width:16px; height:16px; border-color:#000; border-top-color:transparent;"></div>';
-                btnFrete.style.pointerEvents = 'none';
-
-                // 1. BUSCA O ENDEREÇO NO VIACEP E PREENCHE OS CAMPOS
-                fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
-                    .then(resposta => resposta.json())
-                    .then(dados => {
-                        if (!dados.erro) {
-                            document.getElementById('endereco-frete').value = dados.logradouro || '';
-                            document.getElementById('bairro-frete').value = dados.bairro || '';
-                            document.getElementById('cidade-frete').value = dados.localidade || '';
-                            document.getElementById('estado-frete').value = dados.uf || '';
-                        } else {
-                            alert("CEP não encontrado. Por favor, preencha o endereço manualmente.");
-                        }
-                    })
-                    .catch(erro => console.error("Erro na busca do CEP:", erro));
-
-                // 2. SIMULAÇÃO DO FRETE (MELHOR ENVIO / CORREIOS)
-                setTimeout(() => {
-                    btnFrete.innerHTML = textoOriginal;
-                    btnFrete.style.pointerEvents = 'auto';
-                    
-                    const pacValor = 22.50;
-                    const sedexValor = 45.90;
-
-                    resultadosFrete.style.display = 'flex';
-                    resultadosFrete.innerHTML = `
-                        <div class="frete-opcao" data-valor="${pacValor}" onclick="selecionarFrete(this)">
-                            <div>
-                                <span class="frete-nome">Correios PAC</span>
-                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
-                            </div>
-                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
-                            <div>
-                                <span class="frete-nome">Correios SEDEX</span>
-                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
-                            </div>
-                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                    `;
-                }, 1000);
-            });
-
-            // Função chamada ao clicar em uma opção de frete
-            window.selecionarFrete = function(elemento) {
-                // Remove a cor amarela de todas as opções
-                document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
-                
-                // Pinta a opção clicada de amarelo
-                elemento.classList.add('selecionado');
-                
-                // Atualiza a variável global do frete e re-renderiza o resumo da direita
-                valorFrete = parseFloat(elemento.getAttribute('data-valor'));
-                
-                // Atualiza o texto do frete na tela (ajuste o ID se o seu HTML for diferente)
-                const freteDisplay = document.getElementById('checkout-frete-display');
-                if(freteDisplay) {
-                    freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                }
-                
-                renderizarResumo(); // Chama a função que soma o Subtotal + Frete
-            };
-
             // Inicializa a tela
             renderizarResumo();
 
@@ -332,7 +246,7 @@
             const nomeInput = document.getElementById('nome');
             const cpfInput = document.getElementById('cpf');
             const telefoneInput = document.getElementById('telefone');
-            const cepInput = document.getElementById('cep-frete'); // ID CORRIGIDO AQUI
+            const cepInput = document.getElementById('cep-frete'); 
             const emailInput = document.getElementById('email');
 
             nomeInput.addEventListener('input', (e) => {
@@ -450,7 +364,7 @@
             });
 
             // =========================================
-            // AUTOMAÇÃO DO CEP E FRETE
+            // AUTOMAÇÃO DO CEP E FRETE (CORRIGIDA E LIMPA)
             // =========================================
             const resultadosFrete = document.getElementById('frete-resultados');
 
@@ -521,7 +435,7 @@
                         // AUTO-SELECIONA O PAC COMO PADRÃO
                         selecionarFrete(document.getElementById('opcao-pac'));
                         
-                    }, 800); // 0.8 segundos de atraso para o cliente ver que o sistema "pensou"
+                    }, 800); // 0.8 segundos de atraso
 
                 } else if (cepLimpo.length < 8) {
                     // Se o cliente apagar números do CEP, o sistema zera o frete e oculta a caixa
@@ -571,7 +485,6 @@
                 localStorage.removeItem(storageKey);
                 window.location.href = "index.html";
             });
-        });
     </script>
 </body>
 </html>
