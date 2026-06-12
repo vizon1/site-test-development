@@ -4531,4 +4531,21 @@ body {
         font-size: 0.6rem; /* Reduz ligeiramente a letra para não pesar na foto */
         padding: 3px 8px;  /* Diminui a "gordura" preta à volta do texto */
     }
+
+    /* Forçar alinhamento à direita e tratamento de texto longo */
+    .admin-table td {
+        text-align: right !important; /* Força tudo para a direita */
+        justify-content: flex-end !important; /* Garante alinhamento final no Flex */
+        display: flex;
+        align-items: center;
+        text-align: right;
+    }
+
+    /* Corrige o Título que estava a empurrar o layout */
+    .admin-table td[data-label="Título"] {
+        white-space: normal !important; /* Permite quebra de linha se for muito longo */
+        word-break: break-word; /* Quebra palavras longas para não alargar a caixa */
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
 }
