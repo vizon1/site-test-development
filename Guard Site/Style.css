@@ -4579,7 +4579,7 @@ body {
     height: 40px;              /* Altura idêntica à largura (Quadrado) */
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     border-radius: 10px;       /* Quinas arredondadas */
     font-size: 1.8rem;         /* Tamanho grande para o + */
     font-weight: 400;
