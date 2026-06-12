@@ -62,7 +62,9 @@
                             <p class="pedido-total">R$ ${pedido.total}</p>
                         </div>
                         <div class="pedido-footer">
-                            <button href="meus-pedidos.html" class="btn-detalhes">Ver Detalhes</button>
+                            <a href="detalhes-pedido.html?id=${pedido.id}" style="text-decoration: none;">
+                                <button class="btn-detalhes">Ver Detalhes</button>
+                            </a>
                         </div>
                     </div>
                 `;
