@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Painel Administrativo - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body style="background-color: #0a0a0a;">
+
+    <header>
+        <div id="header">
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <div class="panel-header-title">
+                <span style="color: #FFFF00;">PAINEL ADMINISTRATIVO</span>
+            </div>
+            <div class="header-action-btn">
+                <a href="store.html" style="text-decoration: none;">
+                    <button class="header-submit-button">IR PARA A LOJA</button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1200px; margin: 120px auto 40px; padding: 0 20px;">
+        <h1 style="margin-bottom: 20px;">Gerir Produtos</h1>
+        
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Preço (R$)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-produtos">
+                    <tr><td colspan="5" style="text-align: center; color: #FFFF00;">A carregar base de dados...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="modal-editar" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <h2 style="color: #FFFF00; margin-bottom: 20px;">Editar Produto</h2>
+            <form id="form-editar">
+                <input type="hidden" id="edit-id">
+                
+                <label>Título do Produto</label>
+                <input type="text" id="edit-titulo" required>
+                
+                <label>Preço (Ex: 104,00)</label>
+                <input type="text" id="edit-preco" required>
+                
+                <label>Categoria</label>
+                <select id="edit-categoria" class="admin-select" required>
+                    <option value="cameras">Câmeras</option>
+                    <option value="alarmes">Alarmes</option>
+                    <option value="dvrs">DVRs / NVRs</option>
+                    <option value="sensores">Sensores</option>
+                    <option value="outros">Outros</option>
+                </select>
+                
+                <label>Link da Imagem (URL)</label>
+                <input type="text" id="edit-imagem" required>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn-salvar" id="btn-salvar-edicao">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // SUAS CREDENCIAIS FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        let produtosGlobal = []; // Memória temporária para edição
+
+        // 1. LER E EXIBIR TODOS OS PRODUTOS
+        async function carregarProdutos() {
+            const tbody = document.getElementById('tabela-produtos');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #FFFF00;">Atualizando...</td></tr>';
+            produtosGlobal = [];
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                let html = '';
+                
+                querySnapshot.forEach((documento) => {
+                    const p = { id: documento.id, ...documento.data() };
+                    produtosGlobal.push(p);
+                    
+                    html += `
+                        <tr>
+                            <td><img src="${p.imagem}" alt="img" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                            <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.titulo}</td>
+                            <td style="text-transform: capitalize;">${p.categoria}</td>
+                            <td>R$ ${p.preco}</td>
+                            <td>
+                                <button class="btn-admin btn-editar" onclick="abrirModal('${p.id}')">Editar</button>
+                                <button class="btn-admin btn-deletar" onclick="apagarProduto('${p.id}')">Excluir</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                if(html === '') html = '<tr><td colspan="5" style="text-align: center;">Nenhum produto cadastrado.</td></tr>';
+                tbody.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Erro ao carregar:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="color: red; text-align: center;">Erro ao ligar ao banco de dados.</td></tr>';
+            }
+        }
+
+        // 2. APAGAR PRODUTO DO BANCO DE DADOS
+        window.apagarProduto = async function(id) {
+            if (confirm("ATENÇÃO: Tem certeza que deseja excluir este produto permanentemente?")) {
+                try {
+                    await deleteDoc(doc(db, "produtos", id));
+                    alert("Produto apagado com sucesso!");
+                    carregarProdutos(); // Recarrega a tabela automaticamente
+                } catch (error) {
+                    alert("Erro ao excluir o produto: " + error.message);
+                }
+            }
+        };
+
+        // 3. ABRIR E PREENCHER JANELA DE EDIÇÃO
+        window.abrirModal = function(id) {
+            const produto = produtosGlobal.find(p => p.id === id);
+            if(produto) {
+                document.getElementById('edit-id').value = produto.id;
+                document.getElementById('edit-titulo').value = produto.titulo;
+                document.getElementById('edit-preco').value = produto.preco;
+                document.getElementById('edit-categoria').value = produto.categoria;
+                document.getElementById('edit-imagem').value = produto.imagem;
+                
+                document.getElementById('modal-editar').style.display = 'flex';
+            }
+        };
+
+        window.fecharModal = function() {
+            document.getElementById('modal-editar').style.display = 'none';
+        };
+
+        // 4. GUARDAR ALTERAÇÕES (UPDATE)
+        document.getElementById('form-editar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnSalvar = document.getElementById('btn-salvar-edicao');
+            btnSalvar.textContent = "A salvar...";
+            btnSalvar.style.pointerEvents = "none";
+
+            const idProduto = document.getElementById('edit-id').value;
+            const novosDados = {
+                titulo: document.getElementById('edit-titulo').value,
+                preco: document.getElementById('edit-preco').value,
+                categoria: document.getElementById('edit-categoria').value,
+                imagem: document.getElementById('edit-imagem').value
+            };
+
+            try {
+                // Atualiza o documento específico no Firebase
+                const refProduto = doc(db, "produtos", idProduto);
+                await updateDoc(refProduto, novosDados);
+                
+                alert("Produto atualizado com sucesso!");
+                fecharModal();
+                carregarProdutos(); // Atualiza a tabela para mostrar o novo nome/preço
+            } catch (error) {
+                alert("Erro ao atualizar: " + error.message);
+            } finally {
+                btnSalvar.textContent = "Salvar Alterações";
+                btnSalvar.style.pointerEvents = "auto";
+            }
+        });
+
+        // Inicia a tabela ao abrir a página
+        carregarProdutos();
+    </script>
+</body>
+</html>
