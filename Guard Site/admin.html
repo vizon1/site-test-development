@@ -92,7 +92,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // SUAS CREDENCIAIS FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -105,9 +104,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         
-        let produtosGlobal = []; // Memória temporária para edição
+        let produtosGlobal = [];
 
-        // 1. LER E EXIBIR TODOS OS PRODUTOS
+        // 1. LER E EXIBIR (Com suporte a Mobile via data-label)
         async function carregarProdutos() {
             const tbody = document.getElementById('tabela-produtos');
             tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #FFFF00;">Atualizando...</td></tr>';
@@ -123,11 +122,11 @@
                     
                     html += `
                         <tr>
-                            <td><img src="${p.imagem}" alt="img" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
-                            <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.titulo}</td>
-                            <td style="text-transform: capitalize;">${p.categoria}</td>
-                            <td>R$ ${p.preco}</td>
-                            <td>
+                            <td data-label="Imagem"><img src="${p.imagem}" alt="img" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                            <td data-label="Título" style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.titulo}</td>
+                            <td data-label="Categoria" style="text-transform: capitalize;">${p.categoria}</td>
+                            <td data-label="Preço">R$ ${p.preco}</td>
+                            <td data-label="Ações">
                                 <button class="btn-admin btn-editar" onclick="abrirModal('${p.id}')">Editar</button>
                                 <button class="btn-admin btn-deletar" onclick="apagarProduto('${p.id}')">Excluir</button>
                             </td>
@@ -144,28 +143,32 @@
             }
         }
 
-        // 2. APAGAR PRODUTO DO BANCO DE DADOS
         window.apagarProduto = async function(id) {
             if (confirm("ATENÇÃO: Tem certeza que deseja excluir este produto permanentemente?")) {
                 try {
                     await deleteDoc(doc(db, "produtos", id));
                     alert("Produto apagado com sucesso!");
-                    carregarProdutos(); // Recarrega a tabela automaticamente
+                    carregarProdutos();
                 } catch (error) {
                     alert("Erro ao excluir o produto: " + error.message);
                 }
             }
         };
 
-        // 3. ABRIR E PREENCHER JANELA DE EDIÇÃO
+        // 3. ABRIR E PREENCHER JANELA DE EDIÇÃO (Agora com novos campos)
         window.abrirModal = function(id) {
             const produto = produtosGlobal.find(p => p.id === id);
             if(produto) {
                 document.getElementById('edit-id').value = produto.id;
-                document.getElementById('edit-titulo').value = produto.titulo;
-                document.getElementById('edit-preco').value = produto.preco;
-                document.getElementById('edit-categoria').value = produto.categoria;
-                document.getElementById('edit-imagem').value = produto.imagem;
+                document.getElementById('edit-titulo').value = produto.titulo || '';
+                document.getElementById('edit-preco').value = produto.preco || '';
+                document.getElementById('edit-categoria').value = produto.categoria || '';
+                document.getElementById('edit-imagem').value = produto.imagem || '';
+                
+                // Novos campos preenchidos automaticamente (se existirem)
+                document.getElementById('edit-estrelas').value = produto.estrelas || '';
+                document.getElementById('edit-avaliacoes').value = produto.avaliacoes || '';
+                document.getElementById('edit-descricao').value = produto.descricao || '';
                 
                 document.getElementById('modal-editar').style.display = 'flex';
             }
@@ -187,17 +190,19 @@
                 titulo: document.getElementById('edit-titulo').value,
                 preco: document.getElementById('edit-preco').value,
                 categoria: document.getElementById('edit-categoria').value,
-                imagem: document.getElementById('edit-imagem').value
+                imagem: document.getElementById('edit-imagem').value,
+                estrelas: document.getElementById('edit-estrelas').value,
+                avaliacoes: document.getElementById('edit-avaliacoes').value,
+                descricao: document.getElementById('edit-descricao').value
             };
 
             try {
-                // Atualiza o documento específico no Firebase
                 const refProduto = doc(db, "produtos", idProduto);
                 await updateDoc(refProduto, novosDados);
                 
                 alert("Produto atualizado com sucesso!");
                 fecharModal();
-                carregarProdutos(); // Atualiza a tabela para mostrar o novo nome/preço
+                carregarProdutos(); 
             } catch (error) {
                 alert("Erro ao atualizar: " + error.message);
             } finally {
@@ -206,7 +211,6 @@
             }
         });
 
-        // Inicia a tabela ao abrir a página
         carregarProdutos();
     </script>
 </body>
