@@ -4473,22 +4473,56 @@ body {
     }
 }
 
-/* Nova quebra: Abaixo de 720px, cai para 2 colunas */
+/* =========================================
+   RESPONSIVIDADE EXTREMA (TELEMÓVEIS < 720px)
+   ========================================= */
 @media (max-width: 720px) {
     .shop-product-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 8px; /* Reduz o espaço vazio entre os cards */
+        padding: 0 5px; /* Reduz a margem da tela para aproveitar espaço */
+    }
+
+    .shop-card {
+        /* Destrava as medidas rígidas que quebram o telemóvel */
+        min-width: 0 !important; 
+        min-height: 0 !important; 
+        max-width: 100%;
+        height: 100%; /* Garante que os dois cards da linha alinhem a altura */
+    }
+
+    /* Reduz o interior para manter a proporção exata */
+    .shop-card-img {
+        height: 100px; 
+        margin-bottom: 8px;
+    }
+
+    .shop-card-body {
+        padding: 8px; /* Menos espaço vazio interno */
+    }
+
+    .shop-card-body h4 {
+        font-size: 0.75rem; /* Texto mais compacto */
+        height: 2.6em; /* Ajuste para o texto não sobrepor */
+        margin-bottom: 6px;
+    }
+
+    .shop-card-rating {
+        font-size: 0.65rem;
+        margin-bottom: 8px;
+    }
+
+    .shop-card-price {
+        font-size: 0.95rem; /* Preço ligeiramente menor */
+        margin-bottom: 8px;
+    }
+
+    .shop-card-actions {
+        gap: 4px;
+    }
+
+    .shop-card-actions button {
+        padding: 6px; /* Botões mais finos */
+        font-size: 0.7rem;
     }
 }
-
-.shop-card {
-        /* Limites Máximos e Mínimos Estritos */
-        max-width: 240px;
-        max-height: 380px;
-        min-width: 182px;  /* IMPEDE DE ENCOLHER NA LARGURA */
-        min-height: 331px; /* IMPEDE DE ENCOLHER NA ALTURA */
-        width: 100%;
-        border-radius: 16px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
