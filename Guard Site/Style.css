@@ -4479,3 +4479,16 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+.shop-card {
+        /* Limites Máximos e Mínimos Estritos */
+        max-width: 240px;
+        max-height: 380px;
+        min-width: 182px;  /* IMPEDE DE ENCOLHER NA LARGURA */
+        min-height: 331px; /* IMPEDE DE ENCOLHER NA ALTURA */
+        width: 100%;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
