@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Detalhes do Pedido - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body style="background-color: #000;">
+
+    <header>
+        <div id="header">
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <div class="panel-header-title">
+                <span style="color: #fff; font-weight: 600;">DETALHES</span>
+            </div>
+            <div class="header-action-btn">
+                <a href="meus-pedidos.html" style="text-decoration: none;">
+                    <button class="header-submit-button">VOLTAR</button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="details-wrapper">
+        <section class="details-intro">
+            <h1 class="details-title">Pedido #GD-84728</h1>
+            <p class="details-date">Realizado em 10 de Junho de 2026</p>
+            <div class="details-status-pill status-verde">ENVIANDO</div>
+        </section>
+
+        <div class="details-grid">
+            <div class="details-column">
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-truck-fast"></i> Entrega</h3>
+                    <div class="details-info-block">
+                        <label>Código de Rastreio</label>
+                        <p class="tracking-code">BR94720184752-SP <span class="copy-btn">Copiar</span></p>
+                    </div>
+                    <div class="details-info-block">
+                        <label>Endereço de Envio</label>
+                        <p>Rua Alameda das Flores, 452, Apto 12<br>Jardins, São Paulo - SP<br>01234-000</p>
+                    </div>
+                </div>
+
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-file-invoice-dollar"></i> Documentos Fiscais</h3>
+                    <div class="details-info-block">
+                        <p>A nota fiscal eletrônica (NF-e) já foi emitida.</p>
+                        <button class="btn-nfe"><i class="fa-solid fa-download"></i> Baixar NF-e PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-column">
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-box"></i> Itens do Pedido</h3>
+                    <div class="order-item">
+                        <img src="https://placehold.co/100x100/1a1a1a/fff?text=Produto" alt="Produto">
+                        <div class="item-info">
+                            <p class="item-name">Câmera Bullet HDCVI Intelbras VHL 1120 B</p>
+                            <p class="item-qty">Qtd: 1</p>
+                        </div>
+                        <p class="item-price">R$ 104,00</p>
+                    </div>
+
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>R$ 104,00</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Frete (Envio Expresso)</span>
+                        <span>R$ 15,00</span>
+                    </div>
+                    <div class="summary-line total">
+                        <span>Total</span>
+                        <span>R$ 119,00</span>
+                    </div>
+                </div>
+
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-credit-card"></i> Pagamento</h3>
+                    <div class="details-info-block">
+                        <label>Método</label>
+                        <p>PIX - Sicoob Pagamentos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
