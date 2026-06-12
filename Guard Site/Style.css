@@ -4549,7 +4549,7 @@ body {
         box-sizing: border-box;
     }
 
-    .btn-confirmar {
+    .btn-panel-submit {
         display: block !important;
         margin: 0 auto !important; /* Centraliza o botão no eixo X */
         width: 100% !important;    /* Força o botão a esticar de ponta a ponta no formulário */
