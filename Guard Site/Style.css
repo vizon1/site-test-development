@@ -4310,7 +4310,7 @@ body {
     font-size: 0.85rem;
 }
 
-.admin-modal input, .admin-select {
+.admin-modal input, .admin-modal textarea, .admin-select {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
@@ -4320,9 +4320,10 @@ body {
     border-radius: 6px;
     font-family: inherit;
     outline: none;
+    resize: vertical; /* Permite ao utilizador puxar a caixa de descrição para baixo */
 }
 
-.admin-modal input:focus, .admin-select:focus {
+.admin-modal input:focus, .admin-modal textarea:focus, .admin-select:focus {
     border-color: #FFFF00;
 }
 
@@ -4349,3 +4350,59 @@ body {
     font-weight: bold;
 }
 .btn-salvar:hover { background: #e6e600; }
+
+/* =========================================
+   RESPONSIVIDADE DA TABELA ADMIN (MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+    .admin-table thead {
+        display: none; /* Esconde o cabeçalho original no mobile */
+    }
+    
+    .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+        display: block;
+        width: 100%;
+    }
+    
+    .admin-table tr {
+        margin-bottom: 20px;
+        background-color: #111;
+        border-radius: 12px;
+        border: 1px solid #333;
+        padding: 15px;
+    }
+    
+    .admin-table td {
+        text-align: right;
+        padding-left: 45%; /* Abre espaço à esquerda para o título injetado */
+        position: relative;
+        border-bottom: 1px solid #222;
+        min-height: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    
+    .admin-table td:last-child {
+        border-bottom: none;
+        padding-top: 15px;
+        justify-content: center;
+        gap: 10px;
+        padding-left: 0;
+    }
+
+    /* O truque: Puxa o "data-label" do HTML e escreve-o à esquerda */
+    .admin-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #888;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+}
