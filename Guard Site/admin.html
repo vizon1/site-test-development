@@ -48,7 +48,7 @@
     </main>
 
     <div id="modal-editar" class="admin-modal-overlay">
-        <div class="admin-modal">
+        <div class="admin-modal" style="max-height: 90vh; overflow-y: auto;">
             <h2 style="color: #FFFF00; margin-bottom: 20px;">Editar Produto</h2>
             <form id="form-editar">
                 <input type="hidden" id="edit-id">
@@ -70,6 +70,15 @@
                 
                 <label>Link da Imagem (URL)</label>
                 <input type="text" id="edit-imagem" required>
+
+                <label>Avaliação (Estrelas - Ex: ★★★★½)</label>
+                <input type="text" id="edit-estrelas" placeholder="Ex: ★★★★½">
+
+                <label>Número de Avaliações (Ex: 15)</label>
+                <input type="number" id="edit-avaliacoes" placeholder="Ex: 15">
+
+                <label>Descrição Completa do Produto</label>
+                <textarea id="edit-descricao" rows="5" placeholder="Cole aqui a descrição do produto..."></textarea>
                 
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
                     <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
