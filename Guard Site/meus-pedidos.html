@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Meus Pedidos - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body style="background-color: #0a0a0a;">
+
+    <header>
+        <div id="header">
+            <div id="logo-container"> 
+                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            </div>
+            <div class="panel-header-title">
+                <span style="color: #fff; font-weight: 600;">MEUS PEDIDOS</span>
+            </div>
+            <div class="header-action-btn">
+                <a href="store.html" style="text-decoration: none;">
+                    <button class="header-submit-button">VOLTAR À LOJA</button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pedidos-wrapper">
+        <h1 class="pedidos-title">Acompanhar Pedidos</h1>
+        <p class="pedidos-subtitle">Verifique o status das suas compras recentes.</p>
+        
+        <div id="lista-pedidos" class="pedidos-grid">
+            </div>
+    </main>
+
+    <script type="module">
+        // Exemplo de dados (Depois substituirá pelo Firebase Firestore)
+        const pedidosMock = [
+            { id: "GD-84729", data: "12 Jun 2026", total: "104,00", status: "Aguardando pagamento", classe: "status-amarelo", item: "Câmera Bullet HDCVI Intelbras" },
+            { id: "GD-84728", data: "10 Jun 2026", total: "250,00", status: "Enviando", classe: "status-verde", item: "Kit Alarme Residencial" },
+            { id: "GD-84720", data: "01 Jun 2026", total: "50,00", status: "A caminho", classe: "status-verde", item: "Sensor de Movimento IVP" },
+            { id: "GD-84690", data: "15 Mai 2026", total: "170,00", status: "Entregue", classe: "status-azul", item: "DVR 4 Canais Intelbras" }
+        ];
+
+        function renderizarPedidos() {
+            const container = document.getElementById('lista-pedidos');
+            let html = '';
+
+            pedidosMock.forEach(pedido => {
+                html += `
+                    <div class="pedido-card">
+                        <div class="pedido-header">
+                            <div>
+                                <span class="pedido-id">Pedido #${pedido.id}</span>
+                                <span class="pedido-data">${pedido.data}</span>
+                            </div>
+                            <div class="pedido-badge ${pedido.classe}">${pedido.status}</div>
+                        </div>
+                        <div class="pedido-body">
+                            <p class="pedido-item">${pedido.item}</p>
+                            <p class="pedido-total">R$ ${pedido.total}</p>
+                        </div>
+                        <div class="pedido-footer">
+                            <button class="btn-detalhes">Ver Detalhes</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        renderizarPedidos();
+    </script>
+</body>
+</html>
