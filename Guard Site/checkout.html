@@ -449,66 +449,104 @@
                 }
             });
 
-            // CLIQUE UNIFICADO: VIACEP + SIMULAÇÃO DE FRETE
-            btnFrete.addEventListener('click', async () => {
-                const cepLimpo = cepInput.value.replace(/\D/g, '');
+            // =========================================
+            // AUTOMAÇÃO DO CEP E FRETE
+            // =========================================
+            const resultadosFrete = document.getElementById('frete-resultados');
 
-                if(cepLimpo.length !== 8) {
-                    alert("Por favor, digite um CEP válido com 8 dígitos.");
-                    return;
-                }
+            cepInput.addEventListener('input', async (e) => {
+                // Formata o CEP dinamicamente
+                let v = e.target.value.replace(/\D/g, "");
+                v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+                e.target.value = v.substring(0, 9);
 
-                // Efeito visual de carregamento
-                const textoOriginal = btnFrete.innerHTML;
-                btnFrete.innerHTML = '<div class="spinner-calc" style="display:block; width:16px; height:16px; border-color:#000; border-top-color:transparent;"></div>';
-                btnFrete.style.pointerEvents = 'none';
+                const cepLimpo = v.replace(/\D/g, '');
 
-                // 1. BUSCA VIA CEP
-                try {
-                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-                    const data = await res.json();
+                // Quando atinge os 8 números, dispara a automação
+                if (cepLimpo.length === 8) {
                     
-                    if (!data.erro) {
-                        document.getElementById('rua').value = data.logradouro || '';
-                        document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || '';
-                        document.getElementById('estado').value = data.uf || '';
-                        limparErro(cepInput);
-                        document.getElementById('numero').focus(); 
-                    } else {
-                        mostrarErro(cepInput, 'CEP não encontrado.');
-                    }
-                } catch (err) {
-                    console.error("Erro na busca do CEP:", err);
-                }
-
-                // 2. SIMULA FRETE
-                setTimeout(() => {
-                    btnFrete.innerHTML = textoOriginal;
-                    btnFrete.style.pointerEvents = 'auto';
-                    
-                    const pacValor = 22.50;
-                    const sedexValor = 45.90;
-
+                    // Mostra aviso de carregamento no lugar dos fretes
                     resultadosFrete.style.display = 'flex';
-                    resultadosFrete.innerHTML = `
-                        <div class="frete-opcao" data-valor="${pacValor}" onclick="selecionarFrete(this)">
-                            <div>
-                                <span class="frete-nome">Correios PAC</span>
-                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                    resultadosFrete.innerHTML = '<div style="color: #FFFF00; font-size: 0.9rem; padding: 10px;">A calcular frete e endereço...</div>';
+                    
+                    // 1. BUSCA VIA CEP
+                    try {
+                        const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                        const data = await res.json();
+                        
+                        if (!data.erro) {
+                            document.getElementById('rua').value = data.logradouro || '';
+                            document.getElementById('bairro').value = data.bairro || '';
+                            document.getElementById('cidade').value = data.localidade || '';
+                            document.getElementById('estado').value = data.uf || '';
+                            limparErro(cepInput);
+                            document.getElementById('numero').focus(); 
+                        } else {
+                            mostrarErro(cepInput, 'CEP não encontrado.');
+                            resultadosFrete.style.display = 'none';
+                            return; // Para a execução se o CEP for inválido
+                        }
+                    } catch (err) {
+                        console.error("Erro na busca do CEP:", err);
+                    }
+
+                    // 2. SIMULA O FRETE E EXIBE
+                    setTimeout(() => {
+                        const pacValor = 22.50;
+                        const sedexValor = 45.90;
+
+                        resultadosFrete.innerHTML = `
+                            <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
+                                <div class="frete-info-container">
+                                    <div class="frete-radio-circle"></div>
+                                    <div>
+                                        <span class="frete-nome">Correios PAC</span>
+                                        <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                                    </div>
+                                </div>
+                                <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                             </div>
-                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
-                            <div>
-                                <span class="frete-nome">Correios SEDEX</span>
-                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                            <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
+                                <div class="frete-info-container">
+                                    <div class="frete-radio-circle"></div>
+                                    <div>
+                                        <span class="frete-nome">Correios SEDEX</span>
+                                        <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                                    </div>
+                                </div>
+                                <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                             </div>
-                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                    `;
-                }, 1000);
+                        `;
+                        
+                        // AUTO-SELECIONA O PAC COMO PADRÃO
+                        selecionarFrete(document.getElementById('opcao-pac'));
+                        
+                    }, 800); // 0.8 segundos de atraso para o cliente ver que o sistema "pensou"
+
+                } else if (cepLimpo.length < 8) {
+                    // Se o cliente apagar números do CEP, o sistema zera o frete e oculta a caixa
+                    resultadosFrete.style.display = 'none';
+                    resultadosFrete.innerHTML = '';
+                    valorFrete = 0.00;
+                    document.getElementById('checkout-frete').textContent = 'R$ 0,00';
+                    renderizarResumo();
+                }
             });
+
+            // Função chamada ao clicar nas opções de frete
+            window.selecionarFrete = function(elemento) {
+                document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+                elemento.classList.add('selecionado');
+                
+                // Pega o valor e atualiza a direita
+                valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+                const freteDisplay = document.getElementById('checkout-frete');
+                if(freteDisplay) {
+                    freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+                
+                renderizarResumo(); // Atualiza o Total a Pagar
+            };
 
             // FINALIZAR E VALIDAR COMPRA
             document.getElementById('checkoutForm').addEventListener('submit', (e) => {
