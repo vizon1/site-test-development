@@ -4532,20 +4532,20 @@ body {
         padding: 3px 8px;  /* Diminui a "gordura" preta à volta do texto */
     }
 
-    /* Forçar alinhamento à direita e tratamento de texto longo */
-    .admin-table td {
-        text-align: right !important; /* Força tudo para a direita */
-        justify-content: flex-end !important; /* Garante alinhamento final no Flex */
-        display: flex;
-        align-items: center;
-        text-align: right;
+    /* Garantir que todos os Títulos tenham o mesmo comportamento */
+    .admin-table td[data-label="Título"] {
+        display: flex !important;
+        justify-content: flex-end !important; /* Força o alinhamento à direita */
+        width: 100% !important;
+        text-align: right !important;
+        /* Removemos o max-width rígido para o texto fluir dentro da coluna */
     }
 
-    /* Corrige o Título que estava a empurrar o layout */
-    .admin-table td[data-label="Título"] {
-        white-space: normal !important; /* Permite quebra de linha se for muito longo */
-        word-break: break-word; /* Quebra palavras longas para não alargar a caixa */
-        text-align: right !important;
+    /* Garantir que a célula que contém o Título não quebre o layout */
+    .admin-table td {
+        display: flex !important;
         justify-content: flex-end !important;
+        width: 100% !important;
+        box-sizing: border-box;
     }
 }
