@@ -27,8 +27,16 @@
     </header>
 
     <main style="max-width: 1200px; margin: 180px auto 40px; padding: 0 20px;">
-        <h1 style="margin-bottom: 20px;">Gerir Produtos</h1>
         
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <h1 style="margin-bottom: 0;">Gerir Produtos</h1>
+                <a href="criar-anuncio.html" style="text-decoration: none;">
+                    <button class="btn-novo-anuncio-quadrado" title="Criar Novo Anúncio">+</button>
+                </a>
+            </div>
+        </div>
+
         <div class="admin-table-container">
             <table class="admin-table">
                 <thead>
@@ -45,6 +53,11 @@
                 </tbody>
             </table>
         </div>
+        
+        <a href="criar-anuncio.html" style="text-decoration: none;">
+            <button class="btn-novo-anuncio" style="margin-top: 20px; width: 100%;">+ CRIAR NOVO PRODUTO</button>
+        </a>
+
     </main>
 
     <div id="modal-editar" class="admin-modal-overlay">
