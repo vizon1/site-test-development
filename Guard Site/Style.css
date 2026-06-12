@@ -4600,3 +4600,153 @@ body {
     color: #000;
     transform: scale(1.05);
 }
+
+/* =========================================
+   PÁGINA: MEUS PEDIDOS (ESTÉTICA PREMIUM)
+   ========================================= */
+.pedidos-wrapper {
+    max-width: 800px; /* Mais estreito para leitura elegante */
+    margin: 140px auto 60px;
+    padding: 0 20px;
+}
+
+.pedidos-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+}
+
+.pedidos-subtitle {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 40px;
+}
+
+.pedidos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* O Cartão do Pedido */
+.pedido-card {
+    background-color: #111;
+    border: 1px solid #222;
+    border-radius: 20px; /* Bordas bem arredondadas estilo Apple */
+    padding: 24px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pedido-card:hover {
+    border-color: #333;
+    transform: translateY(-2px);
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #222;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.pedido-id {
+    display: block;
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.pedido-data {
+    display: block;
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* Badges de Status (Ghost Buttons) */
+.pedido-badge {
+    padding: 6px 14px;
+    border-radius: 50px; /* Formato pílula */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: transparent; /* Fundo transparente */
+}
+
+.status-amarelo {
+    border: 1px solid #FFFF00;
+    color: #FFFF00;
+}
+
+.status-verde {
+    border: 1px solid #32CD32; /* Verde sofisticado */
+    color: #32CD32;
+}
+
+.status-azul {
+    border: 1px solid #1E90FF; /* Azul limpo */
+    color: #1E90FF;
+}
+
+/* Corpo e Footer do Cartão */
+.pedido-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.pedido-item {
+    color: #ccc;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+}
+
+.pedido-total {
+    font-weight: 800;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.btn-detalhes {
+    width: 100%;
+    padding: 14px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-detalhes:hover {
+    background-color: #222;
+    border-color: #555;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 600px) {
+    .pedido-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .pedido-body {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .pedido-item {
+        max-width: 100%;
+    }
+}
