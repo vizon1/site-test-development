@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Meus Pedidos - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body style="background-color: #0a0a0a; color: white;">
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <img src="imagens/logo.webp" alt="Logo" style="width: 40px;">
+            <button id="close-menu" class="close-btn">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html">Início</a>
+            <a href="store.html">Loja Online</a>
+            <a href="meus-pedidos.html" class="active">Meus Pedidos</a>
+            <a href="admin.html">Painel Administrativo</a>
+        </nav>
+    </div>
+    <div id="overlay-menu" class="overlay"></div>
+
+    <header>
+        <div id="header">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button id="open-menu" class="menu-hamburger-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div id="logo-container"> 
+                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+                </div>
+            </div>
+            <div class="panel-header-title">
+                <span style="color: #fff; font-weight: 600;">GERENCIAR COMPRAS</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pedidos-wrapper">
+        <h1 class="pedidos-title">Meus Pedidos</h1>
+        <p class="pedidos-subtitle">Acompanhe o status e os detalhes das suas encomendas.</p>
+        
+        <div id="lista-pedidos" class="pedidos-grid">
+            </div>
+    </main>
+
+    <script type="module">
+        // LOGICA DO MENU LATERAL
+        const openBtn = document.getElementById('open-menu');
+        const closeBtn = document.getElementById('close-menu');
+        const sidebar = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('overlay-menu');
+
+        openBtn.addEventListener('click', () => { sidebar.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // MOCK DE DADOS (Simulando Firebase)
+        const pedidos = [
+            { 
+                id: "GD-84729", 
+                data: "12/06/2026", 
+                total: "104,00", 
+                status: "Aguardando pagamento", 
+                classe: "status-amarelo",
+                itens: ["Câmera Bullet HDCVI 1120B"],
+                endereco: "Rua das Oliveiras, 450 - Centro",
+                chavePix: "00020126580014br.gov.bcb.pix011400012345678901"
+            },
+            { 
+                id: "GD-84710", 
+                data: "10/06/2026", 
+                total: "350,00", 
+                status: "Enviando", 
+                classe: "status-verde",
+                itens: ["DVR 4 Canais Intelbras", "Cabo Coaxial 20m"],
+                endereco: "Av. Brasil, 1200 - Apto 42",
+                chavePix: "PAGO"
+            }
+        ];
+
+        function renderizarPedidos() {
+            const container = document.getElementById('lista-pedidos');
+            container.innerHTML = pedidos.map(p => `
+                <div class="pedido-card">
+                    <div class="pedido-summary">
+                        <div>
+                            <span class="pedido-id">#${p.id}</span>
+                            <span class="pedido-data">${p.data}</span>
+                        </div>
+                        <div class="pedido-badge ${p.classe}">${p.status}</div>
+                    </div>
+                    
+                    <div class="pedido-body-minimal">
+                        <span>Total: <strong>R$ ${p.total}</strong></span>
+                        <button class="btn-expandir" onclick="toggleDetalhes('${p.id}')">Ver Detalhes <i class="fa-solid fa-chevron-down"></i></button>
+                    </div>
+
+                    <div id="detalhes-${p.id}" class="pedido-detalhes-expand">
+                        <div class="detalhes-content">
+                            <p><strong>Produtos:</strong> ${p.itens.join(', ')}</p>
+                            <p><strong>Entrega:</strong> ${p.endereco}</p>
+                            ${p.chavePix !== 'PAGO' ? `
+                                <div class="pix-area">
+                                    <p style="font-size: 0.8rem; color: #FFFF00;">Copie o código PIX abaixo para pagar:</p>
+                                    <input type="text" value="${p.chavePix}" readonly class="pix-input">
+                                    <button class="btn-copiar" onclick="copiarPix('${p.chavePix}')">COPIAR CÓDIGO</button>
+                                </div>
+                            ` : '<p style="color: #32CD32;"><i class="fa-solid fa-check-double"></i> Pagamento Confirmado</p>'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.toggleDetalhes = function(id) {
+            const el = document.getElementById(`detalhes-${id}`);
+            el.classList.toggle('active');
+        };
+
+        window.copiarPix = function(txt) {
+            navigator.clipboard.writeText(txt);
+            alert("Código PIX copiado para a área de transferência!");
+        };
+
+        renderizarPedidos();
+    </script>
+</body>
+</html>
+
+### 2. O Estilo da Sidebar e Detalhes (`Style.css`)
+Adicione estas regras ao seu ficheiro CSS para dar vida ao menu e à expansão dos cards:
+
+```css
+/* MENU SIDEBAR AESTHETIC */
+.sidebar {
+    position: fixed; top: 0; left: -300px;
+    width: 280px; height: 100%;
+    background: #0a0a0a; border-right: 1px solid #222;
+    z-index: 10000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 30px;
+}
+.sidebar.active { left: 0; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; }
+.close-btn { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 20px; }
+.sidebar-nav a { color: #888; text-decoration: none; font-size: 1.1rem; transition: 0.3s; }
+.sidebar-nav a:hover, .sidebar-nav a.active { color: #FFFF00; padding-left: 10px; }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 9999; backdrop-filter: blur(4px); }
+.overlay.active { display: block; }
+
+/* DETALHES EXPANSÍVEIS */
+.pedido-detalhes-expand {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    background: #151515; border-radius: 0 0 20px 20px;
+}
+.pedido-detalhes-expand.active { max-height: 500px; padding: 20px; border-top: 1px solid #222; margin-top: 15px; }
+.detalhes-content p { margin-bottom: 10px; font-size: 0.9rem; color: #aaa; }
+
+/* ÁREA PIX */
+.pix-area { background: #000; padding: 15px; border-radius: 12px; margin-top: 15px; border: 1px dashed #333; }
+.pix-input { width: 100%; background: #111; border: 1px solid #222; color: #666; padding: 8px; font-size: 0.7rem; border-radius: 6px; margin-bottom: 10px; }
+.btn-copiar { width: 100%; background: #FFFF00; color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+/* BOTÕES E AJUSTES */
+.menu-hamburger-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+.btn-expandir { background: none; border: none; color: #FFFF00; font-weight: 600; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+
+A sua página de pedidos está pronta! Sinta-se à vontade para explorar os novos detalhes e me avise se precisar de mais ajustes no design ou na integração.
