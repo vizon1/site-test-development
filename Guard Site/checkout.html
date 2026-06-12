@@ -333,7 +333,7 @@
             const nomeInput = document.getElementById('nome');
             const cpfInput = document.getElementById('cpf');
             const telefoneInput = document.getElementById('telefone');
-            const cepInput = document.getElementById('cep');
+            const cepInput = document.getElementById('cep-frete'); // ID CORRIGIDO AQUI
             const emailInput = document.getElementById('email');
 
             nomeInput.addEventListener('input', (e) => {
@@ -344,12 +344,10 @@
             cpfInput.addEventListener('input', (e) => {
                 let v = e.target.value.replace(/\D/g, ""); 
                 if (v.length <= 11) {
-                    // Formato CPF
                     v = v.replace(/(\d{3})(\d)/, "$1.$2");
                     v = v.replace(/(\d{3})(\d)/, "$1.$2");
                     v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
                 } else {
-                    // Formato CNPJ
                     v = v.substring(0, 14);
                     v = v.replace(/^(\d{2})(\d)/, "$1.$2");
                     v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
@@ -364,12 +362,6 @@
                 v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
                 v = v.replace(/(\d)(\d{4})$/, "$1-$2");
                 e.target.value = v.substring(0, 15);
-            });
-
-            cepInput.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, "");
-                v = v.replace(/^(\d{5})(\d)/, "$1-$2");
-                e.target.value = v.substring(0, 9);
             });
 
             nomeInput.addEventListener('blur', (e) => {
@@ -399,7 +391,7 @@
                 }
             });
 
-            // VALIDADOR MATEMÁTICO DE CPF
+            // VALIDADORES MATEMÁTICOS
             function testaCPF(strCPF) {
                 let Soma = 0, Resto;
                 strCPF = strCPF.replace(/\D/g, ""); 
@@ -416,7 +408,6 @@
                 return true;
             }
 
-            // VALIDADOR MATEMÁTICO DE CNPJ
             function testaCNPJ(cnpj) {
                 cnpj = cnpj.replace(/\D/g, '');
                 if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
@@ -443,7 +434,7 @@
                 return true;
             }
 
-            // VALIDAÇÃO HÍBRIDA AO SAIR DO CAMPO
+            // VALIDAÇÃO DE DOCUMENTO AO SAIR DO CAMPO
             cpfInput.addEventListener('blur', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
                 if (val.length > 0) {
@@ -459,30 +450,68 @@
                 }
             });
 
-            cepInput.addEventListener('blur', async (e) => {
-                let cepVal = e.target.value.replace(/\D/g, ''); 
-                if (cepVal.length === 8) {
-                    try {
-                        const res = await fetch(`https://viacep.com.br/ws/${cepVal}/json/`);
-                        const data = await res.json();
-                        if (!data.erro) {
-                            document.getElementById('rua').value = data.logradouro;
-                            document.getElementById('bairro').value = data.bairro;
-                            document.getElementById('cidade').value = data.localidade;
-                            document.getElementById('estado').value = data.uf;
-                            limparErro(e.target);
-                            document.getElementById('numero').focus(); 
-                        } else {
-                            mostrarErro(e.target, 'CEP não encontrado.');
-                        }
-                    } catch (err) {
-                        console.error("Erro na busca:", err);
-                    }
-                } else if (cepVal.length > 0) {
-                    mostrarErro(e.target, 'O CEP precisa de 8 números.');
+            // CLIQUE UNIFICADO: VIACEP + SIMULAÇÃO DE FRETE
+            btnFrete.addEventListener('click', async () => {
+                const cepLimpo = cepInput.value.replace(/\D/g, '');
+
+                if(cepLimpo.length !== 8) {
+                    alert("Por favor, digite um CEP válido com 8 dígitos.");
+                    return;
                 }
+
+                // Efeito visual de carregamento
+                const textoOriginal = btnFrete.innerHTML;
+                btnFrete.innerHTML = '<div class="spinner-calc" style="display:block; width:16px; height:16px; border-color:#000; border-top-color:transparent;"></div>';
+                btnFrete.style.pointerEvents = 'none';
+
+                // 1. BUSCA VIA CEP
+                try {
+                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    const data = await res.json();
+                    
+                    if (!data.erro) {
+                        document.getElementById('rua').value = data.logradouro || '';
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || '';
+                        document.getElementById('estado').value = data.uf || '';
+                        limparErro(cepInput);
+                        document.getElementById('numero').focus(); 
+                    } else {
+                        mostrarErro(cepInput, 'CEP não encontrado.');
+                    }
+                } catch (err) {
+                    console.error("Erro na busca do CEP:", err);
+                }
+
+                // 2. SIMULA FRETE
+                setTimeout(() => {
+                    btnFrete.innerHTML = textoOriginal;
+                    btnFrete.style.pointerEvents = 'auto';
+                    
+                    const pacValor = 22.50;
+                    const sedexValor = 45.90;
+
+                    resultadosFrete.style.display = 'flex';
+                    resultadosFrete.innerHTML = `
+                        <div class="frete-opcao" data-valor="${pacValor}" onclick="selecionarFrete(this)">
+                            <div>
+                                <span class="frete-nome">Correios PAC</span>
+                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                            </div>
+                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
+                            <div>
+                                <span class="frete-nome">Correios SEDEX</span>
+                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                            </div>
+                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                    `;
+                }, 1000);
             });
 
+            // FINALIZAR E VALIDAR COMPRA
             document.getElementById('checkoutForm').addEventListener('submit', (e) => {
                 e.preventDefault(); 
                 let temErro = false;
