@@ -4549,3 +4549,24 @@ body {
         box-sizing: border-box;
     }
 }
+
+.btn-novo-anuncio {
+    background-color: #1a1a1a; /* Fundo escuro elegante */
+    color: #FFFF00;           /* Texto amarelo da marca */
+    border: 1px solid #FFFF00;
+    padding: 12px 24px;
+    border-radius: 12px;      /* Bordas bem arredondadas */
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+}
+
+.btn-novo-anuncio:hover {
+    background-color: #FFFF00;
+    color: #000;
+    transform: scale(1.02);
+}
+
