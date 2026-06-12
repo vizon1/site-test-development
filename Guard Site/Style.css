@@ -4409,3 +4409,73 @@ body {
         text-transform: uppercase;
     }
 }
+
+/* =========================================
+   RESPONSIVIDADE DOS CARDS (TABLET E CELULAR)
+   ========================================= */
+@media (max-width: 900px) {
+    .shop-product-grid {
+        /* Define 3 colunas por padrão abaixo de 900px */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        justify-items: center; /* Mantém os cards centralizados se a grelha for maior que eles */
+    }
+    
+    .shop-card {
+        /* Limites estritos solicitados */
+        max-width: 240px;
+        max-height: 380px;
+        width: 100%;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .shop-card-img {
+        height: 120px; 
+        margin-bottom: 10px;
+    }
+    
+    .shop-card-body {
+        padding: 10px;
+        flex: 1; /* Preenche o resto do limite de 380px */
+    }
+    
+    .shop-card-body h4 {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+    
+    .shop-card-rating {
+        font-size: 0.75rem;
+        margin-bottom: 10px;
+    }
+
+    .shop-card-rating span {
+        font-size: 0.7rem;
+    }
+
+    .shop-card-price {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    
+    .shop-card-actions {
+        flex-direction: column; 
+        gap: 6px;
+        margin-top: auto; /* Empurra os botões para o fundo do limite de altura */
+    }
+    
+    .shop-card-actions button {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Nova quebra: Abaixo de 720px, cai para 2 colunas */
+@media (max-width: 720px) {
+    .shop-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
