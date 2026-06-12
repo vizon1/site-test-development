@@ -4570,3 +4570,26 @@ body {
     transform: scale(1.02);
 }
 
+/* Botão Quadrado (+) ao lado do título */
+.btn-novo-anuncio-quadrado {
+    background-color: transparent; /* Fundo transparente ou #111 se preferir preenchido */
+    color: #FFFF00;
+    border: 2px solid #FFFF00; /* Borda amarela destacada */
+    width: 40px;               /* Largura fixa */
+    height: 40px;              /* Altura idêntica à largura (Quadrado) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;       /* Quinas arredondadas */
+    font-size: 1.8rem;         /* Tamanho grande para o + */
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding-bottom: 4px;       /* Ajuste ótico para centralizar o + perfeitamente */
+}
+
+.btn-novo-anuncio-quadrado:hover {
+    background-color: #FFFF00;
+    color: #000;
+    transform: scale(1.05);
+}
