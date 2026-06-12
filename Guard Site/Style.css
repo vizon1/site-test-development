@@ -4750,3 +4750,188 @@ body {
         max-width: 100%;
     }
 }
+
+/* =========================================
+   PÁGINA: DETALHES DO PEDIDO (ESTILO APPLE)
+   ========================================= */
+.details-wrapper {
+    max-width: 1000px;
+    margin: 140px auto 60px;
+    padding: 0 20px;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+.details-intro {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.details-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.details-date {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.details-status-pill {
+    display: inline-block;
+    padding: 8px 24px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* Grelha de Informações */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.details-card {
+    background-color: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 24px; /* Raio grande estilo Apple */
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.details-card h3 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.details-card h3 i {
+    color: #444; /* Ícones discretos */
+    font-size: 1rem;
+}
+
+/* Blocos de Texto */
+.details-info-block {
+    margin-bottom: 20px;
+}
+
+.details-info-block label {
+    display: block;
+    color: #555;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.details-info-block p {
+    color: #eee;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Rastreio e NFe */
+.tracking-code {
+    font-family: monospace;
+    background: #111;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copy-btn {
+    color: #FFFF00;
+    font-size: 0.7rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.btn-nfe {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-nfe:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Lista de Itens */
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #111;
+    margin-bottom: 20px;
+}
+
+.order-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.item-name {
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.item-qty {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.item-price {
+    margin-left: auto;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Resumo Financeiro */
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.summary-line.total {
+    border-top: 1px solid #111;
+    padding-top: 16px;
+    margin-top: 16px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+/* Mobile */
+@media (max-width: 850px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    .details-title {
+        font-size: 1.8rem;
+    }
+}
