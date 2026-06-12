@@ -4186,3 +4186,39 @@ body {
     transform: translateY(-2px); /* Pequeno salto para dar vida ao botão */
     box-shadow: 0 4px 12px rgba(255, 255, 0, 0.2);
 }
+
+/* =========================================
+   INDICADORES DE SELEÇÃO DE FRETE (RADIO)
+   ========================================= */
+.frete-info-container {
+    display: flex;
+    align-items: center;
+}
+
+.frete-radio-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #555;
+    display: inline-block;
+    margin-right: 15px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Quando selecionado, a borda fica amarela e ganha um miolo amarelo */
+.frete-opcao.selecionado .frete-radio-circle {
+    border-color: #FFFF00;
+}
+
+.frete-opcao.selecionado .frete-radio-circle::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #FFFF00;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
