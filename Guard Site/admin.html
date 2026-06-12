@@ -28,15 +28,23 @@
 
     <main style="max-width: 1200px; margin: 180px auto 40px; padding: 0 20px;">
         <h1 style="margin-bottom: 20px;">Gerir Produtos</h1>
-
+        
         <div class="admin-table-container">
             <table class="admin-table">
-                </table>
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Preço (R$)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-produtos">
+                    <tr><td colspan="5" style="text-align: center; color: #FFFF00;">A carregar base de dados...</td></tr>
+                </tbody>
+            </table>
         </div>
-
-        <a href="criar-anuncio.html" style="text-decoration: none;">
-            <button class="btn-novo-anuncio" style="margin-top: 20px; width: 100%;">+ CRIAR NOVO PRODUTO</button>
-        </a>
     </main>
 
     <div id="modal-editar" class="admin-modal-overlay">
