@@ -4525,4 +4525,12 @@ body {
         padding: 6px; /* Botões mais finos */
         font-size: 0.7rem;
     }
+
+    /* Ajuste da etiqueta sobre a imagem no telemóvel */
+    .shop-card-category {
+        top: 5px;    /* Puxa a etiqueta mais para cima */
+        right: 5px;  /* Puxa a etiqueta mais para a direita */
+        font-size: 0.6rem; /* Reduz ligeiramente a letra para não pesar na foto */
+        padding: 3px 8px;  /* Diminui a "gordura" preta à volta do texto */
+    }
 }
