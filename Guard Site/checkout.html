@@ -201,26 +201,41 @@
             });
 
             btnFrete.addEventListener('click', () => {
-                if(inputCep.value.length < 9) {
-                    alert("Por favor, digite um CEP válido.");
+                const cepLimpo = inputCep.value.replace(/\D/g, '');
+
+                if(cepLimpo.length !== 8) {
+                    alert("Por favor, digite um CEP válido com 8 dígitos.");
                     return;
                 }
 
-                // Efeito visual de carregamento
+                // Efeito visual de carregamento no botão
                 const textoOriginal = btnFrete.innerHTML;
                 btnFrete.innerHTML = '<div class="spinner-calc" style="display:block; width:16px; height:16px; border-color:#000; border-top-color:transparent;"></div>';
                 btnFrete.style.pointerEvents = 'none';
 
-                // Simula o tempo de resposta da API do Melhor Envio (1.5 segundos)
+                // 1. BUSCA O ENDEREÇO NO VIACEP E PREENCHE OS CAMPOS
+                fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+                    .then(resposta => resposta.json())
+                    .then(dados => {
+                        if (!dados.erro) {
+                            document.getElementById('endereco-frete').value = dados.logradouro || '';
+                            document.getElementById('bairro-frete').value = dados.bairro || '';
+                            document.getElementById('cidade-frete').value = dados.localidade || '';
+                            document.getElementById('estado-frete').value = dados.uf || '';
+                        } else {
+                            alert("CEP não encontrado. Por favor, preencha o endereço manualmente.");
+                        }
+                    })
+                    .catch(erro => console.error("Erro na busca do CEP:", erro));
+
+                // 2. SIMULAÇÃO DO FRETE (MELHOR ENVIO / CORREIOS)
                 setTimeout(() => {
                     btnFrete.innerHTML = textoOriginal;
                     btnFrete.style.pointerEvents = 'auto';
                     
-                    // Valores simulados (futuramente virão do JSON do Melhor Envio)
                     const pacValor = 22.50;
                     const sedexValor = 45.90;
 
-                    // Mostra as opções na tela
                     resultadosFrete.style.display = 'flex';
                     resultadosFrete.innerHTML = `
                         <div class="frete-opcao" data-valor="${pacValor}" onclick="selecionarFrete(this)">
@@ -238,7 +253,7 @@
                             <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                         </div>
                     `;
-                }, 1500);
+                }, 1000);
             });
 
             // Função chamada ao clicar em uma opção de frete
