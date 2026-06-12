@@ -4593,3 +4593,14 @@ body {
     color: #000;
     transform: scale(1.05);
 }
+
+@media (max-width: 768px) {
+    /* ... suas outras regras mobile ... */
+
+    .btn-confirmar {
+        display: block !important;
+        margin: 0 auto !important; /* Centraliza o botão no eixo X */
+        width: 100% !important;    /* Força o botão a esticar de ponta a ponta no formulário */
+        text-align: center;
+    }
+}
