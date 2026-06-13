@@ -164,15 +164,31 @@
         const checklistContainer = document.getElementById('password-checklist');
 
         // ==========================================
-        // 1. SOLUÇÃO CONTRA DADOS FANTASMAS (RELOAD) E AUTOFILL
+        // 1. LIMPEZA DE CACHE DO NAVEGADOR (F5) E AUTOFILL
         // ==========================================
         
-        // Sempre que a página for mostrada (mesmo via botão "voltar" ou F5), limpa o formulário
-        window.addEventListener('pageshow', () => {
-            form.reset();
-            limparErros();
+        // Oculta os dados que o navegador tenta restaurar no F5
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                inputEmail.value = '';
+                inputSenha.value = '';
+                inputNome.value = '';
+                form.reset();
+                limparErros();
+            }, 50); // 50 milissegundos é o suficiente para agir depois do navegador
         });
 
+        // Radar de Autofill de Gestores de Senha (Google Passwords, etc)
+        let autofillAttempts = 0;
+        const autofillInterval = setInterval(() => {
+            if (inputSenha.value || inputEmail.value) {
+                inputSenha.dispatchEvent(new Event('input', { bubbles: true }));
+                if(inputEmail.value) inputEmail.dispatchEvent(new Event('blur', { bubbles: true }));
+                clearInterval(autofillInterval);
+            }
+            autofillAttempts++;
+            if(autofillAttempts > 10) clearInterval(autofillInterval);
+        }, 200);
         // Radar de Autofill: verifica durante os primeiros 2 segundos se o navegador injetou a senha
         let autofillAttempts = 0;
         const autofillInterval = setInterval(() => {
