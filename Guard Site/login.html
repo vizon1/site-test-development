@@ -101,6 +101,7 @@
         const strengthText = document.getElementById('strength-text');
         const errorNome = document.getElementById('error-nome');
         const errorEmail = document.getElementById('error-email');
+        const errorPassword = document.getElementById('error-password');
 
         // Alternar Modos
         btnToggle.addEventListener('click', (e) => {
@@ -131,8 +132,10 @@
         function limparErros() {
             errorNome.style.display = 'none';
             errorEmail.style.display = 'none';
+            errorPassword.style.display = 'none';
             inputNome.style.borderColor = '#424245';
             inputEmail.style.borderColor = '#424245';
+            inputSenha.style.borderColor = '#424245';
         }
 
         // Validação de Nome (Sem números, 2 palavras min)
@@ -166,6 +169,31 @@
             inputEmail.style.borderColor = modoCadastro ? '#FFFF00' : '#424245';
             return true;
         }
+
+        // Validação de Senha no Blur (quando tira o clique)
+        function validarSenhaBlur() {
+            const val = inputSenha.value;
+            
+            if (val === '') {
+                errorPassword.textContent = 'A senha é obrigatória.';
+                errorPassword.style.display = 'block';
+                inputSenha.style.borderColor = '#ff4444';
+                return false;
+            } else if (val.length < 8) {
+                errorPassword.textContent = 'A senha deve ter no mínimo 8 caracteres.';
+                errorPassword.style.display = 'block';
+                inputSenha.style.borderColor = '#ff4444';
+                return false;
+            } else {
+                errorPassword.style.display = 'none';
+                // Mantém a borda amarela se estiver no cadastro e passou na validação, senão cinza padrão
+                inputSenha.style.borderColor = modoCadastro ? '#FFFF00' : '#424245';
+                return true;
+            }
+        }
+
+        // Ativa a verificação quando o utilizador clica fora do campo
+        inputSenha.addEventListener('blur', validarSenhaBlur);
 
         // Validação de Força da Senha
         inputSenha.addEventListener('input', (e) => {
