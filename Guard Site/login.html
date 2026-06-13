@@ -47,18 +47,18 @@
             <form id="auth-form" novalidate autocomplete="off">
                 <div id="cadastro-fields" style="display: none;">
                     <div class="apple-input-group">
-                        <input type="text" id="auth-nome" placeholder="Nome Completo">
+                        <input type="text" id="auth-nome" placeholder="Nome Completo" autocomplete="off">
                         <span class="error-text" id="error-nome" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;">Informe nome e sobrenome.</span>
                     </div>
                 </div>
 
                 <div class="apple-input-group">
-                    <input type="email" id="auth-email" placeholder="E-mail" required>
+                    <input type="email" id="auth-email" placeholder="E-mail" required autocomplete="off">
                     <span class="error-text" id="error-email" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;">E-mail com formato inválido.</span>
                 </div>
                 
                 <div class="apple-input-group">
-                    <input type="password" id="auth-password" placeholder="Senha" required>
+                    <input type="password" id="auth-password" placeholder="Senha" required autocomplete="new-password">
                     <span class="error-text" id="error-password" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;"></span>
                     
                     <div id="password-strength-container" style="display: none; margin-top: 8px; text-align: left;">
@@ -103,7 +103,7 @@
 
             <div class="login-footer-toggle">
                 <span id="toggle-text">Não tem um Guard ID?</span>
-                <a href="login.html" id="btn-toggle-mode">Crie o seu agora.</a>
+                <a href="#" id="btn-toggle-mode">Crie o seu agora.</a>
             </div>
         </div>
     </div>
@@ -163,36 +163,25 @@
         const checklistContainer = document.getElementById('password-checklist');
 
         // ==========================================
-        // 1. SOLUÇÃO CONTRA DADOS FANTASMAS (RELOAD)
+        // 1. SOLUÇÃO DEFINITIVA CONTRA CACHE E AUTOFILL
         // ==========================================
         
-        // Força a limpeza dupla no carregamento para driblar gestores agressivos
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                form.reset();
-                inputEmail.value = '';
-                inputSenha.value = '';
-                inputNome.value = '';
-                limparErros();
-            }, 10);
-            
-            setTimeout(() => {
-                inputEmail.value = '';
-                inputSenha.value = '';
-            }, 150);
-        });
+        function forcarLimpeza() {
+            form.reset();
+            inputEmail.value = '';
+            inputSenha.value = '';
+            inputNome.value = '';
+            limparErros();
+        }
 
-        // Radar de Autofill corrigido e otimizado
-        let autofillAttempts = 0;
-        const autofillInterval = setInterval(() => {
-            if (inputSenha.value || inputEmail.value) {
-                inputSenha.dispatchEvent(new Event('input', { bubbles: true }));
-                if(inputEmail.value) inputEmail.dispatchEvent(new Event('blur', { bubbles: true }));
-                clearInterval(autofillInterval);
-            }
-            autofillAttempts++;
-            if(autofillAttempts > 10) clearInterval(autofillInterval);
-        }, 200);
+        // Limpeza agressiva em vários momentos do carregamento
+        document.addEventListener('DOMContentLoaded', forcarLimpeza);
+        window.addEventListener('pageshow', forcarLimpeza);
+        window.addEventListener('load', () => {
+            forcarLimpeza();
+            setTimeout(forcarLimpeza, 100);
+            setTimeout(forcarLimpeza, 500);
+        });
 
         // ==========================================
         // ALTERNAR MODOS E LÓGICA DE INTERFACE
@@ -201,6 +190,8 @@
         btnToggle.addEventListener('click', (e) => {
             e.preventDefault();
             modoCadastro = !modoCadastro;
+            forcarLimpeza(); // Limpa os dados se a pessoa desistir do cadastro a meio
+            
             if (modoCadastro) {
                 cadastroFields.style.display = 'block';
                 strengthContainer.style.display = 'block';
@@ -217,7 +208,6 @@
                 loginSubtitle.textContent = "Inicie a sessão para gerenciar seus equipamentos e pedidos.";
                 toggleText.textContent = "Não tem um Guard ID?";
                 btnToggle.textContent = "Crie o seu agora.";
-                limparErros();
             }
         });
 
@@ -229,9 +219,10 @@
             inputEmail.style.borderColor = '#424245';
             inputSenha.style.borderColor = '#424245';
             
-            // Reseta a barra de força ao trocar de abas
             strengthBar.style.width = '0%';
             strengthText.textContent = '';
+            document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
+            senhaValida = false;
         }
 
         inputNome.addEventListener('input', (e) => {
