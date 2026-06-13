@@ -4983,3 +4983,86 @@ body {
     height: 20px !important;
     line-height: 18px !important;
 }
+
+.login-wrapper {
+display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+.login-container {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+}
+.login-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+.login-container h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+.login-container p {
+    color: #86868b;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0 0 30px 0;
+}
+.apple-input-group {
+    margin-bottom: 12px;
+}
+.apple-input-group input, .form-row-apple input {
+    width: 100%;
+    padding: 16px;
+    background-color: #1d1d1f;
+    border: 1px solid #424245;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+.apple-input-group input:focus, .form-row-apple input:focus {
+    border-color: #FFFF00; /* Destaque sutil na cor da marca */
+}
+.form-row-apple {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.btn-apple-primary {
+    width: 100%;
+    padding: 16px;
+    background-color: #0071e3; /* Azul padrão Apple para ações principais */
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: opacity 0.2s ease;
+}
+.btn-apple-primary:hover {
+    opacity: 0.9;
+}
+.login-footer-toggle {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #86868b;
+}
+.login-footer-toggle a {
+    color: #0071e3;
+    text-decoration: none;
+    margin-left: 4px;
+}
+.login-footer-toggle a:hover {
+    text-decoration: underline;
+}
