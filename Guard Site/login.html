@@ -44,7 +44,7 @@
                 <p id="login-subtitle">Inicie a sessão para gerenciar seus equipamentos e pedidos.</p>
             </div>
 
-            <form id="auth-form" novalidate>
+            <form id="auth-form" novalidate autocomplete="off">
                 <div id="cadastro-fields" style="display: none;">
                     <div class="apple-input-group">
                         <input type="text" id="auth-nome" placeholder="Nome Completo">
@@ -163,15 +163,33 @@
         const errorPassword = document.getElementById('error-password');
         const checklistContainer = document.getElementById('password-checklist');
 
-        // Forçar leitura de autofill do navegador após 500ms
-        setTimeout(() => {
-            if (inputEmail.value) validarEmail();
-            if (inputSenha.value && modoCadastro) {
-                inputSenha.dispatchEvent(new Event('input'));
+        // ==========================================
+        // 1. SOLUÇÃO CONTRA DADOS FANTASMAS (RELOAD) E AUTOFILL
+        // ==========================================
+        
+        // Sempre que a página for mostrada (mesmo via botão "voltar" ou F5), limpa o formulário
+        window.addEventListener('pageshow', () => {
+            form.reset();
+            limparErros();
+        });
+
+        // Radar de Autofill: verifica durante os primeiros 2 segundos se o navegador injetou a senha
+        let autofillAttempts = 0;
+        const autofillInterval = setInterval(() => {
+            if (inputSenha.value || inputEmail.value) {
+                // Força o Javascript a "ler" a senha simulando uma digitação humana
+                inputSenha.dispatchEvent(new Event('input', { bubbles: true }));
+                if(inputEmail.value) inputEmail.dispatchEvent(new Event('blur', { bubbles: true }));
+                clearInterval(autofillInterval);
             }
+            autofillAttempts++;
+            if(autofillAttempts > 4) clearInterval(autofillInterval); // Desliga após 2 segundos
         }, 500);
 
-        // Alternar Modos
+        // ==========================================
+        // ALTERNAR MODOS E LÓGICA DE INTERFACE
+        // ==========================================
+        
         btnToggle.addEventListener('click', (e) => {
             e.preventDefault();
             modoCadastro = !modoCadastro;
@@ -195,10 +213,6 @@
             }
         });
 
-        // ==========================================
-        // REGRAS DE VALIDAÇÃO
-        // ==========================================
-        
         function limparErros() {
             errorNome.style.display = 'none';
             errorEmail.style.display = 'none';
@@ -260,13 +274,11 @@
 
         inputSenha.addEventListener('blur', validarSenhaBlur);
 
-        // Validação Integrada: Checklist + Barra de Força (Suporta Autofill com o 'change')
         const atualizarVisuaisSenha = (e) => {
             if (!modoCadastro) return;
             
             const pwd = e.target ? e.target.value : inputSenha.value;
             
-            // Lógica do Checklist
             const isLengthValid = pwd.length >= 8;
             const hasUpper = /[A-Z]/.test(pwd);
             const hasLower = /[a-z]/.test(pwd);
@@ -286,7 +298,6 @@
             atualizarCheck('req-num', hasNumber);
             atualizarCheck('req-seq', isSeqValid);
 
-            // Lógica da Barra de Força
             let forca = 0;
             if (isLengthValid) forca++;
             if (hasUpper && hasLower) forca++;
@@ -335,10 +346,10 @@
 
             const isEmailValid = validarEmail();
             const isNomeValid = validarNome();
-            const isSenhaValid = validarSenhaBlur(); // Força a leitura exata do campo no momento do clique
+            const isSenhaValid = validarSenhaBlur();
 
             if (modoCadastro) {
-                if (!isEmailValid || !isNomeValid || !isSenhaValid) return; // Erros já estão visíveis
+                if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
                 
                 if (!senhaValida) {
                     errorPassword.textContent = 'A senha é muito fraca. Cumpra os requisitos da lista.';
@@ -369,7 +380,7 @@
                     document.getElementById('btn-submit').textContent = "Continuar";
                 }
             } else {
-                if (!isEmailValid || !isSenhaValid) return; // Bloqueia login se autofill falhou
+                if (!isEmailValid || !isSenhaValid) return;
                 
                 try {
                     document.getElementById('btn-submit').textContent = "Acessando...";
