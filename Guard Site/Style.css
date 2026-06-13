@@ -4935,3 +4935,48 @@ body {
         font-size: 1.8rem;
     }
 }
+
+/* =========================================
+   ANIMAÇÃO DO CABEÇALHO (SHRINK ON SCROLL)
+   ========================================= */
+/* Tamanho Original */
+#header {
+    height: 100px; /* Altura padrão que definiu antes */
+    transition: all 0.3s ease; /* Transição suave */
+    /* (Mantenha aqui os outros estilos de display flex, padding, etc. que já possuía) */
+}
+
+#logo {
+    max-height: 80px; /* Tamanho original da logo */
+    transition: all 0.3s ease;
+}
+
+/* Tamanho Encolhido (ativado pelo JS) */
+#header.scrolled {
+    height: 60px !important; /* Altura menor */
+    padding: 0 5% !important; /* Ajuste opcional de padding */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Adiciona sombra fina para destacar */
+}
+
+/* Como a logo se comporta quando a página rola */
+#header.scrolled #logo {
+    max-height: 45px !important; 
+}
+
+/* Como os botões/textos do painel se comportam */
+#header.scrolled .panel-header-title span {
+    font-size: 1.1rem !important; /* Texto do meio fica menor */
+    transition: all 0.3s ease;
+}
+
+#header.scrolled .header-submit-button {
+    padding: 8px 16px !important; /* Botão de "VER LOJA" encolhe */
+    font-size: 0.8rem !important;
+    transition: all 0.3s ease;
+}
+
+#header.scrolled .icon-circle-header {
+    width: 20px !important; /* Círculo da setinha encolhe */
+    height: 20px !important;
+    line-height: 18px !important;
+}
