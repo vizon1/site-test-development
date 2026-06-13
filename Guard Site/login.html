@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Iniciar Sessão - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff;">
+
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="imagens/logo.webp" alt="Guard Logo" class="login-logo">
+                <h1 id="login-title">Guard ID</h1>
+                <p id="login-subtitle">Inicie a sessão para gerenciar seus equipamentos e pedidos.</p>
+            </div>
+
+            <form id="auth-form">
+                <div id="cadastro-fields" style="display: none;">
+                    <div class="apple-input-group">
+                        <input type="text" id="auth-nome" placeholder="Nome Completo">
+                    </div>
+                    <div class="apple-input-group">
+                        <input type="text" id="auth-cep" placeholder="CEP" maxlength="9">
+                    </div>
+                    <div class="apple-input-group">
+                        <input type="text" id="auth-rua" placeholder="Endereço (Rua, Av.)">
+                    </div>
+                    <div class="form-row-apple">
+                        <input type="text" id="auth-numero" placeholder="Número">
+                        <input type="text" id="auth-bairro" placeholder="Bairro">
+                    </div>
+                </div>
+
+                <div class="apple-input-group">
+                    <input type="email" id="auth-email" placeholder="E-mail" required>
+                </div>
+                <div class="apple-input-group">
+                    <input type="password" id="auth-password" placeholder="Senha" required>
+                </div>
+
+                <button type="submit" id="btn-submit" class="btn-apple-primary">Continuar</button>
+            </form>
+
+            <div class="login-footer-toggle">
+                <span id="toggle-text">Não tem um Guard ID?</span>
+                <a href="#" id="btn-toggle-mode">Crie o seu agora.</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let modoCadastro = false;
+
+        const btnToggle = document.getElementById('btn-toggle-mode');
+        const cadastroFields = document.getElementById('cadastro-fields');
+        const loginTitle = document.getElementById('login-title');
+        const loginSubtitle = document.getElementById('login-subtitle');
+        const toggleText = document.getElementById('toggle-text');
+        const form = document.getElementById('auth-form');
+
+        // Alternar entre modo Login e Cadastro
+        btnToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            modoCadastro = !modoCadastro;
+            if (modoCadastro) {
+                cadastroFields.style.display = 'block';
+                loginTitle.textContent = "Criar Guard ID";
+                loginSubtitle.textContent = "Um único identificador para acompanhar sua segurança.";
+                toggleText.textContent = "Já possui uma conta?";
+                btnToggle.textContent = "Inicie sessão aqui.";
+                document.getElementById('auth-nome').required = true;
+            } else {
+                cadastroFields.style.display = 'none';
+                loginTitle.textContent = "Guard ID";
+                loginSubtitle.textContent = "Inicie a sessão para gerenciar seus equipamentos e pedidos.";
+                toggleText.textContent = "Não tem um Guard ID?";
+                btnToggle.textContent = "Crie o seu agora.";
+                document.getElementById('auth-nome').required = false;
+            }
+        });
+
+        // Submissão do Formulário
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+
+            if (modoCadastro) {
+                // Lógica de Registro + Gravação do Endereço
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    // Salva os dados cadastrais e o endereço atrelados ao UID
+                    await setDoc(doc(db, "usuarios", user.uid), {
+                        nome: document.getElementById('auth-nome').value,
+                        email: email,
+                        cep: document.getElementById('auth-cep').value,
+                        rua: document.getElementById('auth-rua').value,
+                        numero: document.getElementById('auth-numero').value,
+                        bairro: document.getElementById('auth-bairro').value,
+                        dataCadastro: new Date()
+                    });
+
+                    alert("Guard ID criado com sucesso!");
+                    window.location.href = "store.html";
+                } catch (error) {
+                    alert("Erro ao criar conta: " + error.message);
+                }
+            } else {
+                // Lógica de Login simples
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    window.location.href = "meus-pedidos.html";
+                } catch (error) {
+                    alert("Erro ao acessar: " + error.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
