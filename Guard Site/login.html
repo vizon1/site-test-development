@@ -8,29 +8,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* Estilos do Checklist de Senha */
+        /* Estilos do Checklist de Senha (Design Idêntico à Imagem) */
         .check-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #ff4444;
+            gap: 12px;
+            color: #86868b; /* Cinza suave para itens incompletos */
+            font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         .check-item.valid {
-            color: #32CD32;
+            color: #d2d2d7; /* Texto mais claro quando válido */
         }
-        .check-circle {
-            width: 14px;
-            height: 14px;
+        .check-icon {
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            border: 2px solid #ff4444;
-            background-color: transparent;
+            background-color: #2c2c2e; /* Fundo cinza escuro nativo Apple */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
-            box-sizing: border-box;
         }
-        .check-item.valid .check-circle {
-            border-color: #32CD32;
-            background-color: #32CD32;
+        .check-icon svg {
+            width: 10px;
+            height: 10px;
+            fill: none;
+            stroke: #000; /* Cor do ícone de check */
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0; /* Invisível até ser válido */
+            transition: opacity 0.3s ease;
+        }
+        .check-item.valid .check-icon {
+            background-color: #32CD32; /* Fundo verde vibrante */
+            box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); /* Brilho suave na bolinha */
+        }
+        .check-item.valid .check-icon svg {
+            opacity: 1; /* Mostra o check */
         }
     </style>
 </head>
@@ -61,28 +77,30 @@
                     <input type="password" id="auth-password" placeholder="Senha" required autocomplete="new-password">
                     <span class="error-text" id="error-password" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;"></span>
                     
-                    <div id="password-strength-container" style="display: none; margin-top: 8px; text-align: left;">
-                        <div style="height: 4px; width: 100%; background-color: #333; border-radius: 2px; overflow: hidden; display: flex;">
-                            <div id="strength-bar" style="height: 100%; width: 0%; transition: all 0.3s ease;"></div>
+                    <div id="password-strength-container" style="display: none; margin-top: 15px; text-align: center; flex-direction: column; align-items: center;">
+                        <div style="height: 8px; width: 100%; background-color: #222; border-radius: 10px; position: relative;">
+                            <div id="strength-bar" style="height: 100%; width: 0%; border-radius: 10px; transition: width 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;"></div>
                         </div>
-                        <span id="strength-text" style="font-size: 0.75rem; font-weight: 600; margin-top: 4px; display: inline-block;"></span>
+                        <div style="margin-top: 12px; font-size: 0.95rem; color: #a0a0a5;">
+                            Força da Senha: <span id="strength-text" style="font-weight: 600;"></span>
+                        </div>
                     </div>
 
-                    <div id="password-checklist" style="display: none; margin-top: 12px; text-align: left; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                    <div id="password-checklist" style="display: none; margin-top: 15px; text-align: left; flex-direction: column; gap: 10px;">
                         <div class="check-item" id="req-length">
-                            <div class="check-circle"></div> Mínimo de 8 caracteres
+                            <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> 8+ caracteres
                         </div>
                         <div class="check-item" id="req-upper">
-                            <div class="check-circle"></div> 1 letra maiúscula
+                            <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 letra maiúscula
                         </div>
                         <div class="check-item" id="req-lower">
-                            <div class="check-circle"></div> 1 letra minúscula
+                            <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 letra minúscula
                         </div>
                         <div class="check-item" id="req-num">
-                            <div class="check-circle"></div> 1 número
+                            <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 número
                         </div>
-                        <div class="check-item" id="req-seq">
-                            <div class="check-circle"></div> Sem sequências numéricas (ex: 123)
+                        <div class="check-item" id="req-spec">
+                            <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 caractere especial
                         </div>
                     </div>
                 </div>
@@ -174,7 +192,6 @@
             limparErros();
         }
 
-        // Limpeza agressiva em vários momentos do carregamento
         document.addEventListener('DOMContentLoaded', forcarLimpeza);
         window.addEventListener('pageshow', forcarLimpeza);
         window.addEventListener('load', () => {
@@ -183,6 +200,17 @@
             setTimeout(forcarLimpeza, 500);
         });
 
+        let autofillAttempts = 0;
+        const autofillInterval = setInterval(() => {
+            if (inputSenha.value || inputEmail.value) {
+                inputSenha.dispatchEvent(new Event('input', { bubbles: true }));
+                if(inputEmail.value) inputEmail.dispatchEvent(new Event('blur', { bubbles: true }));
+                clearInterval(autofillInterval);
+            }
+            autofillAttempts++;
+            if(autofillAttempts > 10) clearInterval(autofillInterval);
+        }, 200);
+
         // ==========================================
         // ALTERNAR MODOS E LÓGICA DE INTERFACE
         // ==========================================
@@ -190,11 +218,11 @@
         btnToggle.addEventListener('click', (e) => {
             e.preventDefault();
             modoCadastro = !modoCadastro;
-            forcarLimpeza(); // Limpa os dados se a pessoa desistir do cadastro a meio
+            forcarLimpeza(); 
             
             if (modoCadastro) {
                 cadastroFields.style.display = 'block';
-                strengthContainer.style.display = 'block';
+                strengthContainer.style.display = 'flex';
                 checklistContainer.style.display = 'flex';
                 loginTitle.textContent = "Criar Guard ID";
                 loginSubtitle.textContent = "Preencha seus dados para começar.";
@@ -220,6 +248,8 @@
             inputSenha.style.borderColor = '#424245';
             
             strengthBar.style.width = '0%';
+            strengthBar.style.background = 'transparent';
+            strengthBar.style.boxShadow = 'none';
             strengthText.textContent = '';
             document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
             senhaValida = false;
@@ -263,8 +293,8 @@
                 errorPassword.style.display = 'block';
                 inputSenha.style.borderColor = '#ff4444';
                 return false;
-            } else if (modoCadastro && val.length < 8) {
-                errorPassword.textContent = 'A senha deve ter no mínimo 8 caracteres.';
+            } else if (modoCadastro && !senhaValida) {
+                errorPassword.textContent = 'A senha não atende aos requisitos mínimos.';
                 errorPassword.style.display = 'block';
                 inputSenha.style.borderColor = '#ff4444';
                 return false;
@@ -286,8 +316,7 @@
             const hasUpper = /[A-Z]/.test(pwd);
             const hasLower = /[a-z]/.test(pwd);
             const hasNumber = /[0-9]/.test(pwd);
-            const hasSequence = /(012|123|234|345|456|567|678|789|890)/.test(pwd);
-            const isSeqValid = pwd.length > 0 && !hasSequence;
+            const hasSpecial = /[^A-Za-z0-9]/.test(pwd); // Verifica caracteres especiais (@, #, $, etc)
 
             function atualizarCheck(id, valido) {
                 const el = document.getElementById(id);
@@ -299,38 +328,42 @@
             atualizarCheck('req-upper', hasUpper);
             atualizarCheck('req-lower', hasLower);
             atualizarCheck('req-num', hasNumber);
-            atualizarCheck('req-seq', isSeqValid);
+            atualizarCheck('req-spec', hasSpecial);
 
             let forca = 0;
             if (isLengthValid) forca++;
-            if (hasUpper && hasLower) forca++;
+            if (hasUpper) forca++;
+            if (hasLower) forca++;
             if (hasNumber) forca++;
-            if (pwd.length >= 8 && /[!@#$%^&*]/.test(pwd)) forca++;
-
-            if (hasSequence) forca = 1;
+            if (hasSpecial) forca++;
 
             if (pwd.length === 0) {
                 strengthBar.style.width = '0%';
+                strengthBar.style.background = 'transparent';
+                strengthBar.style.boxShadow = 'none';
                 strengthText.textContent = '';
                 senhaValida = false;
-            } else if (!isLengthValid || !hasUpper || !hasLower || !hasNumber || hasSequence) {
-                strengthBar.style.width = '33%';
-                strengthBar.style.backgroundColor = '#ff4444';
-                strengthText.textContent = 'Fraca (Cumpra todos os requisitos abaixo)';
-                strengthText.style.color = '#ff4444';
+            } else if (forca <= 2) {
+                strengthBar.style.width = '25%';
+                strengthBar.style.background = '#ff4b4b';
+                strengthBar.style.boxShadow = '0 0 15px rgba(255, 75, 75, 0.4)';
+                strengthText.textContent = 'Fraca';
+                strengthText.style.color = '#ff4b4b';
                 senhaValida = false;
-            } else if (forca === 2 || forca === 3) {
-                strengthBar.style.width = '66%';
-                strengthBar.style.backgroundColor = '#FFFF00';
+            } else if (forca === 3 || forca === 4) {
+                strengthBar.style.width = '60%';
+                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b)';
+                strengthBar.style.boxShadow = '0 0 15px rgba(255, 235, 59, 0.4)';
                 strengthText.textContent = 'Média';
-                strengthText.style.color = '#FFFF00';
-                senhaValida = true;
-            } else {
+                strengthText.style.color = '#ffeb3b';
+                senhaValida = false; 
+            } else if (forca === 5) {
                 strengthBar.style.width = '100%';
-                strengthBar.style.backgroundColor = '#32CD32';
+                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b, #32cd32)';
+                strengthBar.style.boxShadow = '0 0 15px rgba(50, 205, 50, 0.5)';
                 strengthText.textContent = 'Forte';
-                strengthText.style.color = '#32CD32';
-                senhaValida = true;
+                strengthText.style.color = '#32cd32';
+                senhaValida = true; // Só permite continuar quando cumpre os 5 requisitos da lista
             }
         };
 
@@ -355,7 +388,7 @@
                 if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
                 
                 if (!senhaValida) {
-                    errorPassword.textContent = 'A senha é muito fraca. Cumpra os requisitos da lista.';
+                    errorPassword.textContent = 'Cumpra todos os requisitos de segurança abaixo.';
                     errorPassword.style.display = 'block';
                     inputSenha.style.borderColor = '#ff4444';
                     return;
