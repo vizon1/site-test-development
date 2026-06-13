@@ -5040,8 +5040,8 @@ display: flex;
 .btn-apple-primary {
     width: 100%;
     padding: 16px;
-    background-color: #0071e3; /* Azul padrão Apple para ações principais */
-    color: #fff;
+    background-color: #ffff00; /* Azul padrão Apple para ações principais */
+    color: #000;
     border: none;
     border-radius: 12px;
     font-size: 1rem;
@@ -5059,7 +5059,7 @@ display: flex;
     color: #86868b;
 }
 .login-footer-toggle a {
-    color: #0071e3;
+    color: #ffff00;
     text-decoration: none;
     margin-left: 4px;
 }
