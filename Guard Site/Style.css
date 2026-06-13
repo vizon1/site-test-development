@@ -4961,6 +4961,9 @@ body {
 /* Como a logo se comporta quando a página rola */
 #header.scrolled #logo {
     max-height: 45px !important; 
+    width: auto !important; /* Mantém a proporção correta da largura */
+    object-fit: contain !important; /* Impede qualquer tipo de esticamento ou achatamento */
+    transition: all 0.3s ease;
 }
 
 /* Como os botões/textos do painel se comportam */
