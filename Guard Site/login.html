@@ -63,8 +63,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
@@ -261,6 +261,86 @@
                     if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
                     alert(msg);
                     document.getElementById('btn-submit').textContent = "Continuar";
+                }
+            }
+        });
+        
+        // 2. Elementos do Google Login
+        const provider = new GoogleAuthProvider();
+        const btnGoogle = document.getElementById('btn-google');
+        const modalNomeGoogle = document.getElementById('modal-nome-google');
+        const inputNomeGoogle = document.getElementById('google-nome');
+        const errorGoogleNome = document.getElementById('error-google-nome');
+        const btnConfirmarNomeGoogle = document.getElementById('btn-confirmar-nome-google');
+        
+        let tempUserGoogle = null; // Guarda o utilizador autenticado temporariamente
+
+        // Chamada do Popup do Google
+        btnGoogle.addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // Verifica se a conta já existe no Firestore
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    // Utilizador antigo: Redireciona imediatamente
+                    window.location.href = "meus-pedidos.html";
+                } else {
+                    // Utilizador novo: Ativa a tela para colher o nome real
+                    tempUserGoogle = user;
+                    if (user.displayName) {
+                        inputNomeGoogle.value = user.displayName; // Sugere o nome do perfil do Google
+                    }
+                    modalNomeGoogle.style.display = 'flex';
+                    inputNomeGoogle.style.borderColor = '#424245';
+                    errorGoogleNome.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Erro Google Auth:", error);
+                alert("Erro ao aceder com o Google: " + error.message);
+            }
+        });
+
+        // Bloqueia digitação de números no input do nome do Google em tempo real
+        inputNomeGoogle.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[0-9]/g, '');
+        });
+
+        // Validação e Conclusão do registo do Google
+        btnConfirmarNomeGoogle.addEventListener('click', async () => {
+            const nomeValido = inputNomeGoogle.value.trim();
+            
+            // Validação rígida: mínimo duas palavras (nome e sobrenome)
+            if (nomeValido.split(' ').length < 2) {
+                errorGoogleNome.style.display = 'block';
+                inputNomeGoogle.style.borderColor = '#ff4444';
+                return;
+            }
+            
+            errorGoogleNome.style.display = 'none';
+            inputNomeGoogle.style.borderColor = '#FFFF00';
+
+            if (tempUserGoogle) {
+                try {
+                    btnConfirmarNomeGoogle.textContent = "A guardar...";
+                    btnConfirmarNomeGoogle.style.pointerEvents = "none";
+                    
+                    // Salva os dados finais do perfil no Firestore utilizando o UID gerado pelo Google
+                    await setDoc(doc(db, "usuarios", tempUserGoogle.uid), {
+                        nome: nomeValido,
+                        email: tempUserGoogle.email,
+                        dataCadastro: new Date()
+                    });
+                    
+                    alert("Registo via Google concluído!");
+                    window.location.href = "meus-pedidos.html";
+                } catch (err) {
+                    alert("Erro ao concluir o registo: " + err.message);
+                    btnConfirmarNomeGoogle.textContent = "Concluir";
+                    btnConfirmarNomeGoogle.style.pointerEvents = "auto";
                 }
             }
         });
