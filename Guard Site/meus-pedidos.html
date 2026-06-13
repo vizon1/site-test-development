@@ -59,42 +59,46 @@
             return 'status-amarelo'; // Padrão para "Aguardando pagamento" ou erro
         }
 
-        async function carregarPedidos() {
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Monitora se o usuário está logado antes de buscar informações
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Usuário logado: executa a busca passando o UID dele
+                carregarPedidosProtegidos(user.uid);
+            } else {
+                // Usuário deslogado: barra o acesso e joga para a tela de login
+                alert("Sessão expirada ou não iniciada. Por favor, faça login.");
+                window.location.href = "login.html";
+            }
+        });
+
+        async function carregarPedidosProtegidos(userUid) {
             const container = document.getElementById('lista-pedidos');
-            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">A sincronizar com a base de dados...</p>';
+            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">Buscando seus pedidos...</p>';
 
             try {
-                // Procura na coleção "pedidos"
-                const querySnapshot = await getDocs(collection(db, "pedidos"));
+                // MÁGICA DE SEGURANÇA: Filtra trazendo apenas documentos onde userId == ID do usuário logado
+                const q = query(collection(db, "pedidos"), where("userId", "==", userUid));
+                const querySnapshot = await getDocs(q);
                 let html = '';
 
                 if (querySnapshot.empty) {
-                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Você ainda não possui pedidos registrados.</p>';
+                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Nenhum pedido encontrado para esta conta.</p>';
                     return;
                 }
 
                 querySnapshot.forEach((doc) => {
                     const pedido = doc.data();
-                    const idReal = doc.id; 
-                    const idCurto = idReal.substring(0, 8).toUpperCase(); // Pega apenas 8 letras para ficar estético tipo "GD-X8A9B"
+                    const idReal = doc.id;
+                    const idCurto = idReal.substring(0, 8).toUpperCase();
 
-                    // Trata a data (seja do formato Firestore Timestamp ou String comum)
-                    let dataFormatada = "Data não informada";
-                    if (pedido.dataCadastro && pedido.dataCadastro.toDate) {
-                        dataFormatada = pedido.dataCadastro.toDate().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-                    } else if (pedido.data) {
-                        dataFormatada = pedido.data;
-                    }
-
-                    // Tenta encontrar o nome do item principal da compra
-                    let nomeItem = "Itens do pedido";
-                    if (Array.isArray(pedido.itens) && pedido.itens.length > 0) {
-                        nomeItem = pedido.itens[0].titulo || "Múltiplos itens";
-                        if (pedido.itens.length > 1) nomeItem += ` (+${pedido.itens.length - 1})`;
-                    } else if (pedido.item) {
-                        nomeItem = pedido.item;
-                    }
-
+                    let dataFormatada = pedido.data || "Data indisponível";
+                    let nomeItem = pedido.item || "Equipamento Guard";
                     const total = pedido.total || "0,00";
                     const statusStr = pedido.status || "Aguardando pagamento";
                     const classeCss = obterClasseStatus(statusStr);
@@ -124,8 +128,8 @@
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error("Erro ao carregar pedidos:", error);
-                container.innerHTML = '<p style="color: red; text-align: center;">Erro ao ligar ao servidor. Tente atualizar a página.</p>';
+                console.error("Erro:", error);
+                container.innerHTML = '<p style="color: red; text-align: center;">Erro ao processar histórico.</p>';
             }
         }
 
