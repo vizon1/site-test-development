@@ -35,45 +35,102 @@
     </main>
 
     <script type="module">
-        // Exemplo de dados (Depois substituirá pelo Firebase Firestore)
-        const pedidosMock = [
-            { id: "GD-84729", data: "12 Jun 2026", total: "104,00", status: "Aguardando pagamento", classe: "status-amarelo", item: "Câmera Bullet HDCVI Intelbras" },
-            { id: "GD-84728", data: "10 Jun 2026", total: "250,00", status: "Enviando", classe: "status-verde", item: "Kit Alarme Residencial" },
-            { id: "GD-84720", data: "01 Jun 2026", total: "50,00", status: "A caminho", classe: "status-verde", item: "Sensor de Movimento IVP" },
-            { id: "GD-84690", data: "15 Mai 2026", total: "170,00", status: "Entregue", classe: "status-azul", item: "DVR 4 Canais Intelbras" }
-        ];
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        function renderizarPedidos() {
-            const container = document.getElementById('lista-pedidos');
-            let html = '';
+        // Credenciais do seu Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
 
-            pedidosMock.forEach(pedido => {
-                html += `
-                    <div class="pedido-card">
-                        <div class="pedido-header">
-                            <div>
-                                <span class="pedido-id">Pedido #${pedido.id}</span>
-                                <span class="pedido-data">${pedido.data}</span>
-                            </div>
-                            <div class="pedido-badge ${pedido.classe}">${pedido.status}</div>
-                        </div>
-                        <div class="pedido-body">
-                            <p class="pedido-item">${pedido.item}</p>
-                            <p class="pedido-total">R$ ${pedido.total}</p>
-                        </div>
-                        <div class="pedido-footer">
-                            <a href="detalhes-pedido.html?id=${pedido.id}" style="text-decoration: none;">
-                                <button class="btn-detalhes">Ver Detalhes</button>
-                            </a>
-                        </div>
-                    </div>
-                `;
-            });
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-            container.innerHTML = html;
+        // Função inteligente para decidir a cor do botão baseado no texto do status
+        function obterClasseStatus(status) {
+            const s = status ? status.toLowerCase() : '';
+            if (s.includes('enviando') || s.includes('caminho')) return 'status-verde';
+            if (s.includes('entregue')) return 'status-azul';
+            return 'status-amarelo'; // Padrão para "Aguardando pagamento" ou erro
         }
 
-        renderizarPedidos();
+        async function carregarPedidos() {
+            const container = document.getElementById('lista-pedidos');
+            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">A sincronizar com a base de dados...</p>';
+
+            try {
+                // Procura na coleção "pedidos"
+                const querySnapshot = await getDocs(collection(db, "pedidos"));
+                let html = '';
+
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Você ainda não possui pedidos registrados.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const pedido = doc.data();
+                    const idReal = doc.id; 
+                    const idCurto = idReal.substring(0, 8).toUpperCase(); // Pega apenas 8 letras para ficar estético tipo "GD-X8A9B"
+
+                    // Trata a data (seja do formato Firestore Timestamp ou String comum)
+                    let dataFormatada = "Data não informada";
+                    if (pedido.dataCadastro && pedido.dataCadastro.toDate) {
+                        dataFormatada = pedido.dataCadastro.toDate().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+                    } else if (pedido.data) {
+                        dataFormatada = pedido.data;
+                    }
+
+                    // Tenta encontrar o nome do item principal da compra
+                    let nomeItem = "Itens do pedido";
+                    if (Array.isArray(pedido.itens) && pedido.itens.length > 0) {
+                        nomeItem = pedido.itens[0].titulo || "Múltiplos itens";
+                        if (pedido.itens.length > 1) nomeItem += ` (+${pedido.itens.length - 1})`;
+                    } else if (pedido.item) {
+                        nomeItem = pedido.item;
+                    }
+
+                    const total = pedido.total || "0,00";
+                    const statusStr = pedido.status || "Aguardando pagamento";
+                    const classeCss = obterClasseStatus(statusStr);
+
+                    html += `
+                        <div class="pedido-card">
+                            <div class="pedido-header">
+                                <div>
+                                    <span class="pedido-id">Pedido #${idCurto}</span>
+                                    <span class="pedido-data">${dataFormatada}</span>
+                                </div>
+                                <div class="pedido-badge ${classeCss}">${statusStr}</div>
+                            </div>
+                            <div class="pedido-body">
+                                <p class="pedido-item">${nomeItem}</p>
+                                <p class="pedido-total">R$ ${total}</p>
+                            </div>
+                            <div class="pedido-footer">
+                                <a href="detalhes-pedido.html?id=${idReal}" style="text-decoration: none;">
+                                    <button class="btn-detalhes">Ver Detalhes</button>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error("Erro ao carregar pedidos:", error);
+                container.innerHTML = '<p style="color: red; text-align: center;">Erro ao ligar ao servidor. Tente atualizar a página.</p>';
+            }
+        }
+
+        // Executa assim que a página abre
+        carregarPedidos();
     </script>
 </body>
 </html>
