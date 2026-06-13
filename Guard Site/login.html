@@ -61,4 +61,384 @@
                     <input type="password" id="auth-password" placeholder="Senha" required>
                     <span class="error-text" id="error-password" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;"></span>
                     
-                    <div id="password-strength-container" style="display: none; margin-
+                    <div id="password-strength-container" style="display: none; margin-top: 8px; text-align: left;">
+                        <div style="height: 4px; width: 100%; background-color: #333; border-radius: 2px; overflow: hidden; display: flex;">
+                            <div id="strength-bar" style="height: 100%; width: 0%; transition: all 0.3s ease;"></div>
+                        </div>
+                        <span id="strength-text" style="font-size: 0.75rem; font-weight: 600; margin-top: 4px; display: inline-block;"></span>
+                    </div>
+
+                    <div id="password-checklist" style="display: none; margin-top: 12px; text-align: left; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <div class="check-item" id="req-length">
+                            <div class="check-circle"></div> Mínimo de 8 caracteres
+                        </div>
+                        <div class="check-item" id="req-upper">
+                            <div class="check-circle"></div> 1 letra maiúscula
+                        </div>
+                        <div class="check-item" id="req-lower">
+                            <div class="check-circle"></div> 1 letra minúscula
+                        </div>
+                        <div class="check-item" id="req-num">
+                            <div class="check-circle"></div> 1 número
+                        </div>
+                        <div class="check-item" id="req-seq">
+                            <div class="check-circle"></div> Sem sequências numéricas (ex: 123)
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit" class="btn-apple-primary">Continuar</button>
+
+                <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: #86868b; font-size: 0.85rem;">
+                    <div style="height: 1px; background-color: #424245; flex: 1;"></div>
+                    <span>ou</span>
+                    <div style="height: 1px; background-color: #424245; flex: 1;"></div>
+                </div>
+
+                <button type="button" id="btn-google" style="background-color: #fff; color: #000; border: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; border-radius: 12px; cursor: pointer; font-size: 1rem; transition: opacity 0.2s;">
+                    <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.47h4.84c-.21 1.12-.84 2.07-1.79 2.7l2.8 2.17c1.64-1.51 2.59-3.74 2.59-6.5z" fill="#4285F4"/><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.8-2.17c-.78.52-1.78.83-3.16.83-2.43 0-4.49-1.64-5.22-3.85l-2.9 2.24C2.35 15.19 5.41 18 9 18z" fill="#34A853"/><path d="M3.78 10.63c-.19-.57-.3-1.18-.3-1.8s.11-1.23.3-1.8L.88 4.79C.32 5.92 0 7.22 0 8.6s.32 2.68.88 3.81l2.9-2.24z" fill="#FBBC05"/><path d="M9 3.58c1.32 0 2.5.45 3.44 1.35L15 2.4C13.46.96 11.42 0 9 0 5.41 0 2.35 2.81.88 6.04l2.9 2.24C4.51 5.22 6.57 3.58 9 3.58z" fill="#EA4335"/></svg>
+                    Continuar com o Google
+                </button>
+            </form>
+
+            <div class="login-footer-toggle">
+                <span id="toggle-text">Não tem um Guard ID?</span>
+                <a href="#" id="btn-toggle-mode">Crie o seu agora.</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-nome-google" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(20px); padding: 20px; box-sizing: border-box;">
+        <div style="width: 100%; max-width: 380px; text-align: center;">
+            <img src="imagens/logo.webp" alt="Guard Logo" class="login-logo" style="width: 70px; height: 70px; object-fit: contain; margin-bottom: 20px;">
+            <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0 0 8px 0; letter-spacing: -0.5px;">Só mais um detalhe</h2>
+            <p style="color: #86868b; font-size: 0.9rem; line-height: 1.4; margin: 0 0 30px 0;">Confirme o seu nome completo para concluir a criação do seu Guard ID.</p>
+            
+            <div class="apple-input-group">
+                <input type="text" id="google-nome" placeholder="Nome Completo" style="width: 100%; padding: 16px; background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px; color: #fff; font-size: 0.95rem; outline: none; box-sizing: border-box; transition: border-color 0.3s ease;">
+                <span id="error-google-nome" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:6px; text-align:left;">Informe nome e sobrenome (apenas letras).</span>
+            </div>
+            
+            <button type="button" id="btn-confirmar-nome-google" class="btn-apple-primary" style="width:100%; padding:16px; background-color:#0071e3; color:#fff; border:none; border-radius:12px; font-size:1rem; font-weight:600; cursor:pointer; margin-top:15px;">Concluir</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let modoCadastro = false;
+        let senhaValida = false;
+
+        const btnToggle = document.getElementById('btn-toggle-mode');
+        const cadastroFields = document.getElementById('cadastro-fields');
+        const loginTitle = document.getElementById('login-title');
+        const loginSubtitle = document.getElementById('login-subtitle');
+        const toggleText = document.getElementById('toggle-text');
+        const form = document.getElementById('auth-form');
+
+        // Elementos de Validação
+        const inputNome = document.getElementById('auth-nome');
+        const inputEmail = document.getElementById('auth-email');
+        const inputSenha = document.getElementById('auth-password');
+        const strengthContainer = document.getElementById('password-strength-container');
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        const errorNome = document.getElementById('error-nome');
+        const errorEmail = document.getElementById('error-email');
+        const errorPassword = document.getElementById('error-password');
+        const checklistContainer = document.getElementById('password-checklist');
+
+        // Alternar Modos
+        btnToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            modoCadastro = !modoCadastro;
+            if (modoCadastro) {
+                cadastroFields.style.display = 'block';
+                strengthContainer.style.display = 'block';
+                checklistContainer.style.display = 'flex';
+                loginTitle.textContent = "Criar Guard ID";
+                loginSubtitle.textContent = "Preencha seus dados para começar.";
+                toggleText.textContent = "Já possui uma conta?";
+                btnToggle.textContent = "Inicie sessão aqui.";
+            } else {
+                cadastroFields.style.display = 'none';
+                strengthContainer.style.display = 'none';
+                checklistContainer.style.display = 'none';
+                loginTitle.textContent = "Guard ID";
+                loginSubtitle.textContent = "Inicie a sessão para gerenciar seus equipamentos e pedidos.";
+                toggleText.textContent = "Não tem um Guard ID?";
+                btnToggle.textContent = "Crie o seu agora.";
+                limparErros();
+            }
+        });
+
+        // ==========================================
+        // REGRAS DE VALIDAÇÃO
+        // ==========================================
+        
+        function limparErros() {
+            errorNome.style.display = 'none';
+            errorEmail.style.display = 'none';
+            errorPassword.style.display = 'none';
+            inputNome.style.borderColor = '#424245';
+            inputEmail.style.borderColor = '#424245';
+            inputSenha.style.borderColor = '#424245';
+        }
+
+        inputNome.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[0-9]/g, '');
+        });
+
+        function validarNome() {
+            if (!modoCadastro) return true;
+            const val = inputNome.value.trim();
+            if (val.split(' ').length < 2) {
+                errorNome.style.display = 'block';
+                inputNome.style.borderColor = '#ff4444';
+                return false;
+            }
+            errorNome.style.display = 'none';
+            inputNome.style.borderColor = '#FFFF00';
+            return true;
+        }
+
+        function validarEmail() {
+            const val = inputEmail.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                errorEmail.style.display = 'block';
+                inputEmail.style.borderColor = '#ff4444';
+                return false;
+            }
+            errorEmail.style.display = 'none';
+            inputEmail.style.borderColor = modoCadastro ? '#FFFF00' : '#424245';
+            return true;
+        }
+
+        function validarSenhaBlur() {
+            const val = inputSenha.value;
+            
+            if (val === '') {
+                errorPassword.textContent = 'A senha é obrigatória.';
+                errorPassword.style.display = 'block';
+                inputSenha.style.borderColor = '#ff4444';
+                return false;
+            } else if (val.length < 8) {
+                errorPassword.textContent = 'A senha deve ter no mínimo 8 caracteres.';
+                errorPassword.style.display = 'block';
+                inputSenha.style.borderColor = '#ff4444';
+                return false;
+            } else {
+                errorPassword.style.display = 'none';
+                inputSenha.style.borderColor = modoCadastro ? '#FFFF00' : '#424245';
+                return true;
+            }
+        }
+
+        inputSenha.addEventListener('blur', validarSenhaBlur);
+
+        // Validação Integrada: Checklist + Barra de Força
+        inputSenha.addEventListener('input', (e) => {
+            if (!modoCadastro) return;
+            
+            const pwd = e.target.value;
+            
+            // Lógica do Checklist
+            const isLengthValid = pwd.length >= 8;
+            const hasUpper = /[A-Z]/.test(pwd);
+            const hasLower = /[a-z]/.test(pwd);
+            const hasNumber = /[0-9]/.test(pwd);
+            const hasSequence = /(012|123|234|345|456|567|678|789|890)/.test(pwd);
+            const isSeqValid = pwd.length > 0 && !hasSequence;
+
+            function atualizarCheck(id, valido) {
+                const el = document.getElementById(id);
+                if (valido) el.classList.add('valid');
+                else el.classList.remove('valid');
+            }
+
+            atualizarCheck('req-length', isLengthValid);
+            atualizarCheck('req-upper', hasUpper);
+            atualizarCheck('req-lower', hasLower);
+            atualizarCheck('req-num', hasNumber);
+            atualizarCheck('req-seq', isSeqValid);
+
+            // Lógica da Barra de Força
+            let forca = 0;
+            if (isLengthValid) forca++;
+            if (hasUpper && hasLower) forca++;
+            if (hasNumber) forca++;
+            if (pwd.length >= 8 && /[!@#$%^&*]/.test(pwd)) forca++;
+
+            if (hasSequence) forca = 1;
+
+            if (pwd.length === 0) {
+                strengthBar.style.width = '0%';
+                strengthText.textContent = '';
+                senhaValida = false;
+            } else if (!isLengthValid || !hasUpper || !hasLower || !hasNumber || hasSequence) {
+                strengthBar.style.width = '33%';
+                strengthBar.style.backgroundColor = '#ff4444';
+                strengthText.textContent = 'Fraca (Cumpra todos os requisitos abaixo)';
+                strengthText.style.color = '#ff4444';
+                senhaValida = false;
+            } else if (forca === 2 || forca === 3) {
+                strengthBar.style.width = '66%';
+                strengthBar.style.backgroundColor = '#FFFF00';
+                strengthText.textContent = 'Média';
+                strengthText.style.color = '#FFFF00';
+                senhaValida = true;
+            } else {
+                strengthBar.style.width = '100%';
+                strengthBar.style.backgroundColor = '#32CD32';
+                strengthText.textContent = 'Forte';
+                strengthText.style.color = '#32CD32';
+                senhaValida = true;
+            }
+        });
+
+        inputNome.addEventListener('blur', validarNome);
+        inputEmail.addEventListener('blur', validarEmail);
+
+        // ==========================================
+        // SUBMISSÃO DO FORMULÁRIO
+        // ==========================================
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            limparErros();
+
+            const isEmailValid = validarEmail();
+            const isNomeValid = validarNome();
+
+            if (modoCadastro) {
+                if (!isEmailValid || !isNomeValid) return alert("Verifique os campos em vermelho.");
+                if (!senhaValida) return alert("A senha é muito fraca. Siga os requisitos exibidos na barra.");
+                
+                try {
+                    const btn = document.getElementById('btn-submit');
+                    btn.textContent = "Criando...";
+                    
+                    const userCredential = await createUserWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
+                    const user = userCredential.user;
+
+                    await setDoc(doc(db, "usuarios", user.uid), {
+                        nome: inputNome.value.trim(),
+                        email: inputEmail.value.trim(),
+                        dataCadastro: new Date()
+                    });
+
+                    alert("Guard ID criado com sucesso!");
+                    window.location.href = "store.html";
+                } catch (error) {
+                    let msg = error.message;
+                    if(error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
+                    alert("Erro ao criar conta: " + msg);
+                    document.getElementById('btn-submit').textContent = "Continuar";
+                }
+            } else {
+                if (!isEmailValid) return;
+                
+                try {
+                    document.getElementById('btn-submit').textContent = "Acessando...";
+                    await signInWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
+                    window.location.href = "meus-pedidos.html";
+                } catch (error) {
+                    let msg = "E-mail ou senha incorretos.";
+                    if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
+                    alert(msg);
+                    document.getElementById('btn-submit').textContent = "Continuar";
+                }
+            }
+        });
+        
+        // ==========================================
+        // LOGIN COM O GOOGLE
+        // ==========================================
+        const provider = new GoogleAuthProvider();
+        const btnGoogle = document.getElementById('btn-google');
+        const modalNomeGoogle = document.getElementById('modal-nome-google');
+        const inputNomeGoogle = document.getElementById('google-nome');
+        const errorGoogleNome = document.getElementById('error-google-nome');
+        const btnConfirmarNomeGoogle = document.getElementById('btn-confirmar-nome-google');
+        
+        let tempUserGoogle = null; 
+
+        btnGoogle.addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    window.location.href = "meus-pedidos.html";
+                } else {
+                    tempUserGoogle = user;
+                    if (user.displayName) {
+                        inputNomeGoogle.value = user.displayName; 
+                    }
+                    modalNomeGoogle.style.display = 'flex';
+                    inputNomeGoogle.style.borderColor = '#424245';
+                    errorGoogleNome.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Erro Google Auth:", error);
+                alert("Erro ao aceder com o Google: " + error.message);
+            }
+        });
+
+        inputNomeGoogle.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[0-9]/g, '');
+        });
+
+        btnConfirmarNomeGoogle.addEventListener('click', async () => {
+            const nomeValido = inputNomeGoogle.value.trim();
+            
+            if (nomeValido.split(' ').length < 2) {
+                errorGoogleNome.style.display = 'block';
+                inputNomeGoogle.style.borderColor = '#ff4444';
+                return;
+            }
+            
+            errorGoogleNome.style.display = 'none';
+            inputNomeGoogle.style.borderColor = '#FFFF00';
+
+            if (tempUserGoogle) {
+                try {
+                    btnConfirmarNomeGoogle.textContent = "A guardar...";
+                    btnConfirmarNomeGoogle.style.pointerEvents = "none";
+                    
+                    await setDoc(doc(db, "usuarios", tempUserGoogle.uid), {
+                        nome: nomeValido,
+                        email: tempUserGoogle.email,
+                        dataCadastro: new Date()
+                    });
+                    
+                    alert("Registo via Google concluído!");
+                    window.location.href = "meus-pedidos.html";
+                } catch (err) {
+                    alert("Erro ao concluir o registo: " + err.message);
+                    btnConfirmarNomeGoogle.textContent = "Concluir";
+                    btnConfirmarNomeGoogle.style.pointerEvents = "auto";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
