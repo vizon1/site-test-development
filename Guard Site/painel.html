@@ -231,6 +231,19 @@
                 submitBtn.style.opacity = "1";
             }
         });
-</script>
+    </script>
+    <script>
+        // MECANISMO DE ENCOLHER O HEADER AO ROLAR (SHRINK HEADER)
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('header');
+            var logo = document.getElementById('logo');
+            
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled'); // Aplica o estilo pequeno
+            } else {
+                header.classList.remove('scrolled'); // Volta ao tamanho original
+            }
+        });
+    </script>
 </body>
 </html>
