@@ -212,6 +212,28 @@
         const togglePasswordBtn = document.getElementById('toggle-password-btn');
         const eyeIcon = document.getElementById('eye-icon');
 
+        // Limpa apenas as mensagens vermelhas de erro
+        function limparErros() {
+            if(errorNome) errorNome.style.display = 'none';
+            if(errorEmail) errorEmail.style.display = 'none';
+            if(errorPassword) errorPassword.style.display = 'none';
+            if(inputNome) inputNome.style.borderColor = '#424245';
+            if(inputEmail) inputEmail.style.borderColor = '#424245';
+            if(inputSenha) inputSenha.style.borderColor = '#424245';
+        }
+
+        // Limpa tudo (incluindo estado da senha e UI de força)
+        function resetarVisuaisSenha() {
+            if(strengthBar) {
+                strengthBar.style.width = '0%';
+                strengthBar.style.background = 'transparent';
+                strengthBar.style.boxShadow = 'none';
+            }
+            if(strengthText) strengthText.textContent = '';
+            document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
+            senhaValida = false;
+        }
+
         function forcarLimpeza() {
             form.reset();
             inputEmail.value = '';
@@ -221,6 +243,7 @@
             if(inputSenha) inputSenha.type = 'password';
             if(eyeIcon) eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             limparErros();
+            resetarVisuaisSenha();
         }
 
         document.addEventListener('DOMContentLoaded', forcarLimpeza);
@@ -266,24 +289,6 @@
                     btnToggle.textContent = "Crie o seu agora.";
                 }
             });
-        }
-
-        function limparErros() {
-            if(errorNome) errorNome.style.display = 'none';
-            if(errorEmail) errorEmail.style.display = 'none';
-            if(errorPassword) errorPassword.style.display = 'none';
-            if(inputNome) inputNome.style.borderColor = '#424245';
-            if(inputEmail) inputEmail.style.borderColor = '#424245';
-            if(inputSenha) inputSenha.style.borderColor = '#424245';
-            
-            if(strengthBar) {
-                strengthBar.style.width = '0%';
-                strengthBar.style.background = 'transparent';
-                strengthBar.style.boxShadow = 'none';
-            }
-            if(strengthText) strengthText.textContent = '';
-            document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
-            senhaValida = false;
         }
 
         if(inputNome) {
@@ -418,6 +423,10 @@
                 strengthText.textContent = 'Forte';
                 strengthText.style.color = '#32cd32';
                 senhaValida = true;
+                
+                // Remove o erro visual ativamente caso a pessoa tenha clicado "Continuar" antes
+                if(errorPassword) errorPassword.style.display = 'none';
+                if(inputSenha) inputSenha.style.borderColor = '#424245';
             }
         };
 
@@ -429,11 +438,11 @@
         if(form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                limparErros();
+                limparErros(); // Limpa apenas as tags vermelhas
 
                 const isEmailValid = validarEmail();
                 const isNomeValid = validarNome();
-                const isSenhaValid = validarSenhaBlur();
+                const isSenhaValid = validarSenhaBlur(); // Executa e lê a variável senhaValida intacta
 
                 if (modoCadastro) {
                     if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
