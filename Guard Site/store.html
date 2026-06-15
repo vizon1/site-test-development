@@ -23,6 +23,54 @@
         #logged-in-ui:hover #user-first-name {
             color: #ffffff;
         }
+
+        /* Menu Suspenso de Perfil */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 15px;
+            background-color: #1d1d1f;
+            border: 1px solid #424245;
+            border-radius: 12px;
+            width: 200px;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        .profile-dropdown.active {
+            display: flex;
+            animation: fadeIn 0.2s ease forwards;
+        }
+        .dropdown-item {
+            padding: 12px 16px;
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .dropdown-item:hover {
+            background-color: #2c2c2e;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #424245;
+            margin: 4px 0;
+        }
+        .dropdown-item.logout {
+            color: #ff4444;
+        }
+        .dropdown-item.logout:hover {
+            background-color: rgba(255, 68, 68, 0.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -109,7 +157,7 @@
             <div class="sidebar-support-card">
                 <span class="support-title">Central de Atendimento</span>
                 <a href="tel:15988246986" class="support-phone">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45 1-1 1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                     (15) 98824-6986
                 </a>
             </div>
@@ -152,7 +200,7 @@
                     <span id="cart-count" style="position: absolute; top: -8px; right: -12px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold;">0</span>
                 </div>
 
-                <div id="auth-section" style="margin-left: 24px; display: flex; align-items: center; border-left: 1px solid #424245; padding-left: 20px;">
+                <div id="auth-section" style="margin-left: 24px; display: flex; align-items: center; border-left: 1px solid #424245; padding-left: 20px; position: relative;">
                     
                     <div id="logged-out-ui" style="display: flex; gap: 6px; font-size: 0.85rem; align-items: center;">
                         <a href="login.html" class="auth-link">Faça Login</a>
@@ -160,10 +208,22 @@
                         <a href="login.html" class="auth-link">Cadastre-se</a>
                     </div>
 
-                    <a href="meus-pedidos.html" id="logged-in-ui" style="display: none; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
+                    <div id="logged-in-ui" style="display: none; align-items: center; gap: 10px; cursor: pointer; position: relative;">
                         <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
                         <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7; transition: color 0.2s ease;"></span>
-                    </a>
+                        
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+
+                        <div id="profile-dropdown" class="profile-dropdown">
+                            <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
+                            <a href="#" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
+                        </div>
+                    </div>
                 </div>
                 
             </div>
@@ -242,7 +302,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // Importação atualizada: inclui o signOut para o botão de Sair
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         // SUAS CREDENCIAIS
         const firebaseConfig = {
@@ -259,13 +320,18 @@
         const auth = getAuth(app);
 
         // ==========================================
-        // GESTÃO DE ESTADO DE LOGIN NO CABEÇALHO
+        // GESTÃO DE ESTADO DE LOGIN NO CABEÇALHO E MENU
         // ==========================================
         const loggedOutUI = document.getElementById('logged-out-ui');
         const loggedInUI = document.getElementById('logged-in-ui');
         const userFirstName = document.getElementById('user-first-name');
         const userAvatar = document.getElementById('user-avatar');
+        
+        // Elementos do Menu Suspenso
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const btnLogout = document.getElementById('btn-logout');
 
+        // Escutar se o usuário está logado
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if(loggedOutUI) loggedOutUI.style.display = 'none';
@@ -298,8 +364,40 @@
             } else {
                 if(loggedOutUI) loggedOutUI.style.display = 'flex';
                 if(loggedInUI) loggedInUI.style.display = 'none';
+                if(profileDropdown) profileDropdown.classList.remove('active');
             }
         });
+
+        // Lógica de Abrir/Fechar o Menu de Perfil
+        if(loggedInUI) {
+            loggedInUI.addEventListener('click', (e) => {
+                e.stopPropagation(); // Impede que o clique feche o menu imediatamente
+                profileDropdown.classList.toggle('active');
+            });
+        }
+
+        // Fechar o menu ao clicar fora dele
+        document.addEventListener('click', (e) => {
+            if (loggedInUI && !loggedInUI.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Lógica do botão de Sair (Logout)
+        if(btnLogout) {
+            btnLogout.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    // O Firebase Auth vai detetar e esconder o menu automaticamente via onAuthStateChanged,
+                    // mas podemos dar um reload na página para garantir que o utilizador saiu completamente
+                    window.location.reload(); 
+                } catch (error) {
+                    console.error("Erro ao sair da conta:", error);
+                    alert("Ocorreu um erro ao terminar a sessão.");
+                }
+            });
+        }
 
         // VARIÁVEIS GLOBAIS
         let todosProdutos = [];
