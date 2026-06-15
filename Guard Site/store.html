@@ -9,6 +9,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Estilos da Autenticação do Cabeçalho */
+        .auth-link {
+            color: #86868b;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-weight: 400;
+        }
+        .auth-link:hover {
+            color: #ffffff;
+        }
+        #logged-in-ui:hover #user-first-name {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
     <div id="sidebar-overlay"></div>
@@ -94,7 +109,7 @@
             <div class="sidebar-support-card">
                 <span class="support-title">Central de Atendimento</span>
                 <a href="tel:15988246986" class="support-phone">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45 1-1 1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                     (15) 98824-6986
                 </a>
             </div>
@@ -136,10 +151,22 @@
                     <svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     <span id="cart-count" style="position: absolute; top: -8px; right: -12px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold;">0</span>
                 </div>
+
+                <div id="auth-section" style="margin-left: 24px; display: flex; align-items: center; border-left: 1px solid #424245; padding-left: 20px;">
+                    
+                    <div id="logged-out-ui" style="display: flex; gap: 6px; font-size: 0.85rem; align-items: center;">
+                        <a href="login.html" class="auth-link">Faça Login</a>
+                        <span style="color: #424245;">ou</span>
+                        <a href="login.html" class="auth-link">Cadastre-se</a>
+                    </div>
+
+                    <a href="meus-pedidos.html" id="logged-in-ui" style="display: none; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
+                        <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
+                        <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7; transition: color 0.2s ease;"></span>
+                    </a>
+                </div>
                 
             </div>
-        </div>
-    </header>
         </div>
     </header>
 
@@ -214,7 +241,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         // SUAS CREDENCIAIS
         const firebaseConfig = {
@@ -228,6 +256,50 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ==========================================
+        // GESTÃO DE ESTADO DE LOGIN NO CABEÇALHO
+        // ==========================================
+        const loggedOutUI = document.getElementById('logged-out-ui');
+        const loggedInUI = document.getElementById('logged-in-ui');
+        const userFirstName = document.getElementById('user-first-name');
+        const userAvatar = document.getElementById('user-avatar');
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                if(loggedOutUI) loggedOutUI.style.display = 'none';
+                if(loggedInUI) loggedInUI.style.display = 'flex';
+
+                let nome = user.displayName;
+                let foto = user.photoURL;
+
+                if (!nome) {
+                    try {
+                        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+                        if (docSnap.exists() && docSnap.data().nome) {
+                            nome = docSnap.data().nome;
+                        } else {
+                            nome = "Cliente";
+                        }
+                    } catch (e) {
+                        nome = "Cliente";
+                    }
+                }
+
+                const primeiroNome = nome.split(' ')[0];
+                if(userFirstName) userFirstName.textContent = primeiroNome;
+
+                if (foto) {
+                    if(userAvatar) userAvatar.src = foto;
+                } else {
+                    if(userAvatar) userAvatar.src = `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true&font-size=0.4`;
+                }
+            } else {
+                if(loggedOutUI) loggedOutUI.style.display = 'flex';
+                if(loggedInUI) loggedInUI.style.display = 'none';
+            }
+        });
 
         // VARIÁVEIS GLOBAIS
         let todosProdutos = [];
@@ -367,7 +439,6 @@
         }
 
         // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
-        // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
         function criarHTMLdoCard(p) {
             const nomeCat = nomesCategorias[p.categoria] || p.categoria;
             const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
@@ -395,7 +466,6 @@
             `;
         }
 
-        // 8. EVENTOS DE INTERFACE DA LOJA
         // 8. EVENTOS DE INTERFACE DA LOJA E PESQUISA COM ANIMAÇÃO
         const searchBtn = document.getElementById('searchBtn');
         const searchInput = document.getElementById('searchInput');
