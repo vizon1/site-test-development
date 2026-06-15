@@ -8,6 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
+        /* Desativa o "olho" padrão e bugado do Microsoft Edge/Chrome */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none !important;
+        }
+
+        /* Estilos do nosso Olho Customizado */
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            cursor: pointer;
+            color: #86868b;
+            display: none; /* Escondido até ter texto */
+            background: none;
+            border: none;
+            padding: 0;
+            outline: none;
+            transition: color 0.2s ease;
+        }
+        .toggle-password:hover {
+            color: #fff;
+        }
+
         /* Estilos do Checklist de Senha */
         .check-item {
             display: flex;
@@ -73,8 +97,16 @@
                     <span class="error-text" id="error-email" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;">E-mail com formato inválido.</span>
                 </div>
                 
-                <div class="apple-input-group">
-                    <input type="password" id="auth-password" placeholder="Senha" required autocomplete="new-password">
+                <div class="apple-input-group" style="position: relative;">
+                    <input type="password" id="auth-password" placeholder="Senha" required autocomplete="new-password" style="padding-right: 45px;">
+                    
+                    <button type="button" id="toggle-password-btn" class="toggle-password">
+                        <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+
                     <span class="error-text" id="error-password" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;"></span>
                     
                     <div id="password-strength-container" style="display: none; margin-top: 15px; text-align: center; flex-direction: column; align-items: center;">
@@ -176,12 +208,19 @@
         const errorEmail = document.getElementById('error-email');
         const errorPassword = document.getElementById('error-password');
         const checklistContainer = document.getElementById('password-checklist');
+        
+        // Elementos do novo botão de olho
+        const togglePasswordBtn = document.getElementById('toggle-password-btn');
+        const eyeIcon = document.getElementById('eye-icon');
 
         function forcarLimpeza() {
             form.reset();
             inputEmail.value = '';
             inputSenha.value = '';
             inputNome.value = '';
+            togglePasswordBtn.style.display = 'none'; // Esconde o olho na limpeza
+            inputSenha.type = 'password'; // Reseta para formato senha
+            eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             limparErros();
         }
 
@@ -257,7 +296,7 @@
                 return false;
             }
             errorNome.style.display = 'none';
-            inputNome.style.borderColor = '#424245'; /* Removida a borda amarela, volta ao normal */
+            inputNome.style.borderColor = '#424245'; 
             return true;
         }
 
@@ -270,7 +309,7 @@
                 return false;
             }
             errorEmail.style.display = 'none';
-            inputEmail.style.borderColor = '#424245'; /* Removida a borda amarela, volta ao normal */
+            inputEmail.style.borderColor = '#424245'; 
             return true;
         }
 
@@ -289,17 +328,35 @@
                 return false;
             } else {
                 errorPassword.style.display = 'none';
-                inputSenha.style.borderColor = '#424245'; /* Removida a borda amarela, volta ao normal */
+                inputSenha.style.borderColor = '#424245'; 
                 return true;
             }
         }
 
         inputSenha.addEventListener('blur', validarSenhaBlur);
 
+        // Ação de Mostrar/Ocultar Senha Customizada
+        togglePasswordBtn.addEventListener('click', () => {
+            if (inputSenha.type === 'password') {
+                inputSenha.type = 'text';
+                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            } else {
+                inputSenha.type = 'password';
+                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+        });
+
         const atualizarVisuaisSenha = (e) => {
-            if (!modoCadastro) return;
-            
             const pwd = e.target ? e.target.value : inputSenha.value;
+            
+            // Controle dinâmico do botão de olho (aparece sempre que há texto, some quando apaga)
+            if (pwd.length > 0) {
+                togglePasswordBtn.style.display = 'block';
+            } else {
+                togglePasswordBtn.style.display = 'none';
+            }
+
+            if (!modoCadastro) return;
             
             const isLengthValid = pwd.length >= 8;
             const hasUpper = /[A-Z]/.test(pwd);
@@ -462,7 +519,7 @@
             }
             
             errorGoogleNome.style.display = 'none';
-            inputNomeGoogle.style.borderColor = '#424245'; /* Removida a borda amarela aqui também */
+            inputNomeGoogle.style.borderColor = '#424245';
 
             if (tempUserGoogle) {
                 try {
