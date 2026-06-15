@@ -66,6 +66,20 @@
         .toggle-switch input:checked + .slider { background-color: #32CD32; }
         .toggle-switch input:checked + .slider::before { transform: translateX(20px); }
 
+        /* Estilos de Senha Avançada */
+        input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none !important; }
+        .toggle-password {
+            position: absolute; right: 16px; top: 38px; cursor: pointer; color: #86868b;
+            display: none; background: none; border: none; padding: 0; outline: none; transition: color 0.2s ease;
+        }
+        .toggle-password:hover { color: #fff; }
+        .check-item { display: flex; align-items: center; gap: 12px; color: #86868b; font-size: 0.95rem; transition: color 0.3s ease; }
+        .check-item.valid { color: #d2d2d7; }
+        .check-icon { width: 18px; height: 18px; border-radius: 50%; background-color: #2c2c2e; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .check-icon svg { width: 10px; height: 10px; fill: none; stroke: #000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.3s ease; }
+        .check-item.valid .check-icon { background-color: #32CD32; box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); }
+        .check-item.valid .check-icon svg { opacity: 1; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* Responsividade */
@@ -163,9 +177,11 @@
                             <label>Telefone / WhatsApp</label>
                             <input type="text" id="perfil-telefone" placeholder="(00) 00000-0000" maxlength="15">
                         </div>
-                        <div class="apple-input-group form-full">
+                        
+                        <div class="apple-input-group">
                             <label>CPF / CNPJ</label>
                             <input type="text" id="perfil-cpf" placeholder="000.000.000-00" maxlength="18">
+                            <span class="error-text" id="error-cpf" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;">CPF ou CNPJ inválido.</span>
                         </div>
                     </div>
                     <button type="submit" class="btn-save" id="btn-save-dados">Salvar Dados</button>
@@ -229,9 +245,42 @@
                             <label>Senha Atual</label>
                             <input type="password" id="senha-atual" placeholder="Digite sua senha atual" required>
                         </div>
-                        <div class="apple-input-group form-full">
+                        <div class="apple-input-group form-full" style="position: relative;">
                             <label>Nova Senha</label>
-                            <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" minlength="8" required>
+                            <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" minlength="8" required autocomplete="new-password" style="padding-right: 45px;">
+                            
+                            <button type="button" id="toggle-password-btn" class="toggle-password">
+                                <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+
+                            <span class="error-text" id="error-password" style="display:none; color:#ff4444; font-size:0.8rem; margin-top:4px; text-align:left;"></span>
+                            
+                            <div id="password-strength-container" style="display: none; margin-top: 15px; text-align: center; flex-direction: column; align-items: center;">
+                                <div style="height: 8px; width: 100%; background-color: #222; border-radius: 10px; position: relative;">
+                                    <div id="strength-bar" style="height: 100%; width: 0%; border-radius: 10px; transition: width 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;"></div>
+                                </div>
+                                <div style="margin-top: 12px; font-size: 0.95rem; color: #a0a0a5;">
+                                    Força da Senha: <span id="strength-text" style="font-weight: 600;"></span>
+                                </div>
+                            </div>
+
+                            <div id="password-checklist" style="display: none; margin-top: 15px; text-align: left; flex-direction: column; gap: 10px;">
+                                <div class="check-item" id="req-length">
+                                    <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> 8+ caracteres
+                                </div>
+                                <div class="check-item" id="req-upper">
+                                    <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 letra maiúscula
+                                </div>
+                                <div class="check-item" id="req-lower">
+                                    <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 letra minúscula
+                                </div>
+                                <div class="check-item" id="req-num">
+                                    <div class="check-icon"><svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></div> Pelo menos 1 número
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn-save" id="btn-save-senha">Atualizar Senha</button>
@@ -271,10 +320,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        // Importadas funções extras para reautenticação
         import { getAuth, onAuthStateChanged, signOut, updatePassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -289,6 +336,7 @@
         const auth = getAuth(app);
 
         let usuarioAtual = null;
+        let senhaValida = false; // Controle de validação da nova senha
 
         // ==========================================
         // PROTEÇÃO DE ROTA E CARREGAMENTO DE DADOS
@@ -297,7 +345,6 @@
             if (user) {
                 usuarioAtual = user;
                 
-                // Configura o Header
                 document.getElementById('logged-in-ui').style.display = 'flex';
                 let nome = user.displayName;
                 if (!nome) {
@@ -308,10 +355,8 @@
                 document.getElementById('user-first-name').textContent = primeiroNome;
                 document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
 
-                // Preenche Aba Pessoal
                 document.getElementById('perfil-email').value = user.email;
                 
-                // Busca dados completos no Firestore
                 const docRef = doc(db, "usuarios", user.uid);
                 const docSnap = await getDoc(docRef);
                 
@@ -325,7 +370,6 @@
                         document.getElementById('lgpd-marketing').checked = data.marketing;
                     }
 
-                    // Preenche Aba Endereço
                     if(data.endereco) {
                         document.getElementById('end-cep').value = data.endereco.cep || "";
                         document.getElementById('end-rua').value = data.endereco.rua || "";
@@ -337,7 +381,6 @@
                     }
                 }
 
-                // Verifica se é Google Auth para bloquear a senha
                 const isGoogle = user.providerData.some(provider => provider.providerId === 'google.com');
                 if (isGoogle) {
                     document.getElementById('google-auth-warning').style.display = 'block';
@@ -376,7 +419,7 @@
         });
 
         // ==========================================
-        // MÁSCARAS E PREENCHIMENTO AUTOMÁTICO DE CEP
+        // MÁSCARAS E VALIDADORES
         // ==========================================
         document.getElementById('perfil-telefone').addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
@@ -396,14 +439,60 @@
                 v = v.replace(/(\d{4})(\d)/, "$1-$2");
             }
             e.target.value = v;
+            document.getElementById('error-cpf').style.display = 'none';
+            e.target.style.borderColor = '#424245';
         });
 
+        // Algoritmos Oficiais de CPF e CNPJ
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf == '' || cpf.length != 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            let add = 0;
+            for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+            let rev = 11 - (add % 11);
+            if (rev == 10 || rev == 11) rev = 0;
+            if (rev != parseInt(cpf.charAt(9))) return false;
+            add = 0;
+            for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+            rev = 11 - (add % 11);
+            if (rev == 10 || rev == 11) rev = 0;
+            if (rev != parseInt(cpf.charAt(10))) return false;
+            return true;
+        }
+
+        function validarCNPJ(cnpj) {
+            cnpj = cnpj.replace(/[^\d]+/g, '');
+            if (cnpj == '' || cnpj.length != 14 || /^(\d)\1{13}$/.test(cnpj)) return false;
+            let tamanho = cnpj.length - 2
+            let numeros = cnpj.substring(0, tamanho);
+            let digitos = cnpj.substring(tamanho);
+            let soma = 0;
+            let pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(0)) return false;
+            tamanho = tamanho + 1;
+            numeros = cnpj.substring(0, tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(1)) return false;
+            return true;
+        }
+
+        // Busca de Endereço Automática (ViaCEP)
         const inputCep = document.getElementById('end-cep');
         inputCep.addEventListener('input', async function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
             e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
             
-            // Busca o endereço na API dos Correios (ViaCEP)
             let cepLimpo = e.target.value.replace(/\D/g, '');
             if (cepLimpo.length === 8) {
                 try {
@@ -414,7 +503,6 @@
                         document.getElementById('end-bairro').value = data.bairro || "";
                         document.getElementById('end-cidade').value = data.localidade || "";
                         document.getElementById('end-estado').value = data.uf || "";
-                        // Foca no número para agilizar a digitação
                         document.getElementById('end-numero').focus();
                     }
                 } catch (error) {
@@ -424,12 +512,119 @@
         });
 
         // ==========================================
-        // SALVAR DADOS
+        // VALIDAÇÃO E VISUAIS DA NOVA SENHA
+        // ==========================================
+        const inputNovaSenha = document.getElementById('nova-senha');
+        const strengthContainer = document.getElementById('password-strength-container');
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        const checklistContainer = document.getElementById('password-checklist');
+        const togglePasswordBtn = document.getElementById('toggle-password-btn');
+        const eyeIcon = document.getElementById('eye-icon');
+        const errorPassword = document.getElementById('error-password');
+
+        togglePasswordBtn.addEventListener('click', () => {
+            if (inputNovaSenha.type === 'password') {
+                inputNovaSenha.type = 'text';
+                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            } else {
+                inputNovaSenha.type = 'password';
+                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+        });
+
+        const atualizarVisuaisSenha = (e) => {
+            const pwd = e.target.value;
+            
+            if (pwd.length > 0) {
+                togglePasswordBtn.style.display = 'block';
+                strengthContainer.style.display = 'flex';
+                checklistContainer.style.display = 'flex';
+            } else {
+                togglePasswordBtn.style.display = 'none';
+            }
+
+            const isLengthValid = pwd.length >= 8;
+            const hasUpper = /[A-Z]/.test(pwd);
+            const hasLower = /[a-z]/.test(pwd);
+            const hasNumber = /[0-9]/.test(pwd);
+
+            function atualizarCheck(id, valido) {
+                const el = document.getElementById(id);
+                if (valido) el.classList.add('valid');
+                else el.classList.remove('valid');
+            }
+
+            atualizarCheck('req-length', isLengthValid);
+            atualizarCheck('req-upper', hasUpper);
+            atualizarCheck('req-lower', hasLower);
+            atualizarCheck('req-num', hasNumber);
+
+            let forca = 0;
+            if (isLengthValid) forca++;
+            if (hasUpper) forca++;
+            if (hasLower) forca++;
+            if (hasNumber) forca++;
+
+            if (pwd.length === 0) {
+                strengthBar.style.width = '0%';
+                strengthBar.style.background = 'transparent';
+                strengthBar.style.boxShadow = 'none';
+                strengthText.textContent = '';
+                senhaValida = false;
+            } else if (forca <= 2) {
+                strengthBar.style.width = '33%';
+                strengthBar.style.background = '#ff4b4b';
+                strengthBar.style.boxShadow = '0 0 15px rgba(255, 75, 75, 0.4)';
+                strengthText.textContent = 'Fraca';
+                strengthText.style.color = '#ff4b4b';
+                senhaValida = false;
+            } else if (forca === 3) {
+                strengthBar.style.width = '66%';
+                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b)';
+                strengthBar.style.boxShadow = '0 0 15px rgba(255, 235, 59, 0.4)';
+                strengthText.textContent = 'Média';
+                strengthText.style.color = '#ffeb3b';
+                senhaValida = false; 
+            } else if (forca === 4) {
+                strengthBar.style.width = '100%';
+                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b, #32cd32)';
+                strengthBar.style.boxShadow = '0 0 15px rgba(50, 205, 50, 0.5)';
+                strengthText.textContent = 'Forte';
+                strengthText.style.color = '#32cd32';
+                senhaValida = true;
+                
+                errorPassword.style.display = 'none';
+                inputNovaSenha.style.borderColor = '#424245';
+            }
+        };
+
+        inputNovaSenha.addEventListener('input', atualizarVisuaisSenha);
+        inputNovaSenha.addEventListener('change', atualizarVisuaisSenha);
+
+        // ==========================================
+        // SUBMISSÃO DOS FORMULÁRIOS
         // ==========================================
         
-        // 1. Dados Pessoais
+        // 1. Dados Pessoais (com validação matemática CPF/CNPJ)
         document.getElementById('form-dados').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            const inputCpfCnpj = document.getElementById('perfil-cpf');
+            const valorLimpo = inputCpfCnpj.value.replace(/\D/g, "");
+            
+            if(valorLimpo.length > 0) {
+                let isCpfCnpjValido = false;
+                if(valorLimpo.length <= 11) isCpfCnpjValido = validarCPF(valorLimpo);
+                else isCpfCnpjValido = validarCNPJ(valorLimpo);
+
+                if(!isCpfCnpjValido) {
+                    document.getElementById('error-cpf').style.display = 'block';
+                    inputCpfCnpj.style.borderColor = '#ff4444';
+                    return; // Interrompe o salvamento
+                }
+            }
+
             const btn = document.getElementById('btn-save-dados');
             btn.textContent = "A guardar...";
             
@@ -479,9 +674,17 @@
         // 3. Atualizar Senha com Reautenticação
         document.getElementById('form-senha').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            if (!senhaValida) {
+                errorPassword.textContent = 'A nova senha não atende aos requisitos mínimos.';
+                errorPassword.style.display = 'block';
+                inputNovaSenha.style.borderColor = '#ff4444';
+                return;
+            }
+
             const btn = document.getElementById('btn-save-senha');
             const senhaAtual = document.getElementById('senha-atual').value;
-            const novaSenha = document.getElementById('nova-senha').value;
+            const novaSenha = inputNovaSenha.value;
             
             btn.textContent = "Validando...";
             try {
@@ -493,6 +696,18 @@
                 await updatePassword(usuarioAtual, novaSenha);
                 alert("Senha atualizada com sucesso!");
                 document.getElementById('form-senha').reset();
+                
+                // Limpa visuais após sucesso
+                strengthBar.style.width = '0%';
+                strengthBar.style.background = 'transparent';
+                strengthBar.style.boxShadow = 'none';
+                strengthText.textContent = '';
+                document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
+                senhaValida = false;
+                strengthContainer.style.display = 'none';
+                checklistContainer.style.display = 'none';
+                togglePasswordBtn.style.display = 'none';
+
             } catch (err) {
                 if (err.code === 'auth/invalid-credential') {
                     alert("A senha atual que informou está incorreta.");
@@ -504,7 +719,7 @@
             }
         });
 
-        // 4. Salvar LGPD automaticamente
+        // 4. Salvar LGPD automaticamente ao clicar
         document.getElementById('lgpd-marketing').addEventListener('change', async (e) => {
             if(usuarioAtual) {
                 await setDoc(doc(db, "usuarios", usuarioAtual.uid), { marketing: e.target.checked }, { merge: true });
