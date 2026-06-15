@@ -32,7 +32,7 @@
             color: #fff;
         }
 
-        /* Estilos do Checklist de Senha */
+        /* Estilos do Checklist de Senha (Design Apple) */
         .check-item {
             display: flex;
             align-items: center;
@@ -209,7 +209,6 @@
         const errorPassword = document.getElementById('error-password');
         const checklistContainer = document.getElementById('password-checklist');
         
-        // Elementos do novo botão de olho
         const togglePasswordBtn = document.getElementById('toggle-password-btn');
         const eyeIcon = document.getElementById('eye-icon');
 
@@ -218,9 +217,9 @@
             inputEmail.value = '';
             inputSenha.value = '';
             inputNome.value = '';
-            togglePasswordBtn.style.display = 'none'; // Esconde o olho na limpeza
-            inputSenha.type = 'password'; // Reseta para formato senha
-            eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            if(togglePasswordBtn) togglePasswordBtn.style.display = 'none';
+            if(inputSenha) inputSenha.type = 'password';
+            if(eyeIcon) eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             limparErros();
         }
 
@@ -234,7 +233,7 @@
 
         let autofillAttempts = 0;
         const autofillInterval = setInterval(() => {
-            if (inputSenha.value || inputEmail.value) {
+            if (inputSenha && (inputSenha.value || inputEmail.value)) {
                 inputSenha.dispatchEvent(new Event('input', { bubbles: true }));
                 if(inputEmail.value) inputEmail.dispatchEvent(new Event('blur', { bubbles: true }));
                 clearInterval(autofillInterval);
@@ -243,49 +242,56 @@
             if(autofillAttempts > 10) clearInterval(autofillInterval);
         }, 200);
 
-        btnToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            modoCadastro = !modoCadastro;
-            forcarLimpeza(); 
-            
-            if (modoCadastro) {
-                cadastroFields.style.display = 'block';
-                strengthContainer.style.display = 'flex';
-                checklistContainer.style.display = 'flex';
-                loginTitle.textContent = "Criar Guard ID";
-                loginSubtitle.textContent = "Preencha seus dados para começar.";
-                toggleText.textContent = "Já possui uma conta?";
-                btnToggle.textContent = "Inicie sessão aqui.";
-            } else {
-                cadastroFields.style.display = 'none';
-                strengthContainer.style.display = 'none';
-                checklistContainer.style.display = 'none';
-                loginTitle.textContent = "Guard ID";
-                loginSubtitle.textContent = "Inicie a sessão para gerenciar seus equipamentos e pedidos.";
-                toggleText.textContent = "Não tem um Guard ID?";
-                btnToggle.textContent = "Crie o seu agora.";
-            }
-        });
+        if(btnToggle) {
+            btnToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                modoCadastro = !modoCadastro;
+                forcarLimpeza(); 
+                
+                if (modoCadastro) {
+                    cadastroFields.style.display = 'block';
+                    strengthContainer.style.display = 'flex';
+                    checklistContainer.style.display = 'flex';
+                    loginTitle.textContent = "Criar Guard ID";
+                    loginSubtitle.textContent = "Preencha seus dados para começar.";
+                    toggleText.textContent = "Já possui uma conta?";
+                    btnToggle.textContent = "Inicie sessão aqui.";
+                } else {
+                    cadastroFields.style.display = 'none';
+                    strengthContainer.style.display = 'none';
+                    checklistContainer.style.display = 'none';
+                    loginTitle.textContent = "Guard ID";
+                    loginSubtitle.textContent = "Inicie a sessão para gerenciar seus equipamentos e pedidos.";
+                    toggleText.textContent = "Não tem um Guard ID?";
+                    btnToggle.textContent = "Crie o seu agora.";
+                }
+            });
+        }
 
         function limparErros() {
-            errorNome.style.display = 'none';
-            errorEmail.style.display = 'none';
-            errorPassword.style.display = 'none';
-            inputNome.style.borderColor = '#424245';
-            inputEmail.style.borderColor = '#424245';
-            inputSenha.style.borderColor = '#424245';
+            if(errorNome) errorNome.style.display = 'none';
+            if(errorEmail) errorEmail.style.display = 'none';
+            if(errorPassword) errorPassword.style.display = 'none';
+            if(inputNome) inputNome.style.borderColor = '#424245';
+            if(inputEmail) inputEmail.style.borderColor = '#424245';
+            if(inputSenha) inputSenha.style.borderColor = '#424245';
             
-            strengthBar.style.width = '0%';
-            strengthBar.style.background = 'transparent';
-            strengthBar.style.boxShadow = 'none';
-            strengthText.textContent = '';
+            if(strengthBar) {
+                strengthBar.style.width = '0%';
+                strengthBar.style.background = 'transparent';
+                strengthBar.style.boxShadow = 'none';
+            }
+            if(strengthText) strengthText.textContent = '';
             document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
             senhaValida = false;
         }
 
-        inputNome.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[0-9]/g, '');
-        });
+        if(inputNome) {
+            inputNome.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[0-9]/g, '');
+            });
+            inputNome.addEventListener('blur', validarNome);
+        }
 
         function validarNome() {
             if (!modoCadastro) return true;
@@ -296,7 +302,7 @@
                 return false;
             }
             errorNome.style.display = 'none';
-            inputNome.style.borderColor = '#424245'; 
+            inputNome.style.borderColor = '#424245';
             return true;
         }
 
@@ -312,6 +318,7 @@
             inputEmail.style.borderColor = '#424245'; 
             return true;
         }
+        if(inputEmail) inputEmail.addEventListener('blur', validarEmail);
 
         function validarSenhaBlur() {
             const val = inputSenha.value;
@@ -332,28 +339,30 @@
                 return true;
             }
         }
+        
+        if(inputSenha) inputSenha.addEventListener('blur', validarSenhaBlur);
 
-        inputSenha.addEventListener('blur', validarSenhaBlur);
-
-        // Ação de Mostrar/Ocultar Senha Customizada
-        togglePasswordBtn.addEventListener('click', () => {
-            if (inputSenha.type === 'password') {
-                inputSenha.type = 'text';
-                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
-            } else {
-                inputSenha.type = 'password';
-                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
-            }
-        });
+        if(togglePasswordBtn) {
+            togglePasswordBtn.addEventListener('click', () => {
+                if (inputSenha.type === 'password') {
+                    inputSenha.type = 'text';
+                    eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                } else {
+                    inputSenha.type = 'password';
+                    eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                }
+            });
+        }
 
         const atualizarVisuaisSenha = (e) => {
             const pwd = e.target ? e.target.value : inputSenha.value;
             
-            // Controle dinâmico do botão de olho (aparece sempre que há texto, some quando apaga)
-            if (pwd.length > 0) {
-                togglePasswordBtn.style.display = 'block';
-            } else {
-                togglePasswordBtn.style.display = 'none';
+            if(togglePasswordBtn) {
+                if (pwd.length > 0) {
+                    togglePasswordBtn.style.display = 'block';
+                } else {
+                    togglePasswordBtn.style.display = 'none';
+                }
             }
 
             if (!modoCadastro) return;
@@ -365,8 +374,10 @@
 
             function atualizarCheck(id, valido) {
                 const el = document.getElementById(id);
-                if (valido) el.classList.add('valid');
-                else el.classList.remove('valid');
+                if(el) {
+                    if (valido) el.classList.add('valid');
+                    else el.classList.remove('valid');
+                }
             }
 
             atualizarCheck('req-length', isLengthValid);
@@ -410,66 +421,67 @@
             }
         };
 
-        inputSenha.addEventListener('input', atualizarVisuaisSenha);
-        inputSenha.addEventListener('change', atualizarVisuaisSenha);
+        if(inputSenha) {
+            inputSenha.addEventListener('input', atualizarVisuaisSenha);
+            inputSenha.addEventListener('change', atualizarVisuaisSenha);
+        }
 
-        inputNome.addEventListener('blur', validarNome);
-        inputEmail.addEventListener('blur', validarEmail);
+        if(form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                limparErros();
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            limparErros();
+                const isEmailValid = validarEmail();
+                const isNomeValid = validarNome();
+                const isSenhaValid = validarSenhaBlur();
 
-            const isEmailValid = validarEmail();
-            const isNomeValid = validarNome();
-            const isSenhaValid = validarSenhaBlur();
-
-            if (modoCadastro) {
-                if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
-                
-                if (!senhaValida) {
-                    errorPassword.textContent = 'Cumpra todos os requisitos de segurança abaixo.';
-                    errorPassword.style.display = 'block';
-                    inputSenha.style.borderColor = '#ff4444';
-                    return;
-                }
-                
-                try {
-                    const btn = document.getElementById('btn-submit');
-                    btn.textContent = "Criando...";
+                if (modoCadastro) {
+                    if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
                     
-                    const userCredential = await createUserWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
-                    const user = userCredential.user;
+                    if (!senhaValida) {
+                        errorPassword.textContent = 'Cumpra todos os requisitos de segurança abaixo.';
+                        errorPassword.style.display = 'block';
+                        inputSenha.style.borderColor = '#ff4444';
+                        return;
+                    }
+                    
+                    try {
+                        const btn = document.getElementById('btn-submit');
+                        btn.textContent = "Criando...";
+                        
+                        const userCredential = await createUserWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
+                        const user = userCredential.user;
 
-                    await setDoc(doc(db, "usuarios", user.uid), {
-                        nome: inputNome.value.trim(),
-                        email: inputEmail.value.trim(),
-                        dataCadastro: new Date()
-                    });
+                        await setDoc(doc(db, "usuarios", user.uid), {
+                            nome: inputNome.value.trim(),
+                            email: inputEmail.value.trim(),
+                            dataCadastro: new Date()
+                        });
 
-                    alert("Guard ID criado com sucesso!");
-                    window.location.href = "store.html";
-                } catch (error) {
-                    let msg = error.message;
-                    if(error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
-                    alert("Erro ao criar conta: " + msg);
-                    document.getElementById('btn-submit').textContent = "Continuar";
+                        alert("Guard ID criado com sucesso!");
+                        window.location.href = "store.html";
+                    } catch (error) {
+                        let msg = error.message;
+                        if(error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
+                        alert("Erro ao criar conta: " + msg);
+                        document.getElementById('btn-submit').textContent = "Continuar";
+                    }
+                } else {
+                    if (!isEmailValid || !isSenhaValid) return;
+                    
+                    try {
+                        document.getElementById('btn-submit').textContent = "Acessando...";
+                        await signInWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
+                        window.location.href = "meus-pedidos.html";
+                    } catch (error) {
+                        let msg = "E-mail ou senha incorretos.";
+                        if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
+                        alert(msg);
+                        document.getElementById('btn-submit').textContent = "Continuar";
+                    }
                 }
-            } else {
-                if (!isEmailValid || !isSenhaValid) return;
-                
-                try {
-                    document.getElementById('btn-submit').textContent = "Acessando...";
-                    await signInWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
-                    window.location.href = "meus-pedidos.html";
-                } catch (error) {
-                    let msg = "E-mail ou senha incorretos.";
-                    if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
-                    alert(msg);
-                    document.getElementById('btn-submit').textContent = "Continuar";
-                }
-            }
-        });
+            });
+        }
         
         const provider = new GoogleAuthProvider();
         const btnGoogle = document.getElementById('btn-google');
@@ -480,67 +492,73 @@
         
         let tempUserGoogle = null; 
 
-        btnGoogle.addEventListener('click', async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-                
-                const docRef = doc(db, "usuarios", user.uid);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists()) {
-                    window.location.href = "meus-pedidos.html";
-                } else {
-                    tempUserGoogle = user;
-                    if (user.displayName) {
-                        inputNomeGoogle.value = user.displayName; 
-                    }
-                    modalNomeGoogle.style.display = 'flex';
-                    inputNomeGoogle.style.borderColor = '#424245';
-                    errorGoogleNome.style.display = 'none';
-                }
-            } catch (error) {
-                console.error("Erro Google Auth:", error);
-                alert("Erro ao aceder com o Google: " + error.message);
-            }
-        });
-
-        inputNomeGoogle.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[0-9]/g, '');
-        });
-
-        btnConfirmarNomeGoogle.addEventListener('click', async () => {
-            const nomeValido = inputNomeGoogle.value.trim();
-            
-            if (nomeValido.split(' ').length < 2) {
-                errorGoogleNome.style.display = 'block';
-                inputNomeGoogle.style.borderColor = '#ff4444';
-                return;
-            }
-            
-            errorGoogleNome.style.display = 'none';
-            inputNomeGoogle.style.borderColor = '#424245';
-
-            if (tempUserGoogle) {
+        if(btnGoogle) {
+            btnGoogle.addEventListener('click', async () => {
                 try {
-                    btnConfirmarNomeGoogle.textContent = "A guardar...";
-                    btnConfirmarNomeGoogle.style.pointerEvents = "none";
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
                     
-                    await setDoc(doc(db, "usuarios", tempUserGoogle.uid), {
-                        nome: nomeValido,
-                        email: tempUserGoogle.email,
-                        dataCadastro: new Date()
-                    });
+                    const docRef = doc(db, "usuarios", user.uid);
+                    const docSnap = await getDoc(docRef);
                     
-                    alert("Registo via Google concluído!");
-                    window.location.href = "meus-pedidos.html";
-                } catch (err) {
-                    alert("Erro ao concluir o registo: " + err.message);
-                    btnConfirmarNomeGoogle.textContent = "Concluir";
-                    btnConfirmarNomeGoogle.style.pointerEvents = "auto";
+                    if (docSnap.exists()) {
+                        window.location.href = "meus-pedidos.html";
+                    } else {
+                        tempUserGoogle = user;
+                        if (user.displayName) {
+                            inputNomeGoogle.value = user.displayName; 
+                        }
+                        modalNomeGoogle.style.display = 'flex';
+                        inputNomeGoogle.style.borderColor = '#424245';
+                        errorGoogleNome.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error("Erro Google Auth:", error);
+                    alert("Erro ao aceder com o Google: " + error.message);
                 }
-            }
-        });
+            });
+        }
+
+        if(inputNomeGoogle) {
+            inputNomeGoogle.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[0-9]/g, '');
+            });
+        }
+
+        if(btnConfirmarNomeGoogle) {
+            btnConfirmarNomeGoogle.addEventListener('click', async () => {
+                const nomeValido = inputNomeGoogle.value.trim();
+                
+                if (nomeValido.split(' ').length < 2) {
+                    errorGoogleNome.style.display = 'block';
+                    inputNomeGoogle.style.borderColor = '#ff4444';
+                    return;
+                }
+                
+                errorGoogleNome.style.display = 'none';
+                inputNomeGoogle.style.borderColor = '#424245';
+
+                if (tempUserGoogle) {
+                    try {
+                        btnConfirmarNomeGoogle.textContent = "A guardar...";
+                        btnConfirmarNomeGoogle.style.pointerEvents = "none";
+                        
+                        await setDoc(doc(db, "usuarios", tempUserGoogle.uid), {
+                            nome: nomeValido,
+                            email: tempUserGoogle.email,
+                            dataCadastro: new Date()
+                        });
+                        
+                        alert("Registo via Google concluído!");
+                        window.location.href = "meus-pedidos.html";
+                    } catch (err) {
+                        alert("Erro ao concluir o registo: " + err.message);
+                        btnConfirmarNomeGoogle.textContent = "Concluir";
+                        btnConfirmarNomeGoogle.style.pointerEvents = "auto";
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
