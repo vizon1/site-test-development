@@ -27,7 +27,8 @@
         .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
 
         /* Estilos da Página de Perfil */
-        .account-wrapper { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
+        /* CORREÇÃO AQUI: margin-top alterado de 40px para 120px para não ficar atrás do cabeçalho */
+        .account-wrapper { max-width: 1100px; margin: 120px auto 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
         
         .account-sidebar { width: 260px; flex-shrink: 0; }
         .account-nav { list-style: none; padding: 0; margin: 0; }
@@ -70,7 +71,8 @@
 
         /* Responsividade */
         @media (max-width: 768px) {
-            .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 20px auto; }
+            /* CORREÇÃO AQUI TAMBÉM: margin-top para telemóveis ajustado */
+            .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 100px auto 20px auto; }
             .account-sidebar { width: 100%; }
             .account-nav { display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
             .account-nav li { margin-bottom: 0; margin-right: 10px; }
@@ -112,7 +114,7 @@
                         
                         <div id="profile-dropdown" class="profile-dropdown">
                             <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
+                            <a href="minhas-informacoes.html" class="dropdown-item" style="color:#FFFF00;">Minhas informações</a>
                             <a href="help-informations.html" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
@@ -469,7 +471,6 @@
                 alert("Senha atualizada com sucesso!");
                 document.getElementById('form-senha').reset();
             } catch (err) {
-                // Erro comum: Requer login recente (reautenticação)
                 if (err.code === 'auth/requires-recent-login') {
                     alert("Por motivos de segurança, precisa de sair e fazer login novamente para alterar a senha.");
                 } else {
@@ -509,6 +510,7 @@
         document.getElementById('btn-logout').addEventListener('click', async (e) => {
             e.preventDefault();
             await signOut(auth);
+            window.location.href = "index.html";
         });
 
     </script>
