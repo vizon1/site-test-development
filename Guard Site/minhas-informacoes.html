@@ -27,7 +27,6 @@
         .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
 
         /* Estilos da Página de Perfil */
-        /* CORREÇÃO AQUI: margin-top alterado de 40px para 120px para não ficar atrás do cabeçalho */
         .account-wrapper { max-width: 1100px; margin: 120px auto 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
         
         .account-sidebar { width: 260px; flex-shrink: 0; }
@@ -71,7 +70,6 @@
 
         /* Responsividade */
         @media (max-width: 768px) {
-            /* CORREÇÃO AQUI TAMBÉM: margin-top para telemóveis ajustado */
             .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 100px auto 20px auto; }
             .account-sidebar { width: 100%; }
             .account-nav { display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
@@ -165,13 +163,9 @@
                             <label>Telefone / WhatsApp</label>
                             <input type="text" id="perfil-telefone" placeholder="(00) 00000-0000" maxlength="15">
                         </div>
-                        <div class="apple-input-group">
+                        <div class="apple-input-group form-full">
                             <label>CPF / CNPJ</label>
                             <input type="text" id="perfil-cpf" placeholder="000.000.000-00" maxlength="18">
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Data de Nascimento</label>
-                            <input type="date" id="perfil-nascimento">
                         </div>
                     </div>
                     <button type="submit" class="btn-save" id="btn-save-dados">Salvar Dados</button>
@@ -210,7 +204,7 @@
                             <label>Estado</label>
                             <select id="end-estado" required>
                                 <option value="" disabled selected>Selecione...</option>
-                                <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Amazonas</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+                                <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
                             </select>
                         </div>
                     </div>
@@ -230,9 +224,15 @@
                 </div>
 
                 <form id="form-senha">
-                    <div class="apple-input-group">
-                        <label>Nova Senha</label>
-                        <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" minlength="8" required>
+                    <div class="form-grid">
+                        <div class="apple-input-group form-full">
+                            <label>Senha Atual</label>
+                            <input type="password" id="senha-atual" placeholder="Digite sua senha atual" required>
+                        </div>
+                        <div class="apple-input-group form-full">
+                            <label>Nova Senha</label>
+                            <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" minlength="8" required>
+                        </div>
                     </div>
                     <button type="submit" class="btn-save" id="btn-save-senha">Atualizar Senha</button>
                 </form>
@@ -271,7 +271,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signOut, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // Importadas funções extras para reautenticação
+        import { getAuth, onAuthStateChanged, signOut, updatePassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         // SUAS CREDENCIAIS
         const firebaseConfig = {
@@ -319,7 +320,6 @@
                     document.getElementById('perfil-nome').value = data.nome || user.displayName || "";
                     document.getElementById('perfil-telefone').value = data.telefone || "";
                     document.getElementById('perfil-cpf').value = data.cpf || "";
-                    document.getElementById('perfil-nascimento').value = data.nascimento || "";
                     
                     if(data.marketing !== undefined) {
                         document.getElementById('lgpd-marketing').checked = data.marketing;
@@ -345,13 +345,12 @@
                 }
 
             } else {
-                // Bloqueia e expulsa quem não está logado
                 window.location.href = "login.html";
             }
         });
 
         // ==========================================
-        // LÓGICA DE NAVEGAÇÃO DAS ABAS
+        // LÓGICA DE NAVEGAÇÃO DAS ABAS E MENU
         // ==========================================
         const tabs = document.querySelectorAll('.account-nav li');
         const panes = document.querySelectorAll('.tab-pane');
@@ -366,7 +365,6 @@
             });
         });
 
-        // Dropdown Header Menu
         const loggedInUI = document.getElementById('logged-in-ui');
         const profileDropdown = document.getElementById('profile-dropdown');
         loggedInUI.addEventListener('click', (e) => {
@@ -378,7 +376,7 @@
         });
 
         // ==========================================
-        // MÁSCARAS DE INPUT (UX)
+        // MÁSCARAS E PREENCHIMENTO AUTOMÁTICO DE CEP
         // ==========================================
         document.getElementById('perfil-telefone').addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
@@ -387,11 +385,11 @@
 
         document.getElementById('perfil-cpf').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, "");
-            if (v.length <= 11) { // CPF
+            if (v.length <= 11) { 
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
                 v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-            } else { // CNPJ
+            } else { 
                 v = v.replace(/^(\d{2})(\d)/, "$1.$2");
                 v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
                 v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
@@ -400,16 +398,36 @@
             e.target.value = v;
         });
 
-        document.getElementById('end-cep').addEventListener('input', function (e) {
+        const inputCep = document.getElementById('end-cep');
+        inputCep.addEventListener('input', async function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
             e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
+            
+            // Busca o endereço na API dos Correios (ViaCEP)
+            let cepLimpo = e.target.value.replace(/\D/g, '');
+            if (cepLimpo.length === 8) {
+                try {
+                    let response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    let data = await response.json();
+                    if (!data.erro) {
+                        document.getElementById('end-rua').value = data.logradouro || "";
+                        document.getElementById('end-bairro').value = data.bairro || "";
+                        document.getElementById('end-cidade').value = data.localidade || "";
+                        document.getElementById('end-estado').value = data.uf || "";
+                        // Foca no número para agilizar a digitação
+                        document.getElementById('end-numero').focus();
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar o CEP:", error);
+                }
+            }
         });
 
         // ==========================================
         // SALVAR DADOS
         // ==========================================
         
-        // 1. Dados Pessoais e Marketing
+        // 1. Dados Pessoais
         document.getElementById('form-dados').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-save-dados');
@@ -420,7 +438,6 @@
                     nome: document.getElementById('perfil-nome').value.trim(),
                     telefone: document.getElementById('perfil-telefone').value,
                     cpf: document.getElementById('perfil-cpf').value,
-                    nascimento: document.getElementById('perfil-nascimento').value,
                     marketing: document.getElementById('lgpd-marketing').checked
                 }, { merge: true });
                 
@@ -459,20 +476,26 @@
             }
         });
 
-        // 3. Atualizar Senha
+        // 3. Atualizar Senha com Reautenticação
         document.getElementById('form-senha').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-save-senha');
+            const senhaAtual = document.getElementById('senha-atual').value;
             const novaSenha = document.getElementById('nova-senha').value;
             
-            btn.textContent = "Atualizando...";
+            btn.textContent = "Validando...";
             try {
+                // Autentica a senha antiga primeiro
+                const credential = EmailAuthProvider.credential(usuarioAtual.email, senhaAtual);
+                await reauthenticateWithCredential(usuarioAtual, credential);
+                
+                // Se passar, atualiza para a nova
                 await updatePassword(usuarioAtual, novaSenha);
                 alert("Senha atualizada com sucesso!");
                 document.getElementById('form-senha').reset();
             } catch (err) {
-                if (err.code === 'auth/requires-recent-login') {
-                    alert("Por motivos de segurança, precisa de sair e fazer login novamente para alterar a senha.");
+                if (err.code === 'auth/invalid-credential') {
+                    alert("A senha atual que informou está incorreta.");
                 } else {
                     alert("Erro ao atualizar senha: " + err.message);
                 }
@@ -481,7 +504,7 @@
             }
         });
 
-        // 4. Salvar LGPD automaticamente ao clicar
+        // 4. Salvar LGPD automaticamente
         document.getElementById('lgpd-marketing').addEventListener('change', async (e) => {
             if(usuarioAtual) {
                 await setDoc(doc(db, "usuarios", usuarioAtual.uid), { marketing: e.target.checked }, { merge: true });
