@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
@@ -17,11 +17,12 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: rgba(10, 10, 10, 0.82); /* Fundo escuro translúcido */
-            backdrop-filter: saturate(180%) blur(20px); /* Efeito vidro da Apple */
+            background-color: rgba(10, 10, 10, 0.82);
+            backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             width: 100%;
+            transition: all 0.3s ease;
         }
 
         #header {
@@ -30,13 +31,13 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 56px; /* Altura elegante e fina */
-            padding: 0 20px;
+            height: 64px; /* Altura elegante */
+            padding: 0 24px;
             box-sizing: border-box;
         }
 
         #logo-container img {
-            height: 26px; /* Logo um pouco menor para respirar */
+            height: 32px; /* Logo maior e nítida */
             width: auto;
             display: block;
         }
@@ -45,11 +46,12 @@
             flex-grow: 1;
             display: flex;
             justify-content: center;
+            padding: 0 20px;
         }
 
         #navigation-bar {
             display: flex;
-            gap: 32px;
+            gap: 28px;
             list-style: none;
             padding: 0;
             margin: 0;
@@ -59,28 +61,30 @@
         #navigation-bar a {
             color: #d2d2d7;
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 500;
             letter-spacing: 0.02em;
             text-transform: uppercase;
             transition: color 0.2s ease;
+            white-space: nowrap; /* Bloqueia tremulação */
         }
 
         #navigation-bar a:hover {
             color: #ffffff;
         }
 
-        /* Estilo do item ativo no menu */
         #navigation-bar a.active-nav {
             color: #FFFF00;
             font-weight: 600;
+            border-bottom: 2px solid #FFFF00;
+            padding-bottom: 4px;
         }
 
         /* Agrupamento da Direita (Carrinho + Perfil) */
         #desktop-cart-group {
             display: flex !important; 
             align-items: center;
-            gap: 18px;
+            gap: 20px;
         }
 
         #open-cart-btn {
@@ -107,7 +111,7 @@
             min-width: 16px;
             text-align: center;
             box-sizing: border-box;
-            border: 2px solid rgba(10, 10, 10, 0.85); /* Efeito cutout */
+            border: 2px solid rgba(10, 10, 10, 0.85); /* Efeito de recorte */
         }
 
         /* Divisória de Autenticação */
@@ -115,22 +119,22 @@
             display: flex;
             align-items: center;
             border-left: 1px solid rgba(255, 255, 255, 0.15);
-            padding-left: 18px;
-            height: 24px;
+            padding-left: 20px;
+            height: 28px;
         }
 
-        .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.8rem; font-weight: 400; }
+        .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
         .auth-link:hover { color: #ffffff; }
-        .auth-separator { color: #424245; font-size: 0.75rem; margin: 0 6px; }
+        .auth-separator { color: #424245; font-size: 0.8rem; margin: 0 8px; }
 
-        #logged-in-ui { display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
+        #logged-in-ui { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
-        #user-avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; }
-        #user-first-name { font-size: 0.85rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; }
+        #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; }
+        #user-first-name { font-size: 0.9rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; white-space: nowrap; }
 
         /* Menu Suspenso de Perfil */
         .profile-dropdown {
-            display: none; position: absolute; top: 100%; right: 0; margin-top: 15px;
+            display: none; position: absolute; top: 100%; right: 0; margin-top: 20px;
             background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
             width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
         }
@@ -144,20 +148,20 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           RESPONSIVIDADE INTELIGENTE (Tablets/PCs Pequenos)
+           RESPONSIVIDADE (Tablets e PCs Pequenos: até 1050px)
            ========================================== */
         @media (min-width: 769px) and (max-width: 1050px) {
-            #navigation-bar { gap: 12px; } /* Aperta os links no meio */
-            #navigation-bar a { font-size: 0.65rem; letter-spacing: 0; } /* Diminui a fonte */
+            #navigation-bar { gap: 14px; } /* Ajuste delicado dos espaços */
+            #navigation-bar a { font-size: 0.75rem; } 
             
-            #desktop-cart-group { gap: 12px; }
-            #auth-section { padding-left: 12px; }
+            #desktop-cart-group { gap: 14px; }
+            #auth-section { padding-left: 14px; }
             
-            /* O SEGREDO: Esconde o nome, deixa só a foto para poupar espaço em telas limitadas */
+            /* O SEGREDO: Esconde apenas o texto do nome para libertar o centro */
             #user-first-name { display: none; }
         }
 
-        /* Mobile */
+        /* Mobile (Até 768px) */
         @media (max-width: 768px) {
             #nav-container { display: none; }
             #desktop-cart-group { display: none !important; }
@@ -166,7 +170,6 @@
     </style>
 </head>
 <body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff;">
-
     <div id="sidebar-overlay"></div>
 
     <div id="sidebar-menu" class="sidebar">
@@ -204,26 +207,21 @@
         </div>
     </div>
 
-    <!-- CABEÇALHO REFORMULADO -->
     <header>
         <div id="header">
-            <!-- Icone Mobile -->
             <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
                 <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </div>
 
-            <!-- Logo -->
             <div id="logo-container"> 
                 <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
 
-            <!-- Carrinho Mobile -->
             <div id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative;">
                 <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 <span id="mobile-cart-count" style="position: absolute; top: -4px; right: -6px; background: #ff3b30; color: white; border-radius: 10px; padding: 1px 5px; font-size: 0.6rem; font-weight: bold;">0</span>
             </div>
             
-            <!-- Menu Central Desktop -->
             <nav id="nav-container">
                 <ul id="navigation-bar">
                     <li><a href="index.html">Início</a></li>
@@ -234,24 +232,20 @@
                 </ul>
             </nav>
             
-            <!-- Botões Direitos Desktop (Carrinho + Perfil) -->
             <div id="desktop-cart-group">
-                
                 <div id="open-cart-btn" title="Carrinho">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     <span id="cart-count">0</span>
                 </div>
 
                 <div id="auth-section">
-                    <!-- Estado Deslogado -->
-                    <div id="logged-out-ui" style="display: flex; align-items: center;">
+                    <div id="logged-out-ui">
                         <a href="login.html" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
                         <a href="login.html" class="auth-link">Cadastre-se</a>
                     </div>
 
-                    <!-- Estado Logado -->
-                    <div id="logged-in-ui" style="display: none;">
+                    <div id="logged-in-ui">
                         <img id="user-avatar" src="" alt="Perfil">
                         <span id="user-first-name"></span>
                         
@@ -259,7 +253,6 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
 
-                        <!-- Menu Dropdown -->
                         <div id="profile-dropdown" class="profile-dropdown">
                             <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
                             <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
@@ -269,7 +262,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </header>
@@ -362,7 +354,6 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // Mostrar Ícones Mobile via JS para não conflitar com CSS limpo
         if (window.innerWidth <= 768) {
             document.getElementById('mobile-menu-btn').style.display = 'flex';
             document.getElementById('mobile-cart-btn').style.display = 'flex';
@@ -378,7 +369,6 @@
         const profileDropdown = document.getElementById('profile-dropdown');
         const btnLogout = document.getElementById('btn-logout');
 
-        // Escutar se o usuário está logado
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if(loggedOutUI) loggedOutUI.style.display = 'none';
@@ -415,7 +405,6 @@
             }
         });
 
-        // Lógica de Abrir/Fechar o Menu de Perfil
         if(loggedInUI) {
             loggedInUI.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -423,14 +412,12 @@
             });
         }
 
-        // Fechar o menu ao clicar fora dele
         document.addEventListener('click', (e) => {
             if (loggedInUI && !loggedInUI.contains(e.target)) {
                 profileDropdown.classList.remove('active');
             }
         });
 
-        // Lógica do botão de Sair (Logout)
         if(btnLogout) {
             btnLogout.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -460,7 +447,6 @@
         };
         const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores', outros: 'Outros' };
 
-        // 1. CARREGAR DADOS DO BANCO
         async function inicializarLoja() {
             const grid = document.getElementById('produtosGrid');
             grid.innerHTML = '<p style="color:#FFFF00; text-align:center; width:100%; padding:20px;">A carregar catálogo Guard...</p>';
@@ -480,7 +466,6 @@
             }
         }
 
-        // 2. ATUALIZAR NÚMEROS DAS CATEGORIAS
         function atualizarContadores() {
             const contagens = { all: todosProdutos.length, cameras: 0, dvrs: 0, alarmes: 0, sensores: 0, outros: 0 };
             todosProdutos.forEach(p => {
@@ -495,7 +480,6 @@
             document.getElementById('badge-outros').textContent = contagens.outros;
         }
 
-        // 3. RENDERIZAR RECOMENDAÇÕES
         function renderizarRecomendacoes() {
             const recGrid = document.getElementById('recomendacoesGrid');
             const recSection = document.getElementById('recommendationsSection');
@@ -509,7 +493,6 @@
             }
         }
 
-        // 4. SISTEMA DE FILTRAGEM
         const removeAcentos = (texto) => {
             if (!texto) return ""; 
             return String(texto).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -531,7 +514,6 @@
             renderizarGridPrincipal();
         }
 
-        // 5. RENDERIZAR GRID COM PAGINAÇÃO
         function renderizarGridPrincipal() {
             const grid = document.getElementById('produtosGrid');
             const paginationContainer = document.getElementById('paginationContainer');
@@ -551,7 +533,6 @@
             renderizarBotoesPaginacao();
         }
 
-        // 6. RENDERIZAR BOTÕES DE PAGINAÇÃO
         function renderizarBotoesPaginacao() {
             const container = document.getElementById('paginationContainer');
             const totalPaginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
@@ -581,7 +562,6 @@
             document.querySelector('.shop-main-layout').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 7. FUNÇÃO AUXILIAR DE CRIAÇÃO DO CARD
         function criarHTMLdoCard(p) {
             const nomeCat = nomesCategorias[p.categoria] || p.categoria;
             const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
@@ -609,7 +589,6 @@
             `;
         }
 
-        // 8. EVENTOS DE INTERFACE DA LOJA E PESQUISA COM ANIMAÇÃO
         const searchBtn = document.getElementById('searchBtn');
         const searchInput = document.getElementById('searchInput');
         const searchContainer = document.querySelector('.shop-search');
@@ -660,9 +639,6 @@
         document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
         document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
 
-        // =========================================
-        // MOTOR DO CARRINHO
-        // =========================================
         let carrinho = [];
         try {
             carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
