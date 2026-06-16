@@ -5,7 +5,7 @@
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* Estilos do Menu Suspenso de Perfil (Herdados da Loja) */
@@ -23,17 +23,34 @@
         
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
         
+        /* Estilo da Seta de Voltar */
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
         .back-arrow:hover { color: #ffffff; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Ajuste do Header para manter o título centralizado */
-        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; }
-        .center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; color: #fff; font-size: 1.1rem; }
+        /* Ajuste do Header (Estilo Checkout Nível Apple) */
+        header {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+        }
+
+        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 24px; width: 100%; box-sizing: border-box; height: 80px; }
         
+        .page-logo-img { height: 48px; width: auto; display: block; }
+        .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
         @media (max-width: 768px) {
-            .center-title { display: none; } /* Esconde o título no mobile para não encavalar com a logo */
+            #header { padding: 0 15px; height: 65px; }
+            .page-logo-img { height: 35px; }
+            .page-title-text { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 480px) {
+            /* Em ecrãs muito pequenos, esconde o texto para não encavalar com o menu de perfil */
+            .page-title-text { display: none; }
+            .title-separator { display: none; }
         }
     </style>
 </head>
@@ -41,19 +58,18 @@
 
     <header>
         <div id="header">
-            <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 20px;">
                 <a href="store.html" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
-                <div id="logo-container"> 
-                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo" style="height: 40px; width: auto;"></a>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
+                    <span class="page-title-text">MEUS PEDIDOS</span>
                 </div>
-            </div>
-
-            <div class="center-title">
-                MEUS PEDIDOS
             </div>
 
             <div id="desktop-cart-group" style="display: flex; align-items: center;">
