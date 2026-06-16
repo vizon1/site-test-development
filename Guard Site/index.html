@@ -29,8 +29,8 @@
         }
 
         header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.85) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+            background-color: rgba(10, 10, 10, 0.85); /* Escurece */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Mostra linha */
         }
 
         #header {
@@ -40,14 +40,14 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 86px; 
+            height: 86px; /* Altura Premium (Maior) */
             padding: 0 24px;
             box-sizing: border-box;
-            transition: height 0.3s ease;
+            transition: height 0.3s ease; /* Animação sem flicking */
         }
 
         header.header-scrolled #header {
-            height: 60px;
+            height: 60px; /* Encolhe suavemente */
         }
 
         #logo-container img {
@@ -58,7 +58,7 @@
         }
 
         header.header-scrolled #logo-container img {
-            height: 45px; 
+            height: 45px; /* Logo encolhe para acompanhar */
         }
 
         /* O SEGREDO DO MENU CENTRALIZADO E FIXO */
@@ -87,7 +87,7 @@
             letter-spacing: 0.02em;
             text-transform: uppercase;
             transition: color 0.2s ease;
-            white-space: nowrap; 
+            white-space: nowrap; /* Impede os textos de quebrarem/tremerem */
         }
 
         #navigation-bar a:hover { color: #ffffff; }
@@ -140,7 +140,7 @@
             border-left: 1px solid rgba(255, 255, 255, 0.15);
             padding-left: 20px;
             height: 28px;
-            min-width: 140px; 
+            min-width: 140px; /* Evita saltos no layout ao recarregar a página */
         }
 
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
@@ -167,51 +167,27 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           CORREÇÃO DO LAYOUT HERO PARA TABLETS (TELA DIVIDIDA)
-           ========================================== */
-        @media (max-width: 1050px) {
-            #background-image {
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                height: auto !important;
-                padding: 60px 20px !important;
-                gap: 40px !important;
-            }
-            #text-header {
-                width: 100% !important;
-                text-align: center !important;
-            }
-            #menu-orcamento {
-                width: 100% !important;
-                max-width: 420px !important; /* Trava o crescimento exagerado */
-                margin: 0 auto !important;
-            }
-        }
-
-        /* ==========================================
-           RESPONSIVIDADE GERAL
+           RESPONSIVIDADE INTELIGENTE (1050px até 769px)
            ========================================== */
         @media (min-width: 769px) and (max-width: 1050px) {
             #navigation-bar { gap: 14px; } 
             #navigation-bar a { font-size: 0.75rem; } 
             #desktop-cart-group { gap: 14px; }
             #auth-section { padding-left: 14px; }
-            #user-first-name { display: none; } 
+            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
         }
 
+        /* Mobile (Abaixo de 768px) */
         @media (max-width: 768px) {
             #nav-container { display: none; }
             #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 60px !important; } 
-            #logo-container img { height: 32px !important; } 
+            #header { padding: 0 15px; height: 80px !important; } /* Fixa altura no mobile */
+            #logo-container img { height: 60px !important; } /* Fixa tamanho logo no mobile */
         }
     </style>
 </head>
 
-<body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff; overflow-x: hidden;">
-
-    <div id="sidebar-overlay"></div>
+<body>
 
     <div id="sidebar-menu" class="sidebar">
         <div class="sidebar-header">
@@ -242,15 +218,78 @@
                 </div>
             </li>
 
-            <li class="active"><a href="index.html"><div class="nav-item-content"><span>Início</span></div></a></li>
-            <li><a href="store.html"><div class="nav-item-content"><span>Loja</span></div></a></li>
-            <li><a href="meus-pedidos.html"><div class="nav-item-content"><span>Meus pedidos</span></div></a></li>
-            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes.html"><div class="nav-item-content"><span>Minhas informações</span></div></a></li>
-            <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
-            <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
-            <li><a href="rural-alarm.html"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
-            <li><a href="cameras.html"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
-            <li><a href="help-informations.html"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
+            <li class="active">
+                <a href="index.html">
+                    <div class="nav-item-content">
+                        <span>Início</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="store.html">
+                    <div class="nav-item-content">
+                        <span>Loja</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="meus-pedidos.html">
+                    <div class="nav-item-content">
+                        <span>Meus pedidos</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li id="mobile-nav-info" style="display: none;">
+                <a href="minhas-informacoes.html">
+                    <div class="nav-item-content">
+                        <span>Minhas informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="home-alarm.html">
+                    <div class="nav-item-content">
+                        <span>Alarme para casa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="enterprise-alarm.html">
+                    <div class="nav-item-content">
+                        <span>Alarme para empresa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="rural-alarm.html">
+                    <div class="nav-item-content">
+                        <span>Alarme para zona rural</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="cameras.html">
+                    <div class="nav-item-content">
+                        <span>Câmeras</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="help-informations.html">
+                    <div class="nav-item-content">
+                        <span>Ajuda e Informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
 
             <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
                 <a href="#" id="mobile-btn-logout">
@@ -260,6 +299,7 @@
                 </a>
             </li>
         </ul>
+
         <div class="sidebar-footer">
             <div class="sidebar-support-card">
                 <span class="support-title">Central de Atendimento</span>
@@ -273,29 +313,31 @@
             </div>
         </div>
     </div>
-
+    
     <header>
-        <div id="header">
-            <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
+        <div id="header">   
+            <div id="mobile-menu-btn" class="mobile-icon">
                 <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </div>
 
             <div id="logo-container"> 
-                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+                <a href="index.html">
+                    <img src="imagens/logo.webp" alt="Logo Guard" id="logo">
+                </a>
             </div>
 
             <div id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative;">
                 <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 <span id="mobile-cart-count" style="position: absolute; top: -4px; right: -6px; background: #ff3b30; color: white; border-radius: 10px; padding: 1px 5px; font-size: 0.6rem; font-weight: bold;">0</span>
             </div>
-            
+
             <nav id="nav-container">
                 <ul id="navigation-bar">
                     <li><a href="index.html" class="active-nav">Início</a></li>
                     <li><a href="store.html">Loja</a></li>
                     <li><a href="home-alarm.html">Alarme para casa</a></li>
                     <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
-                    <li><a href="rural-alarm.html">Alarme para zona rural</a></li>
+                    <li><a href="rural-alarm.html">Alarme para área rural</a></li>
                     <li><a href="cameras.html">Câmeras</a></li>
                 </ul>
             </nav>
@@ -307,7 +349,7 @@
                 </div>
 
                 <div id="auth-section">
-                    <div id="logged-out-ui" style="display: none; align-items: center; gap: 6px;">
+                    <div id="logged-out-ui" style="display: none; align-items: center;">
                         <a href="login.html" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
                         <a href="login.html" class="auth-link">Cadastre-se</a>
@@ -333,7 +375,6 @@
             </div>
         </div>
     </header>
-
     <section>
         <div id="background-image">
             <div id="text-header">
@@ -843,12 +884,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
-        // Ajuste inicial para mobile
-        if (window.innerWidth <= 768) {
-            document.getElementById('mobile-menu-btn').style.display = 'flex';
-            document.getElementById('mobile-cart-btn').style.display = 'flex';
-        }
 
         // ==========================================
         // GESTÃO DE ESTADO DE LOGIN (PC e MOBILE)
