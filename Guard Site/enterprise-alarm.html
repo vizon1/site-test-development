@@ -205,6 +205,7 @@
         </div>
 
         <ul class="sidebar-nav">
+            <!-- Inicialmente oculto para evitar flicker na renderização -->
             <li id="mobile-auth-login" style="display: none;">
                 <a href="login.html">
                     <div class="nav-item-content" style="color: #0071e3; font-weight: 600;">
@@ -240,7 +241,6 @@
                 </a>
             </li>
         </ul>
-
         <div class="sidebar-footer">
             <div class="sidebar-support-card">
                 <span class="support-title">Central de Atendimento</span>
@@ -255,6 +255,7 @@
         </div>
     </div>
 
+    <!-- CABEÇALHO PADRÃO DA LOJA APLICADO AQUI -->
     <header>
         <div id="header">
             <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
@@ -288,7 +289,8 @@
                 </div>
 
                 <div id="auth-section">
-                    <div id="logged-out-ui" style="display: none; align-items: center;">
+                    <!-- Escondido por padrão para evitar que a tela pisque antes do Firebase carregar -->
+                    <div id="logged-out-ui" style="display: none; align-items: center; gap: 6px;">
                         <a href="login.html" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
                         <a href="login.html" class="auth-link">Cadastre-se</a>
@@ -476,6 +478,7 @@
 
     </section>
 
+    <!-- CARRINHO LATERAL -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
@@ -483,7 +486,8 @@
             <div id="close-cart-btn" class="close-btn" style="font-size: 2rem; cursor: pointer;">&times;</div>
         </div>
         <div class="cart-items" id="cart-items-container">
-            </div>
+            <!-- Renderizado via JS -->
+        </div>
         <div class="cart-footer">
             <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
             <a href="checkout.html" style="text-decoration: none; width: 100%;">
@@ -529,7 +533,7 @@
         }
 
         // ==========================================
-        // GESTÃO DE ESTADO DE LOGIN (PC e MOBILE)
+        // GESTÃO DE ESTADO DE LOGIN E FLICKER
         // ==========================================
         const loggedOutUI = document.getElementById('logged-out-ui');
         const loggedInUI = document.getElementById('logged-in-ui');
