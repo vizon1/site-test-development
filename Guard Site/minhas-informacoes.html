@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* Estilos do Cabeçalho - Reutilizados da Loja */
@@ -30,8 +30,39 @@
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
         .back-arrow:hover { color: #ffffff; }
 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Ajuste do Header (Estilo Checkout Nível Apple) */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+        }
+
+        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 24px; width: 100%; box-sizing: border-box; height: 80px; }
+        
+        .page-logo-img { height: 48px; width: auto; display: block; }
+        .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        @media (max-width: 768px) {
+            #header { padding: 0 15px; height: 65px; }
+            .page-logo-img { height: 35px; }
+            .page-title-text { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 480px) {
+            /* Em ecrãs muito pequenos, esconde o texto para não encavalar com o menu de perfil */
+            .page-title-text { display: none; }
+            .title-separator { display: none; }
+        }
+
         /* Estilos da Página de Perfil */
-        .account-wrapper { max-width: 1100px; margin: 120px auto 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
+        .account-wrapper { max-width: 1100px; margin: 60px auto 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
         
         .account-sidebar { width: 260px; flex-shrink: 0; }
         .account-nav { list-style: none; padding: 0; margin: 0; }
@@ -84,24 +115,19 @@
         .check-item.valid .check-icon { background-color: #32CD32; box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); }
         .check-item.valid .check-icon svg { opacity: 1; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         /* Responsividade e Remoção da Barra de Scroll */
         @media (max-width: 768px) {
-            .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 100px auto 20px auto; }
+            .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 40px auto 20px auto; }
             .account-sidebar { width: 100%; }
             .account-nav { 
                 display: flex; 
                 overflow-x: auto; 
                 white-space: nowrap; 
                 padding-bottom: 5px; 
-                -ms-overflow-style: none; /* Internet Explorer e Edge */
-                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none;
+                scrollbar-width: none;
             }
-            /* Oculta a barra de scroll no Chrome, Safari e Opera */
-            .account-nav::-webkit-scrollbar { 
-                display: none; 
-            }
+            .account-nav::-webkit-scrollbar { display: none; }
             .account-nav li { margin-bottom: 0; margin-right: 10px; }
             .form-grid { grid-template-columns: 1fr; }
             .account-content { padding: 20px; }
@@ -112,41 +138,25 @@
 
     <header>
         <div id="header">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div id="mobile-menu-btn" class="mobile-icon">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                </div>
-                
+            <div style="display: flex; align-items: center; gap: 20px;">
                 <a href="store.html" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
-
-                <div id="logo-container"> 
-                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
+                    <span class="page-title-text">MINHAS INFORMAÇÕES</span>
                 </div>
             </div>
 
-            <div id="mobile-cart-btn" class="mobile-icon">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-            </div>
-            
-            <nav id="nav-container">
-                <ul id="navigation-bar">
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="store.html">Loja</a></li>
-                    <li><a href="home-alarm.html">Alarme para casa</a></li>
-                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
-                    <li><a href="cameras.html">Câmeras</a></li>
-                </ul>
-            </nav>
-            
             <div id="desktop-cart-group" style="display: flex; align-items: center;">
-                <div id="auth-section" style="margin-left: 24px; display: flex; align-items: center; border-left: 1px solid #424245; padding-left: 20px; position: relative;">
+                <div id="auth-section" style="display: flex; align-items: center; position: relative;">
                     <div id="logged-in-ui" style="display: none; align-items: center; gap: 10px; cursor: pointer; position: relative;">
                         <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
-                        <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7;"></span>
+                        <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7; transition: color 0.2s ease;"></span>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         
                         <div id="profile-dropdown" class="profile-dropdown">
@@ -346,7 +356,6 @@
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut, updatePassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -363,9 +372,6 @@
         let usuarioAtual = null;
         let senhaValida = false; 
 
-        // ==========================================
-        // PROTEÇÃO DE ROTA E CARREGAMENTO DE DADOS
-        // ==========================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user;
@@ -417,9 +423,6 @@
             }
         });
 
-        // ==========================================
-        // LÓGICA DE NAVEGAÇÃO DAS ABAS E MENU
-        // ==========================================
         const tabs = document.querySelectorAll('.account-nav li');
         const panes = document.querySelectorAll('.tab-pane');
 
@@ -443,15 +446,11 @@
             if (!loggedInUI.contains(e.target)) profileDropdown.classList.remove('active');
         });
 
-        // ==========================================
-        // MÁSCARAS E VALIDADORES ON BLUR
-        // ==========================================
         document.getElementById('perfil-telefone').addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         });
 
-        // Máscara dinâmica CPF/CNPJ
         document.getElementById('perfil-cpf').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, "");
             if (v.length <= 11) { 
@@ -467,7 +466,6 @@
             e.target.value = v;
         });
 
-        // Algoritmos Oficiais de Validação
         function validarCPF(cpf) {
             cpf = cpf.replace(/[^\d]+/g, '');
             if (cpf == '' || cpf.length != 11 || /^(\d)\1{10}$/.test(cpf)) return false;
@@ -511,7 +509,6 @@
             return true;
         }
 
-        // Validação Instantânea ao sair do campo (BLUR)
         document.getElementById('perfil-cpf').addEventListener('blur', function (e) {
             const valorLimpo = e.target.value.replace(/\D/g, "");
             const errorCpf = document.getElementById('error-cpf');
@@ -534,7 +531,6 @@
             }
         });
 
-        // Busca de Endereço Automática (ViaCEP)
         const inputCep = document.getElementById('end-cep');
         inputCep.addEventListener('input', async function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
@@ -558,9 +554,6 @@
             }
         });
 
-        // ==========================================
-        // VALIDAÇÃO E VISUAIS DA NOVA SENHA
-        // ==========================================
         const inputNovaSenha = document.getElementById('nova-senha');
         const strengthContainer = document.getElementById('password-strength-container');
         const strengthBar = document.getElementById('strength-bar');
@@ -641,7 +634,6 @@
         inputNovaSenha.addEventListener('input', atualizarVisuaisSenha);
         inputNovaSenha.addEventListener('change', atualizarVisuaisSenha);
 
-        // Limpeza Visual no carregamento
         function resetarVisuaisSenha() {
             if(strengthBar) {
                 strengthBar.style.width = '0%';
@@ -653,11 +645,6 @@
             senhaValida = false;
         }
 
-        // ==========================================
-        // SUBMISSÃO DOS FORMULÁRIOS
-        // ==========================================
-        
-        // 1. Dados Pessoais (impede submissão se CPF for inválido)
         document.getElementById('form-dados').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -695,7 +682,6 @@
             }
         });
 
-        // 2. Endereço
         document.getElementById('form-endereco').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-save-end');
@@ -722,7 +708,6 @@
             }
         });
 
-        // 3. Atualizar Senha com Reautenticação
         document.getElementById('form-senha').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -759,14 +744,12 @@
             }
         });
 
-        // 4. Salvar LGPD
         document.getElementById('lgpd-marketing').addEventListener('change', async (e) => {
             if(usuarioAtual) {
                 await setDoc(doc(db, "usuarios", usuarioAtual.uid), { marketing: e.target.checked }, { merge: true });
             }
         });
 
-        // 5. Excluir Conta
         document.getElementById('btn-excluir-conta').addEventListener('click', async () => {
             const confirmar = confirm("TEM A CERTEZA? Esta ação apagará definitivamente a sua conta Guard ID.");
             if (confirmar) {
@@ -784,7 +767,6 @@
             }
         });
 
-        // 6. Logout do Header
         document.getElementById('btn-logout').addEventListener('click', async (e) => {
             e.preventDefault();
             await signOut(auth);
