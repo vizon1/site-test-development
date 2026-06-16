@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Meus Pedidos - Guard</title>
+    <title>Detalhes do Pedido - Guard</title>
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* Estilos do Menu Suspenso de Perfil (Herdados da Loja) */
@@ -29,15 +30,15 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Ajuste do Header para manter o título centralizado */
-        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; }
-        .center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; color: #fff; font-size: 1.1rem; }
+        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; height: 70px; }
+        .center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; color: #fff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         
         @media (max-width: 768px) {
             .center-title { display: none; } /* Esconde o título no mobile para não encavalar com a logo */
         }
     </style>
 </head>
-<body style="background-color: #0a0a0a;">
+<body style="background-color: #000;">
 
     <header>
         <div id="header">
@@ -48,7 +49,7 @@
                     </svg>
                 </a>
                 <div id="logo-container"> 
-                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo" style="height: 40px; width: auto;"></a>
+                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo" style="height: 35px; width: auto;"></a>
                 </div>
             </div>
 
@@ -76,20 +77,76 @@
         </div>
     </header>
 
-    <main class="pedidos-wrapper">
-        <h1 class="pedidos-title">Acompanhar Pedidos</h1>
-        <p class="pedidos-subtitle">Verifique o status das suas compras recentes.</p>
-        
-        <div id="lista-pedidos" class="pedidos-grid">
+    <main class="details-wrapper">
+        <section class="details-intro">
+            <h1 class="details-title" id="d-id">A carregar...</h1>
+            <p class="details-date" id="d-data">Aguarde um momento</p>
+            <div class="details-status-pill" id="d-status" style="display: none;"></div>
+        </section>
+
+        <div class="details-grid" id="main-content" style="opacity: 0; transition: opacity 0.3s ease;">
+            <div class="details-column">
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-truck-fast"></i> Entrega</h3>
+                    <div class="details-info-block">
+                        <label>Código de Rastreio</label>
+                        <p class="tracking-code"><span id="d-rastreio">Processando envio...</span> <span class="copy-btn" id="btn-copy">Copiar</span></p>
+                    </div>
+                    <div class="details-info-block">
+                        <label>Endereço de Envio</label>
+                        <p id="d-endereco">A carregar morada...</p>
+                    </div>
+                </div>
+
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-file-invoice-dollar"></i> Documentos Fiscais</h3>
+                    <div class="details-info-block">
+                        <p>A nota fiscal eletrônica (NF-e) será disponibilizada após a aprovação.</p>
+                        <button class="btn-nfe" style="opacity: 0.5; cursor: not-allowed;"><i class="fa-solid fa-download"></i> Baixar NF-e PDF</button>
+                    </div>
+                </div>
             </div>
+
+            <div class="details-column">
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-box"></i> Itens do Pedido</h3>
+                    
+                    <div id="d-items-list">
+                        </div>
+
+                    <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="d-subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Frete (Envio Expresso)</span>
+                            <span id="d-frete">R$ 0,00</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total</span>
+                            <span id="d-total">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-card">
+                    <h3><i class="fa-solid fa-credit-card"></i> Pagamento</h3>
+                    <div class="details-info-block">
+                        <label>Método</label>
+                        <p id="d-pagamento">A carregar...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Credenciais do seu Firebase
+        // CREDENCIAIS DO FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -103,8 +160,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Extrai o ID da URL (ex: detalhes-pedido.html?id=123xyz)
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
         // ==========================================
-        // ELEMENTOS E LÓGICA DO MENU DE PERFIL
+        // LÓGICA DO MENU DE PERFIL
         // ==========================================
         const loggedInUI = document.getElementById('logged-in-ui');
         const profileDropdown = document.getElementById('profile-dropdown');
@@ -112,7 +173,6 @@
         const userAvatar = document.getElementById('user-avatar');
         const btnLogout = document.getElementById('btn-logout');
 
-        // Lógica de Abrir/Fechar o Menu
         if(loggedInUI) {
             loggedInUI.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -126,7 +186,6 @@
             }
         });
 
-        // Lógica de Sair
         if(btnLogout) {
             btnLogout.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -135,9 +194,7 @@
             });
         }
 
-        // ==========================================
-        // LÓGICA DE PEDIDOS E AUTENTICAÇÃO
-        // ==========================================
+        // Função auxiliar de Cores de Status
         function obterClasseStatus(status) {
             const s = status ? status.toLowerCase() : '';
             if (s.includes('enviando') || s.includes('caminho') || s.includes('aprovado')) return 'status-verde';
@@ -146,9 +203,10 @@
             return 'status-amarelo'; 
         }
 
+        // Verifica a autenticação e carrega os dados
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // 1. Carregar Dados do Perfil no Header
+                // Preencher Foto e Nome no Header
                 let nome = user.displayName;
                 if (!nome) {
                     try {
@@ -162,84 +220,152 @@
                 if(userFirstName) userFirstName.textContent = primeiroNome;
                 if(userAvatar) userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
 
-                // 2. Buscar e renderizar os pedidos
-                carregarPedidosProtegidos(user.uid);
+                // Carregar Dados do Pedido
+                if (!orderId) {
+                    alert("Pedido não encontrado.");
+                    window.location.href = "meus-pedidos.html";
+                    return;
+                }
+                carregarDetalhesPedido(user.uid, orderId);
             } else {
                 window.location.href = "login.html";
             }
         });
 
-        async function carregarPedidosProtegidos(userUid) {
-            const container = document.getElementById('lista-pedidos');
-            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">A procurar os seus pedidos...</p>';
-
+        async function carregarDetalhesPedido(userUid, id) {
             try {
-                const q = query(collection(db, "pedidos"), where("userId", "==", userUid));
-                const querySnapshot = await getDocs(q);
-                let html = '';
+                const docRef = doc(db, "pedidos", id);
+                const docSnap = await getDoc(docRef);
 
-                if (querySnapshot.empty) {
-                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Não tem pedidos registados nesta conta.</p>';
-                    return;
-                }
+                if (docSnap.exists()) {
+                    const pedido = docSnap.data();
 
-                const pedidosArray = [];
-                querySnapshot.forEach((doc) => {
-                    pedidosArray.push({ idReal: doc.id, ...doc.data() });
-                });
-
-                pedidosArray.sort((a, b) => {
-                    const dataA = a.dataCriacao ? (a.dataCriacao.seconds || 0) : 0;
-                    const dataB = b.dataCriacao ? (b.dataCriacao.seconds || 0) : 0;
-                    return dataB - dataA;
-                });
-
-                pedidosArray.forEach((pedido) => {
-                    const idCurto = pedido.idReal.substring(0, 8).toUpperCase();
-                    let dataFormatada = pedido.data || "Data indisponível";
-                    
-                    let nomeItem = "Equipamento Guard";
-                    if (pedido.itens && Array.isArray(pedido.itens) && pedido.itens.length > 0) {
-                        nomeItem = pedido.itens.length === 1 
-                            ? pedido.itens[0].titulo 
-                            : `${pedido.itens[0].titulo} e mais ${pedido.itens.length - 1} item(ns)`;
-                    } else if (pedido.item) {
-                        nomeItem = pedido.item; 
+                    // VERIFICAÇÃO DE SEGURANÇA: Só mostra se o pedido pertencer ao utilizador logado
+                    if (pedido.userId !== userUid) {
+                        alert("Não tem permissão para visualizar este pedido.");
+                        window.location.href = "meus-pedidos.html";
+                        return;
                     }
 
-                    const total = pedido.total || "0,00";
-                    const statusStr = pedido.status || "Aguardando pagamento";
-                    const classeCss = obterClasseStatus(statusStr);
+                    preencherCampos(id, pedido);
+                } else {
+                    document.getElementById('d-id').textContent = "Pedido Inexistente";
+                    document.getElementById('d-data').textContent = "Não foi possível encontrar os detalhes deste pedido.";
+                }
+            } catch (error) {
+                console.error("Erro ao procurar detalhes:", error);
+                alert("Ocorreu um erro ao carregar o pedido.");
+            }
+        }
 
-                    html += `
-                        <div class="pedido-card">
-                            <div class="pedido-header">
-                                <div>
-                                    <span class="pedido-id">Pedido #${idCurto}</span>
-                                    <span class="pedido-data">${dataFormatada}</span>
-                                </div>
-                                <div class="pedido-badge ${classeCss}">${statusStr}</div>
+        function preencherCampos(id, pedido) {
+            // 1. Cabeçalho do Pedido
+            document.getElementById('d-id').textContent = `Pedido #${id.substring(0, 8).toUpperCase()}`;
+            document.getElementById('d-data').textContent = `Realizado em ${pedido.data || "Data indisponível"}`;
+            
+            const statusEl = document.getElementById('d-status');
+            const statusStr = pedido.status || "Aguardando pagamento";
+            statusEl.textContent = statusStr.toUpperCase();
+            statusEl.className = `details-status-pill ${obterClasseStatus(statusStr)}`;
+            statusEl.style.display = 'inline-block';
+
+            // 2. Rastreio
+            const rastreioTxt = pedido.rastreio ? pedido.rastreio : "Aguardando código";
+            document.getElementById('d-rastreio').textContent = rastreioTxt;
+
+            // 3. Endereço
+            if (pedido.endereco) {
+                const end = pedido.endereco;
+                document.getElementById('d-endereco').innerHTML = `
+                    ${end.rua || ""}, ${end.numero || "S/N"} ${end.complemento ? ' - ' + end.complemento : ''}<br>
+                    ${end.bairro || ""}, ${end.cidade || ""} - ${end.estado || ""}<br>
+                    CEP: ${end.cep || ""}
+                `;
+            } else {
+                document.getElementById('d-endereco').textContent = "Endereço não informado.";
+            }
+
+            // 4. Pagamento
+            document.getElementById('d-pagamento').textContent = pedido.metodoPagamento || "Não informado";
+
+            // 5. Itens do Pedido
+            const listaItens = document.getElementById('d-items-list');
+            let htmlItens = '';
+            let subtotalCalc = 0;
+
+            if (pedido.itens && Array.isArray(pedido.itens)) {
+                pedido.itens.forEach(item => {
+                    const precoStr = String(item.preco || "0,00");
+                    const precoNum = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
+                    const qtd = item.quantidade || 1;
+                    
+                    if (!isNaN(precoNum)) {
+                        subtotalCalc += (precoNum * qtd);
+                    }
+
+                    htmlItens += `
+                        <div class="order-item">
+                            <img src="${item.imagem || 'imagens/logo.webp'}" alt="${item.titulo}">
+                            <div class="item-info">
+                                <p class="item-name">${item.titulo}</p>
+                                <p class="item-qty">Qtd: ${qtd}</p>
                             </div>
-                            <div class="pedido-body">
-                                <p class="pedido-item">${nomeItem}</p>
-                                <p class="pedido-total">R$ ${total}</p>
-                            </div>
-                            <div class="pedido-footer">
-                                <a href="detalhes-pedidos.html?id=${pedido.idReal}" style="text-decoration: none;">
-                                    <button class="btn-detalhes">Ver Detalhes</button>
-                                </a>
-                            </div>
+                            <p class="item-price">R$ ${item.preco}</p>
                         </div>
                     `;
                 });
-
-                container.innerHTML = html;
-
-            } catch (error) {
-                console.error("Erro ao carregar pedidos:", error);
-                container.innerHTML = '<p style="color: #ff4444; text-align: center;">Erro ao processar o seu histórico. Tente novamente mais tarde.</p>';
+            } else if (pedido.item) {
+                // Suporte para pedidos antigos (legado)
+                htmlItens = `
+                    <div class="order-item">
+                        <img src="imagens/logo.webp" alt="Produto Guard">
+                        <div class="item-info">
+                            <p class="item-name">${pedido.item}</p>
+                            <p class="item-qty">Qtd: 1</p>
+                        </div>
+                        <p class="item-price">R$ ${pedido.total || "0,00"}</p>
+                    </div>
+                `;
+                subtotalCalc = parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
             }
+
+            listaItens.innerHTML = htmlItens;
+
+            // 6. Valores (Assumindo frete grátis se não estiver guardado)
+            const valorTotal = parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
+            let freteNum = 0;
+            
+            // Se o total for maior que o subtotal dos itens, a diferença é o frete
+            if (valorTotal > subtotalCalc && subtotalCalc > 0) {
+                freteNum = valorTotal - subtotalCalc;
+            } else if (subtotalCalc === 0) {
+                subtotalCalc = valorTotal; // Fallback se não conseguir calcular
+            }
+
+            document.getElementById('d-subtotal').textContent = `R$ ${subtotalCalc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-frete').textContent = freteNum === 0 ? "Grátis" : `R$ ${freteNum.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-total').textContent = `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // Exibe o painel com transição suave
+            document.getElementById('main-content').style.opacity = '1';
         }
+
+        // Lógica de Copiar Código de Rastreio
+        document.getElementById('btn-copy').addEventListener('click', function() {
+            const rastreioCod = document.getElementById('d-rastreio').textContent;
+            if(rastreioCod && rastreioCod !== "Processando envio..." && rastreioCod !== "Aguardando código") {
+                navigator.clipboard.writeText(rastreioCod).then(() => {
+                    const btn = document.getElementById('btn-copy');
+                    const textoOriginal = btn.textContent;
+                    btn.textContent = "Copiado!";
+                    btn.style.color = "#32cd32";
+                    setTimeout(() => {
+                        btn.textContent = textoOriginal;
+                        btn.style.color = "#0071e3";
+                    }, 2000);
+                });
+            }
+        });
     </script>
 </body>
 </html>
