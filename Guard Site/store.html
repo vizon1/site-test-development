@@ -71,6 +71,19 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- CONTROLE DE VISIBILIDADE DO PERFIL ATÉ 1024px --- */
+        @media (min-width: 1024px) {
+            #desktop-cart-group {
+                display: flex !important;
+            }
+        }
+        /* Esconde a área de autenticação/perfil estritamente abaixo de 1024px */
+        @media (max-width: 1023px) {
+            #auth-section {
+                display: none !important; 
+            }
+        }
     </style>
 </head>
 <body>
@@ -302,7 +315,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        // Importação atualizada: inclui o signOut para o botão de Sair
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         // SUAS CREDENCIAIS
@@ -389,8 +401,6 @@
                 e.preventDefault();
                 try {
                     await signOut(auth);
-                    // O Firebase Auth vai detetar e esconder o menu automaticamente via onAuthStateChanged,
-                    // mas podemos dar um reload na página para garantir que o utilizador saiu completamente
                     window.location.reload(); 
                 } catch (error) {
                     console.error("Erro ao sair da conta:", error);
@@ -466,7 +476,7 @@
 
         // 4. SISTEMA DE FILTRAGEM COM PROTEÇÃO ANTI-CRASH
         const removeAcentos = (texto) => {
-            if (!texto) return ""; // Proteção: se o texto for nulo, devolve vazio e não trava
+            if (!texto) return ""; 
             return String(texto).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         };
         
@@ -569,31 +579,26 @@
         const searchInput = document.getElementById('searchInput');
         const searchContainer = document.querySelector('.shop-search');
         
-        // Cria a mensagem de erro dinamicamente abaixo da barra
         const errorText = document.createElement('div');
         errorText.className = 'search-error-msg';
         errorText.textContent = 'Por favor, informe o equipamento desejado.';
         searchContainer.appendChild(errorText);
 
-        // Validação e Animação ao clicar no botão
         searchBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const termo = searchInput.value.trim();
             
-            // Reseta estados de erro e inicia a animação
             searchContainer.classList.remove('error-border');
             errorText.classList.remove('show');
             searchBtn.classList.add('loading');
             
             if (termo === "") {
-                // Se vazio: Carrega por 1 segundo e avisa o erro
                 setTimeout(() => {
                     searchBtn.classList.remove('loading');
                     searchContainer.classList.add('error-border');
                     errorText.classList.add('show');
                 }, 1000);
             } else {
-                // Se preenchido: Dá um efeito visual de carregamento rápido e filtra
                 setTimeout(() => {
                     searchBtn.classList.remove('loading');
                     aplicarFiltros();
@@ -601,7 +606,6 @@
             }
         });
 
-        // Limpa o erro ao começar a digitar e faz a filtragem em tempo real (opcional)
         searchInput.addEventListener('input', (e) => {
             searchContainer.classList.remove('error-border');
             errorText.classList.remove('show');
@@ -648,7 +652,6 @@
                 }
 
                 carrinho.forEach((item) => {
-                    // Proteção: Transforma sempre em texto antes de substituir
                     const precoStr = String(item.preco || "0,00");
                     const precoNumerico = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
                     
@@ -680,14 +683,13 @@
                 localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
             } catch(e) {
                 console.error("Erro no motor do carrinho:", e);
-                localStorage.removeItem('guard_carrinho'); // Reset de segurança
+                localStorage.removeItem('guard_carrinho'); 
                 carrinho = [];
             }
         }
 
         // --- EVENTO ÚNICO PARA CLIQUES NO CARRINHO ---
         document.addEventListener('click', (e) => {
-            // Adicionar ao carrinho
             if (e.target.classList.contains('btn-add-cart')) {
                 const btn = e.target;
                 const itemId = btn.dataset.id;
@@ -708,11 +710,8 @@
                 abrirCarrinho();
             }
 
-            // COMPRA DIRETA (Cria uma sessão isolada e vai para o checkout)
             if (e.target.classList.contains('btn-buy-now')) {
                 const btn = e.target;
-                
-                // Cria um carrinho temporário apenas com este item
                 const itemComprado = [{
                     id: btn.dataset.id,
                     titulo: btn.dataset.titulo,
@@ -720,15 +719,10 @@
                     imagem: btn.dataset.imagem,
                     quantidade: 1
                 }];
-                
-                // Salva na memória paralela
                 localStorage.setItem('guard_compra_direta', JSON.stringify(itemComprado));
-                
-                // Redireciona com o parâmetro "direto=true" para o checkout saber a origem
                 window.location.href = "checkout.html?direto=true";
             }
 
-            // Aumentar (+)
             if (e.target.classList.contains('qty-plus')) {
                 const item = carrinho.find(i => i.id === e.target.dataset.id);
                 if (item) {
@@ -737,7 +731,6 @@
                 }
             }
 
-            // Diminuir (-)
             if (e.target.classList.contains('qty-minus')) {
                 const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
@@ -750,7 +743,6 @@
                 }
             }
 
-            // Remover (X)
             if (e.target.classList.contains('cart-item-remove')) {
                 const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
@@ -778,7 +770,6 @@
             }
         });
 
-        // Controles Visuais do Carrinho
         const cartSidebar = document.getElementById('cart-sidebar');
         const cartOverlay = document.getElementById('cart-overlay');
 
@@ -798,13 +789,10 @@
         document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
         cartOverlay?.addEventListener('click', fecharCarrinho);
 
-        // Inicializadores de Partida
         atualizarCarrinho();
         inicializarLoja();
 
-        // === SCROLL ANIMATION DO HEADER (APENAS PC) ===
         window.addEventListener('scroll', function() {
-            // A condição abaixo garante que a animação só ocorre em ecrãs de computador
             if (window.innerWidth > 1024) {
                 const headerBtn = document.querySelector('.header-action-btn');
                 const header = document.getElementById('header');
