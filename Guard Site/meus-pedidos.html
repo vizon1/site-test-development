@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <title>Meus Pedidos - Guard</title>
-    <link rel="icon" type="image/webp" href="imagens/logo.webp">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Style.css">
-    <style>
+<style>
         /* Estilos do Menu Suspenso de Perfil (Herdados da Loja) */
         .profile-dropdown {
             display: none; position: absolute; top: 100%; right: 0; margin-top: 15px;
@@ -40,222 +31,29 @@
         
         .page-logo-img { height: 48px; width: auto; display: block; }
         .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .title-container { display: flex; align-items: center; gap: 15px; }
 
+        /* ==== AJUSTES PARA MOBILE ==== */
         @media (max-width: 768px) {
-            #header { padding: 0 15px; height: 65px; }
-            .page-logo-img { height: 35px; }
-            .page-title-text { font-size: 0.95rem; }
+            #header { padding: 0 15px; height: 65px; justify-content: flex-start; /* Alinha os itens à esquerda já que não tem o perfil na direita */ }
+            
+            /* Logo um pouco maior no mobile (antes estava 35px) */
+            .page-logo-img { height: 42px; } 
+            
+            .page-title-text { font-size: 1rem; }
+            
+            /* Deixa a logo, barra e texto bem próximos no mobile */
+            .title-container { gap: 8px; margin-left: 15px; } 
+
+            /* Oculta o menu de perfil do usuário inteiramente no mobile */
+            #desktop-cart-group { display: none !important; }
         }
 
         @media (max-width: 480px) {
-            /* Em ecrãs muito pequenos, esconde o texto para não encavalar com o menu de perfil */
-            .page-title-text { display: none; }
-            .title-separator { display: none; }
+            /* Como removemos o perfil, não precisamos mais esconder o texto e a barra! 
+               Eles agora têm espaço de sobra para aparecer. */
+            .page-logo-img { height: 38px; } /* Ajuste fino para telas muito pequenas */
+            .page-title-text { font-size: 0.9rem; }
+            .title-separator { height: 20px !important; }
         }
     </style>
-</head>
-<body style="background-color: #0a0a0a;">
-
-    <header>
-        <div id="header">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <a href="store.html" class="back-arrow" title="Voltar à Loja">
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </a>
-                
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
-                    <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
-                    <span class="page-title-text">MEUS PEDIDOS</span>
-                </div>
-            </div>
-
-            <div id="desktop-cart-group" style="display: flex; align-items: center;">
-                <div id="auth-section" style="display: flex; align-items: center; position: relative;">
-                    <div id="logged-in-ui" style="display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative;">
-                        <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
-                        <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7; transition: color 0.2s ease;"></span>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        
-                        <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item" style="color:#FFFF00;">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
-                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="pedidos-wrapper">
-        <h1 class="pedidos-title">Acompanhar Pedidos</h1>
-        <p class="pedidos-subtitle">Verifique o status das suas compras recentes.</p>
-        
-        <div id="lista-pedidos" class="pedidos-grid">
-            </div>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        // Credenciais do seu Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
-            authDomain: "loja-guard.firebaseapp.com",
-            projectId: "loja-guard",
-            storageBucket: "loja-guard.firebasestorage.app",
-            messagingSenderId: "1084706871985",
-            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // ==========================================
-        // ELEMENTOS E LÓGICA DO MENU DE PERFIL
-        // ==========================================
-        const loggedInUI = document.getElementById('logged-in-ui');
-        const profileDropdown = document.getElementById('profile-dropdown');
-        const userFirstName = document.getElementById('user-first-name');
-        const userAvatar = document.getElementById('user-avatar');
-        const btnLogout = document.getElementById('btn-logout');
-
-        // Lógica de Abrir/Fechar o Menu
-        if(loggedInUI) {
-            loggedInUI.addEventListener('click', (e) => {
-                e.stopPropagation();
-                profileDropdown.classList.toggle('active');
-            });
-        }
-
-        document.addEventListener('click', (e) => {
-            if (loggedInUI && !loggedInUI.contains(e.target)) {
-                profileDropdown.classList.remove('active');
-            }
-        });
-
-        // Lógica de Sair
-        if(btnLogout) {
-            btnLogout.addEventListener('click', async (e) => {
-                e.preventDefault();
-                await signOut(auth);
-                window.location.href = "index.html";
-            });
-        }
-
-        // ==========================================
-        // LÓGICA DE PEDIDOS E AUTENTICAÇÃO
-        // ==========================================
-        function obterClasseStatus(status) {
-            const s = status ? status.toLowerCase() : '';
-            if (s.includes('enviando') || s.includes('caminho') || s.includes('aprovado')) return 'status-verde';
-            if (s.includes('entregue')) return 'status-azul';
-            if (s.includes('cancelado') || s.includes('recusado')) return 'status-vermelho';
-            return 'status-amarelo'; 
-        }
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // 1. Carregar Dados do Perfil no Header
-                let nome = user.displayName;
-                if (!nome) {
-                    try {
-                        const snap = await getDoc(doc(db, "usuarios", user.uid));
-                        if (snap.exists() && snap.data().nome) nome = snap.data().nome;
-                    } catch (e) {
-                        nome = "Cliente";
-                    }
-                }
-                const primeiroNome = nome ? nome.split(' ')[0] : 'Cliente';
-                if(userFirstName) userFirstName.textContent = primeiroNome;
-                if(userAvatar) userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
-
-                // 2. Buscar e renderizar os pedidos
-                carregarPedidosProtegidos(user.uid);
-            } else {
-                window.location.href = "login.html";
-            }
-        });
-
-        async function carregarPedidosProtegidos(userUid) {
-            const container = document.getElementById('lista-pedidos');
-            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">A procurar os seus pedidos...</p>';
-
-            try {
-                const q = query(collection(db, "pedidos"), where("userId", "==", userUid));
-                const querySnapshot = await getDocs(q);
-                let html = '';
-
-                if (querySnapshot.empty) {
-                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Não tem pedidos registados nesta conta.</p>';
-                    return;
-                }
-
-                const pedidosArray = [];
-                querySnapshot.forEach((doc) => {
-                    pedidosArray.push({ idReal: doc.id, ...doc.data() });
-                });
-
-                pedidosArray.sort((a, b) => {
-                    const dataA = a.dataCriacao ? (a.dataCriacao.seconds || 0) : 0;
-                    const dataB = b.dataCriacao ? (b.dataCriacao.seconds || 0) : 0;
-                    return dataB - dataA;
-                });
-
-                pedidosArray.forEach((pedido) => {
-                    const idCurto = pedido.idReal.substring(0, 8).toUpperCase();
-                    let dataFormatada = pedido.data || "Data indisponível";
-                    
-                    let nomeItem = "Equipamento Guard";
-                    if (pedido.itens && Array.isArray(pedido.itens) && pedido.itens.length > 0) {
-                        nomeItem = pedido.itens.length === 1 
-                            ? pedido.itens[0].titulo 
-                            : `${pedido.itens[0].titulo} e mais ${pedido.itens.length - 1} item(ns)`;
-                    } else if (pedido.item) {
-                        nomeItem = pedido.item; 
-                    }
-
-                    const total = pedido.total || "0,00";
-                    const statusStr = pedido.status || "Aguardando pagamento";
-                    const classeCss = obterClasseStatus(statusStr);
-
-                    html += `
-                        <div class="pedido-card">
-                            <div class="pedido-header">
-                                <div>
-                                    <span class="pedido-id">Pedido #${idCurto}</span>
-                                    <span class="pedido-data">${dataFormatada}</span>
-                                </div>
-                                <div class="pedido-badge ${classeCss}">${statusStr}</div>
-                            </div>
-                            <div class="pedido-body">
-                                <p class="pedido-item">${nomeItem}</p>
-                                <p class="pedido-total">R$ ${total}</p>
-                            </div>
-                            <div class="pedido-footer">
-                                <a href="detalhes-pedidos.html?id=${pedido.idReal}" style="text-decoration: none;">
-                                    <button class="btn-detalhes">Ver Detalhes</button>
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-
-            } catch (error) {
-                console.error("Erro ao carregar pedidos:", error);
-                container.innerHTML = '<p style="color: #ff4444; text-align: center;">Erro ao processar o seu histórico. Tente novamente mais tarde.</p>';
-            }
-        }
-    </script>
-</body>
-</html>
