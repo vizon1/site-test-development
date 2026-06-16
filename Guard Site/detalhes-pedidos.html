@@ -8,20 +8,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Estilo da Seta de Voltar */
+        .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
+        .back-arrow:hover { color: #ffffff; }
+
+        /* Ajuste do Header para manter o título centralizado */
+        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; height: 70px; }
+        .center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; color: #fff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        @media (max-width: 768px) {
+            .center-title { display: none; } /* Esconde o título no mobile para não encavalar com a logo */
+        }
+    </style>
 </head>
 <body style="background-color: #000;">
 
     <header>
         <div id="header">
-            <div id="logo-container"> 
-                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="store.html" class="back-arrow" title="Voltar à Loja">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </a>
+                <div id="logo-container"> 
+                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo" style="height: 35px; width: auto;"></a>
+                </div>
             </div>
-            <div class="panel-header-title">
-                <span style="color: #fff; font-weight: 600;">DETALHES</span>
+
+            <div class="center-title">
+                DETALHES
             </div>
+
             <div class="header-action-btn">
                 <a href="meus-pedidos.html" style="text-decoration: none;">
-                    <button class="header-submit-button">VOLTAR</button>
+                    <button class="header-submit-button">MEUS PEDIDOS</button>
                 </a>
             </div>
         </div>
