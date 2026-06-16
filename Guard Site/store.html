@@ -17,7 +17,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: rgba(10, 10, 10, 0.15); /* Fundo mais limpo no topo */
+            background-color: rgba(10, 10, 10, 0.6); /* Fundo mais limpo no topo */
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid transparent;
@@ -27,7 +27,7 @@
 
         /* Classe injetada pelo JS ao rolar a página */
         header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.3); /* Escurece */
+            background-color: rgba(10, 10, 10, 0.85); /* Escurece */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Mostra linha */
         }
 
@@ -37,7 +37,7 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 110px; /* Altura Premium (Maior) */
+            height: 86px; /* Altura Premium (Maior) */
             padding: 0 24px;
             box-sizing: border-box;
             transition: height 0.3s ease; /* Animação sem flicking */
@@ -48,14 +48,14 @@
         }
 
         #logo-container img {
-            height: 60px; /* Logo GRANDE no início */
+            height: 48px; /* Logo GRANDE no início */
             width: auto;
             display: block;
             transition: height 0.3s ease;
         }
 
         header.header-scrolled #logo-container img {
-            height: 50px; /* Logo encolhe para acompanhar */
+            height: 32px; /* Logo encolhe para acompanhar */
         }
 
         #nav-container {
@@ -141,7 +141,7 @@
 
         #logged-in-ui { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
-        #user-avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; transition: transform 0.2s; }
+        #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; transition: transform 0.2s; }
         #user-first-name { font-size: 0.9rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; white-space: nowrap; }
 
         .profile-dropdown {
@@ -193,14 +193,41 @@
         </div>
 
         <ul class="sidebar-nav">
+            <li id="mobile-auth-login">
+                <a href="login.html">
+                    <div class="nav-item-content" style="color: #0071e3; font-weight: 600;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Fazer Login ou Cadastrar</span>
+                    </div>
+                    <span class="sidebar-arrow" style="color: #0071e3;">&#8250;</span>
+                </a>
+            </li>
+
+            <li id="mobile-auth-user" style="display: none; padding: 15px 20px; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
+                <img id="mobile-user-avatar" src="" alt="Perfil" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 0.75rem; color: #86868b; text-transform: uppercase; letter-spacing: 1px;">Sessão iniciada</span>
+                    <span id="mobile-user-first-name" style="font-size: 1.1rem; font-weight: 600; color: #f5f5f7;"></span>
+                </div>
+            </li>
+
             <li><a href="index.html"><div class="nav-item-content"><span>Início</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li class="active"><a href="store.html"><div class="nav-item-content"><span>Loja</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="meus-pedidos.html"><div class="nav-item-content"><span>Meus pedidos</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
+            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes.html"><div class="nav-item-content"><span>Minhas informações</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="rural-alarm.html"><div class="nav-item-content"><span>Alarme para zona rural</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="cameras.html"><div class="nav-item-content"><span>Câmeras</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
             <li><a href="help-informations.html"><div class="nav-item-content"><span>Ajuda e Informações</span></div><span class="sidebar-arrow">&#8250;</span></a></li>
+
+            <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
+                <a href="#" id="mobile-btn-logout">
+                    <div class="nav-item-content" style="color: #ff4444; font-weight: 500;">
+                        <span>Sair da conta</span>
+                    </div>
+                </a>
+            </li>
         </ul>
         <div class="sidebar-footer">
             <div class="sidebar-support-card">
@@ -369,7 +396,7 @@
         }
 
         // ==========================================
-        // GESTÃO DE ESTADO DE LOGIN NO CABEÇALHO E MENU
+        // GESTÃO DE ESTADO DE LOGIN (PC e MOBILE)
         // ==========================================
         const loggedOutUI = document.getElementById('logged-out-ui');
         const loggedInUI = document.getElementById('logged-in-ui');
@@ -378,10 +405,26 @@
         const profileDropdown = document.getElementById('profile-dropdown');
         const btnLogout = document.getElementById('btn-logout');
 
+        // Elementos Mobile
+        const mobileAuthLogin = document.getElementById('mobile-auth-login');
+        const mobileAuthUser = document.getElementById('mobile-auth-user');
+        const mobileAuthLogout = document.getElementById('mobile-auth-logout');
+        const mobileUserFirstName = document.getElementById('mobile-user-first-name');
+        const mobileUserAvatar = document.getElementById('mobile-user-avatar');
+        const mobileNavInfo = document.getElementById('mobile-nav-info');
+        const mobileBtnLogout = document.getElementById('mobile-btn-logout');
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // UI Desktop
                 if(loggedOutUI) loggedOutUI.style.display = 'none';
                 if(loggedInUI) loggedInUI.style.display = 'flex';
+                
+                // UI Mobile
+                if(mobileAuthLogin) mobileAuthLogin.style.display = 'none';
+                if(mobileAuthUser) mobileAuthUser.style.display = 'flex';
+                if(mobileAuthLogout) mobileAuthLogout.style.display = 'block';
+                if(mobileNavInfo) mobileNavInfo.style.display = 'block';
 
                 let nome = user.displayName;
                 let foto = user.photoURL;
@@ -400,17 +443,25 @@
                 }
 
                 const primeiroNome = nome.split(' ')[0];
+                const fallbackFoto = `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true&font-size=0.4`;
+                
                 if(userFirstName) userFirstName.textContent = primeiroNome;
+                if(mobileUserFirstName) mobileUserFirstName.textContent = primeiroNome;
 
-                if (foto) {
-                    if(userAvatar) userAvatar.src = foto;
-                } else {
-                    if(userAvatar) userAvatar.src = `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true&font-size=0.4`;
-                }
+                if(userAvatar) userAvatar.src = foto || fallbackFoto;
+                if(mobileUserAvatar) mobileUserAvatar.src = foto || fallbackFoto;
+
             } else {
+                // UI Desktop
                 if(loggedOutUI) loggedOutUI.style.display = 'flex';
                 if(loggedInUI) loggedInUI.style.display = 'none';
                 if(profileDropdown) profileDropdown.classList.remove('active');
+                
+                // UI Mobile
+                if(mobileAuthLogin) mobileAuthLogin.style.display = 'block';
+                if(mobileAuthUser) mobileAuthUser.style.display = 'none';
+                if(mobileAuthLogout) mobileAuthLogout.style.display = 'none';
+                if(mobileNavInfo) mobileNavInfo.style.display = 'none';
             }
         });
 
@@ -427,18 +478,20 @@
             }
         });
 
-        if(btnLogout) {
-            btnLogout.addEventListener('click', async (e) => {
-                e.preventDefault();
-                try {
-                    await signOut(auth);
-                    window.location.reload(); 
-                } catch (error) {
-                    console.error("Erro ao sair da conta:", error);
-                    alert("Ocorreu um erro ao terminar a sessão.");
-                }
-            });
-        }
+        // Função de Logout centralizada
+        const executarLogout = async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+                window.location.reload(); 
+            } catch (error) {
+                console.error("Erro ao sair da conta:", error);
+                alert("Ocorreu um erro ao terminar a sessão.");
+            }
+        };
+
+        if(btnLogout) btnLogout.addEventListener('click', executarLogout);
+        if(mobileBtnLogout) mobileBtnLogout.addEventListener('click', executarLogout);
 
         // VARIÁVEIS GLOBAIS DA LOJA
         let todosProdutos = [];
