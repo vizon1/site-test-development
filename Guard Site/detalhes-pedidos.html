@@ -9,9 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* Estilo da Seta de Voltar */
+        /* Estilos do Menu Suspenso de Perfil (Herdados da Loja) */
+        .profile-dropdown {
+            display: none; position: absolute; top: 100%; right: 0; margin-top: 15px;
+            background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
+            width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        .profile-dropdown.active { display: flex; animation: fadeIn 0.2s ease forwards; }
+        .dropdown-item { padding: 12px 16px; color: #f5f5f7; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease; display: flex; align-items: center; }
+        .dropdown-item:hover { background-color: #2c2c2e; }
+        .dropdown-divider { height: 1px; background-color: #424245; margin: 4px 0; }
+        .dropdown-item.logout { color: #ff4444; }
+        .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
+        
+        #logged-in-ui:hover #user-first-name { color: #ffffff; }
+        
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
         .back-arrow:hover { color: #ffffff; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Ajuste do Header para manter o título centralizado */
         #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; height: 70px; }
@@ -38,13 +54,25 @@
             </div>
 
             <div class="center-title">
-                DETALHES
+                MEUS PEDIDOS
             </div>
 
-            <div class="header-action-btn">
-                <a href="meus-pedidos.html" style="text-decoration: none;">
-                    <button class="header-submit-button">MEUS PEDIDOS</button>
-                </a>
+            <div id="desktop-cart-group" style="display: flex; align-items: center;">
+                <div id="auth-section" style="display: flex; align-items: center; position: relative;">
+                    <div id="logged-in-ui" style="display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative;">
+                        <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
+                        <span id="user-first-name" style="font-size: 0.9rem; font-weight: 500; color: #f5f5f7; transition: color 0.2s ease;"></span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        
+                        <div id="profile-dropdown" class="profile-dropdown">
+                            <a href="meus-pedidos.html" class="dropdown-item" style="color:#FFFF00;">Meus pedidos</a>
+                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -115,7 +143,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // CREDENCIAIS DO FIREBASE
@@ -136,6 +164,36 @@
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('id');
 
+        // ==========================================
+        // LÓGICA DO MENU DE PERFIL
+        // ==========================================
+        const loggedInUI = document.getElementById('logged-in-ui');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const userFirstName = document.getElementById('user-first-name');
+        const userAvatar = document.getElementById('user-avatar');
+        const btnLogout = document.getElementById('btn-logout');
+
+        if(loggedInUI) {
+            loggedInUI.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('active');
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (loggedInUI && !loggedInUI.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        if(btnLogout) {
+            btnLogout.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await signOut(auth);
+                window.location.href = "index.html";
+            });
+        }
+
         // Função auxiliar de Cores de Status
         function obterClasseStatus(status) {
             const s = status ? status.toLowerCase() : '';
@@ -148,6 +206,21 @@
         // Verifica a autenticação e carrega os dados
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // Preencher Foto e Nome no Header
+                let nome = user.displayName;
+                if (!nome) {
+                    try {
+                        const snap = await getDoc(doc(db, "usuarios", user.uid));
+                        if (snap.exists() && snap.data().nome) nome = snap.data().nome;
+                    } catch (e) {
+                        nome = "Cliente";
+                    }
+                }
+                const primeiroNome = nome ? nome.split(' ')[0] : 'Cliente';
+                if(userFirstName) userFirstName.textContent = primeiroNome;
+                if(userAvatar) userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
+
+                // Carregar Dados do Pedido
                 if (!orderId) {
                     alert("Pedido não encontrado.");
                     window.location.href = "meus-pedidos.html";
