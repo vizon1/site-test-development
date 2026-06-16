@@ -11,18 +11,24 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
-           CABEÇALHO NÍVEL APPLE (OTIMIZADO)
+           CABEÇALHO NÍVEL APPLE (COM ANIMAÇÃO DE SCROLL)
            ========================================== */
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: rgba(10, 10, 10, 0.82);
+            background-color: rgba(10, 10, 10, 0.6); /* Fundo mais limpo no topo */
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid transparent;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Classe injetada pelo JS ao rolar a página */
+        header.header-scrolled {
+            background-color: rgba(10, 10, 10, 0.85); /* Escurece */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Mostra linha */
         }
 
         #header {
@@ -31,15 +37,25 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 64px; /* Altura elegante */
+            height: 86px; /* Altura Premium (Maior) */
             padding: 0 24px;
             box-sizing: border-box;
+            transition: height 0.3s ease; /* Animação sem flicking */
+        }
+
+        header.header-scrolled #header {
+            height: 60px; /* Encolhe suavemente */
         }
 
         #logo-container img {
-            height: 32px; /* Logo maior e nítida */
+            height: 48px; /* Logo GRANDE no início */
             width: auto;
             display: block;
+            transition: height 0.3s ease;
+        }
+
+        header.header-scrolled #logo-container img {
+            height: 32px; /* Logo encolhe para acompanhar */
         }
 
         #nav-container {
@@ -66,12 +82,10 @@
             letter-spacing: 0.02em;
             text-transform: uppercase;
             transition: color 0.2s ease;
-            white-space: nowrap; /* Bloqueia tremulação */
+            white-space: nowrap; /* Impede os textos de quebrarem/tremerem */
         }
 
-        #navigation-bar a:hover {
-            color: #ffffff;
-        }
+        #navigation-bar a:hover { color: #ffffff; }
 
         #navigation-bar a.active-nav {
             color: #FFFF00;
@@ -80,7 +94,7 @@
             padding-bottom: 4px;
         }
 
-        /* Agrupamento da Direita (Carrinho + Perfil) */
+        /* Agrupamento da Direita */
         #desktop-cart-group {
             display: flex !important; 
             align-items: center;
@@ -97,7 +111,6 @@
         }
         #open-cart-btn:hover { color: #ffffff; }
 
-        /* Crachá (Badge) do Carrinho Nível Apple */
         #cart-count {
             position: absolute;
             top: -6px;
@@ -111,10 +124,9 @@
             min-width: 16px;
             text-align: center;
             box-sizing: border-box;
-            border: 2px solid rgba(10, 10, 10, 0.85); /* Efeito de recorte */
+            border: 2px solid rgba(10, 10, 10, 0.85);
         }
 
-        /* Divisória de Autenticação */
         #auth-section {
             display: flex;
             align-items: center;
@@ -129,10 +141,9 @@
 
         #logged-in-ui { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
-        #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; }
+        #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; transition: transform 0.2s; }
         #user-first-name { font-size: 0.9rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; white-space: nowrap; }
 
-        /* Menu Suspenso de Perfil */
         .profile-dropdown {
             display: none; position: absolute; top: 100%; right: 0; margin-top: 20px;
             background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
@@ -148,24 +159,22 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           RESPONSIVIDADE (Tablets e PCs Pequenos: até 1050px)
+           RESPONSIVIDADE INTELIGENTE (1050px até 769px)
            ========================================== */
         @media (min-width: 769px) and (max-width: 1050px) {
-            #navigation-bar { gap: 14px; } /* Ajuste delicado dos espaços */
+            #navigation-bar { gap: 14px; } 
             #navigation-bar a { font-size: 0.75rem; } 
-            
             #desktop-cart-group { gap: 14px; }
             #auth-section { padding-left: 14px; }
-            
-            /* O SEGREDO: Esconde apenas o texto do nome para libertar o centro */
-            #user-first-name { display: none; }
+            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
         }
 
-        /* Mobile (Até 768px) */
+        /* Mobile (Abaixo de 768px) */
         @media (max-width: 768px) {
             #nav-container { display: none; }
             #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 60px; }
+            #header { padding: 0 15px; height: 60px !important; } /* Fixa altura no mobile */
+            #logo-container img { height: 32px !important; } /* Fixa tamanho logo no mobile */
         }
     </style>
 </head>
@@ -799,6 +808,18 @@
 
         atualizarCarrinho();
         inicializarLoja();
+
+        // SCROLL NÍVEL APPLE: Ativa para PC e Tablets (> 768px)
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth > 768) {
+                const header = document.querySelector('header');
+                if (window.scrollY > 20) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            }
+        });
     </script>
 </body>
 </html>
