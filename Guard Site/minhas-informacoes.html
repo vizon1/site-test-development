@@ -88,6 +88,100 @@
         }
 
         @media (max-width: 480px) {
+            .page-logo-img { height: 38px; } /* Ajuste fino para telas muito pequenas */
+            .page-title-text { font-size: 0.85rem; }
+            .title-separator { height: 20px !important; }
+        }
+
+        /* Estilos da Página de Perfil */
+        .account-wrapper { 
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 1100px; 
+            margin: 40px auto; /* Margem reduzida porque o header já ocupa espaço */
+            padding: 0 20px; 
+            display: flex; 
+            gap: 40px; 
+            min-height: 60vh; 
+        }
+        
+        .account-sidebar { width: 260px; flex-shrink: 0; }
+        .account-nav { list-style: none; padding: 0; margin: 0; }
+        .account-nav li { padding: 14px 18px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; color: #86868b; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+        .account-nav li:hover { background-color: #1d1d1f; color: #fff; }
+        .account-nav li.active { background-color: #2c2c2e; color: #fff; }
+        
+        .account-content { 
+            flex-grow: 1; 
+            min-width: 0; /* Impede o flexbox de estourar a tela */
+            background-color: #111111; 
+            border: 1px solid #333333; 
+            border-radius: 16px; 
+            padding: 40px; 
+            box-sizing: border-box;
+        }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+        
+        .section-title { font-size: 1.5rem; margin: 0 0 25px 0; color: #fff; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        
+        /* Grid de Formulários estilo Apple */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-full { grid-column: 1 / -1; }
+        .apple-input-group { margin-bottom: 15px; }
+        .apple-input-group label { display: block; margin-bottom: 6px; color: #a0a0a5; font-size: 0.85rem; font-weight: 500; }
+        .apple-input-group input, .apple-input-group select {
+            width: 100%; padding: 14px 16px; background-color: #1d1d1f; border: 1px solid #424245;
+            border-radius: 10px; color: #fff; font-size: 0.95rem; outline: none; box-sizing: border-box; transition: border-color 0.3s ease;
+        }
+        .apple-input-group input:focus, .apple-input-group select:focus { border-color: #0071e3; }
+        .apple-input-group input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-save { background-color: #0071e3; color: #fff; border: none; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .btn-save:hover { background-color: #0077ed; }
+        .btn-danger { background-color: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-danger:hover { background-color: rgba(255, 68, 68, 0.1); }
+
+        /* Checkbox Switch Style */
+        .toggle-switch { display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 20px; }
+        .toggle-switch input { display: none; }
+        .slider { width: 44px; height: 24px; background-color: #424245; border-radius: 24px; position: relative; transition: 0.3s; }
+        .slider::before { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: #fff; top: 2px; left: 2px; transition: 0.3s; }
+        .toggle-switch input:checked + .slider { background-color: #32CD32; }
+        .toggle-switch input:checked + .slider::before { transform: translateX(20px); }
+
+        /* Estilos de Senha Avançada */
+        input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none !important; }
+        .toggle-password {
+            position: absolute; right: 16px; top: 38px; cursor: pointer; color: #86868b;
+            display: block; background: none; border: none; padding: 0; outline: none; transition: color 0.2s ease;
+        }
+        .toggle-password:hover { color: #fff; }
+        .check-item { display: flex; align-items: center; gap: 12px; color: #86868b; font-size: 0.95rem; transition: color 0.3s ease; }
+        .check-item.valid { color: #d2d2d7; }
+        .check-icon { width: 18px; height: 18px; border-radius: 50%; background-color: #2c2c2e; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .check-icon svg { width: 10px; height: 10px; fill: none; stroke: #000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.3s ease; }
+        .check-item.valid .check-icon { background-color: #32CD32; box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); }
+        .check-item.valid .check-icon svg { opacity: 1; }
+
+        /* Responsividade para Telas Divididas e Mobile */
+        @media (max-width: 1024px) {
+            .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 30px auto 20px auto; }
+            .account-sidebar { width: 100%; }
+            .account-nav { 
+                display: flex; 
+                overflow-x: auto; 
+                white-space: nowrap; 
+                padding-bottom: 5px; 
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .account-nav::-webkit-scrollbar { display: none; }
+            .account-nav li { margin-bottom: 0; margin-right: 10px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .account-content { padding: 20px; }
+        }
+    </style>
 </head>
 <body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff; overflow-x: hidden;">
 
