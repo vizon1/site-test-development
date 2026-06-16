@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
-           CABEÇALHO NÍVEL APPLE (COM ANIMAÇÃO DE SCROLL)
+           CABEÇALHO NÍVEL APPLE (ANTI-TREMULAÇÃO)
            ========================================== */
         header {
             position: sticky;
@@ -23,28 +23,31 @@
             border-bottom: 1px solid transparent;
             width: 100%;
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
         }
 
-        /* Classe injetada pelo JS ao rolar a página */
         header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.85) !important; /* Escurece */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Mostra linha */
+            background-color: rgba(10, 10, 10, 0.85) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
         #header {
+            position: relative; /* Ancoragem para o menu central absoluto */
             display: flex;
             justify-content: space-between;
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 86px; /* Altura Premium (Maior) */
+            height: 86px; 
             padding: 0 24px;
             box-sizing: border-box;
-            transition: height 0.3s ease; /* Animação sem flicking */
+            transition: height 0.3s ease;
         }
 
         header.header-scrolled #header {
-            height: 60px; /* Encolhe suavemente */
+            height: 60px;
         }
 
         #logo-container img {
@@ -55,14 +58,16 @@
         }
 
         header.header-scrolled #logo-container img {
-            height: 45px; /* Logo encolhe para acompanhar */
+            height: 45px; 
         }
 
+        /* O SEGREDO DO MENU CENTRALIZADO E FIXO */
         #nav-container {
-            flex-grow: 1;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             justify-content: center;
-            padding: 0 20px;
         }
 
         #navigation-bar {
@@ -82,7 +87,7 @@
             letter-spacing: 0.02em;
             text-transform: uppercase;
             transition: color 0.2s ease;
-            white-space: nowrap; /* Impede os textos de quebrarem/tremerem */
+            white-space: nowrap; 
         }
 
         #navigation-bar a:hover { color: #ffffff; }
@@ -127,12 +132,15 @@
             border: 2px solid rgba(10, 10, 10, 0.85);
         }
 
+        /* Espaço Fixo e Alinhado à Direita para Autenticação */
         #auth-section {
             display: flex;
             align-items: center;
+            justify-content: flex-end; /* Cresce da direita para a esquerda */
             border-left: 1px solid rgba(255, 255, 255, 0.15);
             padding-left: 20px;
             height: 28px;
+            min-width: 140px; /* Evita saltos no ícone do carrinho */
         }
 
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
@@ -219,7 +227,7 @@
             <li><a href="rural-alarm.html"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
             <li><a href="cameras.html"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
             <li><a href="help-informations.html"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
-
+            
             <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
                 <a href="#" id="mobile-btn-logout">
                     <div class="nav-item-content" style="color: #ff4444; font-weight: 500;">
@@ -274,7 +282,8 @@
                 </div>
 
                 <div id="auth-section">
-                    <div id="logged-out-ui" style="display: none; align-items: center; gap: 6px;">
+                    <!-- Escondido por padrão para evitar que a tela pisque antes do Firebase carregar -->
+                    <div id="logged-out-ui" style="display: none; align-items: center;">
                         <a href="login.html" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
                         <a href="login.html" class="auth-link">Cadastre-se</a>
