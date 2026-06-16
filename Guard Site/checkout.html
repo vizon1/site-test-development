@@ -12,15 +12,19 @@
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
         .back-arrow:hover { color: #ffffff; }
 
-        /* Ajuste do Header para manter o título centralizado */
-        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; box-sizing: border-box; height: 70px; }
-        .center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600; color: #fff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        /* Ajuste do Header */
+        #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 24px; width: 100%; box-sizing: border-box; height: 80px; }
         
         .secure-badge { display: flex; align-items: center; gap: 6px; color: #32cd32; }
         
+        .checkout-logo-img { height: 48px; width: auto; display: block; }
+        .checkout-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
         @media (max-width: 768px) {
-            .center-title { display: none; } /* Esconde o título no mobile para não encavalar com a logo */
+            #header { padding: 0 15px; height: 65px; }
             .secure-badge span { display: none; } /* Esconde o texto do selo de segurança, deixa só o cadeado */
+            .checkout-logo-img { height: 35px; }
+            .checkout-title-text { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -28,21 +32,22 @@
 
     <header>
         <div id="header">
-            <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- Lado Esquerdo: Seta Voltar + Logo + Título com Divisória -->
+            <div style="display: flex; align-items: center; gap: 20px;">
                 <a href="store.html" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
-                <div id="logo-container"> 
-                    <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo" style="height: 35px; width: auto;"></a>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="checkout-logo-img"></a>
+                    <div style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
+                    <span class="checkout-title-text">CHECKOUT SEGURO</span>
                 </div>
             </div>
 
-            <div class="center-title">
-                CHECKOUT SEGURO
-            </div>
-
+            <!-- Lado Direito: Selo de Segurança -->
             <div class="header-action-btn secure-badge">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                 <span style="font-size: 0.8rem; font-weight: 600;">100% SEGURO</span>
