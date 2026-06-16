@@ -56,13 +56,21 @@
         }
 
         @media (max-width: 480px) {
-            /* Em ecrãs muito pequenos, esconde o texto para não encavalar com o menu de perfil */
             .page-title-text { display: none; }
             .title-separator { display: none; }
         }
 
-        /* Estilos da Página de Perfil */
-        .account-wrapper { max-width: 1100px; margin: 60px auto 40px auto; padding: 0 20px; display: flex; gap: 40px; min-height: 60vh; }
+        /* Estilos da Página de Perfil corrigidos contra cortes na tela dividida */
+        .account-wrapper { 
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 1100px; 
+            margin: 60px auto 40px auto; 
+            padding: 0 20px; 
+            display: flex; 
+            gap: 40px; 
+            min-height: 60vh; 
+        }
         
         .account-sidebar { width: 260px; flex-shrink: 0; }
         .account-nav { list-style: none; padding: 0; margin: 0; }
@@ -70,7 +78,15 @@
         .account-nav li:hover { background-color: #1d1d1f; color: #fff; }
         .account-nav li.active { background-color: #2c2c2e; color: #fff; }
         
-        .account-content { flex-grow: 1; background-color: #111111; border: 1px solid #333333; border-radius: 16px; padding: 40px; }
+        .account-content { 
+            flex-grow: 1; 
+            min-width: 0; /* Impede o flexbox de estourar a tela */
+            background-color: #111111; 
+            border: 1px solid #333333; 
+            border-radius: 16px; 
+            padding: 40px; 
+            box-sizing: border-box;
+        }
         .tab-pane { display: none; }
         .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
         
@@ -115,8 +131,8 @@
         .check-item.valid .check-icon { background-color: #32CD32; box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); }
         .check-item.valid .check-icon svg { opacity: 1; }
 
-        /* Responsividade e Remoção da Barra de Scroll */
-        @media (max-width: 768px) {
+        /* Responsividade para Telas Divididas e Mobile (Alterado para 1024px) */
+        @media (max-width: 1024px) {
             .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 40px auto 20px auto; }
             .account-sidebar { width: 100%; }
             .account-nav { 
@@ -138,6 +154,7 @@
 
     <header>
         <div id="header">
+            <!-- Lado Esquerdo: Seta Voltar + Logo + Título com Divisória -->
             <div style="display: flex; align-items: center; gap: 20px;">
                 <a href="store.html" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -152,6 +169,7 @@
                 </div>
             </div>
 
+            <!-- Lado Direito: Perfil Dropdown -->
             <div id="desktop-cart-group" style="display: flex; align-items: center;">
                 <div id="auth-section" style="display: flex; align-items: center; position: relative;">
                     <div id="logged-in-ui" style="display: none; align-items: center; gap: 10px; cursor: pointer; position: relative;">
