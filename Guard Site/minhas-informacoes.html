@@ -86,11 +86,22 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Responsividade */
+        /* Responsividade e Remoção da Barra de Scroll */
         @media (max-width: 768px) {
             .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 100px auto 20px auto; }
             .account-sidebar { width: 100%; }
-            .account-nav { display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+            .account-nav { 
+                display: flex; 
+                overflow-x: auto; 
+                white-space: nowrap; 
+                padding-bottom: 5px; 
+                -ms-overflow-style: none; /* Internet Explorer e Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+            /* Oculta a barra de scroll no Chrome, Safari e Opera */
+            .account-nav::-webkit-scrollbar { 
+                display: none; 
+            }
             .account-nav li { margin-bottom: 0; margin-right: 10px; }
             .form-grid { grid-template-columns: 1fr; }
             .account-content { padding: 20px; }
@@ -335,6 +346,7 @@
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut, updatePassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+        // SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
