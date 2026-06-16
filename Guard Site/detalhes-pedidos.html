@@ -25,27 +25,45 @@
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
         
         /* Estilo da Seta de Voltar */
-        .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
+        .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; flex-shrink: 0; }
         .back-arrow:hover { color: #ffffff; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Ajuste do Header (Estilo Checkout Nível Apple) */
+        header {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+        }
+
         #header { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 0 24px; width: 100%; box-sizing: border-box; height: 80px; }
         
-        .page-logo-img { height: 48px; width: auto; display: block; }
-        .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .page-logo-img { height: 48px; width: auto; display: block; flex-shrink: 0; }
+        .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
+        .title-container { display: flex; align-items: center; gap: 15px; min-width: 0; }
 
+        /* ==== AJUSTES PARA MOBILE ==== */
         @media (max-width: 768px) {
-            #header { padding: 0 15px; height: 65px; }
-            .page-logo-img { height: 35px; }
-            .page-title-text { font-size: 0.95rem; }
+            #header { padding: 0 15px; height: 65px; justify-content: flex-start; }
+            
+            /* Logo um pouco maior no mobile */
+            .page-logo-img { height: 42px; } 
+            
+            /* Ajusta o título e permite quebra se necessário em telas menores */
+            .page-title-text { font-size: 0.95rem; white-space: normal; line-height: 1.1; }
+            
+            /* Deixa a logo, barra e texto bem próximos no mobile */
+            .title-container { gap: 8px; margin-left: 15px; } 
+
+            /* Oculta o menu de perfil do usuário inteiramente no mobile */
+            #desktop-cart-group { display: none !important; }
         }
 
         @media (max-width: 480px) {
-            /* Em ecrãs muito pequenos, esconde o texto para não encavalar com o menu de perfil */
-            .page-title-text { display: none; }
-            .title-separator { display: none; }
+            .page-logo-img { height: 38px; } /* Ajuste fino para telas muito pequenas */
+            .page-title-text { font-size: 0.85rem; }
+            .title-separator { height: 20px !important; }
         }
     </style>
 </head>
@@ -53,21 +71,21 @@
 
     <header>
         <div id="header">
-            <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="display: flex; align-items: center; min-width: 0;">
                 <a href="meus-pedidos.html" class="back-arrow" title="Voltar aos Pedidos">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
                 
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
-                    <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
+                <div class="title-container">
+                    <a href="index.html" style="display: flex; flex-shrink: 0;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px; flex-shrink: 0;"></div>
                     <span class="page-title-text">DETALHES DO PEDIDO</span>
                 </div>
             </div>
 
-            <div id="desktop-cart-group" style="display: flex; align-items: center;">
+            <div id="desktop-cart-group" style="display: flex; align-items: center; flex-shrink: 0;">
                 <div id="auth-section" style="display: flex; align-items: center; position: relative;">
                     <div id="logged-in-ui" style="display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative;">
                         <img id="user-avatar" src="" alt="Perfil" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
@@ -75,7 +93,7 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         
                         <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item" style="color:#FFFF00;">Meus pedidos</a>
+                            <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
                             <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
                             <a href="help-informations.html" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
