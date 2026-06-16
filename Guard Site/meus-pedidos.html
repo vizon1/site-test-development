@@ -104,6 +104,56 @@
         const db = getFirestore(app);
 
         // ==========================================
+        // CÓDIGO TEMPORÁRIO PARA GERAR PEDIDO TESTE
+        // ==========================================
+        async function gerarPedidoTesteAutomatico() {
+            try {
+                const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
+                
+                // Espera o Firebase Auth identificar que você está logado
+                auth.onAuthStateChanged(async (user) => {
+                    if (user) {
+                        const novoPedido = {
+                            userId: user.uid, // Vincula o pedido diretamente à sua conta atual
+                            data: "16 de Junho de 2026",
+                            dataCriacao: serverTimestamp(), // Gera o timestamp oficial do servidor
+                            status: "Enviando",
+                            metodoPagamento: "PIX - Sicoob Pagamentos",
+                            rastreio: "BR94720184752-SP",
+                            total: "119,00",
+                            endereco: {
+                                cep: "01234-000",
+                                rua: "Rua Alameda das Flores",
+                                numero: "452",
+                                complemento: "Apto 12",
+                                bairro: "Jardins",
+                                cidade: "São Paulo",
+                                estado: "SP"
+                            },
+                            itens: [
+                                {
+                                    titulo: "Câmera Bullet HDCVI Intelbras VHL 1120 B",
+                                    quantidade: 1,
+                                    preco: "104,00",
+                                    imagem: "imagens/logo.webp"
+                                }
+                            ]
+                        };
+        
+                        const docRef = await addDoc(collection(db, "pedidos"), novoPedido);
+                        console.log("Sucesso! Pedido gerado automaticamente com o ID:", docRef.id);
+                        alert("Pedido teste gerado com sucesso no Firestore!");
+                    }
+                });
+            } catch (error) {
+                console.error("Erro ao gerar pedido teste:", error);
+            }
+        }
+        
+        // Executa a função automaticamente ao carregar
+        gerarPedidoTesteAutomatico();
+                
+        // ==========================================
         // ELEMENTOS E LÓGICA DO MENU DE PERFIL
         // ==========================================
         const loggedInUI = document.getElementById('logged-in-ui');
