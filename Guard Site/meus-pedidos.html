@@ -35,8 +35,10 @@
     </main>
 
     <script type="module">
+        // Importações consolidadas para evitar conflitos
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // Credenciais do seu Firebase
         const firebaseConfig = {
@@ -48,22 +50,19 @@
             appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
         };
 
+        // Inicialização única
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
         // Função inteligente para decidir a cor do botão baseado no texto do status
         function obterClasseStatus(status) {
             const s = status ? status.toLowerCase() : '';
-            if (s.includes('enviando') || s.includes('caminho')) return 'status-verde';
+            if (s.includes('enviando') || s.includes('caminho') || s.includes('aprovado')) return 'status-verde';
             if (s.includes('entregue')) return 'status-azul';
-            return 'status-amarelo'; // Padrão para "Aguardando pagamento" ou erro
+            if (s.includes('cancelado') || s.includes('recusado')) return 'status-vermelho';
+            return 'status-amarelo'; // Padrão para "Aguardando pagamento"
         }
-
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        const auth = getAuth(app);
-        const db = getFirestore(app);
 
         // Monitora se o usuário está logado antes de buscar informações
         onAuthStateChanged(auth, (user) => {
@@ -77,9 +76,10 @@
             }
         });
 
+        // Função que busca os dados no Firestore
         async function carregarPedidosProtegidos(userUid) {
             const container = document.getElementById('lista-pedidos');
-            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">Buscando seus pedidos...</p>';
+            container.innerHTML = '<p style="color: #FFFF00; text-align: center;">A procurar os seus pedidos...</p>';
 
             try {
                 // MÁGICA DE SEGURANÇA: Filtra trazendo apenas documentos onde userId == ID do usuário logado
@@ -88,17 +88,38 @@
                 let html = '';
 
                 if (querySnapshot.empty) {
-                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Nenhum pedido encontrado para esta conta.</p>';
+                    container.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Não tem pedidos registados nesta conta.</p>';
                     return;
                 }
 
+                // Cria um array para podermos ordenar os pedidos (do mais recente para o mais antigo)
+                const pedidosArray = [];
                 querySnapshot.forEach((doc) => {
-                    const pedido = doc.data();
-                    const idReal = doc.id;
-                    const idCurto = idReal.substring(0, 8).toUpperCase();
+                    pedidosArray.push({ idReal: doc.id, ...doc.data() });
+                });
 
+                // Tenta ordenar pela data de criação (se existir timestamp), senão mantém a ordem original
+                pedidosArray.sort((a, b) => {
+                    const dataA = a.dataCriacao ? (a.dataCriacao.seconds || 0) : 0;
+                    const dataB = b.dataCriacao ? (b.dataCriacao.seconds || 0) : 0;
+                    return dataB - dataA;
+                });
+
+                // Constrói o HTML para cada pedido
+                pedidosArray.forEach((pedido) => {
+                    const idCurto = pedido.idReal.substring(0, 8).toUpperCase();
                     let dataFormatada = pedido.data || "Data indisponível";
-                    let nomeItem = pedido.item || "Equipamento Guard";
+                    
+                    // Tratamento para caso o pedido tenha múltiplos itens guardados num array
+                    let nomeItem = "Equipamento Guard";
+                    if (pedido.itens && Array.isArray(pedido.itens) && pedido.itens.length > 0) {
+                        nomeItem = pedido.itens.length === 1 
+                            ? pedido.itens[0].titulo 
+                            : `${pedido.itens[0].titulo} e mais ${pedido.itens.length - 1} item(ns)`;
+                    } else if (pedido.item) {
+                        nomeItem = pedido.item; // Fallback para a estrutura antiga
+                    }
+
                     const total = pedido.total || "0,00";
                     const statusStr = pedido.status || "Aguardando pagamento";
                     const classeCss = obterClasseStatus(statusStr);
@@ -117,7 +138,7 @@
                                 <p class="pedido-total">R$ ${total}</p>
                             </div>
                             <div class="pedido-footer">
-                                <a href="detalhes-pedido.html?id=${idReal}" style="text-decoration: none;">
+                                <a href="detalhes-pedido.html?id=${pedido.idReal}" style="text-decoration: none;">
                                     <button class="btn-detalhes">Ver Detalhes</button>
                                 </a>
                             </div>
@@ -128,13 +149,10 @@
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error("Erro:", error);
-                container.innerHTML = '<p style="color: red; text-align: center;">Erro ao processar histórico.</p>';
+                console.error("Erro ao carregar pedidos:", error);
+                container.innerHTML = '<p style="color: #ff4444; text-align: center;">Erro ao processar o seu histórico. Tente novamente mais tarde.</p>';
             }
         }
-
-        // Executa assim que a página abre
-        carregarPedidos();
     </script>
 </body>
 </html>
