@@ -29,30 +29,30 @@
 
     <main class="details-wrapper">
         <section class="details-intro">
-            <h1 class="details-title">Pedido #GD-84728</h1>
-            <p class="details-date">Realizado em 10 de Junho de 2026</p>
-            <div class="details-status-pill status-verde">ENVIANDO</div>
+            <h1 class="details-title" id="d-id">A carregar...</h1>
+            <p class="details-date" id="d-data">Aguarde um momento</p>
+            <div class="details-status-pill" id="d-status" style="display: none;"></div>
         </section>
 
-        <div class="details-grid">
+        <div class="details-grid" id="main-content" style="opacity: 0; transition: opacity 0.3s ease;">
             <div class="details-column">
                 <div class="details-card">
                     <h3><i class="fa-solid fa-truck-fast"></i> Entrega</h3>
                     <div class="details-info-block">
                         <label>Código de Rastreio</label>
-                        <p class="tracking-code">BR94720184752-SP <span class="copy-btn">Copiar</span></p>
+                        <p class="tracking-code"><span id="d-rastreio">Processando envio...</span> <span class="copy-btn" id="btn-copy">Copiar</span></p>
                     </div>
                     <div class="details-info-block">
                         <label>Endereço de Envio</label>
-                        <p>Rua Alameda das Flores, 452, Apto 12<br>Jardins, São Paulo - SP<br>01234-000</p>
+                        <p id="d-endereco">A carregar morada...</p>
                     </div>
                 </div>
 
                 <div class="details-card">
                     <h3><i class="fa-solid fa-file-invoice-dollar"></i> Documentos Fiscais</h3>
                     <div class="details-info-block">
-                        <p>A nota fiscal eletrônica (NF-e) já foi emitida.</p>
-                        <button class="btn-nfe"><i class="fa-solid fa-download"></i> Baixar NF-e PDF</button>
+                        <p>A nota fiscal eletrônica (NF-e) será disponibilizada após a aprovação.</p>
+                        <button class="btn-nfe" style="opacity: 0.5; cursor: not-allowed;"><i class="fa-solid fa-download"></i> Baixar NF-e PDF</button>
                     </div>
                 </div>
             </div>
@@ -60,26 +60,23 @@
             <div class="details-column">
                 <div class="details-card">
                     <h3><i class="fa-solid fa-box"></i> Itens do Pedido</h3>
-                    <div class="order-item">
-                        <img src="https://placehold.co/100x100/1a1a1a/fff?text=Produto" alt="Produto">
-                        <div class="item-info">
-                            <p class="item-name">Câmera Bullet HDCVI Intelbras VHL 1120 B</p>
-                            <p class="item-qty">Qtd: 1</p>
+                    
+                    <div id="d-items-list">
                         </div>
-                        <p class="item-price">R$ 104,00</p>
-                    </div>
 
-                    <div class="summary-line">
-                        <span>Subtotal</span>
-                        <span>R$ 104,00</span>
-                    </div>
-                    <div class="summary-line">
-                        <span>Frete (Envio Expresso)</span>
-                        <span>R$ 15,00</span>
-                    </div>
-                    <div class="summary-line total">
-                        <span>Total</span>
-                        <span>R$ 119,00</span>
+                    <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="d-subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Frete (Envio Expresso)</span>
+                            <span id="d-frete">R$ 0,00</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total</span>
+                            <span id="d-total">R$ 0,00</span>
+                        </div>
                     </div>
                 </div>
 
@@ -87,12 +84,193 @@
                     <h3><i class="fa-solid fa-credit-card"></i> Pagamento</h3>
                     <div class="details-info-block">
                         <label>Método</label>
-                        <p>PIX - Sicoob Pagamentos</p>
+                        <p id="d-pagamento">A carregar...</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // CREDENCIAIS DO FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Extrai o ID da URL (ex: detalhes-pedido.html?id=123xyz)
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        // Função auxiliar de Cores de Status
+        function obterClasseStatus(status) {
+            const s = status ? status.toLowerCase() : '';
+            if (s.includes('enviando') || s.includes('caminho') || s.includes('aprovado')) return 'status-verde';
+            if (s.includes('entregue')) return 'status-azul';
+            if (s.includes('cancelado') || s.includes('recusado')) return 'status-vermelho';
+            return 'status-amarelo'; 
+        }
+
+        // Verifica a autenticação e carrega os dados
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                if (!orderId) {
+                    alert("Pedido não encontrado.");
+                    window.location.href = "meus-pedidos.html";
+                    return;
+                }
+                carregarDetalhesPedido(user.uid, orderId);
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        async function carregarDetalhesPedido(userUid, id) {
+            try {
+                const docRef = doc(db, "pedidos", id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const pedido = docSnap.data();
+
+                    // VERIFICAÇÃO DE SEGURANÇA: Só mostra se o pedido pertencer ao utilizador logado
+                    if (pedido.userId !== userUid) {
+                        alert("Não tem permissão para visualizar este pedido.");
+                        window.location.href = "meus-pedidos.html";
+                        return;
+                    }
+
+                    preencherCampos(id, pedido);
+                } else {
+                    document.getElementById('d-id').textContent = "Pedido Inexistente";
+                    document.getElementById('d-data').textContent = "Não foi possível encontrar os detalhes deste pedido.";
+                }
+            } catch (error) {
+                console.error("Erro ao procurar detalhes:", error);
+                alert("Ocorreu um erro ao carregar o pedido.");
+            }
+        }
+
+        function preencherCampos(id, pedido) {
+            // 1. Cabeçalho do Pedido
+            document.getElementById('d-id').textContent = `Pedido #${id.substring(0, 8).toUpperCase()}`;
+            document.getElementById('d-data').textContent = `Realizado em ${pedido.data || "Data indisponível"}`;
+            
+            const statusEl = document.getElementById('d-status');
+            const statusStr = pedido.status || "Aguardando pagamento";
+            statusEl.textContent = statusStr.toUpperCase();
+            statusEl.className = `details-status-pill ${obterClasseStatus(statusStr)}`;
+            statusEl.style.display = 'inline-block';
+
+            // 2. Rastreio
+            const rastreioTxt = pedido.rastreio ? pedido.rastreio : "Aguardando código";
+            document.getElementById('d-rastreio').textContent = rastreioTxt;
+
+            // 3. Endereço
+            if (pedido.endereco) {
+                const end = pedido.endereco;
+                document.getElementById('d-endereco').innerHTML = `
+                    ${end.rua || ""}, ${end.numero || "S/N"} ${end.complemento ? ' - ' + end.complemento : ''}<br>
+                    ${end.bairro || ""}, ${end.cidade || ""} - ${end.estado || ""}<br>
+                    CEP: ${end.cep || ""}
+                `;
+            } else {
+                document.getElementById('d-endereco').textContent = "Endereço não informado.";
+            }
+
+            // 4. Pagamento
+            document.getElementById('d-pagamento').textContent = pedido.metodoPagamento || "Não informado";
+
+            // 5. Itens do Pedido
+            const listaItens = document.getElementById('d-items-list');
+            let htmlItens = '';
+            let subtotalCalc = 0;
+
+            if (pedido.itens && Array.isArray(pedido.itens)) {
+                pedido.itens.forEach(item => {
+                    const precoStr = String(item.preco || "0,00");
+                    const precoNum = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
+                    const qtd = item.quantidade || 1;
+                    
+                    if (!isNaN(precoNum)) {
+                        subtotalCalc += (precoNum * qtd);
+                    }
+
+                    htmlItens += `
+                        <div class="order-item">
+                            <img src="${item.imagem || 'imagens/logo.webp'}" alt="${item.titulo}">
+                            <div class="item-info">
+                                <p class="item-name">${item.titulo}</p>
+                                <p class="item-qty">Qtd: ${qtd}</p>
+                            </div>
+                            <p class="item-price">R$ ${item.preco}</p>
+                        </div>
+                    `;
+                });
+            } else if (pedido.item) {
+                // Suporte para pedidos antigos (legado)
+                htmlItens = `
+                    <div class="order-item">
+                        <img src="imagens/logo.webp" alt="Produto Guard">
+                        <div class="item-info">
+                            <p class="item-name">${pedido.item}</p>
+                            <p class="item-qty">Qtd: 1</p>
+                        </div>
+                        <p class="item-price">R$ ${pedido.total || "0,00"}</p>
+                    </div>
+                `;
+                subtotalCalc = parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
+            }
+
+            listaItens.innerHTML = htmlItens;
+
+            // 6. Valores (Assumindo frete grátis se não estiver guardado)
+            const valorTotal = parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
+            let freteNum = 0;
+            
+            // Se o total for maior que o subtotal dos itens, a diferença é o frete
+            if (valorTotal > subtotalCalc && subtotalCalc > 0) {
+                freteNum = valorTotal - subtotalCalc;
+            } else if (subtotalCalc === 0) {
+                subtotalCalc = valorTotal; // Fallback se não conseguir calcular
+            }
+
+            document.getElementById('d-subtotal').textContent = `R$ ${subtotalCalc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-frete').textContent = freteNum === 0 ? "Grátis" : `R$ ${freteNum.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-total').textContent = `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // Exibe o painel com transição suave
+            document.getElementById('main-content').style.opacity = '1';
+        }
+
+        // Lógica de Copiar Código de Rastreio
+        document.getElementById('btn-copy').addEventListener('click', function() {
+            const rastreioCod = document.getElementById('d-rastreio').textContent;
+            if(rastreioCod && rastreioCod !== "Processando envio..." && rastreioCod !== "Aguardando código") {
+                navigator.clipboard.writeText(rastreioCod).then(() => {
+                    const btn = document.getElementById('btn-copy');
+                    const textoOriginal = btn.textContent;
+                    btn.textContent = "Copiado!";
+                    btn.style.color = "#32cd32";
+                    setTimeout(() => {
+                        btn.textContent = textoOriginal;
+                        btn.style.color = "#0071e3";
+                    }, 2000);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
