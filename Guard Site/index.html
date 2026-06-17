@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
-           CABEÇALHO NÍVEL APPLE (ANTI-TREMULAÇÃO)
+           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
            ========================================== */
         header {
             position: sticky;
@@ -23,31 +23,39 @@
             border-bottom: 1px solid transparent;
             width: 100%;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0); /* Anti-Flicker */
+            transform: translateZ(0); /* Anti-Flicker GPU */
             -webkit-transform: translateZ(0);
             will-change: transform;
         }
 
         header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.85); /* Escurece */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Mostra linha */
+            background-color: rgba(10, 10, 10, 0.85) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
         #header {
-            position: relative; /* Ancoragem para o menu central absoluto */
             display: flex;
             justify-content: space-between;
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            height: 86px; /* Altura Premium (Maior) */
+            height: 86px; 
             padding: 0 24px;
             box-sizing: border-box;
-            transition: height 0.3s ease; /* Animação sem flicking */
+            transition: height 0.3s ease;
+            gap: 15px; /* Impede que os elementos se toquem */
         }
 
         header.header-scrolled #header {
-            height: 60px; /* Encolhe suavemente */
+            height: 60px;
+        }
+
+        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
+        #logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
         }
 
         #logo-container img {
@@ -58,21 +66,18 @@
         }
 
         header.header-scrolled #logo-container img {
-            height: 45px; /* Logo encolhe para acompanhar */
+            height: 45px; 
         }
 
-        /* O SEGREDO DO MENU CENTRALIZADO E FIXO */
         #nav-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            flex: 2; /* Ocupa a maior parte do centro */
             display: flex;
             justify-content: center;
         }
 
         #navigation-bar {
             display: flex;
-            gap: 28px;
+            gap: 24px;
             list-style: none;
             padding: 0;
             margin: 0;
@@ -87,7 +92,7 @@
             letter-spacing: 0.02em;
             text-transform: uppercase;
             transition: color 0.2s ease;
-            white-space: nowrap; /* Impede os textos de quebrarem/tremerem */
+            white-space: nowrap; 
         }
 
         #navigation-bar a:hover { color: #ffffff; }
@@ -101,8 +106,10 @@
 
         /* Agrupamento da Direita */
         #desktop-cart-group {
+            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
             display: flex !important; 
             align-items: center;
+            justify-content: flex-end;
             gap: 20px;
         }
 
@@ -136,11 +143,11 @@
         #auth-section {
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Cresce da direita para a esquerda */
+            justify-content: flex-end;
             border-left: 1px solid rgba(255, 255, 255, 0.15);
             padding-left: 20px;
             height: 28px;
-            min-width: 140px; /* Evita saltos no layout ao recarregar a página */
+            min-width: 130px; 
         }
 
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
@@ -167,22 +174,22 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           RESPONSIVIDADE INTELIGENTE (1050px até 769px)
+           RESPONSIVIDADE INTELIGENTE
            ========================================== */
-        @media (min-width: 769px) and (max-width: 1050px) {
-            #navigation-bar { gap: 14px; } 
-            #navigation-bar a { font-size: 0.75rem; } 
-            #desktop-cart-group { gap: 14px; }
-            #auth-section { padding-left: 14px; }
+        @media (min-width: 769px) and (max-width: 1150px) {
+            #navigation-bar { gap: 12px; } 
+            #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
+            #desktop-cart-group { gap: 12px; }
+            #auth-section { padding-left: 12px; min-width: auto; }
+            .auth-link { font-size: 0.75rem; }
             #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
         }
 
-        /* Mobile (Abaixo de 768px) */
         @media (max-width: 768px) {
             #nav-container { display: none; }
             #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 80px !important; } /* Fixa altura no mobile */
-            #logo-container img { height: 60px !important; } /* Fixa tamanho logo no mobile */
+            #header { padding: 0 15px; height: 60px !important; } 
+            #logo-container img { height: 32px !important; } 
         }
     </style>
 </head>
