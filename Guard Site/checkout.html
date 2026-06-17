@@ -187,6 +187,17 @@
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
 
+        /* Dados do Cartão de Crédito */
+        #cartao-container {
+            display: none;
+            background-color: rgba(29, 29, 31, 0.4);
+            border: 1px solid #333;
+            border-radius: 14px;
+            padding: 24px;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
         /* Botão Principal Estilo Nike */
         .btn-panel-submit {
             background-color: #FFFF00; color: #000; border: none; padding: 22px; border-radius: 14px;
@@ -442,6 +453,7 @@
 
         <div class="checkout-box box-pagamento" style="margin-bottom: 0;">
             <h2 class="box-title">Pagamento</h2>
+            
             <div class="input-group" style="margin-bottom: 0;">
                 <label for="pagamento">Método Escolhido</label>
                 <select id="pagamento">
@@ -450,6 +462,29 @@
                     <option value="boleto">Boleto Bancário (Até 3 dias úteis)</option>
                 </select>
             </div>
+
+            <div id="cartao-container">
+                <h3 style="font-size: 1rem; color: #fff; margin-top: 0; margin-bottom: 15px;">Dados do Cartão</h3>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Número do Cartão</label>
+                    <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Nome no Cartão</label>
+                    <input type="text" id="cartao-nome" placeholder="Como impresso no cartão">
+                </div>
+                <div class="form-grid" style="margin-bottom: 0;">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>Validade</label>
+                        <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>CVV</label>
+                        <input type="text" id="cartao-cvv" placeholder="123" maxlength="4" inputmode="numeric">
+                    </div>
+                </div>
+            </div>
+
             <input type="hidden" id="editando-endereco-id" value="">
         </div>
 
@@ -524,6 +559,14 @@
         const numeroInput = document.getElementById('numero');
         const cepInput = document.getElementById('cep-frete');
 
+        // ELEMENTOS DO CARTÃO DE CRÉDITO
+        const pagamentoSelect = document.getElementById('pagamento');
+        const cartaoContainer = document.getElementById('cartao-container');
+        const cartaoNumero = document.getElementById('cartao-numero');
+        const cartaoNome = document.getElementById('cartao-nome');
+        const cartaoValidade = document.getElementById('cartao-validade');
+        const cartaoCvv = document.getElementById('cartao-cvv');
+
         // =========================================
         // 1. BLINDAGEM IMPLACÁVEL DOS CAMPOS (TEMPO REAL)
         // =========================================
@@ -567,6 +610,42 @@
                 v = v.replace(/(\d{4})(\d)/, "$1-$2");
             }
             this.value = v;
+        });
+
+        // Máscaras e Regras do Cartão de Crédito
+        cartaoNumero.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, '');
+            if (v.length > 16) v = v.substring(0, 16);
+            v = v.replace(/(\d{4})(?=\d)/g, '$1 '); // Coloca espaço a cada 4 digitos
+            this.value = v;
+        });
+
+        cartaoNome.addEventListener('input', function() {
+            this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').toUpperCase();
+        });
+
+        cartaoValidade.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, '');
+            if (v.length > 4) v = v.substring(0, 4);
+            if (v.length > 2) v = v.replace(/^(\d{2})(\d)/, '$1/$2');
+            this.value = v;
+        });
+
+        cartaoCvv.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Alternar Visibilidade do Cartão de Crédito
+        pagamentoSelect.addEventListener('change', function() {
+            if (this.value === 'cartao') {
+                cartaoContainer.style.display = 'block';
+            } else {
+                cartaoContainer.style.display = 'none';
+                limparErro(cartaoNumero);
+                limparErro(cartaoNome);
+                limparErro(cartaoValidade);
+                limparErro(cartaoCvv);
+            }
         });
 
         // =========================================
@@ -615,12 +694,15 @@
             else limparErro(this);
         });
 
-        ['rua', 'numero', 'bairro', 'cidade', 'estado'].forEach(id => {
+        ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
             const el = document.getElementById(id);
-            if(el) el.addEventListener('blur', (e) => checarObrigatorio(e.target));
+            if(el) el.addEventListener('blur', (e) => {
+                // Só checa os do cartão se a div do cartão estiver visível
+                if (id.startsWith('cartao-') && pagamentoSelect.value !== 'cartao') return;
+                checarObrigatorio(e.target);
+            });
         });
 
-        // MATEMÁTICA OFICIAL DO CPF
         function testaCPF(strCPF) {
             let Soma = 0, Resto;
             strCPF = strCPF.replace(/\D/g, ""); 
@@ -639,7 +721,6 @@
             return true;
         }
 
-        // MATEMÁTICA OFICIAL DO CNPJ
         function testaCNPJ(cnpj) {
             cnpj = cnpj.replace(/\D/g, '');
             if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
@@ -1015,43 +1096,35 @@
         });
 
         // =========================================
-        // 7. BARREIRA FINAL DE ENVIO
+        // 7. BARREIRA FINAL DE ENVIO E VALIDAÇÕES DO CARTÃO
         // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
 
-            // Refaz todas as validações no ato do clique
+            // Varrimento Criterioso Base
             if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { 
-                mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); 
-                temErro = true; 
+                mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; 
             }
             
             if (telefoneInput.value.replace(/\D/g, '').length < 10) { 
-                mostrarErro(telefoneInput, 'Telefone incompleto.'); 
-                temErro = true; 
+                mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; 
             }
             
             const valDoc = cpfInput.value.replace(/\D/g, '');
             if (valDoc.length === 0) {
-                mostrarErro(cpfInput, 'Obrigatório.'); 
-                temErro = true;
+                mostrarErro(cpfInput, 'Obrigatório.'); temErro = true;
             } else if (valDoc.length <= 11 && !testaCPF(valDoc)) { 
-                mostrarErro(cpfInput, 'CPF Inválido.'); 
-                temErro = true; 
+                mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; 
             } else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { 
-                mostrarErro(cpfInput, 'CNPJ Inválido.'); 
-                temErro = true; 
+                mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; 
             }
 
+            // Endereço
             if (blocoInputsEndereco.style.display !== 'none') {
                 const cepLimpo = cepInput.value.replace(/\D/g, '');
-                if (cepLimpo.length !== 8) { 
-                    mostrarErro(cepInput, 'CEP incompleto.'); 
-                    temErro = true; 
-                } else { 
-                    limparErro(cepInput); 
-                }
+                if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } 
+                else { limparErro(cepInput); }
                 
                 if (checarObrigatorio(document.getElementById('rua'))) temErro = true;
                 if (checarObrigatorio(numeroInput)) temErro = true;
@@ -1059,17 +1132,25 @@
                 if (checarObrigatorio(document.getElementById('cidade'))) temErro = true;
                 
                 const estado = document.getElementById('estado');
-                if (estado.value.trim().length !== 2) { 
-                    mostrarErro(estado, 'UF deve ter 2 letras.'); 
-                    temErro = true; 
-                } else {
-                    limparErro(estado);
-                }
+                if (estado.value.trim().length !== 2) { mostrarErro(estado, 'UF deve ter 2 letras.'); temErro = true; } 
+                else { limparErro(estado); }
             }
 
             if (valorFrete === 0) {
                 alert("Por favor, informe o endereço e selecione uma opção de entrega.");
                 temErro = true;
+            }
+
+            // NOVO: Validação Específica se o Cartão estiver Selecionado
+            if (pagamentoSelect.value === 'cartao') {
+                if (checarObrigatorio(cartaoNumero)) temErro = true;
+                if (checarObrigatorio(cartaoNome)) temErro = true;
+                if (checarObrigatorio(cartaoValidade)) temErro = true;
+                if (checarObrigatorio(cartaoCvv)) temErro = true;
+
+                if(cartaoNumero.value.replace(/\D/g,'').length < 14) { mostrarErro(cartaoNumero, 'Número incompleto.'); temErro = true; }
+                if(cartaoValidade.value.length < 5) { mostrarErro(cartaoValidade, 'Inválido.'); temErro = true; }
+                if(cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Inválido.'); temErro = true; }
             }
 
             // Interceptador Final
@@ -1119,8 +1200,8 @@
                 }
             }
 
-            const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
-            alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.`);
+            const pagamentoText = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
+            alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamentoText}.`);
             
             localStorage.removeItem(storageKey);
             window.location.href = "index.html";
