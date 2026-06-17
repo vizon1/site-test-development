@@ -1201,10 +1201,27 @@
             }
 
             const pagamentoText = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
-            alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamentoText}.`);
-            
+            // Grava o valor total para exibir na página do PIX antes de limpar o carrinho
+            localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
+
+            const metodoEscolhido = pagamentoSelect.value;
+            const pagamentoText = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
+
+            // Limpa o carrinho
             localStorage.removeItem(storageKey);
-            window.location.href = "index.html";
+
+            if (metodoEscolhido === 'pix') {
+                // Vai para a tela exclusiva de PIX
+                window.location.href = "pagamento-pix.html";
+            } else {
+                // Mantém o comportamento para Cartão ou Boleto
+                alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido será processado via ${pagamentoText}.`);
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>
         });
     </script>
 </body>
