@@ -1,1 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Pagamento PIX - Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* =========================================================
+           CABEÇALHO FIXO - BLINDADO CONTRA CORTES
+           ========================================================= */
+        header {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            background-color: #000 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: block !important;
+        }
+        
+        #header { 
+            position: relative !important; 
+            display: flex !important; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 24px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            height: 80px !important; 
+            background: transparent !important;
+        }
+        
+        .secure-badge { display: flex; align-items: center; gap: 6px; color: #32cd32; }
+        .checkout-logo-img { height: 48px; width: auto; display: block; }
+        .checkout-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
 
+        @media (max-width: 768px) {
+            #header { padding: 0 15px !important; height: 65px !important; }
+            .secure-badge span { display: none; } 
+            .checkout-logo-img { height: 35px; }
+            .checkout-title-text { font-size: 0.95rem; }
+        }
+
+        /* =========================================================
+           DESIGN PREMIUM DA PÁGINA PIX
+           ========================================================= */
+        body {
+            background-color: #000;
+            color: #f5f5f7;
+            font-family: 'Fira Sans', sans-serif;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .pix-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+
+        .pix-container {
+            background-color: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        .pix-header { margin-bottom: 30px; }
+        
+        .pix-icon-circle {
+            width: 64px; height: 64px;
+            background-color: rgba(50, 205, 50, 0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            color: #32cd32;
+        }
+
+        .pix-title { font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0 0 10px; letter-spacing: -0.5px;}
+        .pix-subtitle { color: #86868b; font-size: 1rem; margin: 0; line-height: 1.5; }
+        
+        .pix-valor {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #FFFF00;
+            margin: 20px 0;
+            display: block;
+        }
+
+        /* Box de Instruções Passo a Passo */
+        .steps-box {
+            background-color: #1c1c1e;
+            border: 1.5px solid #2c2c2e;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .step-item:last-child { margin-bottom: 0; }
+
+        .step-number {
+            background-color: #333;
+            color: #fff;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-text { color: #d2d2d7; font-size: 0.95rem; line-height: 1.5; }
+        .step-text strong { color: #fff; }
+
+        /* Área de Cópia do Código */
+        .code-area { margin-bottom: 30px; }
+        
+        .code-input-fake {
+            background-color: #111;
+            border: 1px dashed #424245;
+            padding: 16px;
+            border-radius: 12px;
+            color: #86868b;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            margin-bottom: 15px;
+            user-select: all;
+        }
+
+        /* Botão Estilo Nike Premium */
+        .btn-copy {
+            background-color: #FFFF00;
+            color: #000;
+            border: none;
+            padding: 22px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-copy:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
+        .btn-copy:active { transform: translateY(0); }
+        .btn-copy.copied { background-color: #32cd32; color: #fff; box-shadow: 0 10px 25px rgba(50, 205, 50, 0.2); }
+
+        .btn-voltar-loja {
+            background: none; border: none; color: #86868b; font-size: 0.95rem; font-weight: 600;
+            text-transform: uppercase; cursor: pointer; text-decoration: underline; margin-top: 20px; transition: color 0.2s;
+        }
+        .btn-voltar-loja:hover { color: #fff; }
+
+        @media (max-width: 600px) {
+            .pix-wrapper { padding: 20px 15px; align-items: flex-start; }
+            .pix-container { padding: 30px 20px; border-radius: 20px; }
+            .pix-title { font-size: 1.4rem; }
+            .pix-valor { font-size: 1.8rem; }
+            .btn-copy { padding: 18px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div id="header">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="imagens/logo.webp" alt="Logo Guard" class="checkout-logo-img">
+                    <div style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
+                    <span class="checkout-title-text">PAGAMENTO SEGURO</span>
+                </div>
+            </div>
+
+            <div class="header-action-btn secure-badge">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <span style="font-size: 0.8rem; font-weight: 600;">100% SEGURO</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pix-wrapper">
+        <div class="pix-container">
+            
+            <div class="pix-header">
+                <div class="pix-icon-circle">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h1 class="pix-title">Pedido Registado!</h1>
+                <p class="pix-subtitle">Finalize o seu pagamento via PIX para aprovarmos o envio imediatamente.</p>
+                
+                <span class="pix-valor" id="display-valor-total">R$ 0,00</span>
+            </div>
+
+            <div class="steps-box">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Abra a app do seu banco no telemóvel.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Escolha a opção de pagamento via <strong>PIX</strong> e depois selecione <strong>"Pix Copia e Cola"</strong>.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Cole o código abaixo e confirme o valor.</div>
+                </div>
+            </div>
+
+            <div class="code-area">
+                <div class="code-input-fake" id="codigoPixTexto">00020126580014br.gov.bcb.pix0136Guard-Pagamentos-Seguros-00000000000000520400005303986540510.005802BR5913Itarare-SP6009Guard LTDA62070503***63041234</div>
+                
+                <button type="button" class="btn-copy" id="btnCopiarPix">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span id="texto-botao-copiar">COPIAR CÓDIGO PIX</span>
+                </button>
+            </div>
+
+            <button class="btn-voltar-loja" onclick="window.location.href='index.html'">Voltar para a Página Inicial</button>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Puxa o valor exato salvo na página de checkout
+            const totalPedido = localStorage.getItem('guard_total_pedido');
+            if(totalPedido) {
+                document.getElementById('display-valor-total').textContent = totalPedido;
+                localStorage.removeItem('guard_total_pedido'); // Limpa após exibir
+            }
+
+            // Lógica do botão Copiar Código
+            const btnCopiar = document.getElementById('btnCopiarPix');
+            const textoBotao = document.getElementById('texto-botao-copiar');
+            const codigoPix = document.getElementById('codigoPixTexto').textContent;
+
+            btnCopiar.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(codigoPix);
+                    
+                    // Feedback Visual de Sucesso
+                    btnCopiar.classList.add('copied');
+                    textoBotao.textContent = "CÓDIGO COPIADO!";
+                    btnCopiar.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="margin-left: 8px;">CÓDIGO COPIADO!</span>
+                    `;
+
+                    // Retorna ao estado normal após 3 segundos
+                    setTimeout(() => {
+                        btnCopiar.classList.remove('copied');
+                        btnCopiar.innerHTML = `
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span style="margin-left: 8px;">COPIAR CÓDIGO PIX</span>
+                        `;
+                    }, 3000);
+
+                } catch (err) {
+                    alert("Não foi possível copiar o código automaticamente. Por favor, selecione e copie o texto manualmente.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
