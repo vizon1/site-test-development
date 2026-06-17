@@ -246,8 +246,8 @@
         /* Totais do Resumo (Clean) */
         .summary-totals { margin-top: 25px; }
         .summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; color: #a0a0a5; font-size: 1rem; font-weight: 500;}
-        .summary-line span:last-child { color: #fff; font-weight: 600; } /* Remove qualquer verde/amarelo */
-        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #fff; }
+        .summary-line span:last-child { color: #fff; font-weight: 600; }
+        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #FFFF00; }
 
         /* ==========================================
            MODAL DE MEUS ENDEREÇOS (Estilo iOS)
@@ -313,9 +313,7 @@
             }
             .checkout-left { width: 100%; order: 2; } /* Formulário fica em baixo */
             .checkout-right { width: 100%; order: 1; } /* Resumo sobe para o topo */
-            .summary-wrapper { 
-                position: static; 
-            }
+            .summary-wrapper { position: static; }
         }
 
         @media (max-width: 600px) {
@@ -462,7 +460,7 @@
                     <div class="input-group" style="margin-bottom: 25px;">
                         <label for="pagamento">Método Escolhido</label>
                         <select id="pagamento">
-                            <option value="pix">PIX</option>
+                            <option value="pix">PIX (Aprovação Imediata e Mais Rápida)</option>
                             <option value="cartao">Cartão de Crédito (Até 12x)</option>
                             <option value="boleto">Boleto Bancário (Até 3 dias úteis)</option>
                         </select>
@@ -545,6 +543,7 @@
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
         let enderecoSelecionado = null; 
+        let valorFrete = 0.00; // <--- Declarado globalmente para uso geral
 
         // ELEMENTOS UI GERAIS
         const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
@@ -1063,7 +1062,7 @@
             e.preventDefault(); 
             let temErro = false;
 
-            // Varrimento Criterioso em todos os campos obrigatórios na hora do envio
+            // Refaz todas as validações no ato do clique
             if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { 
                 mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); 
                 temErro = true; 
@@ -1086,7 +1085,6 @@
                 temErro = true; 
             }
 
-            // Validações do Endereço (somente se não estiver a usar um cartão salvo)
             if (blocoInputsEndereco.style.display !== 'none') {
                 const cepLimpo = cepInput.value.replace(/\D/g, '');
                 if (cepLimpo.length !== 8) { 
@@ -1111,7 +1109,7 @@
             }
 
             if (valorFrete === 0) {
-                alert("Por favor, selecione uma opção de entrega.");
+                alert("Por favor, informe o endereço e selecione uma opção de entrega.");
                 temErro = true;
             }
 
