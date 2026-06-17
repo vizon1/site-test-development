@@ -29,7 +29,6 @@
             </div>
         </div>
     </header>
-    </header>
 
     <main class="panel-container">
         <section class="panel-form-section">
@@ -42,7 +41,7 @@
                     <input type="text" id="productTitle" placeholder="Ex: Câmera Dome IP 4K Intelbras" required>
                 </div>
 
-                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                     <div class="input-group">
                         <label for="productCategory">Categoria</label>
                         <select id="productCategory" required>
@@ -72,10 +71,30 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row" style="margin-bottom: 20px;">
                     <div class="input-group" style="width: 100%;">
                         <label for="productReviews">Nº de Avaliações</label>
                         <input type="number" id="productReviews" placeholder="Ex: 24" value="0" min="0" required>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.1rem; color: #fff; margin-top: 10px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">Logística (Cálculo de Frete)</h3>
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                    <div class="input-group">
+                        <label for="productWeight">Peso (kg)</label>
+                        <input type="number" id="productWeight" step="0.01" min="0.01" placeholder="Ex: 0.50" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="productHeight">Altura (cm)</label>
+                        <input type="number" id="productHeight" min="1" placeholder="Ex: 15" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="productWidth">Largura (cm)</label>
+                        <input type="number" id="productWidth" min="1" placeholder="Ex: 20" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="productLength">Comprimento (cm)</label>
+                        <input type="number" id="productLength" min="1" placeholder="Ex: 20" required>
                     </div>
                 </div>
 
@@ -90,12 +109,13 @@
                 </div>
 
                 <div class="input-group">
-                    <div class="custom-checkbox-container">
-                        <input type="checkbox" id="productRecommended">
-                        <label for="productRecommended">Destacar na aba "Explore as nossas recomendações"</label>
+                    <div class="custom-checkbox-container" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                        <input type="checkbox" id="productRecommended" style="width: 20px; height: 20px; accent-color: #0071e3; cursor: pointer;">
+                        <label for="productRecommended" style="color: #d2d2d7; cursor: pointer; text-transform: none; font-weight: 500; letter-spacing: normal;">Destacar na aba "Explore as nossas recomendações"</label>
                     </div>
                 </div>
-                <button type="submit" class="btn-panel-submit">PUBLICAR ITEM</button>
+                
+                <button type="submit" class="btn-panel-submit" style="margin-top: 25px;">PUBLICAR ITEM</button>
             </form>
         </section>
 
@@ -152,6 +172,13 @@
         const productPrice = document.getElementById('productPrice');
         const productRating = document.getElementById('productRating');
         const productReviews = document.getElementById('productReviews');
+        
+        // Elementos de Logística
+        const productWeight = document.getElementById('productWeight');
+        const productHeight = document.getElementById('productHeight');
+        const productWidth = document.getElementById('productWidth');
+        const productLength = document.getElementById('productLength');
+
         const productDescription = document.getElementById('productDescription');
         const productImageUrl = document.getElementById('productImageUrl');
         const productRecommended = document.getElementById('productRecommended');
@@ -173,7 +200,6 @@
         productTitle.addEventListener('input', (e) => previewTitle.textContent = e.target.value.trim() || 'Nome do Equipamento');
         productCategory.addEventListener('change', (e) => previewCategory.textContent = categoriaNomes[e.target.value]);
         productRating.addEventListener('change', (e) => {
-        
             previewStars.innerHTML = e.target.value.replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
         });
         productReviews.addEventListener('input', (e) => previewReviewCount.textContent = `(${e.target.value || 0} avaliações)`);
@@ -208,6 +234,10 @@
                     preco: productPrice.value,
                     estrelas: productRating.value,
                     avaliacoes: Number(productReviews.value),
+                    peso: Number(productWeight.value),
+                    altura: Number(productHeight.value),
+                    largura: Number(productWidth.value),
+                    comprimento: Number(productLength.value),
                     descricao: productDescription.value,
                     imagem: productImageUrl.value,
                     recomendado: productRecommended.checked,
