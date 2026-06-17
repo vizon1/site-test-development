@@ -5,7 +5,7 @@
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* Correção Anti-Tremulação (Flicker) para o Header */
@@ -14,7 +14,6 @@
             top: 0;
             z-index: 1000;
             background-color: #000;
-            /* Ativa a aceleração de hardware (GPU) para travar o elemento na tela sem tremer no scroll bounce */
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
             will-change: transform;
@@ -34,9 +33,151 @@
 
         @media (max-width: 768px) {
             #header { padding: 0 15px; height: 65px; }
-            .secure-badge span { display: none; } /* Esconde o texto do selo de segurança, deixa só o cadeado */
+            .secure-badge span { display: none; } 
             .checkout-logo-img { height: 35px; }
             .checkout-title-text { font-size: 0.95rem; }
+        }
+
+        /* ==========================================
+           NOVOS ESTILOS DO CARTÃO DE ENDEREÇO
+           ========================================== */
+        .endereco-salvo-card {
+            background-color: rgba(29, 29, 31, 0.6);
+            border: 1px solid #424245;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none; /* Oculto até ser preenchido pelo Firebase */
+            position: relative;
+        }
+        
+        .endereco-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .endereco-nome { font-weight: 600; color: #fff; font-size: 1.05rem; }
+        .endereco-telefone { color: #86868b; font-size: 0.9rem; }
+        .endereco-badge { background-color: #0071e3; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+        
+        .endereco-detalhes { color: #d2d2d7; font-size: 0.95rem; line-height: 1.4; margin-bottom: 12px; }
+        
+        .endereco-acoes { display: flex; gap: 15px; }
+        .btn-link-action { background: none; border: none; padding: 0; color: #0071e3; font-size: 0.9rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: color 0.2s; }
+        .btn-link-action:hover { color: #66b4ff; }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .checkbox-container input {
+            accent-color: #0071e3;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-container label {
+            color: #d2d2d7;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           MODAL DE "MEUS ENDEREÇOS" (TIPO SHOPEE)
+           ========================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { margin: 0; color: #fff; font-size: 1.2rem; }
+        .modal-close { background: none; border: none; color: #86868b; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1; }
+        .modal-close:hover { color: #fff; }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Item do Endereço na Lista do Modal */
+        .endereco-lista-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #424245;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        .endereco-lista-item:hover { background-color: rgba(29, 29, 31, 0.4); }
+        .endereco-lista-item.selected { border-color: #0071e3; background-color: rgba(0, 113, 227, 0.1); }
+        
+        .endereco-lista-radio { margin-top: 4px; accent-color: #0071e3; transform: scale(1.2); }
+        
+        .endereco-lista-info { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .endereco-lista-info .nome-tel { color: #fff; font-weight: 500; font-size: 1rem; }
+        .endereco-lista-info .nome-tel span { color: #86868b; font-weight: 400; font-size: 0.9rem; margin-left: 8px; }
+        .endereco-lista-info .texto { color: #a0a0a5; font-size: 0.9rem; line-height: 1.4; }
+        .endereco-lista-info .acoes { display: flex; gap: 15px; margin-top: 8px; }
+
+        .btn-novo-endereco {
+            background-color: transparent; border: 1px dashed #424245; border-radius: 12px;
+            color: #d2d2d7; padding: 15px; text-align: center; cursor: pointer; width: 100%;
+            font-size: 0.95rem; font-weight: 500; transition: all 0.2s;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .btn-novo-endereco:hover { border-color: #fff; color: #fff; }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 100%; max-width: none; border-radius: 20px 20px 0 0;
+                position: absolute; bottom: 0; transform: translateY(100%);
+            }
         }
     </style>
 </head>
@@ -68,6 +209,21 @@
     <main class="checkout-wrapper">
         <section class="checkout-section checkout-form">
             <h2>Detalhes da Entrega</h2>
+
+            <div id="card-endereco-selecionado" class="endereco-salvo-card">
+                <div class="endereco-header">
+                    <span class="endereco-nome" id="card-nome">Carregando...</span>
+                    <span class="endereco-telefone" id="card-telefone"></span>
+                    <span class="endereco-badge" id="card-badge" style="display: none;">Padrão</span>
+                </div>
+                <div class="endereco-detalhes" id="card-endereco-texto">
+                    </div>
+                <div class="endereco-acoes">
+                    <button type="button" class="btn-link-action" id="btn-mudar-endereco">Escolher outro endereço</button>
+                    <button type="button" class="btn-link-action" id="btn-editar-endereco">Editar</button> 
+                </div>
+            </div>
+
             <form id="checkoutForm">
                 
                 <div class="form-row">
@@ -92,43 +248,56 @@
                     </div>
                 </div>
 
-                <h2 style="margin-top: 30px;">Endereço</h2>
-                
-                <div class="form-row">
-                    <div style="margin-bottom: 20px;">
-                        <label>CEP DE ENTREGA</label>
-                        <div style="display: flex; gap: 10px; margin-top: 5px;">
-                            <input type="text" id="cep-frete" placeholder="00000-000" maxlength="9" style="width: 100%;">
+                <div id="bloco-inputs-endereco">
+                    <h2 style="margin-top: 30px;">Endereço</h2>
+                    
+                    <div class="form-row">
+                        <div style="margin-bottom: 20px;">
+                            <label>CEP DE ENTREGA</label>
+                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                <input type="text" id="cep-frete" placeholder="00000-000" maxlength="9" style="width: 100%;">
+                            </div>
+                            
+                            <div id="frete-resultados" style="display: none; margin-top: 15px; flex-direction: column; gap: 10px;">
+                            </div>
                         </div>
-                        
-                        <div id="frete-resultados" style="display: none; margin-top: 15px; flex-direction: column; gap: 10px;">
+                        <div class="input-group">
+                            <label for="rua">Endereço</label>
+                            <input type="text" id="rua" placeholder="Rua, Avenida, etc." required>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label for="rua">Endereço</label>
-                        <input type="text" id="rua" placeholder="Rua, Avenida, etc." required>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="input-group">
-                        <label for="numero">Número</label>
-                        <input type="text" id="numero" placeholder="Ex: 123" required>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="numero">Número</label>
+                            <input type="text" id="numero" placeholder="Ex: 123" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" id="bairro" placeholder="Seu bairro" required>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="bairro">Bairro</label>
-                        <input type="text" id="bairro" placeholder="Seu bairro" required>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="input-group">
-                        <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" placeholder="Sua cidade" required>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" placeholder="Sua cidade" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="estado">Estado</label>
+                            <input type="text" id="estado" placeholder="UF" maxlength="2" required>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="estado">Estado</label>
-                        <input type="text" id="estado" placeholder="UF" maxlength="2" required>
+
+                    <div id="auth-save-options" style="display: none;">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="chk-salvar-endereco" checked>
+                            <label for="chk-salvar-endereco">Salvar este endereço para futuras compras</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="chk-endereco-padrao">
+                            <label for="chk-endereco-padrao">Definir como meu endereço Padrão</label>
+                        </div>
                     </div>
                 </div>
 
@@ -142,7 +311,9 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn-panel-submit" style="margin-top: 20px; font-size: 1.2rem;">CONFIRMAR E PAGAR</button>
+                <input type="hidden" id="editando-endereco-id" value="">
+
+                <button type="submit" class="btn-panel-submit" id="btn-finalizar-pedido" style="margin-top: 20px; font-size: 1.2rem;">CONFIRMAR E PAGAR</button>
             </form>
         </section>
 
@@ -168,325 +339,611 @@
         </section>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. LÓGICA DE SEPARAÇÃO DE CARRINHO VS COMPRA DIRETA
-            const urlParams = new URLSearchParams(window.location.search);
-            const isDireto = urlParams.get('direto') === 'true';
-            const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
-            let itensCheckout = JSON.parse(localStorage.getItem(storageKey)) || [];
-            
-            const itemsContainer = document.getElementById('checkout-items-container');
-            const subtotalEl = document.getElementById('checkout-subtotal');
-            const totalFinalEl = document.getElementById('checkout-total-final');
-            let valorFrete = 0.00;
+    <div class="modal-overlay" id="modal-enderecos">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Meus Endereços</h3>
+                <button class="modal-close" id="fechar-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="lista-enderecos-modal">
+                    <p style="text-align:center; color:#888;">Procurando endereços...</p>
+                </div>
+                
+                <button type="button" class="btn-novo-endereco" id="btn-add-novo-end">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Adicionar Novo Endereço
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-panel-submit" id="btn-confirmar-selecao" style="padding: 10px 20px;">Confirmar Seleção</button>
+            </div>
+        </div>
+    </div>
 
-            // 2. FUNÇÃO DE RENDERIZAR RESUMO
-            function renderizarResumo() {
-                if (itensCheckout.length === 0) {
-                    alert("A sua sessão de compra está vazia. Vamos levá-lo de volta para a loja.");
-                    window.location.href = "store.html";
-                    return;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // VARIÁVEIS GLOBAIS
+        let usuarioAtual = null;
+        let listaDeEnderecos = []; // Array de endereços vindos do Firebase
+        let enderecoSelecionado = null; // Objeto completo do endereço ativo
+
+        // ELEMENTOS UI DO ENDEREÇO
+        const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
+        const blocoInputsEndereco = document.getElementById('bloco-inputs-endereco');
+        const authSaveOptions = document.getElementById('auth-save-options');
+        const editandoEnderecoId = document.getElementById('editando-endereco-id');
+
+        // ELEMENTOS DO MODAL
+        const modalEnderecos = document.getElementById('modal-enderecos');
+        const listaModal = document.getElementById('lista-enderecos-modal');
+
+        // =========================================
+        // 1. CARREGAMENTO DO USUÁRIO E ENDEREÇOS
+        // =========================================
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioAtual = user;
+                authSaveOptions.style.display = 'block'; // Mostra as opções de salvar
+                
+                // Preenche Email e Nome se estiverem vazios
+                document.getElementById('email').value = user.email || '';
+                
+                try {
+                    const userRef = doc(db, "usuarios", user.uid);
+                    const docSnap = await getDoc(userRef);
+                    
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        
+                        if(data.nome) document.getElementById('nome').value = data.nome;
+                        if(data.telefone) document.getElementById('telefone').value = data.telefone;
+                        if(data.cpf) document.getElementById('cpf').value = data.cpf;
+
+                        // Se o cliente tem a estrutura de múltiplos endereços (array)
+                        if (data.enderecos && Array.isArray(data.enderecos) && data.enderecos.length > 0) {
+                            listaDeEnderecos = data.enderecos;
+                            
+                            // Procura o padrão, senão pega o primeiro
+                            let endPadrao = listaDeEnderecos.find(e => e.isPadrao);
+                            if (!endPadrao) endPadrao = listaDeEnderecos[0];
+                            
+                            aplicarEnderecoSelecionado(endPadrao);
+
+                        } else if (data.endereco) {
+                            // Migração de clientes antigos que só tinham 1 endereço
+                            const endMigrado = {
+                                id: Date.now().toString(),
+                                ...data.endereco,
+                                isPadrao: true
+                            };
+                            listaDeEnderecos = [endMigrado];
+                            aplicarEnderecoSelecionado(endMigrado);
+                            // Salva a migração silenciosamente
+                            await setDoc(userRef, { enderecos: listaDeEnderecos }, { merge: true });
+                        }
+                    } else if(user.displayName) {
+                        document.getElementById('nome').value = user.displayName;
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados do usuário:", error);
                 }
+            } else {
+                usuarioAtual = null;
+                authSaveOptions.style.display = 'none'; // Deslogado não salva endereco no bd
+            }
+        });
 
-                itemsContainer.innerHTML = '';
-                let subtotal = 0;
+        // =========================================
+        // 2. FUNÇÕES DE EXIBIÇÃO DE ENDEREÇO
+        // =========================================
+        
+        function aplicarEnderecoSelecionado(endObj) {
+            enderecoSelecionado = endObj;
 
-                itensCheckout.forEach(item => {
-                    const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
-                    const totalDoItem = precoNumerico * item.quantidade;
-                    subtotal += totalDoItem;
+            // Oculta o formulário de digitar (apenas foca no resumo visual e preenche escondido)
+            blocoInputsEndereco.style.display = 'none';
+            cardEnderecoSalvo.style.display = 'block';
 
-                    itemsContainer.innerHTML += `
-                        <div class="summary-item">
-                            <div class="summary-item-info">
-                                <img src="${item.imagem}" class="summary-item-img" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
-                                <div>
-                                    <div class="summary-item-title">${item.titulo}</div>
-                                    <div class="summary-qty-controls">
-                                        <button type="button" class="summary-qty-btn qty-minus" data-id="${item.id}">-</button>
-                                        <input type="number" class="summary-qty-input qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
-                                        <button type="button" class="summary-qty-btn qty-plus" data-id="${item.id}">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summary-item-price">R$ ${(totalDoItem).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            // Preenche os inputs para a submissão do formulário continuar funcionando
+            document.getElementById('cep-frete').value = endObj.cep || '';
+            document.getElementById('rua').value = endObj.rua || '';
+            document.getElementById('numero').value = endObj.numero || '';
+            document.getElementById('bairro').value = endObj.bairro || '';
+            document.getElementById('cidade').value = endObj.cidade || '';
+            document.getElementById('estado').value = endObj.estado || '';
+            
+            // Simula um Input no CEP para calcular o frete imediatamente
+            const cepEvent = new Event('input', { bubbles: true });
+            document.getElementById('cep-frete').dispatchEvent(cepEvent);
+
+            // Preenche os detalhes Visuais do Card (Estilo Shopee)
+            document.getElementById('card-nome').textContent = document.getElementById('nome').value || "Destinatário";
+            document.getElementById('card-telefone').textContent = document.getElementById('telefone').value || "";
+            
+            const badgePadrao = document.getElementById('card-badge');
+            if (endObj.isPadrao) {
+                badgePadrao.style.display = 'inline-block';
+            } else {
+                badgePadrao.style.display = 'none';
+            }
+
+            const strEndereco = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
+            document.getElementById('card-endereco-texto').innerHTML = strEndereco;
+        }
+
+        // Se clicar em Editar no Card, oculta o card e mostra o form pré-preenchido
+        document.getElementById('btn-editar-endereco').addEventListener('click', () => {
+            cardEnderecoSalvo.style.display = 'none';
+            blocoInputsEndereco.style.display = 'block';
+            document.getElementById('frete-resultados').style.display = 'flex'; // Volta o frete
+            
+            // Marca que estamos editando um existente
+            editandoEnderecoId.value = enderecoSelecionado.id;
+            
+            document.getElementById('chk-salvar-endereco').checked = true;
+            document.getElementById('chk-endereco-padrao').checked = enderecoSelecionado.isPadrao;
+            document.getElementById('cep-frete').focus();
+        });
+
+
+        // =========================================
+        // 3. LÓGICA DO MODAL "MEUS ENDEREÇOS"
+        // =========================================
+        document.getElementById('btn-mudar-endereco').addEventListener('click', () => {
+            abrirModalEnderecos();
+        });
+
+        document.getElementById('fechar-modal').addEventListener('click', () => {
+            modalEnderecos.classList.remove('active');
+        });
+
+        document.getElementById('btn-add-novo-end').addEventListener('click', () => {
+            // Limpa o form e mostra em branco
+            modalEnderecos.classList.remove('active');
+            
+            document.getElementById('cep-frete').value = '';
+            document.getElementById('rua').value = '';
+            document.getElementById('numero').value = '';
+            document.getElementById('bairro').value = '';
+            document.getElementById('cidade').value = '';
+            document.getElementById('estado').value = '';
+            document.getElementById('frete-resultados').style.display = 'none';
+            
+            editandoEnderecoId.value = ""; // É um novo endereço
+            document.getElementById('chk-salvar-endereco').checked = true;
+            document.getElementById('chk-endereco-padrao').checked = false;
+
+            cardEnderecoSalvo.style.display = 'none';
+            blocoInputsEndereco.style.display = 'block';
+            document.getElementById('cep-frete').focus();
+        });
+
+        function abrirModalEnderecos() {
+            modalEnderecos.classList.add('active');
+            renderizarListaModal();
+        }
+
+        let radioSelecionadoModal = null; // Guardar id temporal
+
+        function renderizarListaModal() {
+            if (listaDeEnderecos.length === 0) {
+                listaModal.innerHTML = '<p style="text-align:center; color:#888;">Você não tem endereços salvos.</p>';
+                return;
+            }
+
+            listaModal.innerHTML = '';
+            radioSelecionadoModal = enderecoSelecionado ? enderecoSelecionado.id : listaDeEnderecos[0].id;
+
+            listaDeEnderecos.forEach(end => {
+                const isChecked = end.id === radioSelecionadoModal;
+                const classeSelected = isChecked ? 'selected' : '';
+
+                const div = document.createElement('div');
+                div.className = `endereco-lista-item ${classeSelected}`;
+                div.innerHTML = `
+                    <input type="radio" name="endereco_modal" value="${end.id}" class="endereco-lista-radio" ${isChecked ? 'checked' : ''}>
+                    <div class="endereco-lista-info">
+                        <div class="nome-tel">${document.getElementById('nome').value || "Eu"} <span>${document.getElementById('telefone').value || ""}</span></div>
+                        <div class="texto">
+                            ${end.rua}, ${end.numero} ${end.complemento ? '- '+end.complemento : ''}<br>
+                            ${end.bairro}, ${end.cidade} - ${end.estado}<br>
+                            ${end.cep}
                         </div>
-                    `;
+                        ${end.isPadrao ? '<span class="endereco-badge" style="width: max-content; margin-top: 5px;">Padrão</span>' : ''}
+                    </div>
+                `;
+
+                // Clicar em qualquer parte do item seleciona o rádio
+                div.addEventListener('click', () => {
+                    document.querySelectorAll('.endereco-lista-item').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected');
+                    div.querySelector('input').checked = true;
+                    radioSelecionadoModal = end.id;
                 });
 
-                const totalFinal = subtotal + valorFrete;
-                subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
+                listaModal.appendChild(div);
+            });
+        }
+
+        document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
+            if (radioSelecionadoModal) {
+                const encontrado = listaDeEnderecos.find(e => e.id === radioSelecionadoModal);
+                if (encontrado) {
+                    aplicarEnderecoSelecionado(encontrado);
+                }
+            }
+            modalEnderecos.classList.remove('active');
+        });
+
+
+        // =========================================
+        // 4. LÓGICA DO CARRINHO E FRETE (RESTO IGUAL)
+        // =========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const isDireto = urlParams.get('direto') === 'true';
+        const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
+        let itensCheckout = JSON.parse(localStorage.getItem(storageKey)) || [];
+        
+        const itemsContainer = document.getElementById('checkout-items-container');
+        const subtotalEl = document.getElementById('checkout-subtotal');
+        const totalFinalEl = document.getElementById('checkout-total-final');
+        let valorFrete = 0.00;
+
+        function renderizarResumo() {
+            if (itensCheckout.length === 0) {
+                alert("A sua sessão de compra está vazia. Vamos levá-lo de volta para a loja.");
+                window.location.href = "store.html";
+                return;
             }
 
-            renderizarResumo();
+            itemsContainer.innerHTML = '';
+            let subtotal = 0;
 
-            // 3. EVENTOS DE QUANTIDADE NO CHECKOUT
-            itemsContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('qty-plus')) {
-                    const item = itensCheckout.find(i => i.id === e.target.dataset.id);
-                    if (item) { item.quantidade += 1; renderizarResumo(); }
-                }
-                if (e.target.classList.contains('qty-minus')) {
-                    const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
-                    if (index !== -1) {
-                        if (itensCheckout[index].quantidade > 1) {
-                            itensCheckout[index].quantidade -= 1;
-                        } else {
-                            itensCheckout.splice(index, 1);
-                        }
-                        renderizarResumo();
-                    }
-                }
+            itensCheckout.forEach(item => {
+                const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
+                const totalDoItem = precoNumerico * item.quantidade;
+                subtotal += totalDoItem;
+
+                itemsContainer.innerHTML += `
+                    <div class="summary-item">
+                        <div class="summary-item-info">
+                            <img src="${item.imagem}" class="summary-item-img" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                            <div>
+                                <div class="summary-item-title">${item.titulo}</div>
+                                <div class="summary-qty-controls">
+                                    <button type="button" class="summary-qty-btn qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="summary-qty-input qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
+                                    <button type="button" class="summary-qty-btn qty-plus" data-id="${item.id}">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-item-price">R$ ${(totalDoItem).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    </div>
+                `;
             });
 
-            itemsContainer.addEventListener('change', (e) => {
-                if (e.target.classList.contains('qty-input')) {
-                    let novaQuantidade = parseInt(e.target.value);
-                    if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
-                    const item = itensCheckout.find(i => i.id === e.target.dataset.id);
-                    if (item) { item.quantidade = novaQuantidade; renderizarResumo(); }
-                }
-            });
+            const totalFinal = subtotal + valorFrete;
+            subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
+        }
 
-            // 4. FUNÇÕES DE ERRO VISUAL E MÁSCARAS
-            function mostrarErro(input, mensagem) {
-                input.style.borderColor = '#ff4444';
-                let pai = input.parentElement;
-                let erroTag = pai.querySelector('.error-text');
-                if (!erroTag) {
-                    erroTag = document.createElement('span');
-                    erroTag.className = 'error-text';
-                    pai.appendChild(erroTag);
-                }
-                erroTag.textContent = mensagem;
+        renderizarResumo();
+
+        itemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('qty-plus')) {
+                const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade += 1; renderizarResumo(); }
             }
-
-            function limparErro(input) {
-                input.style.borderColor = '';
-                let pai = input.parentElement;
-                let erroTag = pai.querySelector('.error-text');
-                if (erroTag) erroTag.remove();
-            }
-
-            const nomeInput = document.getElementById('nome');
-            const cpfInput = document.getElementById('cpf');
-            const telefoneInput = document.getElementById('telefone');
-            const emailInput = document.getElementById('email');
-
-            nomeInput.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/[0-9]/g, '');
-            });
-            nomeInput.addEventListener('blur', (e) => {
-                const val = e.target.value.trim();
-                if (val && val.split(' ').length < 2) mostrarErro(e.target, 'Por favor, informe nome e sobrenome.');
-                else limparErro(e.target);
-            });
-
-            cpfInput.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, ""); 
-                if (v.length <= 11) {
-                    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-                } else {
-                    v = v.substring(0, 14);
-                    v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-                    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-                    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-                    v = v.replace(/(\d{4})(\d)/, "$1-$2");
-                }
-                e.target.value = v;
-            });
-
-            telefoneInput.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, "");
-                v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
-                v = v.replace(/(\d)(\d{4})$/, "$1-$2");
-                e.target.value = v.substring(0, 15);
-            });
-            telefoneInput.addEventListener('blur', (e) => {
-                if (e.target.value && e.target.value.length < 14) mostrarErro(e.target, 'O telefone precisa ter o DDD e o número.');
-                else limparErro(e.target);
-            });
-
-            emailInput.addEventListener('blur', (e) => {
-                const val = e.target.value.trim();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (val && !emailRegex.test(val)) mostrarErro(e.target, 'Por favor, informe um e-mail válido.');
-                else limparErro(e.target);
-            });
-
-            function testaCPF(strCPF) {
-                let Soma = 0, Resto;
-                strCPF = strCPF.replace(/\D/g, ""); 
-                if (strCPF == "00000000000" || strCPF.length !== 11) return false;
-                for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-                Resto = (Soma * 10) % 11;
-                if ((Resto == 10) || (Resto == 11)) Resto = 0;
-                if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-                Soma = 0;
-                for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-                Resto = (Soma * 10) % 11;
-                if ((Resto == 10) || (Resto == 11)) Resto = 0;
-                if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-                return true;
-            }
-
-            function testaCNPJ(cnpj) {
-                cnpj = cnpj.replace(/\D/g, '');
-                if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
-                let tamanho = cnpj.length - 2;
-                let numeros = cnpj.substring(0, tamanho);
-                let digitos = cnpj.substring(tamanho);
-                let soma = 0, pos = tamanho - 7;
-                for (let i = tamanho; i >= 1; i--) {
-                    soma += numeros.charAt(tamanho - i) * pos--;
-                    if (pos < 2) pos = 9;
-                }
-                let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-                if (resultado != digitos.charAt(0)) return false;
-                tamanho = tamanho + 1;
-                numeros = cnpj.substring(0, tamanho);
-                soma = 0;
-                pos = tamanho - 7;
-                for (let i = tamanho; i >= 1; i--) {
-                    soma += numeros.charAt(tamanho - i) * pos--;
-                    if (pos < 2) pos = 9;
-                }
-                resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-                if (resultado != digitos.charAt(1)) return false;
-                return true;
-            }
-
-            cpfInput.addEventListener('blur', (e) => {
-                const val = e.target.value.replace(/\D/g, '');
-                if (val.length > 0) {
-                    if (val.length <= 11) {
-                        if (!testaCPF(val)) mostrarErro(e.target, 'CPF inválido.');
-                        else limparErro(e.target);
+            if (e.target.classList.contains('qty-minus')) {
+                const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (itensCheckout[index].quantidade > 1) {
+                        itensCheckout[index].quantidade -= 1;
                     } else {
-                        if (!testaCNPJ(val)) mostrarErro(e.target, 'CNPJ inválido.');
-                        else limparErro(e.target);
+                        itensCheckout.splice(index, 1);
                     }
-                } else limparErro(e.target);
-            });
-
-            // =========================================
-            // AUTOMAÇÃO DO CEP E FRETE
-            // =========================================
-            const cepInput = document.getElementById('cep-frete');
-            const resultadosFrete = document.getElementById('frete-resultados');
-
-            cepInput.addEventListener('input', async (e) => {
-                let v = e.target.value.replace(/\D/g, "");
-                v = v.replace(/^(\d{5})(\d)/, "$1-$2");
-                e.target.value = v.substring(0, 9);
-
-                const cepLimpo = v.replace(/\D/g, '');
-
-                if (cepLimpo.length === 8) {
-                    resultadosFrete.style.display = 'flex';
-                    resultadosFrete.innerHTML = '<div style="color: #FFFF00; font-size: 0.9rem; padding: 10px;">A calcular frete e endereço...</div>';
-                    
-                    try {
-                        const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-                        const data = await res.json();
-                        
-                        if (!data.erro) {
-                            document.getElementById('rua').value = data.logradouro || '';
-                            document.getElementById('bairro').value = data.bairro || '';
-                            document.getElementById('cidade').value = data.localidade || '';
-                            document.getElementById('estado').value = data.uf || '';
-                            limparErro(cepInput);
-                            document.getElementById('numero').focus(); 
-                        } else {
-                            mostrarErro(cepInput, 'CEP não encontrado.');
-                            resultadosFrete.style.display = 'none';
-                            return; 
-                        }
-                    } catch (err) {
-                        console.error("Erro na busca do CEP:", err);
-                    }
-
-                    setTimeout(() => {
-                        const pacValor = 22.50;
-                        const sedexValor = 45.90;
-
-                        resultadosFrete.innerHTML = `
-                            <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
-                                <div class="frete-info-container">
-                                    <div class="frete-radio-circle"></div>
-                                    <div>
-                                        <span class="frete-nome">Correios PAC</span>
-                                        <span class="frete-prazo">Entrega em até 8 dias úteis</span>
-                                    </div>
-                                </div>
-                                <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                            </div>
-                            <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
-                                <div class="frete-info-container">
-                                    <div class="frete-radio-circle"></div>
-                                    <div>
-                                        <span class="frete-nome">Correios SEDEX</span>
-                                        <span class="frete-prazo">Entrega em até 3 dias úteis</span>
-                                    </div>
-                                </div>
-                                <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                            </div>
-                        `;
-                        
-                        selecionarFrete(document.getElementById('opcao-pac'));
-                    }, 800);
-
-                } else if (cepLimpo.length < 8) {
-                    resultadosFrete.style.display = 'none';
-                    resultadosFrete.innerHTML = '';
-                    valorFrete = 0.00;
-                    document.getElementById('checkout-frete').textContent = 'R$ 0,00';
                     renderizarResumo();
                 }
-            });
+            }
+        });
 
-            window.selecionarFrete = function(elemento) {
-                document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
-                elemento.classList.add('selecionado');
-                
-                valorFrete = parseFloat(elemento.getAttribute('data-valor'));
-                const freteDisplay = document.getElementById('checkout-frete');
-                if(freteDisplay) {
-                    freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        itemsContainer.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                let novaQuantidade = parseInt(e.target.value);
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
+                const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade = novaQuantidade; renderizarResumo(); }
+            }
+        });
+
+        // 4. FUNÇÕES DE ERRO VISUAL E MÁSCARAS
+        function mostrarErro(input, mensagem) {
+            input.style.borderColor = '#ff4444';
+            let pai = input.parentElement;
+            let erroTag = pai.querySelector('.error-text');
+            if (!erroTag) {
+                erroTag = document.createElement('span');
+                erroTag.className = 'error-text';
+                pai.appendChild(erroTag);
+            }
+            erroTag.textContent = mensagem;
+        }
+
+        function limparErro(input) {
+            input.style.borderColor = '';
+            let pai = input.parentElement;
+            let erroTag = pai.querySelector('.error-text');
+            if (erroTag) erroTag.remove();
+        }
+
+        const nomeInput = document.getElementById('nome');
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+        const emailInput = document.getElementById('email');
+
+        nomeInput.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/[0-9]/g, ''); });
+        nomeInput.addEventListener('blur', (e) => {
+            const val = e.target.value.trim();
+            if (val && val.split(' ').length < 2) mostrarErro(e.target, 'Por favor, informe nome e sobrenome.');
+            else limparErro(e.target);
+        });
+
+        cpfInput.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, ""); 
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else {
+                v = v.substring(0, 14);
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            e.target.value = v;
+        });
+
+        telefoneInput.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, "");
+            v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+            v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+            e.target.value = v.substring(0, 15);
+        });
+
+        function testaCPF(strCPF) {
+            let Soma = 0, Resto;
+            strCPF = strCPF.replace(/\D/g, ""); 
+            if (strCPF == "00000000000" || strCPF.length !== 11) return false;
+            for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+            Soma = 0;
+            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+            return true;
+        }
+
+        function testaCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+            let tamanho = cnpj.length - 2;
+            let numeros = cnpj.substring(0, tamanho);
+            let digitos = cnpj.substring(tamanho);
+            let soma = 0, pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(0)) return false;
+            tamanho = tamanho + 1;
+            numeros = cnpj.substring(0, tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) pos = 9;
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(1)) return false;
+            return true;
+        }
+
+        cpfInput.addEventListener('blur', (e) => {
+            const val = e.target.value.replace(/\D/g, '');
+            if (val.length > 0) {
+                if (val.length <= 11) {
+                    if (!testaCPF(val)) mostrarErro(e.target, 'CPF inválido.');
+                    else limparErro(e.target);
+                } else {
+                    if (!testaCNPJ(val)) mostrarErro(e.target, 'CNPJ inválido.');
+                    else limparErro(e.target);
                 }
+            } else limparErro(e.target);
+        });
+
+        // AUTOMAÇÃO DO CEP E FRETE
+        const cepInput = document.getElementById('cep-frete');
+        const resultadosFrete = document.getElementById('frete-resultados');
+
+        cepInput.addEventListener('input', async (e) => {
+            let v = e.target.value.replace(/\D/g, "");
+            v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+            e.target.value = v.substring(0, 9);
+
+            const cepLimpo = v.replace(/\D/g, '');
+
+            if (cepLimpo.length === 8) {
+                resultadosFrete.style.display = 'flex';
+                resultadosFrete.innerHTML = '<div style="color: #FFFF00; font-size: 0.9rem; padding: 10px;">A calcular frete e endereço...</div>';
                 
+                try {
+                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    const data = await res.json();
+                    
+                    if (!data.erro) {
+                        document.getElementById('rua').value = data.logradouro || '';
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || '';
+                        document.getElementById('estado').value = data.uf || '';
+                        limparErro(cepInput);
+                        document.getElementById('numero').focus(); 
+                    } else {
+                        mostrarErro(cepInput, 'CEP não encontrado.');
+                        resultadosFrete.style.display = 'none';
+                        return; 
+                    }
+                } catch (err) {
+                    console.error("Erro na busca do CEP:", err);
+                }
+
+                setTimeout(() => {
+                    const pacValor = 22.50;
+                    const sedexValor = 45.90;
+
+                    resultadosFrete.innerHTML = `
+                        <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
+                            <div class="frete-info-container">
+                                <div class="frete-radio-circle"></div>
+                                <div>
+                                    <span class="frete-nome">Correios PAC</span>
+                                    <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                                </div>
+                            </div>
+                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
+                            <div class="frete-info-container">
+                                <div class="frete-radio-circle"></div>
+                                <div>
+                                    <span class="frete-nome">Correios SEDEX</span>
+                                    <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                                </div>
+                            </div>
+                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                    `;
+                    
+                    selecionarFrete(document.getElementById('opcao-pac'));
+                }, 800);
+
+            } else if (cepLimpo.length < 8) {
+                resultadosFrete.style.display = 'none';
+                resultadosFrete.innerHTML = '';
+                valorFrete = 0.00;
+                document.getElementById('checkout-frete').textContent = 'R$ 0,00';
                 renderizarResumo();
-            };
+            }
+        });
 
-            // FINALIZAR E VALIDAR COMPRA
-            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
-                e.preventDefault(); 
-                let temErro = false;
+        window.selecionarFrete = function(elemento) {
+            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            
+            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+            const freteDisplay = document.getElementById('checkout-frete');
+            if(freteDisplay) {
+                freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            
+            renderizarResumo();
+        };
 
-                if (nomeInput.value.trim().split(' ').length < 2) { mostrarErro(nomeInput, 'Obrigatório.'); temErro = true; }
-                if (telefoneInput.value.length < 14) { mostrarErro(telefoneInput, 'Obrigatório.'); temErro = true; }
+        // =========================================
+        // 5. FINALIZAR COMPRA (COM GESTÃO DO FIREBASE E ARRAY DE ENDEREÇOS)
+        // =========================================
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            let temErro = false;
+
+            if (nomeInput.value.trim().split(' ').length < 2) { mostrarErro(nomeInput, 'Obrigatório.'); temErro = true; }
+            if (telefoneInput.value.length < 14) { mostrarErro(telefoneInput, 'Obrigatório.'); temErro = true; }
+            
+            // Só valida o CEP visualmente se o bloco de input não estiver oculto
+            if (blocoInputsEndereco.style.display !== 'none') {
                 if (cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'Obrigatório.'); temErro = true; }
-                
-                const valDoc = cpfInput.value.replace(/\D/g, '');
-                if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
-                else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
+            }
+            
+            const valDoc = cpfInput.value.replace(/\D/g, '');
+            if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
+            else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
-                if (temErro || document.querySelectorAll('.error-text').length > 0) {
-                    return alert("Existem campos incorretos. Verifique os avisos vermelhos.");
+            if (temErro || document.querySelectorAll('.error-text').length > 0) {
+                return alert("Existem campos incorretos. Verifique os avisos vermelhos.");
+            }
+            
+            const btnSalvar = document.getElementById('btn-finalizar-pedido');
+            btnSalvar.textContent = "Processando...";
+            btnSalvar.disabled = true;
+
+            // Se o usuário quer salvar/atualizar o endereço no banco de dados
+            if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
+                const novoEndereco = {
+                    cep: document.getElementById('cep-frete').value,
+                    rua: document.getElementById('rua').value.trim(),
+                    numero: document.getElementById('numero').value.trim(),
+                    bairro: document.getElementById('bairro').value.trim(),
+                    cidade: document.getElementById('cidade').value.trim(),
+                    estado: document.getElementById('estado').value.toUpperCase(),
+                    isPadrao: document.getElementById('chk-endereco-padrao').checked,
+                    id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString()
+                };
+
+                // Lógica de "Definir Padrão": Tira o true dos outros
+                if (novoEndereco.isPadrao) {
+                    listaDeEnderecos.forEach(e => e.isPadrao = false);
                 }
-                
-                const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
-                alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.`);
-                
-                localStorage.removeItem(storageKey);
-                window.location.href = "index.html";
-            });
+
+                if (editandoEnderecoId.value !== "") {
+                    // Substitui o antigo editado
+                    const index = listaDeEnderecos.findIndex(e => e.id === editandoEnderecoId.value);
+                    if(index !== -1) listaDeEnderecos[index] = novoEndereco;
+                } else {
+                    // Adiciona o novo
+                    // Se for o primeiro da lista, ele vira padrão na marra
+                    if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
+                    listaDeEnderecos.push(novoEndereco);
+                }
+
+                try {
+                    await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
+                        nome: document.getElementById('nome').value.trim(),
+                        telefone: document.getElementById('telefone').value,
+                        cpf: document.getElementById('cpf').value,
+                        enderecos: listaDeEnderecos
+                    }, { merge: true });
+                } catch(error) {
+                    console.error("Falha ao salvar usuário no bd", error);
+                }
+            }
+
+            const pagamento = document.getElementById('pagamento').options[document.getElementById('pagamento').selectedIndex].text;
+            alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido de ${totalFinalEl.textContent} será processado via ${pagamento}.`);
+            
+            localStorage.removeItem(storageKey);
+            window.location.href = "index.html";
         });
     </script>
 </body>
