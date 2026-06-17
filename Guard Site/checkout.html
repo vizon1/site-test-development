@@ -5,7 +5,7 @@
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
         /* Correção Anti-Tremulação (Flicker) para o Header */
@@ -142,7 +142,6 @@
             justify-content: flex-end;
         }
 
-        /* Item do Endereço na Lista do Modal */
         .endereco-lista-item {
             display: flex;
             align-items: flex-start;
@@ -163,7 +162,6 @@
         .endereco-lista-info .nome-tel { color: #fff; font-weight: 500; font-size: 1rem; }
         .endereco-lista-info .nome-tel span { color: #86868b; font-weight: 400; font-size: 0.9rem; margin-left: 8px; }
         .endereco-lista-info .texto { color: #a0a0a5; font-size: 0.9rem; line-height: 1.4; }
-        .endereco-lista-info .acoes { display: flex; gap: 15px; margin-top: 8px; }
 
         .btn-novo-endereco {
             background-color: transparent; border: 1px dashed #424245; border-radius: 12px;
@@ -208,24 +206,9 @@
 
     <main class="checkout-wrapper">
         <section class="checkout-section checkout-form">
-            <h2>Detalhes da Entrega</h2>
-
-            <div id="card-endereco-selecionado" class="endereco-salvo-card">
-                <div class="endereco-header">
-                    <span class="endereco-nome" id="card-nome">Carregando...</span>
-                    <span class="endereco-telefone" id="card-telefone"></span>
-                    <span class="endereco-badge" id="card-badge" style="display: none;">Padrão</span>
-                </div>
-                <div class="endereco-detalhes" id="card-endereco-texto">
-                    </div>
-                <div class="endereco-acoes">
-                    <button type="button" class="btn-link-action" id="btn-mudar-endereco">Escolher outro endereço</button>
-                    <button type="button" class="btn-link-action" id="btn-editar-endereco">Editar</button> 
-                </div>
-            </div>
-
+            <h2>Detalhes Pessoais</h2>
+            
             <form id="checkoutForm">
-                
                 <div class="form-row">
                     <div class="input-group">
                         <label for="nome">Nome Completo</label>
@@ -248,44 +231,52 @@
                     </div>
                 </div>
 
+                <h2 style="margin-top: 30px; margin-bottom: 15px;">Endereço de Entrega</h2>
+
+                <div id="card-endereco-selecionado" class="endereco-salvo-card">
+                    <div class="endereco-header">
+                        <span class="endereco-nome" id="card-nome">Carregando...</span>
+                        <span class="endereco-telefone" id="card-telefone"></span>
+                        <span class="endereco-badge" id="card-badge" style="display: none;">Padrão</span>
+                    </div>
+                    <div class="endereco-detalhes" id="card-endereco-texto"></div>
+                    <div class="endereco-acoes">
+                        <button type="button" class="btn-link-action" id="btn-mudar-endereco">Escolher outro endereço</button>
+                        <button type="button" class="btn-link-action" id="btn-editar-endereco">Editar</button> 
+                    </div>
+                </div>
+
                 <div id="bloco-inputs-endereco">
-                    <h2 style="margin-top: 30px;">Endereço</h2>
-                    
                     <div class="form-row">
-                        <div style="margin-bottom: 20px;">
-                            <label>CEP DE ENTREGA</label>
-                            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                                <input type="text" id="cep-frete" placeholder="00000-000" maxlength="9" style="width: 100%;">
-                            </div>
-                            
-                            <div id="frete-resultados" style="display: none; margin-top: 15px; flex-direction: column; gap: 10px;">
-                            </div>
+                        <div class="input-group">
+                            <label for="cep-frete">CEP</label>
+                            <input type="text" id="cep-frete" placeholder="00000-000" maxlength="9">
                         </div>
                         <div class="input-group">
                             <label for="rua">Endereço</label>
-                            <input type="text" id="rua" placeholder="Rua, Avenida, etc." required>
+                            <input type="text" id="rua" placeholder="Rua, Avenida, etc.">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="input-group">
                             <label for="numero">Número</label>
-                            <input type="text" id="numero" placeholder="Ex: 123" required>
+                            <input type="text" id="numero" placeholder="Ex: 123">
                         </div>
                         <div class="input-group">
                             <label for="bairro">Bairro</label>
-                            <input type="text" id="bairro" placeholder="Seu bairro" required>
+                            <input type="text" id="bairro" placeholder="Seu bairro">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="input-group">
                             <label for="cidade">Cidade</label>
-                            <input type="text" id="cidade" placeholder="Sua cidade" required>
+                            <input type="text" id="cidade" placeholder="Sua cidade">
                         </div>
                         <div class="input-group">
                             <label for="estado">Estado</label>
-                            <input type="text" id="estado" placeholder="UF" maxlength="2" required>
+                            <input type="text" id="estado" placeholder="UF" maxlength="2">
                         </div>
                     </div>
 
@@ -301,7 +292,13 @@
                     </div>
                 </div>
 
-                <h2 style="margin-top: 30px;">Pagamento</h2>
+                <h2 style="margin-top: 30px; margin-bottom: 15px;">Opções de Entrega</h2>
+                <div id="frete-container" style="background-color: rgba(29, 29, 31, 0.4); border: 1px solid #424245; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                    <div id="frete-vazio" style="color: #a0a0a5; font-size: 0.95rem; text-align: center;">Informe ou selecione um endereço para ver as opções.</div>
+                    <div id="frete-resultados" style="display: none; flex-direction: column; gap: 10px;"></div>
+                </div>
+
+                <h2 style="margin-top: 30px; margin-bottom: 15px;">Pagamento</h2>
                 <div class="input-group">
                     <label for="pagamento">Forma de Pagamento</label>
                     <select id="pagamento" required>
@@ -319,8 +316,7 @@
 
         <section class="checkout-section checkout-summary">
             <h2>Resumo do Pedido</h2>
-            <div id="checkout-items-container">
-            </div>
+            <div id="checkout-items-container"></div>
             
             <div class="summary-totals">
                 <div class="summary-line">
@@ -381,8 +377,8 @@
 
         // VARIÁVEIS GLOBAIS
         let usuarioAtual = null;
-        let listaDeEnderecos = []; // Array de endereços vindos do Firebase
-        let enderecoSelecionado = null; // Objeto completo do endereço ativo
+        let listaDeEnderecos = []; 
+        let enderecoSelecionado = null; 
 
         // ELEMENTOS UI DO ENDEREÇO
         const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
@@ -390,9 +386,12 @@
         const authSaveOptions = document.getElementById('auth-save-options');
         const editandoEnderecoId = document.getElementById('editando-endereco-id');
 
-        // ELEMENTOS DO MODAL
+        // ELEMENTOS DO MODAL E FRETE
         const modalEnderecos = document.getElementById('modal-enderecos');
         const listaModal = document.getElementById('lista-enderecos-modal');
+        const cepInput = document.getElementById('cep-frete');
+        const freteResultados = document.getElementById('frete-resultados');
+        const freteVazio = document.getElementById('frete-vazio');
 
         // =========================================
         // 1. CARREGAMENTO DO USUÁRIO E ENDEREÇOS
@@ -400,9 +399,8 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user;
-                authSaveOptions.style.display = 'block'; // Mostra as opções de salvar
+                authSaveOptions.style.display = 'block';
                 
-                // Preenche Email e Nome se estiverem vazios
                 document.getElementById('email').value = user.email || '';
                 
                 try {
@@ -411,31 +409,18 @@
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
                         if(data.nome) document.getElementById('nome').value = data.nome;
                         if(data.telefone) document.getElementById('telefone').value = data.telefone;
                         if(data.cpf) document.getElementById('cpf').value = data.cpf;
 
-                        // Se o cliente tem a estrutura de múltiplos endereços (array)
                         if (data.enderecos && Array.isArray(data.enderecos) && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
-                            
-                            // Procura o padrão, senão pega o primeiro
-                            let endPadrao = listaDeEnderecos.find(e => e.isPadrao);
-                            if (!endPadrao) endPadrao = listaDeEnderecos[0];
-                            
+                            let endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
                             aplicarEnderecoSelecionado(endPadrao);
-
                         } else if (data.endereco) {
-                            // Migração de clientes antigos que só tinham 1 endereço
-                            const endMigrado = {
-                                id: Date.now().toString(),
-                                ...data.endereco,
-                                isPadrao: true
-                            };
+                            const endMigrado = { id: Date.now().toString(), ...data.endereco, isPadrao: true };
                             listaDeEnderecos = [endMigrado];
                             aplicarEnderecoSelecionado(endMigrado);
-                            // Salva a migração silenciosamente
                             await setDoc(userRef, { enderecos: listaDeEnderecos }, { merge: true });
                         }
                     } else if(user.displayName) {
@@ -446,22 +431,20 @@
                 }
             } else {
                 usuarioAtual = null;
-                authSaveOptions.style.display = 'none'; // Deslogado não salva endereco no bd
+                authSaveOptions.style.display = 'none';
             }
         });
 
         // =========================================
-        // 2. FUNÇÕES DE EXIBIÇÃO DE ENDEREÇO
+        // 2. FUNÇÕES DE EXIBIÇÃO DE ENDEREÇO E FRETE
         // =========================================
         
         function aplicarEnderecoSelecionado(endObj) {
             enderecoSelecionado = endObj;
 
-            // Oculta o formulário de digitar (apenas foca no resumo visual e preenche escondido)
             blocoInputsEndereco.style.display = 'none';
             cardEnderecoSalvo.style.display = 'block';
 
-            // Preenche os inputs para a submissão do formulário continuar funcionando
             document.getElementById('cep-frete').value = endObj.cep || '';
             document.getElementById('rua').value = endObj.rua || '';
             document.getElementById('numero').value = endObj.numero || '';
@@ -469,34 +452,23 @@
             document.getElementById('cidade').value = endObj.cidade || '';
             document.getElementById('estado').value = endObj.estado || '';
             
-            // Simula um Input no CEP para calcular o frete imediatamente
-            const cepEvent = new Event('input', { bubbles: true });
-            document.getElementById('cep-frete').dispatchEvent(cepEvent);
-
-            // Preenche os detalhes Visuais do Card (Estilo Shopee)
             document.getElementById('card-nome').textContent = document.getElementById('nome').value || "Destinatário";
             document.getElementById('card-telefone').textContent = document.getElementById('telefone').value || "";
-            
-            const badgePadrao = document.getElementById('card-badge');
-            if (endObj.isPadrao) {
-                badgePadrao.style.display = 'inline-block';
-            } else {
-                badgePadrao.style.display = 'none';
-            }
+            document.getElementById('card-badge').style.display = endObj.isPadrao ? 'inline-block' : 'none';
 
             const strEndereco = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
             document.getElementById('card-endereco-texto').innerHTML = strEndereco;
+
+            // Invoca o cálculo do frete para o CEP do cartão
+            const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
+            if(cepLimpo.length === 8) buscarOpcoesDeFrete();
         }
 
-        // Se clicar em Editar no Card, oculta o card e mostra o form pré-preenchido
         document.getElementById('btn-editar-endereco').addEventListener('click', () => {
             cardEnderecoSalvo.style.display = 'none';
             blocoInputsEndereco.style.display = 'block';
-            document.getElementById('frete-resultados').style.display = 'flex'; // Volta o frete
             
-            // Marca que estamos editando um existente
             editandoEnderecoId.value = enderecoSelecionado.id;
-            
             document.getElementById('chk-salvar-endereco').checked = true;
             document.getElementById('chk-endereco-padrao').checked = enderecoSelecionado.isPadrao;
             document.getElementById('cep-frete').focus();
@@ -507,7 +479,8 @@
         // 3. LÓGICA DO MODAL "MEUS ENDEREÇOS"
         // =========================================
         document.getElementById('btn-mudar-endereco').addEventListener('click', () => {
-            abrirModalEnderecos();
+            modalEnderecos.classList.add('active');
+            renderizarListaModal();
         });
 
         document.getElementById('fechar-modal').addEventListener('click', () => {
@@ -515,7 +488,6 @@
         });
 
         document.getElementById('btn-add-novo-end').addEventListener('click', () => {
-            // Limpa o form e mostra em branco
             modalEnderecos.classList.remove('active');
             
             document.getElementById('cep-frete').value = '';
@@ -524,9 +496,10 @@
             document.getElementById('bairro').value = '';
             document.getElementById('cidade').value = '';
             document.getElementById('estado').value = '';
-            document.getElementById('frete-resultados').style.display = 'none';
             
-            editandoEnderecoId.value = ""; // É um novo endereço
+            limparFrete();
+            
+            editandoEnderecoId.value = ""; 
             document.getElementById('chk-salvar-endereco').checked = true;
             document.getElementById('chk-endereco-padrao').checked = false;
 
@@ -535,12 +508,7 @@
             document.getElementById('cep-frete').focus();
         });
 
-        function abrirModalEnderecos() {
-            modalEnderecos.classList.add('active');
-            renderizarListaModal();
-        }
-
-        let radioSelecionadoModal = null; // Guardar id temporal
+        let radioSelecionadoModal = null;
 
         function renderizarListaModal() {
             if (listaDeEnderecos.length === 0) {
@@ -570,7 +538,6 @@
                     </div>
                 `;
 
-                // Clicar em qualquer parte do item seleciona o rádio
                 div.addEventListener('click', () => {
                     document.querySelectorAll('.endereco-lista-item').forEach(el => el.classList.remove('selected'));
                     div.classList.add('selected');
@@ -585,16 +552,104 @@
         document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
             if (radioSelecionadoModal) {
                 const encontrado = listaDeEnderecos.find(e => e.id === radioSelecionadoModal);
-                if (encontrado) {
-                    aplicarEnderecoSelecionado(encontrado);
-                }
+                if (encontrado) aplicarEnderecoSelecionado(encontrado);
             }
             modalEnderecos.classList.remove('active');
         });
 
 
         // =========================================
-        // 4. LÓGICA DO CARRINHO E FRETE (RESTO IGUAL)
+        // 4. LÓGICA DE FRETE E VIA CEP
+        // =========================================
+        function limparFrete() {
+            freteResultados.style.display = 'none';
+            freteVazio.style.display = 'block';
+            valorFrete = 0.00;
+            document.getElementById('checkout-frete').textContent = 'R$ 0,00';
+            renderizarResumo();
+        }
+
+        function buscarOpcoesDeFrete() {
+            freteVazio.style.display = 'none';
+            freteResultados.style.display = 'flex';
+            freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.9rem; padding: 10px; text-align: center;">A calcular opções de entrega...</div>';
+            
+            setTimeout(() => {
+                const pacValor = 22.50;
+                const sedexValor = 45.90;
+
+                freteResultados.innerHTML = `
+                    <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
+                        <div class="frete-info-container">
+                            <div class="frete-radio-circle"></div>
+                            <div>
+                                <span class="frete-nome">Correios PAC</span>
+                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
+                            </div>
+                        </div>
+                        <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                    </div>
+                    <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
+                        <div class="frete-info-container">
+                            <div class="frete-radio-circle"></div>
+                            <div>
+                                <span class="frete-nome">Correios SEDEX</span>
+                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
+                            </div>
+                        </div>
+                        <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                    </div>
+                `;
+                selecionarFrete(document.getElementById('opcao-pac'));
+            }, 800);
+        }
+
+        cepInput.addEventListener('input', async (e) => {
+            let v = e.target.value.replace(/\D/g, "");
+            v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+            e.target.value = v.substring(0, 9);
+
+            const cepLimpo = v.replace(/\D/g, '');
+
+            if (cepLimpo.length === 8) {
+                buscarOpcoesDeFrete(); // Chama o frete independente do ViaCep
+                
+                try {
+                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    const data = await res.json();
+                    
+                    if (!data.erro) {
+                        document.getElementById('rua').value = data.logradouro || '';
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || '';
+                        document.getElementById('estado').value = data.uf || '';
+                        limparErro(cepInput);
+                        document.getElementById('numero').focus(); 
+                    } else {
+                        mostrarErro(cepInput, 'CEP não encontrado.');
+                    }
+                } catch (err) {
+                    console.error("Erro na busca do CEP:", err);
+                }
+            } else if (cepLimpo.length < 8) {
+                limparFrete();
+            }
+        });
+
+        window.selecionarFrete = function(elemento) {
+            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            
+            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+            const freteDisplay = document.getElementById('checkout-frete');
+            if(freteDisplay) {
+                freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            renderizarResumo();
+        };
+
+        // =========================================
+        // 5. LÓGICA DO CARRINHO E RESUMO
         // =========================================
         const urlParams = new URLSearchParams(window.location.search);
         const isDireto = urlParams.get('direto') === 'true';
@@ -604,7 +659,6 @@
         const itemsContainer = document.getElementById('checkout-items-container');
         const subtotalEl = document.getElementById('checkout-subtotal');
         const totalFinalEl = document.getElementById('checkout-total-final');
-        let valorFrete = 0.00;
 
         function renderizarResumo() {
             if (itensCheckout.length === 0) {
@@ -674,7 +728,9 @@
             }
         });
 
-        // 4. FUNÇÕES DE ERRO VISUAL E MÁSCARAS
+        // =========================================
+        // 6. VALIDAÇÕES DE FORMULÁRIO E FINALIZAÇÃO
+        // =========================================
         function mostrarErro(input, mensagem) {
             input.style.borderColor = '#ff4444';
             let pai = input.parentElement;
@@ -727,6 +783,17 @@
             v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
             v = v.replace(/(\d)(\d{4})$/, "$1-$2");
             e.target.value = v.substring(0, 15);
+        });
+        telefoneInput.addEventListener('blur', (e) => {
+            if (e.target.value && e.target.value.length < 14) mostrarErro(e.target, 'O telefone precisa ter o DDD e o número.');
+            else limparErro(e.target);
+        });
+
+        emailInput.addEventListener('blur', (e) => {
+            const val = e.target.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (val && !emailRegex.test(val)) mostrarErro(e.target, 'Por favor, informe um e-mail válido.');
+            else limparErro(e.target);
         });
 
         function testaCPF(strCPF) {
@@ -784,111 +851,38 @@
             } else limparErro(e.target);
         });
 
-        // AUTOMAÇÃO DO CEP E FRETE
-        const cepInput = document.getElementById('cep-frete');
-        const resultadosFrete = document.getElementById('frete-resultados');
-
-        cepInput.addEventListener('input', async (e) => {
-            let v = e.target.value.replace(/\D/g, "");
-            v = v.replace(/^(\d{5})(\d)/, "$1-$2");
-            e.target.value = v.substring(0, 9);
-
-            const cepLimpo = v.replace(/\D/g, '');
-
-            if (cepLimpo.length === 8) {
-                resultadosFrete.style.display = 'flex';
-                resultadosFrete.innerHTML = '<div style="color: #FFFF00; font-size: 0.9rem; padding: 10px;">A calcular frete e endereço...</div>';
-                
-                try {
-                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-                    const data = await res.json();
-                    
-                    if (!data.erro) {
-                        document.getElementById('rua').value = data.logradouro || '';
-                        document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || '';
-                        document.getElementById('estado').value = data.uf || '';
-                        limparErro(cepInput);
-                        document.getElementById('numero').focus(); 
-                    } else {
-                        mostrarErro(cepInput, 'CEP não encontrado.');
-                        resultadosFrete.style.display = 'none';
-                        return; 
-                    }
-                } catch (err) {
-                    console.error("Erro na busca do CEP:", err);
-                }
-
-                setTimeout(() => {
-                    const pacValor = 22.50;
-                    const sedexValor = 45.90;
-
-                    resultadosFrete.innerHTML = `
-                        <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
-                            <div class="frete-info-container">
-                                <div class="frete-radio-circle"></div>
-                                <div>
-                                    <span class="frete-nome">Correios PAC</span>
-                                    <span class="frete-prazo">Entrega em até 8 dias úteis</span>
-                                </div>
-                            </div>
-                            <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                        <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
-                            <div class="frete-info-container">
-                                <div class="frete-radio-circle"></div>
-                                <div>
-                                    <span class="frete-nome">Correios SEDEX</span>
-                                    <span class="frete-prazo">Entrega em até 3 dias úteis</span>
-                                </div>
-                            </div>
-                            <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                        </div>
-                    `;
-                    
-                    selecionarFrete(document.getElementById('opcao-pac'));
-                }, 800);
-
-            } else if (cepLimpo.length < 8) {
-                resultadosFrete.style.display = 'none';
-                resultadosFrete.innerHTML = '';
-                valorFrete = 0.00;
-                document.getElementById('checkout-frete').textContent = 'R$ 0,00';
-                renderizarResumo();
-            }
-        });
-
-        window.selecionarFrete = function(elemento) {
-            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
-            elemento.classList.add('selecionado');
-            
-            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
-            const freteDisplay = document.getElementById('checkout-frete');
-            if(freteDisplay) {
-                freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
-            
-            renderizarResumo();
-        };
-
-        // =========================================
-        // 5. FINALIZAR COMPRA (COM GESTÃO DO FIREBASE E ARRAY DE ENDEREÇOS)
-        // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
 
+            // Validações básicas (Dados Pessoais)
             if (nomeInput.value.trim().split(' ').length < 2) { mostrarErro(nomeInput, 'Obrigatório.'); temErro = true; }
             if (telefoneInput.value.length < 14) { mostrarErro(telefoneInput, 'Obrigatório.'); temErro = true; }
-            
-            // Só valida o CEP visualmente se o bloco de input não estiver oculto
-            if (blocoInputsEndereco.style.display !== 'none') {
-                if (cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'Obrigatório.'); temErro = true; }
-            }
             
             const valDoc = cpfInput.value.replace(/\D/g, '');
             if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
             else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
+
+            // Valida os campos de endereço APENAS se o bloco estiver visível (ou seja, não usou o cartão salvo)
+            if (blocoInputsEndereco.style.display !== 'none') {
+                const checkEmpty = (el) => {
+                    if(!el.value.trim()) { mostrarErro(el, 'Obrigatório.'); temErro = true; }
+                    else { limparErro(el); }
+                };
+                if (cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'Obrigatório.'); temErro = true; }
+                else { limparErro(cepInput); }
+                
+                checkEmpty(document.getElementById('rua'));
+                checkEmpty(document.getElementById('numero'));
+                checkEmpty(document.getElementById('bairro'));
+                checkEmpty(document.getElementById('cidade'));
+                checkEmpty(document.getElementById('estado'));
+            }
+
+            if (valorFrete === 0) {
+                alert("Por favor, selecione uma opção de entrega.");
+                temErro = true;
+            }
 
             if (temErro || document.querySelectorAll('.error-text').length > 0) {
                 return alert("Existem campos incorretos. Verifique os avisos vermelhos.");
@@ -898,7 +892,7 @@
             btnSalvar.textContent = "Processando...";
             btnSalvar.disabled = true;
 
-            // Se o usuário quer salvar/atualizar o endereço no banco de dados
+            // Lógica de Salvar Endereço no BD
             if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
                 const novoEndereco = {
                     cep: document.getElementById('cep-frete').value,
@@ -911,18 +905,14 @@
                     id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString()
                 };
 
-                // Lógica de "Definir Padrão": Tira o true dos outros
                 if (novoEndereco.isPadrao) {
                     listaDeEnderecos.forEach(e => e.isPadrao = false);
                 }
 
                 if (editandoEnderecoId.value !== "") {
-                    // Substitui o antigo editado
                     const index = listaDeEnderecos.findIndex(e => e.id === editandoEnderecoId.value);
                     if(index !== -1) listaDeEnderecos[index] = novoEndereco;
                 } else {
-                    // Adiciona o novo
-                    // Se for o primeiro da lista, ele vira padrão na marra
                     if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
                     listaDeEnderecos.push(novoEndereco);
                 }
