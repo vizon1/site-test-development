@@ -88,7 +88,7 @@
         }
 
         /* ==========================================
-           MODAL DE "MEUS ENDEREÇOS" (TIPO SHOPEE)
+           MODAL DE "MEUS ENDEREÇOS"
            ========================================== */
         .modal-overlay {
             position: fixed;
@@ -223,7 +223,7 @@
                 <div class="form-row">
                     <div class="input-group" style="width: 100%;">
                         <label for="telefone">Telefone</label>
-                        <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
+                        <input type="tel" id="telefone" placeholder="(00) 00000-0000" required>
                     </div>
                 </div>
 
@@ -376,7 +376,7 @@
         let listaDeEnderecos = []; 
         let enderecoSelecionado = null; 
 
-        // ELEMENTOS UI DO ENDEREÇO
+        // ELEMENTOS UI
         const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
         const blocoInputsEndereco = document.getElementById('bloco-inputs-endereco');
         const authSaveOptions = document.getElementById('auth-save-options');
@@ -403,7 +403,6 @@
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
                         if(data.nome) document.getElementById('nome').value = data.nome;
                         if(data.telefone) document.getElementById('telefone').value = data.telefone;
                         if(data.cpf) document.getElementById('cpf').value = data.cpf;
@@ -433,10 +432,8 @@
         // =========================================
         // 2. FUNÇÕES DE EXIBIÇÃO DE ENDEREÇO E FRETE
         // =========================================
-        
         function aplicarEnderecoSelecionado(endObj) {
             enderecoSelecionado = endObj;
-
             blocoInputsEndereco.style.display = 'none';
             cardEnderecoSalvo.style.display = 'block';
 
@@ -468,7 +465,6 @@
             document.getElementById('cep-frete').focus();
         });
 
-
         // =========================================
         // 3. LÓGICA DO MODAL "MEUS ENDEREÇOS"
         // =========================================
@@ -492,7 +488,6 @@
             document.getElementById('estado').value = '';
             
             limparFrete();
-            
             editandoEnderecoId.value = ""; 
             document.getElementById('chk-salvar-endereco').checked = true;
             document.getElementById('chk-endereco-padrao').checked = false;
@@ -550,7 +545,6 @@
             }
             modalEnderecos.classList.remove('active');
         });
-
 
         // =========================================
         // 4. LÓGICA DE FRETE E VIA CEP
@@ -723,7 +717,7 @@
         });
 
         // =========================================
-        // 6. VALIDAÇÕES DE FORMULÁRIO E FINALIZAÇÃO
+        // 6. VALIDAÇÕES BLINDADAS EM TEMPO REAL
         // =========================================
         function mostrarErro(input, mensagem) {
             input.style.borderColor = '#ff4444';
@@ -744,43 +738,44 @@
             if (erroTag) erroTag.remove();
         }
 
-        const checkRequired = (el) => {
-            if (!el.value.trim()) {
-                mostrarErro(el, 'Obrigatório.');
-                return true; 
+        // Função universal para garantir que o campo não está vazio
+        function checarObrigatorio(input) {
+            if (!input.value.trim()) {
+                mostrarErro(input, 'Este campo é obrigatório.');
+                return true; // Tem erro
             } else {
-                limparErro(el);
-                return false; 
+                limparErro(input);
+                return false; // Sem erro
             }
-        };
+        }
 
         const nomeInput = document.getElementById('nome');
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
+        const numeroInput = document.getElementById('numero');
 
-        nomeInput.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/[0-9]/g, ''); });
+        // VALIDAÇÃO NOME: Bloqueia números e obriga nome e sobrenome
+        nomeInput.addEventListener('input', (e) => {
+            // Remove qualquer coisa que não seja letra, espaço ou acento
+            e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, ''); 
+        });
         nomeInput.addEventListener('blur', (e) => {
             const val = e.target.value.trim();
-            if (val && val.split(' ').length < 2) mostrarErro(e.target, 'Por favor, informe nome e sobrenome.');
-            else limparErro(e.target);
-        });
-
-        cpfInput.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, ""); 
-            if (v.length <= 11) {
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            // Verifica se está vazio e se tem pelo menos duas palavras
+            if (!val || val.split(/\s+/).length < 2) {
+                mostrarErro(e.target, 'Informe nome e sobrenome válidos.');
             } else {
-                v = v.substring(0, 14);
-                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+                limparErro(e.target);
             }
-            e.target.value = v;
         });
 
+        // VALIDAÇÃO NÚMERO DA CASA: Bloqueia letras rigorosamente
+        numeroInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, ''); // \D remove tudo o que NÃO é dígito
+        });
+        numeroInput.addEventListener('blur', (e) => checarObrigatorio(e.target));
+
+        // VALIDAÇÃO TELEFONE: Bloqueia letras, formata e exige 10 ou 11 dígitos
         telefoneInput.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\D/g, "");
             v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
@@ -788,19 +783,29 @@
             e.target.value = v.substring(0, 15);
         });
         telefoneInput.addEventListener('blur', (e) => {
-            if (e.target.value && e.target.value.length < 14) mostrarErro(e.target, 'O telefone precisa ter o DDD e o número.');
-            else limparErro(e.target);
+            const digitos = e.target.value.replace(/\D/g, '');
+            // DDD (2) + Numero (8 ou 9) = 10 ou 11 dígitos no total
+            if (digitos.length < 10) {
+                mostrarErro(e.target, 'Telefone inválido. Verifique o DDD e os números.');
+            } else {
+                limparErro(e.target);
+            }
         });
 
-        ['rua', 'numero', 'bairro', 'cidade', 'estado'].forEach(id => {
+        // Eventos BLUR universais para os campos de endereço
+        ['rua', 'bairro', 'cidade', 'estado'].forEach(id => {
             const el = document.getElementById(id);
-            if(el) el.addEventListener('blur', (e) => checkRequired(e.target));
+            if(el) el.addEventListener('blur', (e) => checarObrigatorio(e.target));
         });
 
+        // MATEMÁTICA OFICIAL DO CPF
         function testaCPF(strCPF) {
             let Soma = 0, Resto;
             strCPF = strCPF.replace(/\D/g, ""); 
             if (strCPF == "00000000000" || strCPF.length !== 11) return false;
+            // Cálculo bloqueador de CPFs sequenciais (ex: 111.111.111-11)
+            if (/^(\d)\1{10}$/.test(strCPF)) return false; 
+
             for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
             Resto = (Soma * 10) % 11;
             if ((Resto == 10) || (Resto == 11)) Resto = 0;
@@ -813,6 +818,7 @@
             return true;
         }
 
+        // MATEMÁTICA OFICIAL DO CNPJ
         function testaCNPJ(cnpj) {
             cnpj = cnpj.replace(/\D/g, '');
             if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
@@ -839,52 +845,110 @@
             return true;
         }
 
-        cpfInput.addEventListener('blur', (e) => {
-            const val = e.target.value.replace(/\D/g, '');
-            if (val.length > 0) {
-                if (val.length <= 11) {
-                    if (!testaCPF(val)) mostrarErro(e.target, 'CPF inválido.');
-                    else limparErro(e.target);
-                } else {
-                    if (!testaCNPJ(val)) mostrarErro(e.target, 'CNPJ inválido.');
-                    else limparErro(e.target);
-                }
-            } else limparErro(e.target);
+        cpfInput.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, ""); 
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else {
+                v = v.substring(0, 14);
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            e.target.value = v;
         });
 
+        cpfInput.addEventListener('blur', (e) => {
+            const val = e.target.value.replace(/\D/g, '');
+            if (val.length === 0) {
+                mostrarErro(e.target, 'Obrigatório.');
+            } else if (val.length <= 11) {
+                if (!testaCPF(val)) mostrarErro(e.target, 'CPF inválido ou inexistente.');
+                else limparErro(e.target);
+            } else {
+                if (!testaCNPJ(val)) mostrarErro(e.target, 'CNPJ inválido ou inexistente.');
+                else limparErro(e.target);
+            }
+        });
+
+        // =========================================
+        // FINALIZAR PEDIDO (VARREDURA TOTAL DE ERROS)
+        // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
 
-            if (nomeInput.value.trim().split(' ').length < 2) { mostrarErro(nomeInput, 'Obrigatório.'); temErro = true; }
-            if (telefoneInput.value.length < 14) { mostrarErro(telefoneInput, 'Obrigatório.'); temErro = true; }
+            // Refaz todas as validações no ato do clique para garantir a barreira de segurança
             
+            // 1. Validação Nome
+            if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { 
+                mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); 
+                temErro = true; 
+            }
+            
+            // 2. Validação Telefone
+            if (telefoneInput.value.replace(/\D/g, '').length < 10) { 
+                mostrarErro(telefoneInput, 'Telefone incompleto.'); 
+                temErro = true; 
+            }
+            
+            // 3. Validação CPF/CNPJ
             const valDoc = cpfInput.value.replace(/\D/g, '');
-            if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
-            else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
-
-            if (blocoInputsEndereco.style.display !== 'none') {
-                if (checkRequired(cepInput) || cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'CEP Inválido.'); temErro = true; }
-                if(checkRequired(document.getElementById('rua'))) temErro = true;
-                if(checkRequired(document.getElementById('numero'))) temErro = true;
-                if(checkRequired(document.getElementById('bairro'))) temErro = true;
-                if(checkRequired(document.getElementById('cidade'))) temErro = true;
-                if(checkRequired(document.getElementById('estado'))) temErro = true;
+            if (valDoc.length === 0) {
+                mostrarErro(cpfInput, 'Obrigatório.'); 
+                temErro = true;
+            } else if (valDoc.length <= 11 && !testaCPF(valDoc)) { 
+                mostrarErro(cpfInput, 'CPF Inválido.'); 
+                temErro = true; 
+            } else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { 
+                mostrarErro(cpfInput, 'CNPJ Inválido.'); 
+                temErro = true; 
             }
 
+            // 4. Validação Endereço (somente se não estiver usando um cartão salvo)
+            if (blocoInputsEndereco.style.display !== 'none') {
+                const cepLimpo = cepInput.value.replace(/\D/g, '');
+                if (cepLimpo.length !== 8) { 
+                    mostrarErro(cepInput, 'CEP incompleto.'); 
+                    temErro = true; 
+                } else { 
+                    limparErro(cepInput); 
+                }
+                
+                if (checarObrigatorio(document.getElementById('rua'))) temErro = true;
+                if (checarObrigatorio(document.getElementById('numero'))) temErro = true;
+                if (checarObrigatorio(document.getElementById('bairro'))) temErro = true;
+                if (checarObrigatorio(document.getElementById('cidade'))) temErro = true;
+                
+                const estado = document.getElementById('estado');
+                if (estado.value.trim().length !== 2) { 
+                    mostrarErro(estado, 'UF deve ter 2 letras.'); 
+                    temErro = true; 
+                } else {
+                    limparErro(estado);
+                }
+            }
+
+            // 5. Validação de Frete
             if (valorFrete === 0) {
-                alert("Por favor, selecione uma opção de entrega.");
+                alert("Por favor, informe o endereço e selecione uma opção de entrega.");
                 temErro = true;
             }
 
+            // 6. Bloqueio final
             if (temErro || document.querySelectorAll('.error-text').length > 0) {
-                return alert("Existem campos incorretos. Verifique os avisos vermelhos.");
+                return alert("Existem campos incorretos ou em branco. Verifique os avisos vermelhos no formulário.");
             }
             
+            // SE PASSOU POR TODOS OS SEGURANÇAS: Avança para finalizar
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "Processando...";
             btnSalvar.disabled = true;
 
+            // Salvar no BD
             if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
                 const novoEndereco = {
                     cep: document.getElementById('cep-frete').value,
