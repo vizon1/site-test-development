@@ -119,14 +119,21 @@
 
         .btn-panel-submit:hover { transform: translateY(-2px); background-color: #fff433; }
 
+        /* ==== AJUSTES PARA MOBILE ==== */
         @media (max-width: 900px) {
             .panel-container {
                 flex-direction: column;
                 padding: 0 16px;
             }
+            
+            .panel-form-section {
+                order: 1; /* Formulário vem primeiro */
+            }
+
             .panel-preview-section {
                 position: static;
-                order: -1; /* Joga o Preview para cima no Mobile */
+                order: 2; /* Preview desce para baixo do formulário */
+                margin-bottom: 30px; /* Dá um espacinho extra no final */
             }
         }
 
