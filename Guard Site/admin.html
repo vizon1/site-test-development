@@ -7,6 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Estilos adicionais para acomodar os novos campos organizados no modal */
+        .admin-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .admin-form-row { grid-template-columns: 1fr; gap: 0; }
+        }
+        .admin-modal {
+            max-width: 600px; /* Alargado ligeiramente para caber os campos duplos */
+            max-height: 90vh; /* Impede que o modal ultrapasse a tela */
+            overflow-y: auto; /* Permite scroll dentro do modal se a tela for pequena */
+        }
+    </style>
 </head>
 <body style="background-color: #0a0a0a;">
 
@@ -72,36 +89,70 @@
                 <label>Título do Produto</label>
                 <input type="text" id="edit-titulo" required>
                 
-                <label>Preço (Ex: 104,00)</label>
-                <input type="text" id="edit-preco" required>
-                
-                <label>Categoria</label>
-                <select id="edit-categoria" class="admin-select" required>
-                    <option value="cameras">Câmeras</option>
-                    <option value="alarmes">Alarmes</option>
-                    <option value="dvrs">DVRs / NVRs</option>
-                    <option value="sensores">Sensores</option>
-                    <option value="outros">Outros</option>
-                </select>
+                <div class="admin-form-row">
+                    <div>
+                        <label>Preço (Ex: 104,00)</label>
+                        <input type="text" id="edit-preco" required style="margin-bottom: 0;">
+                    </div>
+                    <div>
+                        <label>Categoria</label>
+                        <select id="edit-categoria" class="admin-select" required style="margin-bottom: 0;">
+                            <option value="cameras">Câmeras</option>
+                            <option value="alarmes">Alarmes</option>
+                            <option value="dvrs">DVRs / NVRs</option>
+                            <option value="sensores">Sensores</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                </div>
                 
                 <label>Link da Imagem (URL)</label>
                 <input type="text" id="edit-imagem" required>
 
-                <label>Avaliação (Estrelas)</label>
-                <select id="edit-estrelas" class="admin-select" required>
-                    <option value="★★★★★">5 Estrelas (★★★★★)</option>
-                    <option value="★★★★½">4.5 Estrelas (★★★★½)</option>
-                    <option value="★★★★☆">4 Estrelas (★★★★☆)</option>
-                    <option value="★★★☆☆">3 Estrelas (★★★☆☆)</option>
-                    <option value="★★☆☆☆">2 Estrelas (★★☆☆☆)</option>
-                    <option value="★☆☆☆☆">1 Estrela (★☆☆☆☆)</option>
-                </select>
+                <div class="admin-form-row">
+                    <div>
+                        <label>Avaliação (Estrelas)</label>
+                        <select id="edit-estrelas" class="admin-select" required style="margin-bottom: 0;">
+                            <option value="★★★★★">5 Estrelas (★★★★★)</option>
+                            <option value="★★★★½">4.5 Estrelas (★★★★½)</option>
+                            <option value="★★★★☆">4 Estrelas (★★★★☆)</option>
+                            <option value="★★★☆☆">3 Estrelas (★★★☆☆)</option>
+                            <option value="★★☆☆☆">2 Estrelas (★★☆☆☆)</option>
+                            <option value="★☆☆☆☆">1 Estrela (★☆☆☆☆)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Avaliações (Ex: 15)</label>
+                        <input type="number" id="edit-avaliacoes" placeholder="Ex: 15" style="margin-bottom: 0;">
+                    </div>
+                </div>
 
-                <label>Número de Avaliações (Ex: 15)</label>
-                <input type="number" id="edit-avaliacoes" placeholder="Ex: 15">
+                <h3 style="font-size: 1rem; color: #fff; margin-top: 10px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px;">Logística (Cálculo de Frete)</h3>
+                
+                <div class="admin-form-row">
+                    <div>
+                        <label>Peso (kg)</label>
+                        <input type="number" id="edit-peso" step="0.01" min="0.01" required style="margin-bottom: 0;">
+                    </div>
+                    <div>
+                        <label>Altura (cm)</label>
+                        <input type="number" id="edit-altura" min="1" required style="margin-bottom: 0;">
+                    </div>
+                </div>
+                
+                <div class="admin-form-row">
+                    <div>
+                        <label>Largura (cm)</label>
+                        <input type="number" id="edit-largura" min="1" required style="margin-bottom: 0;">
+                    </div>
+                    <div>
+                        <label>Comprimento (cm)</label>
+                        <input type="number" id="edit-comprimento" min="1" required style="margin-bottom: 0;">
+                    </div>
+                </div>
 
                 <label>Descrição Completa do Produto</label>
-                <textarea id="edit-descricao" rows="5" placeholder="Cole aqui a descrição do produto..."></textarea>
+                <textarea id="edit-descricao" rows="4" placeholder="Cole aqui a descrição do produto..." style="resize: vertical;"></textarea>
                 
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
                     <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
@@ -129,7 +180,7 @@
         
         let produtosGlobal = [];
 
-        // 1. LER E EXIBIR (Com suporte a Mobile via data-label)
+        // 1. LER E EXIBIR
         async function carregarProdutos() {
             const tbody = document.getElementById('tabela-produtos');
             tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #FFFF00;">Atualizando...</td></tr>';
@@ -178,7 +229,7 @@
             }
         };
 
-        // 3. ABRIR E PREENCHER JANELA DE EDIÇÃO (Agora com novos campos)
+        // 3. ABRIR E PREENCHER JANELA DE EDIÇÃO
         window.abrirModal = function(id) {
             const produto = produtosGlobal.find(p => p.id === id);
             if(produto) {
@@ -188,10 +239,15 @@
                 document.getElementById('edit-categoria').value = produto.categoria || '';
                 document.getElementById('edit-imagem').value = produto.imagem || '';
                 
-                // Novos campos preenchidos automaticamente (se existirem)
                 document.getElementById('edit-estrelas').value = produto.estrelas || '';
                 document.getElementById('edit-avaliacoes').value = produto.avaliacoes || '';
                 document.getElementById('edit-descricao').value = produto.descricao || '';
+
+                // Logística (Fallback para 0 caso sejam produtos antigos)
+                document.getElementById('edit-peso').value = produto.peso || 0.5;
+                document.getElementById('edit-altura').value = produto.altura || 10;
+                document.getElementById('edit-largura').value = produto.largura || 10;
+                document.getElementById('edit-comprimento').value = produto.comprimento || 10;
                 
                 document.getElementById('modal-editar').style.display = 'flex';
             }
@@ -215,8 +271,14 @@
                 categoria: document.getElementById('edit-categoria').value,
                 imagem: document.getElementById('edit-imagem').value,
                 estrelas: document.getElementById('edit-estrelas').value,
-                avaliacoes: document.getElementById('edit-avaliacoes').value,
-                descricao: document.getElementById('edit-descricao').value
+                avaliacoes: Number(document.getElementById('edit-avaliacoes').value),
+                descricao: document.getElementById('edit-descricao').value,
+                
+                // Salvar dados de logística como Números
+                peso: Number(document.getElementById('edit-peso').value),
+                altura: Number(document.getElementById('edit-altura').value),
+                largura: Number(document.getElementById('edit-largura').value),
+                comprimento: Number(document.getElementById('edit-comprimento').value)
             };
 
             try {
@@ -240,7 +302,6 @@
         // MECANISMO DE ENCOLHER O HEADER AO ROLAR (SHRINK HEADER)
         window.addEventListener('scroll', function() {
             var header = document.getElementById('header');
-            var logo = document.getElementById('logo');
             
             if (window.scrollY > 50) {
                 header.classList.add('scrolled'); // Aplica o estilo pequeno
