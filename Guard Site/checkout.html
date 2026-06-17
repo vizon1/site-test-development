@@ -47,7 +47,7 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 20px;
-            display: none; /* Oculto até ser preenchido pelo Firebase */
+            display: none;
             position: relative;
         }
         
@@ -221,12 +221,8 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="input-group">
-                        <label for="email">E-mail</label>
-                        <input type="text" id="email" placeholder="seu@email.com" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="telefone">Telefone / WhatsApp</label>
+                    <div class="input-group" style="width: 100%;">
+                        <label for="telefone">Telefone</label>
                         <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
                     </div>
                 </div>
@@ -359,7 +355,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -401,14 +397,13 @@
                 usuarioAtual = user;
                 authSaveOptions.style.display = 'block';
                 
-                document.getElementById('email').value = user.email || '';
-                
                 try {
                     const userRef = doc(db, "usuarios", user.uid);
                     const docSnap = await getDoc(userRef);
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        
                         if(data.nome) document.getElementById('nome').value = data.nome;
                         if(data.telefone) document.getElementById('telefone').value = data.telefone;
                         if(data.cpf) document.getElementById('cpf').value = data.cpf;
@@ -459,7 +454,6 @@
             const strEndereco = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
             document.getElementById('card-endereco-texto').innerHTML = strEndereco;
 
-            // Invoca o cálculo do frete para o CEP do cartão
             const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
             if(cepLimpo.length === 8) buscarOpcoesDeFrete();
         }
@@ -612,7 +606,7 @@
             const cepLimpo = v.replace(/\D/g, '');
 
             if (cepLimpo.length === 8) {
-                buscarOpcoesDeFrete(); // Chama o frete independente do ViaCep
+                buscarOpcoesDeFrete(); 
                 
                 try {
                     const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
@@ -750,10 +744,19 @@
             if (erroTag) erroTag.remove();
         }
 
+        const checkRequired = (el) => {
+            if (!el.value.trim()) {
+                mostrarErro(el, 'Obrigatório.');
+                return true; 
+            } else {
+                limparErro(el);
+                return false; 
+            }
+        };
+
         const nomeInput = document.getElementById('nome');
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
-        const emailInput = document.getElementById('email');
 
         nomeInput.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/[0-9]/g, ''); });
         nomeInput.addEventListener('blur', (e) => {
@@ -789,11 +792,9 @@
             else limparErro(e.target);
         });
 
-        emailInput.addEventListener('blur', (e) => {
-            const val = e.target.value.trim();
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (val && !emailRegex.test(val)) mostrarErro(e.target, 'Por favor, informe um e-mail válido.');
-            else limparErro(e.target);
+        ['rua', 'numero', 'bairro', 'cidade', 'estado'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('blur', (e) => checkRequired(e.target));
         });
 
         function testaCPF(strCPF) {
@@ -855,7 +856,6 @@
             e.preventDefault(); 
             let temErro = false;
 
-            // Validações básicas (Dados Pessoais)
             if (nomeInput.value.trim().split(' ').length < 2) { mostrarErro(nomeInput, 'Obrigatório.'); temErro = true; }
             if (telefoneInput.value.length < 14) { mostrarErro(telefoneInput, 'Obrigatório.'); temErro = true; }
             
@@ -863,20 +863,13 @@
             if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
             else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
-            // Valida os campos de endereço APENAS se o bloco estiver visível (ou seja, não usou o cartão salvo)
             if (blocoInputsEndereco.style.display !== 'none') {
-                const checkEmpty = (el) => {
-                    if(!el.value.trim()) { mostrarErro(el, 'Obrigatório.'); temErro = true; }
-                    else { limparErro(el); }
-                };
-                if (cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'Obrigatório.'); temErro = true; }
-                else { limparErro(cepInput); }
-                
-                checkEmpty(document.getElementById('rua'));
-                checkEmpty(document.getElementById('numero'));
-                checkEmpty(document.getElementById('bairro'));
-                checkEmpty(document.getElementById('cidade'));
-                checkEmpty(document.getElementById('estado'));
+                if (checkRequired(cepInput) || cepInput.value.replace(/\D/g, '').length !== 8) { mostrarErro(cepInput, 'CEP Inválido.'); temErro = true; }
+                if(checkRequired(document.getElementById('rua'))) temErro = true;
+                if(checkRequired(document.getElementById('numero'))) temErro = true;
+                if(checkRequired(document.getElementById('bairro'))) temErro = true;
+                if(checkRequired(document.getElementById('cidade'))) temErro = true;
+                if(checkRequired(document.getElementById('estado'))) temErro = true;
             }
 
             if (valorFrete === 0) {
@@ -892,7 +885,6 @@
             btnSalvar.textContent = "Processando...";
             btnSalvar.disabled = true;
 
-            // Lógica de Salvar Endereço no BD
             if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
                 const novoEndereco = {
                     cep: document.getElementById('cep-frete').value,
