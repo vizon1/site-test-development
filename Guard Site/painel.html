@@ -124,16 +124,24 @@
             .panel-container {
                 flex-direction: column;
                 padding: 0 16px;
+                /* Correção do header engolindo o título no mobile */
+                margin-top: 120px; 
             }
             
             .panel-form-section {
-                order: 1; /* Formulário vem primeiro */
+                order: 1; /* Formulário primeiro */
             }
 
             .panel-preview-section {
                 position: static;
-                order: 2; /* Preview desce para baixo do formulário */
-                margin-bottom: 30px; /* Dá um espacinho extra no final */
+                order: 2; /* Preview no meio */
+            }
+
+            /* Container especial para o botão aparecer no fim */
+            .btn-mobile-wrapper {
+                order: 3;
+                width: 100%;
+                margin-bottom: 40px;
             }
         }
 
@@ -145,6 +153,13 @@
             .panel-form-section, .panel-preview-section {
                 padding: 24px 20px;
                 border-radius: 16px;
+            }
+        }
+
+        /* Ocultar o wrapper do botão extra no Desktop (o botão oficial estará no form) */
+        @media (min-width: 901px) {
+            .btn-mobile-wrapper {
+                display: none;
             }
         }
     </style>
@@ -288,6 +303,11 @@
                 </div>
             </div>
         </section>
+
+        <div class="btn-mobile-wrapper">
+            <button type="submit" form="productForm" class="btn-panel-submit">PUBLICAR ITEM</button>
+        </div>
+
     </main>
 
     <script type="module">
@@ -335,7 +355,8 @@
         const previewReviewCount = document.getElementById('previewReviewCount');
         
         const form = document.getElementById('productForm');
-        const submitBtn = document.querySelector('.btn-panel-submit');
+        // Pega os dois botões (o do desktop e o do mobile)
+        const submitBtns = document.querySelectorAll('.btn-panel-submit');
 
         const categoriaNomes = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores', outros: 'Outros' };
         const svgPadrao = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%23333'><path d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/></svg>";
@@ -366,10 +387,11 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const textoOriginal = submitBtn.innerHTML;
-            submitBtn.innerHTML = "PUBLICANDO... AGUARDE";
-            submitBtn.style.pointerEvents = "none";
-            submitBtn.style.opacity = "0.7";
+            submitBtns.forEach(btn => {
+                btn.innerHTML = "PUBLICANDO... AGUARDE";
+                btn.style.pointerEvents = "none";
+                btn.style.opacity = "0.7";
+            });
 
             try {
                 await addDoc(collection(db, "produtos"), {
@@ -400,9 +422,11 @@
                 console.error("Erro ao salvar:", error);
                 alert('❌ Erro de conexão. Certifique-se de que colou as suas credenciais do Firebase corretamente.');
             } finally {
-                submitBtn.innerHTML = textoOriginal;
-                submitBtn.style.pointerEvents = "auto";
-                submitBtn.style.opacity = "1";
+                submitBtns.forEach(btn => {
+                    btn.innerHTML = "PUBLICAR ITEM";
+                    btn.style.pointerEvents = "auto";
+                    btn.style.opacity = "1";
+                });
             }
         });
     </script>
