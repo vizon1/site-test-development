@@ -266,7 +266,7 @@ a {
     font-weight: 500;
     text-decoration: none;
     padding-bottom: 5px;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
     transition: 0.3s;
 }
 
