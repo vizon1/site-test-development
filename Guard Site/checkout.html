@@ -46,7 +46,7 @@
         }
 
         /* =========================================================
-           DESIGN PREMIUM: ESTILO APPLE / NIKE (CSS GRID MÁGICO)
+           DESIGN PREMIUM: ESTILO APPLE / NIKE (CSS GRID)
            ========================================================= */
         body {
             background-color: #000;
@@ -56,10 +56,9 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* O Form inteiro é agora o Container da Grelha */
         .checkout-container {
             display: grid;
-            grid-template-columns: 1.5fr 1fr; /* Esquerda maior, Direita menor */
+            grid-template-columns: 1.5fr 1fr;
             gap: 30px 40px;
             max-width: 1200px;
             margin: 40px auto 80px;
@@ -67,7 +66,6 @@
             align-items: start;
         }
 
-        /* Posicionamento dos Blocos no PC */
         .box-pessoais { grid-column: 1; grid-row: 1; }
         .box-endereco { grid-column: 1; grid-row: 2; }
         .box-frete    { grid-column: 1; grid-row: 3; }
@@ -76,14 +74,13 @@
 
         .box-resumo { 
             grid-column: 2; 
-            grid-row: 1 / span 5; /* Ocupa as 5 linhas da direita */
+            grid-row: 1 / span 5; 
             align-self: start;
             position: sticky; 
             top: 110px;
             background: linear-gradient(145deg, #111, #0a0a0a);
         }
 
-        /* Estilo Base das Caixas */
         .checkout-box {
             background-color: #0a0a0a;
             border: 1px solid #222;
@@ -94,7 +91,6 @@
             width: 100%;
         }
 
-        /* Tipografia de Títulos Internos */
         .box-title {
             font-size: 1.3rem;
             font-weight: 700;
@@ -106,26 +102,11 @@
             letter-spacing: -0.5px;
         }
 
-        /* Grid Interna para Inputs */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-grid-full { grid-column: 1 / -1; }
 
-        /* Estilização dos Inputs com fundo #1c1c1e */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        
-        .input-group label { 
-            font-size: 0.75rem; color: #86868b; margin-bottom: 8px; 
-            font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; 
-        }
+        .input-group { display: flex; flex-direction: column; width: 100%; }
+        .input-group label { font-size: 0.75rem; color: #86868b; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
 
         .input-group input, .input-group select {
             background-color: #1c1c1e !important;
@@ -135,18 +116,14 @@
             border-radius: 12px !important;
             font-size: 1rem !important;
             font-family: inherit !important;
-            transition: all 0.2s ease;
-            outline: none; box-sizing: border-box; width: 100%;
+            transition: all 0.2s ease; outline: none; box-sizing: border-box; width: 100%;
             appearance: none; -webkit-appearance: none;
         }
 
-        /* Foco Premium (Amarelo Guard) */
         .input-group input:focus, .input-group select:focus {
-            border-color: #FFFF00 !important;
-            background-color: #222 !important;
+            border-color: #FFFF00 !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1);
         }
 
-        /* Setinha customizada para o Select */
         .input-group select {
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto; cursor: pointer;
@@ -154,38 +131,32 @@
 
         .error-text { color: #ff4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
 
-        /* Cartão de Endereço (Modo Leitura) */
-        .endereco-salvo-card {
-            background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px;
-            padding: 24px; display: none; margin-bottom: 20px;
-        }
+        .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: none; }
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
         .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .endereco-telefone { color: #86868b; font-size: 0.95rem; }
-        .endereco-badge { background-color: #fff; color: #000; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+        .endereco-badge { background-color: #0071e3; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
         .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
         .endereco-acoes { display: flex; gap: 20px; border-top: 1px solid #333; padding-top: 16px; }
-        .btn-link-action { background: none; border: none; padding: 0; color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
-        .btn-link-action:hover { color: #a0a0a5; }
+        .btn-link-action { background: none; border: none; padding: 0; color: #0071e3; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: color 0.2s; }
+        .btn-link-action:hover { color: #5ac8fa; }
 
         .checkbox-container { display: flex; align-items: center; gap: 12px; margin-top: 16px; cursor: pointer; }
-        .checkbox-container input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-container input { accent-color: #0071e3; width: 20px; height: 20px; cursor: pointer; }
         .checkbox-container label { color: #d2d2d7; font-size: 0.95rem; cursor: pointer; font-weight: 500; user-select: none; }
 
-        /* Opções de Frete */
-        #frete-container { margin-bottom: 0; }
+        #frete-container { margin-bottom: 24px; }
         .frete-vazio-msg { color: #86868b; font-size: 0.95rem; padding: 20px; border: 1.5px dashed #333; border-radius: 12px; text-align: center; background: rgba(255,255,255,0.02); }
         .frete-opcao { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1.5px solid #333; border-radius: 14px; cursor: pointer; transition: all 0.2s ease; background-color: #1c1c1e; margin-bottom: 12px; }
-        .frete-opcao:last-child { margin-bottom: 0; }
         .frete-opcao:hover { border-color: #666; }
-        .frete-opcao.selecionado { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
+        .frete-opcao.selecionado { border-color: #FFFF00; background-color: rgba(255, 255, 0, 0.05); }
         .frete-info-container { display: flex; align-items: center;}
         .frete-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
-        .frete-opcao.selecionado .frete-radio-circle { border-color: #fff; }
-        .frete-opcao.selecionado .frete-radio-circle::after { content: ''; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
+        .frete-opcao.selecionado .frete-radio-circle { border-color: #FFFF00; }
+        .frete-opcao.selecionado .frete-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
         .frete-nome { display: block; font-weight: 700; color: #fff; margin-bottom: 4px; font-size: 1rem; }
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
-        .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
+        .frete-valor { font-weight: 800; color: #FFFF00; font-size: 1.1rem; }
 
         /* Dados do Cartão de Crédito */
         #cartao-container {
@@ -198,7 +169,6 @@
             animation: fadeIn 0.4s ease;
         }
 
-        /* Botão Principal Estilo Nike */
         .btn-panel-submit {
             background-color: #FFFF00; color: #000; border: none; padding: 22px; border-radius: 14px;
             font-size: 1.15rem; font-weight: 800; cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
@@ -208,7 +178,6 @@
         .btn-panel-submit:active { transform: translateY(0); }
         .btn-panel-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* Itens do Resumo */
         .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #222; }
         .summary-item:first-of-type { padding-top: 0; }
         .summary-item-info { display: flex; align-items: center; gap: 15px; }
@@ -224,7 +193,7 @@
         .summary-totals { margin-top: 25px; }
         .summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; color: #a0a0a5; font-size: 1rem; font-weight: 500;}
         .summary-line span:last-child { color: #fff; font-weight: 600; }
-        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #FFFF00; }
+        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #fff; }
 
         /* MODAL DE MEUS ENDEREÇOS */
         .modal-overlay {
@@ -258,8 +227,8 @@
             cursor: pointer; transition: all 0.2s; background: #1c1c1e;
         }
         .endereco-lista-item:hover { border-color: #424245; background: #222;}
-        .endereco-lista-item.selected { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
-        .endereco-lista-radio { margin-top: 4px; accent-color: #fff; transform: scale(1.3); cursor: pointer; }
+        .endereco-lista-item.selected { border-color: #0071e3; background-color: rgba(0, 113, 227, 0.05); }
+        .endereco-lista-radio { margin-top: 4px; accent-color: #0071e3; transform: scale(1.3); cursor: pointer; }
         
         .endereco-lista-info { flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
         .endereco-lista-info .nome-tel { color: #fff; font-weight: 700; font-size: 1.05rem; }
@@ -279,7 +248,7 @@
            ========================================================= */
         @media (max-width: 992px) {
             .checkout-container { 
-                display: flex; /* Troca Grid por Flex para manipular a ordem */
+                display: flex; /* Troca Grid por Flex para manipular a ordem no Mobile */
                 flex-direction: column; 
                 padding: 0 16px;
                 gap: 30px;
@@ -288,11 +257,11 @@
             .checkout-box { width: 100%; }
             .summary-wrapper { position: static; }
 
-            /* Mágica da Ordem no Telemóvel */
+            /* A Ordem de Leitura exigida no Telemóvel */
             .box-pessoais  { order: 1; }
             .box-endereco  { order: 2; }
             .box-frete     { order: 3; }
-            .box-resumo    { order: 4; } /* Resumo desce para depois do frete! */
+            .box-resumo    { order: 4; } /* Resumo fica no meio */
             .box-pagamento { order: 5; }
             .btn-submit-wrapper { order: 6; }
         }
@@ -518,7 +487,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -539,6 +508,7 @@
         let listaDeEnderecos = []; 
         let enderecoSelecionado = null; 
         let valorFrete = 0.00; 
+        let subtotalCompra = 0.00; // Variável global para subtotal
 
         // ELEMENTOS UI GERAIS
         const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
@@ -552,7 +522,7 @@
         const freteResultados = document.getElementById('frete-resultados');
         const freteVazio = document.getElementById('frete-vazio');
 
-        // ELEMENTOS DOS INPUTS (PARA VALIDAÇÃO)
+        // ELEMENTOS DOS INPUTS
         const nomeInput = document.getElementById('nome');
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
@@ -568,37 +538,24 @@
         const cartaoCvv = document.getElementById('cartao-cvv');
 
         // =========================================
-        // 1. BLINDAGEM IMPLACÁVEL DOS CAMPOS (TEMPO REAL)
+        // 1. BLINDAGEM IMPLACÁVEL DOS CAMPOS
         // =========================================
-
-        nomeInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
-        });
-
-        numeroInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '');
-        });
-
+        nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
+        numeroInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+        
         telefoneInput.addEventListener('input', function() {
             let v = this.value.replace(/\D/g, ""); 
             if (v.length > 11) v = v.substring(0, 11); 
-            
-            if (v.length > 10) {
-                v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
-            } else if (v.length > 6) {
-                v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-            } else if (v.length > 2) {
-                v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
-            } else if (v.length > 0) {
-                v = v.replace(/^(\d{0,2})/, "($1");
-            }
+            if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+            else if (v.length > 0) v = v.replace(/^(\d{0,2})/, "($1");
             this.value = v;
         });
 
         cpfInput.addEventListener('input', function() {
             let v = this.value.replace(/\D/g, "");
             if (v.length > 14) v = v.substring(0, 14); 
-
             if (v.length <= 11) {
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
                 v = v.replace(/(\d{3})(\d)/, "$1.$2");
@@ -612,18 +569,15 @@
             this.value = v;
         });
 
-        // Máscaras e Regras do Cartão de Crédito
         cartaoNumero.addEventListener('input', function() {
             let v = this.value.replace(/\D/g, '');
             if (v.length > 16) v = v.substring(0, 16);
-            v = v.replace(/(\d{4})(?=\d)/g, '$1 '); // Coloca espaço a cada 4 digitos
+            v = v.replace(/(\d{4})(?=\d)/g, '$1 '); 
             this.value = v;
         });
 
-        cartaoNome.addEventListener('input', function() {
-            this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').toUpperCase();
-        });
-
+        cartaoNome.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').toUpperCase(); });
+        
         cartaoValidade.addEventListener('input', function() {
             let v = this.value.replace(/\D/g, '');
             if (v.length > 4) v = v.substring(0, 4);
@@ -631,55 +585,36 @@
             this.value = v;
         });
 
-        cartaoCvv.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '');
-        });
+        cartaoCvv.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
 
-        // Alternar Visibilidade do Cartão de Crédito
         pagamentoSelect.addEventListener('change', function() {
             if (this.value === 'cartao') {
                 cartaoContainer.style.display = 'block';
             } else {
                 cartaoContainer.style.display = 'none';
-                limparErro(cartaoNumero);
-                limparErro(cartaoNome);
-                limparErro(cartaoValidade);
-                limparErro(cartaoCvv);
+                limparErro(cartaoNumero); limparErro(cartaoNome); limparErro(cartaoValidade); limparErro(cartaoCvv);
             }
         });
 
         // =========================================
-        // 2. FUNÇÕES DE ERRO VISUAL (BLUR E SUBMIT)
+        // 2. FUNÇÕES DE ERRO VISUAL
         // =========================================
         function mostrarErro(input, mensagem) {
-            input.style.borderColor = '#ff4444';
-            input.style.backgroundColor = '#2c1c1e';
-            let pai = input.parentElement;
-            let erroTag = pai.querySelector('.error-text');
-            if (!erroTag) {
-                erroTag = document.createElement('span');
-                erroTag.className = 'error-text';
-                pai.appendChild(erroTag);
-            }
+            input.style.borderColor = '#ff4444'; input.style.backgroundColor = '#2c1c1e';
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
+            if (!erroTag) { erroTag = document.createElement('span'); erroTag.className = 'error-text'; pai.appendChild(erroTag); }
             erroTag.textContent = mensagem;
         }
 
         function limparErro(input) {
-            input.style.borderColor = 'transparent'; 
-            input.style.backgroundColor = '#1c1c1e'; 
-            let pai = input.parentElement;
-            let erroTag = pai.querySelector('.error-text');
+            input.style.borderColor = 'transparent'; input.style.backgroundColor = '#1c1c1e'; 
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
             if (erroTag) erroTag.remove();
         }
 
         function checarObrigatorio(input) {
-            if (!input.value.trim()) {
-                mostrarErro(input, 'Este campo é obrigatório.');
-                return true; 
-            } else {
-                limparErro(input);
-                return false; 
-            }
+            if (!input.value.trim()) { mostrarErro(input, 'Este campo é obrigatório.'); return true; } 
+            else { limparErro(input); return false; }
         }
 
         nomeInput.addEventListener('blur', function() {
@@ -697,7 +632,6 @@
         ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('blur', (e) => {
-                // Só checa os do cartão se a div do cartão estiver visível
                 if (id.startsWith('cartao-') && pagamentoSelect.value !== 'cartao') return;
                 checarObrigatorio(e.target);
             });
@@ -708,56 +642,31 @@
             strCPF = strCPF.replace(/\D/g, ""); 
             if (strCPF == "00000000000" || strCPF.length !== 11) return false;
             if (/^(\d)\1{10}$/.test(strCPF)) return false; 
-
             for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11;
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-            Soma = 0;
+            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false; Soma = 0;
             for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11;
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-            return true;
+            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false; return true;
         }
 
         function testaCNPJ(cnpj) {
             cnpj = cnpj.replace(/\D/g, '');
             if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
-            let tamanho = cnpj.length - 2;
-            let numeros = cnpj.substring(0, tamanho);
-            let digitos = cnpj.substring(tamanho);
+            let tamanho = cnpj.length - 2; let numeros = cnpj.substring(0, tamanho); let digitos = cnpj.substring(tamanho);
             let soma = 0, pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) {
-                soma += numeros.charAt(tamanho - i) * pos--;
-                if (pos < 2) pos = 9;
-            }
-            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-            if (resultado != digitos.charAt(0)) return false;
-            tamanho = tamanho + 1;
-            numeros = cnpj.substring(0, tamanho);
-            soma = 0;
-            pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) {
-                soma += numeros.charAt(tamanho - i) * pos--;
-                if (pos < 2) pos = 9;
-            }
-            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-            if (resultado != digitos.charAt(1)) return false;
-            return true;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
+            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(0)) return false;
+            tamanho = tamanho + 1; numeros = cnpj.substring(0, tamanho); soma = 0; pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(1)) return false; return true;
         }
 
         cpfInput.addEventListener('blur', function() {
             const val = this.value.replace(/\D/g, '');
-            if (val.length === 0) {
-                mostrarErro(this, 'Obrigatório.');
-            } else if (val.length <= 11) {
-                if (!testaCPF(val)) mostrarErro(this, 'CPF inválido.');
-                else limparErro(this);
-            } else {
-                if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.');
-                else limparErro(this);
-            }
+            if (val.length === 0) mostrarErro(this, 'Obrigatório.');
+            else if (val.length <= 11) { if (!testaCPF(val)) mostrarErro(this, 'CPF inválido.'); else limparErro(this); } 
+            else { if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.'); else limparErro(this); }
         });
 
 
@@ -772,19 +681,11 @@
                 try {
                     const userRef = doc(db, "usuarios", user.uid);
                     const docSnap = await getDoc(userRef);
-                    
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
                         if(data.nome) nomeInput.value = data.nome;
-                        if(data.telefone) {
-                            telefoneInput.value = data.telefone;
-                            telefoneInput.dispatchEvent(new Event('input')); 
-                        }
-                        if(data.cpf) {
-                            cpfInput.value = data.cpf;
-                            cpfInput.dispatchEvent(new Event('input'));
-                        }
+                        if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
+                        if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
 
                         if (data.enderecos && Array.isArray(data.enderecos) && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
@@ -796,15 +697,10 @@
                             aplicarEnderecoSelecionado(endMigrado);
                             await setDoc(userRef, { enderecos: listaDeEnderecos }, { merge: true });
                         }
-                    } else if(user.displayName) {
-                        nomeInput.value = user.displayName;
-                    }
-                } catch (error) {
-                    console.error("Erro ao carregar dados do usuário:", error);
-                }
+                    } else if(user.displayName) { nomeInput.value = user.displayName; }
+                } catch (error) { console.error("Erro ao carregar dados do usuário:", error); }
             } else {
-                usuarioAtual = null;
-                authSaveOptions.style.display = 'none';
+                usuarioAtual = null; authSaveOptions.style.display = 'none';
             }
         });
 
@@ -813,16 +709,10 @@
         // =========================================
         function aplicarEnderecoSelecionado(endObj) {
             enderecoSelecionado = endObj;
-
-            blocoInputsEndereco.style.display = 'none';
-            cardEnderecoSalvo.style.display = 'block';
-
-            cepInput.value = endObj.cep || '';
-            document.getElementById('rua').value = endObj.rua || '';
-            numeroInput.value = endObj.numero || '';
-            document.getElementById('bairro').value = endObj.bairro || '';
-            document.getElementById('cidade').value = endObj.cidade || '';
-            document.getElementById('estado').value = endObj.estado || '';
+            blocoInputsEndereco.style.display = 'none'; cardEnderecoSalvo.style.display = 'block';
+            cepInput.value = endObj.cep || ''; document.getElementById('rua').value = endObj.rua || '';
+            numeroInput.value = endObj.numero || ''; document.getElementById('bairro').value = endObj.bairro || '';
+            document.getElementById('cidade').value = endObj.cidade || ''; document.getElementById('estado').value = endObj.estado || '';
             
             document.getElementById('card-nome').textContent = nomeInput.value || "Destinatário";
             document.getElementById('card-telefone').textContent = telefoneInput.value || "";
@@ -830,88 +720,51 @@
 
             const strEndereco = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
             document.getElementById('card-endereco-texto').innerHTML = strEndereco;
-
             const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
             if(cepLimpo.length === 8) buscarOpcoesDeFrete();
         }
 
         document.getElementById('btn-editar-endereco').addEventListener('click', () => {
-            cardEnderecoSalvo.style.display = 'none';
-            blocoInputsEndereco.style.display = 'block';
-            
+            cardEnderecoSalvo.style.display = 'none'; blocoInputsEndereco.style.display = 'block';
             editandoEnderecoId.value = enderecoSelecionado.id;
-            document.getElementById('chk-salvar-endereco').checked = true;
-            document.getElementById('chk-endereco-padrao').checked = enderecoSelecionado.isPadrao;
+            document.getElementById('chk-salvar-endereco').checked = true; document.getElementById('chk-endereco-padrao').checked = enderecoSelecionado.isPadrao;
             cepInput.focus();
         });
 
-        document.getElementById('btn-mudar-endereco').addEventListener('click', () => {
-            modalEnderecos.classList.add('active');
-            renderizarListaModal();
-        });
-
-        document.getElementById('fechar-modal').addEventListener('click', () => {
-            modalEnderecos.classList.remove('active');
-        });
+        document.getElementById('btn-mudar-endereco').addEventListener('click', () => { modalEnderecos.classList.add('active'); renderizarListaModal(); });
+        document.getElementById('fechar-modal').addEventListener('click', () => { modalEnderecos.classList.remove('active'); });
 
         document.getElementById('btn-add-novo-end').addEventListener('click', () => {
             modalEnderecos.classList.remove('active');
-            
-            cepInput.value = '';
-            document.getElementById('rua').value = '';
-            numeroInput.value = '';
-            document.getElementById('bairro').value = '';
-            document.getElementById('cidade').value = '';
-            document.getElementById('estado').value = '';
-            
-            limparFrete();
-            
-            editandoEnderecoId.value = ""; 
-            document.getElementById('chk-salvar-endereco').checked = true;
-            document.getElementById('chk-endereco-padrao').checked = false;
-
-            cardEnderecoSalvo.style.display = 'none';
-            blocoInputsEndereco.style.display = 'block';
-            cepInput.focus();
+            cepInput.value = ''; document.getElementById('rua').value = ''; numeroInput.value = '';
+            document.getElementById('bairro').value = ''; document.getElementById('cidade').value = ''; document.getElementById('estado').value = '';
+            limparFrete(); editandoEnderecoId.value = ""; 
+            document.getElementById('chk-salvar-endereco').checked = true; document.getElementById('chk-endereco-padrao').checked = false;
+            cardEnderecoSalvo.style.display = 'none'; blocoInputsEndereco.style.display = 'block'; cepInput.focus();
         });
 
         let radioSelecionadoModal = null;
-
         function renderizarListaModal() {
-            if (listaDeEnderecos.length === 0) {
-                listaModal.innerHTML = '<p style="text-align:center; color:#86868b;">Você não tem endereços salvos.</p>';
-                return;
-            }
-
+            if (listaDeEnderecos.length === 0) { listaModal.innerHTML = '<p style="text-align:center; color:#86868b;">Você não tem endereços salvos.</p>'; return; }
             listaModal.innerHTML = '';
             radioSelecionadoModal = enderecoSelecionado ? enderecoSelecionado.id : listaDeEnderecos[0].id;
 
             listaDeEnderecos.forEach(end => {
                 const isChecked = end.id === radioSelecionadoModal;
-                const classeSelected = isChecked ? 'selected' : '';
-
                 const div = document.createElement('div');
-                div.className = `endereco-lista-item ${classeSelected}`;
+                div.className = `endereco-lista-item ${isChecked ? 'selected' : ''}`;
                 div.innerHTML = `
                     <input type="radio" name="endereco_modal" value="${end.id}" class="endereco-lista-radio" ${isChecked ? 'checked' : ''}>
                     <div class="endereco-lista-info">
                         <div class="nome-tel">${nomeInput.value || "Eu"} <span>${telefoneInput.value || ""}</span></div>
-                        <div class="texto">
-                            ${end.rua}, ${end.numero} ${end.complemento ? '- '+end.complemento : ''}<br>
-                            ${end.bairro}, ${end.cidade} - ${end.estado}<br>
-                            ${end.cep}
-                        </div>
+                        <div class="texto">${end.rua}, ${end.numero} ${end.complemento ? '- '+end.complemento : ''}<br>${end.bairro}, ${end.cidade} - ${end.estado}<br>${end.cep}</div>
                         ${end.isPadrao ? '<span class="endereco-badge" style="width: max-content; margin-top: 5px;">Padrão</span>' : ''}
                     </div>
                 `;
-
                 div.addEventListener('click', () => {
                     document.querySelectorAll('.endereco-lista-item').forEach(el => el.classList.remove('selected'));
-                    div.classList.add('selected');
-                    div.querySelector('input').checked = true;
-                    radioSelecionadoModal = end.id;
+                    div.classList.add('selected'); div.querySelector('input').checked = true; radioSelecionadoModal = end.id;
                 });
-
                 listaModal.appendChild(div);
             });
         }
@@ -924,46 +777,26 @@
             modalEnderecos.classList.remove('active');
         });
 
-
         // =========================================
         // 5. LÓGICA DE FRETE E VIA CEP
         // =========================================
         function limparFrete() {
-            freteResultados.style.display = 'none';
-            freteVazio.style.display = 'block';
-            valorFrete = 0.00;
-            document.getElementById('checkout-frete').textContent = 'R$ 0,00';
-            renderizarResumo();
+            freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
+            valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
         }
 
         function buscarOpcoesDeFrete() {
-            freteVazio.style.display = 'none';
-            freteResultados.style.display = 'flex';
+            freteVazio.style.display = 'none'; freteResultados.style.display = 'flex';
             freteResultados.innerHTML = '<div style="color: #fff; font-size: 0.95rem; padding: 20px; text-align: center;">A calcular opções de entrega...</div>';
-            
             setTimeout(() => {
-                const pacValor = 22.50;
-                const sedexValor = 45.90;
-
+                const pacValor = 22.50; const sedexValor = 45.90;
                 freteResultados.innerHTML = `
                     <div class="frete-opcao" id="opcao-pac" data-valor="${pacValor}" onclick="selecionarFrete(this)">
-                        <div class="frete-info-container">
-                            <div class="frete-radio-circle"></div>
-                            <div>
-                                <span class="frete-nome">Correios PAC</span>
-                                <span class="frete-prazo">Entrega em até 8 dias úteis</span>
-                            </div>
-                        </div>
+                        <div class="frete-info-container"><div class="frete-radio-circle"></div><div><span class="frete-nome">Correios PAC</span><span class="frete-prazo">Entrega em até 8 dias úteis</span></div></div>
                         <div class="frete-valor">R$ ${pacValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                     </div>
                     <div class="frete-opcao" data-valor="${sedexValor}" onclick="selecionarFrete(this)">
-                        <div class="frete-info-container">
-                            <div class="frete-radio-circle"></div>
-                            <div>
-                                <span class="frete-nome">Correios SEDEX</span>
-                                <span class="frete-prazo">Entrega em até 3 dias úteis</span>
-                            </div>
-                        </div>
+                        <div class="frete-info-container"><div class="frete-radio-circle"></div><div><span class="frete-nome">Correios SEDEX</span><span class="frete-prazo">Entrega em até 3 dias úteis</span></div></div>
                         <div class="frete-valor">R$ ${sedexValor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                     </div>
                 `;
@@ -972,46 +805,29 @@
         }
 
         cepInput.addEventListener('input', async (e) => {
-            let v = e.target.value.replace(/\D/g, "");
-            v = v.replace(/^(\d{5})(\d)/, "$1-$2");
-            e.target.value = v.substring(0, 9);
-
+            let v = e.target.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); e.target.value = v.substring(0, 9);
             const cepLimpo = v.replace(/\D/g, '');
 
             if (cepLimpo.length === 8) {
                 buscarOpcoesDeFrete(); 
-                
                 try {
                     const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
                     const data = await res.json();
-                    
                     if (!data.erro) {
-                        document.getElementById('rua').value = data.logradouro || '';
-                        document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || '';
-                        document.getElementById('estado').value = data.uf || '';
-                        limparErro(cepInput);
-                        numeroInput.focus(); 
-                    } else {
-                        mostrarErro(cepInput, 'CEP não encontrado.');
-                    }
-                } catch (err) {
-                    console.error("Erro na busca do CEP:", err);
-                }
-            } else if (cepLimpo.length < 8) {
-                limparFrete();
-            }
+                        document.getElementById('rua').value = data.logradouro || ''; document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || ''; document.getElementById('estado').value = data.uf || '';
+                        limparErro(cepInput); numeroInput.focus(); 
+                    } else { mostrarErro(cepInput, 'CEP não encontrado.'); }
+                } catch (err) { console.error("Erro na busca do CEP:", err); }
+            } else if (cepLimpo.length < 8) { limparFrete(); }
         });
 
         window.selecionarFrete = function(elemento) {
             document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
             elemento.classList.add('selecionado');
-            
             valorFrete = parseFloat(elemento.getAttribute('data-valor'));
             const freteDisplay = document.getElementById('checkout-frete');
-            if(freteDisplay) {
-                freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
+            if(freteDisplay) freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             renderizarResumo();
         };
 
@@ -1030,12 +846,9 @@
         function renderizarResumo() {
             if (itensCheckout.length === 0) {
                 alert("A sua sessão de compra está vazia. Vamos levá-lo de volta para a loja.");
-                window.location.href = "store.html";
-                return;
+                window.location.href = "store.html"; return;
             }
-
-            itemsContainer.innerHTML = '';
-            let subtotal = 0;
+            itemsContainer.innerHTML = ''; let subtotal = 0;
 
             itensCheckout.forEach(item => {
                 const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
@@ -1059,13 +872,12 @@
                     </div>
                 `;
             });
-
+            subtotalCompra = subtotal; // Salva globalmente para os Pedidos
             const totalFinal = subtotal + valorFrete;
             subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
         }
-
         renderizarResumo();
 
         itemsContainer.addEventListener('click', (e) => {
@@ -1076,11 +888,8 @@
             if (e.target.classList.contains('qty-minus')) {
                 const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
-                    if (itensCheckout[index].quantidade > 1) {
-                        itensCheckout[index].quantidade -= 1;
-                    } else {
-                        itensCheckout.splice(index, 1);
-                    }
+                    if (itensCheckout[index].quantidade > 1) itensCheckout[index].quantidade -= 1;
+                    else itensCheckout.splice(index, 1);
                     renderizarResumo();
                 }
             }
@@ -1096,90 +905,61 @@
         });
 
         // =========================================
-        // 7. BARREIRA FINAL DE ENVIO E VALIDAÇÕES DO CARTÃO
+        // 7. BARREIRA FINAL, GRAVAÇÃO E REDIRECIONAMENTO
         // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
 
-            // Varrimento Criterioso Base
-            if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { 
-                mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; 
-            }
-            
-            if (telefoneInput.value.replace(/\D/g, '').length < 10) { 
-                mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; 
-            }
-            
+            if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; }
+            if (telefoneInput.value.replace(/\D/g, '').length < 10) { mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; }
             const valDoc = cpfInput.value.replace(/\D/g, '');
-            if (valDoc.length === 0) {
-                mostrarErro(cpfInput, 'Obrigatório.'); temErro = true;
-            } else if (valDoc.length <= 11 && !testaCPF(valDoc)) { 
-                mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; 
-            } else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { 
-                mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; 
-            }
+            if (valDoc.length === 0) { mostrarErro(cpfInput, 'Obrigatório.'); temErro = true; }
+            else if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
+            else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
-            // Endereço
             if (blocoInputsEndereco.style.display !== 'none') {
                 const cepLimpo = cepInput.value.replace(/\D/g, '');
-                if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } 
-                else { limparErro(cepInput); }
-                
+                if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
                 if (checarObrigatorio(document.getElementById('rua'))) temErro = true;
                 if (checarObrigatorio(numeroInput)) temErro = true;
                 if (checarObrigatorio(document.getElementById('bairro'))) temErro = true;
                 if (checarObrigatorio(document.getElementById('cidade'))) temErro = true;
-                
                 const estado = document.getElementById('estado');
-                if (estado.value.trim().length !== 2) { mostrarErro(estado, 'UF deve ter 2 letras.'); temErro = true; } 
-                else { limparErro(estado); }
+                if (estado.value.trim().length !== 2) { mostrarErro(estado, 'UF deve ter 2 letras.'); temErro = true; } else { limparErro(estado); }
             }
 
-            if (valorFrete === 0) {
-                alert("Por favor, informe o endereço e selecione uma opção de entrega.");
-                temErro = true;
-            }
+            if (valorFrete === 0) { alert("Por favor, selecione uma opção de entrega."); temErro = true; }
 
-            // NOVO: Validação Específica se o Cartão estiver Selecionado
             if (pagamentoSelect.value === 'cartao') {
                 if (checarObrigatorio(cartaoNumero)) temErro = true;
                 if (checarObrigatorio(cartaoNome)) temErro = true;
                 if (checarObrigatorio(cartaoValidade)) temErro = true;
                 if (checarObrigatorio(cartaoCvv)) temErro = true;
-
                 if(cartaoNumero.value.replace(/\D/g,'').length < 14) { mostrarErro(cartaoNumero, 'Número incompleto.'); temErro = true; }
                 if(cartaoValidade.value.length < 5) { mostrarErro(cartaoValidade, 'Inválido.'); temErro = true; }
                 if(cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Inválido.'); temErro = true; }
             }
 
-            // Interceptador Final
-            if (temErro || document.querySelectorAll('.error-text').length > 0) {
-                return alert("Existem campos incorretos ou em branco. Verifique os avisos vermelhos no formulário.");
-            }
+            if (temErro || document.querySelectorAll('.error-text').length > 0) return alert("Existem campos incorretos. Verifique os avisos no formulário.");
             
-            // SE TUDO ESTIVER CORRETO, AVANÇAR
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
-            btnSalvar.textContent = "PROCESSANDO...";
-            btnSalvar.disabled = true;
+            btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
-            // Salvar no BD Firebase
+            // Determinar o Objeto de Endereço do Pedido
+            const enderecoPedido = blocoInputsEndereco.style.display !== 'none' ? {
+                cep: cepInput.value,
+                rua: document.getElementById('rua').value.trim(),
+                numero: numeroInput.value.trim(),
+                bairro: document.getElementById('bairro').value.trim(),
+                cidade: document.getElementById('cidade').value.trim(),
+                estado: document.getElementById('estado').value.toUpperCase()
+            } : enderecoSelecionado;
+
+            // Salvar novo Endereço no BD (se pedido)
             if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
-                const novoEndereco = {
-                    cep: cepInput.value,
-                    rua: document.getElementById('rua').value.trim(),
-                    numero: numeroInput.value.trim(),
-                    bairro: document.getElementById('bairro').value.trim(),
-                    cidade: document.getElementById('cidade').value.trim(),
-                    estado: document.getElementById('estado').value.toUpperCase(),
-                    isPadrao: document.getElementById('chk-endereco-padrao').checked,
-                    id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString()
-                };
-
-                if (novoEndereco.isPadrao) {
-                    listaDeEnderecos.forEach(e => e.isPadrao = false);
-                }
-
+                const novoEndereco = { ...enderecoPedido, isPadrao: document.getElementById('chk-endereco-padrao').checked, id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString() };
+                if (novoEndereco.isPadrao) listaDeEnderecos.forEach(e => e.isPadrao = false);
                 if (editandoEnderecoId.value !== "") {
                     const index = listaDeEnderecos.findIndex(e => e.id === editandoEnderecoId.value);
                     if(index !== -1) listaDeEnderecos[index] = novoEndereco;
@@ -1187,41 +967,44 @@
                     if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
                     listaDeEnderecos.push(novoEndereco);
                 }
-
                 try {
                     await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
-                        nome: nomeInput.value.trim(),
-                        telefone: telefoneInput.value,
-                        cpf: cpfInput.value,
-                        enderecos: listaDeEnderecos
+                        nome: nomeInput.value.trim(), telefone: telefoneInput.value, cpf: cpfInput.value, enderecos: listaDeEnderecos
                     }, { merge: true });
-                } catch(error) {
-                    console.error("Falha ao salvar usuário no bd", error);
-                }
+                } catch(error) { console.error("Falha ao salvar endereço do usuário", error); }
             }
 
-            const pagamentoText = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
-            // Grava o valor total para exibir na página do PIX antes de limpar o carrinho
+            // CRIAR O PEDIDO NO BANCO DE DADOS
+            const novoPedido = {
+                userId: usuarioAtual ? usuarioAtual.uid : 'visitante',
+                clienteNome: nomeInput.value.trim(),
+                clienteCpf: cpfInput.value,
+                clienteTelefone: telefoneInput.value,
+                itens: itensCheckout,
+                subtotal: subtotalCompra,
+                frete: valorFrete,
+                total: subtotalCompra + valorFrete,
+                enderecoEntrega: enderecoPedido,
+                metodoPagamento: pagamentoSelect.value,
+                status: pagamentoSelect.value === 'cartao' ? 'Processando Pagamento' : 'Aguardando Pagamento',
+                dataCriacao: new Date().toISOString()
+            };
+
+            try {
+                await addDoc(collection(db, "pedidos"), novoPedido);
+            } catch (error) {
+                console.error("Erro ao gerar pedido no banco:", error);
+            }
+
             localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
-
-            const metodoEscolhido = pagamentoSelect.value;
-            const pagamentoText = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
-
-            // Limpa o carrinho
             localStorage.removeItem(storageKey);
 
-            if (metodoEscolhido === 'pix') {
-                // Vai para a tela exclusiva de PIX
+            if (pagamentoSelect.value === 'pix') {
                 window.location.href = "pagamento-pix.html";
             } else {
-                // Mantém o comportamento para Cartão ou Boleto
-                alert(`✅ Pedido Validado com Sucesso!\n\nO seu pedido será processado via ${pagamentoText}.`);
-                window.location.href = "index.html";
+                alert(`✅ Pedido Registado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`);
+                window.location.href = "meus-pedidos.html"; 
             }
-        });
-    </script>
-</body>
-</html>
         });
     </script>
 </body>
