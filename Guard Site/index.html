@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
-           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
+           CABEÇALHO NÍVEL APPLE (GRID BLINDADO)
            ========================================== */
         header {
             position: sticky;
@@ -23,7 +23,7 @@
             border-bottom: 1px solid transparent;
             width: 100%;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0); /* Anti-Flicker GPU */
+            transform: translateZ(0); 
             -webkit-transform: translateZ(0);
             will-change: transform;
         }
@@ -33,9 +33,10 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
+        /* TROCAMOS FLEX POR GRID PARA TRAVAR O CENTRO ABSOLUTO */
         #header {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
@@ -43,18 +44,15 @@
             padding: 0 24px;
             box-sizing: border-box;
             transition: height 0.3s ease;
-            gap: 15px; /* Impede que os elementos se toquem */
         }
 
         header.header-scrolled #header {
             height: 60px;
         }
 
-        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
         #logo-container {
-            flex: 1;
+            justify-self: start;
             display: flex;
-            justify-content: flex-start;
             align-items: center;
         }
 
@@ -70,9 +68,8 @@
         }
 
         #nav-container {
-            flex: 2; /* Ocupa a maior parte do centro */
+            justify-self: center;
             display: flex;
-            justify-content: center;
         }
 
         #navigation-bar {
@@ -104,12 +101,10 @@
             padding-bottom: 4px;
         }
 
-        /* Agrupamento da Direita */
         #desktop-cart-group {
-            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
+            justify-self: end;
             display: flex !important; 
             align-items: center;
-            justify-content: flex-end;
             gap: 20px;
         }
 
@@ -139,7 +134,7 @@
             border: 2px solid rgba(10, 10, 10, 0.85);
         }
 
-        /* Espaço Fixo e Alinhado à Direita para Autenticação */
+        /* O SEGREDO: Largura mínima fixa e invisibilidade inicial */
         #auth-section {
             display: flex;
             align-items: center;
@@ -147,7 +142,9 @@
             border-left: 1px solid rgba(255, 255, 255, 0.15);
             padding-left: 20px;
             height: 28px;
-            min-width: 130px; 
+            min-width: 190px; /* Impede que o carrinho se mova! */
+            opacity: 0; /* Fica escondido até o Firebase dar a resposta */
+            transition: opacity 0.5s ease;
         }
 
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
@@ -174,21 +171,26 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           RESPONSIVIDADE INTELIGENTE
+           RESPONSIVIDADE INTELIGENTE (Tablets e Mobile)
            ========================================== */
         @media (min-width: 769px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
-            #auth-section { padding-left: 12px; min-width: auto; }
+            #auth-section { padding-left: 12px; min-width: 150px; }
             .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
+            #user-first-name { display: none; } 
         }
 
         @media (max-width: 768px) {
+            #header { 
+                display: flex !important; /* Volta para flex no mobile para poder alinhar as bordas */
+                justify-content: space-between;
+                padding: 0 15px; 
+                height: 60px !important; 
+            }
             #nav-container { display: none; }
             #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 60px !important; } 
             #logo-container img { height: 32px !important; } 
         }
     </style>
@@ -955,6 +957,7 @@
                 if(mobileAuthLogout) mobileAuthLogout.style.display = 'none';
                 if(mobileNavInfo) mobileNavInfo.style.display = 'none';
             }
+            if (authSection) authSection.style.opacity = '1';
         });
 
         if(loggedInUI) {
