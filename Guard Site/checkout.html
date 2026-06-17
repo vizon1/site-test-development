@@ -135,28 +135,28 @@
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
         .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .endereco-telefone { color: #86868b; font-size: 0.95rem; }
-        .endereco-badge { background-color: #0071e3; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+        .endereco-badge { background-color: #fff; color: #000; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
         .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
         .endereco-acoes { display: flex; gap: 20px; border-top: 1px solid #333; padding-top: 16px; }
-        .btn-link-action { background: none; border: none; padding: 0; color: #0071e3; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: color 0.2s; }
-        .btn-link-action:hover { color: #5ac8fa; }
+        .btn-link-action { background: none; border: none; padding: 0; color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
+        .btn-link-action:hover { color: #a0a0a5; }
 
         .checkbox-container { display: flex; align-items: center; gap: 12px; margin-top: 16px; cursor: pointer; }
-        .checkbox-container input { accent-color: #0071e3; width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-container input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
         .checkbox-container label { color: #d2d2d7; font-size: 0.95rem; cursor: pointer; font-weight: 500; user-select: none; }
 
         #frete-container { margin-bottom: 24px; }
         .frete-vazio-msg { color: #86868b; font-size: 0.95rem; padding: 20px; border: 1.5px dashed #333; border-radius: 12px; text-align: center; background: rgba(255,255,255,0.02); }
         .frete-opcao { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1.5px solid #333; border-radius: 14px; cursor: pointer; transition: all 0.2s ease; background-color: #1c1c1e; margin-bottom: 12px; }
         .frete-opcao:hover { border-color: #666; }
-        .frete-opcao.selecionado { border-color: #FFFF00; background-color: rgba(255, 255, 0, 0.05); }
+        .frete-opcao.selecionado { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
         .frete-info-container { display: flex; align-items: center;}
         .frete-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
-        .frete-opcao.selecionado .frete-radio-circle { border-color: #FFFF00; }
-        .frete-opcao.selecionado .frete-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
+        .frete-opcao.selecionado .frete-radio-circle { border-color: #fff; }
+        .frete-opcao.selecionado .frete-radio-circle::after { content: ''; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
         .frete-nome { display: block; font-weight: 700; color: #fff; margin-bottom: 4px; font-size: 1rem; }
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
-        .frete-valor { font-weight: 800; color: #FFFF00; font-size: 1.1rem; }
+        .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
 
         /* Dados do Cartão de Crédito */
         #cartao-container {
@@ -178,6 +178,7 @@
         .btn-panel-submit:active { transform: translateY(0); }
         .btn-panel-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
+        /* Itens do Resumo (Cores Clean) */
         .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #222; }
         .summary-item:first-of-type { padding-top: 0; }
         .summary-item-info { display: flex; align-items: center; gap: 15px; }
@@ -190,6 +191,7 @@
         .summary-qty-btn:hover { background-color: #2c2c2e; }
         .summary-qty-input { width: 30px; text-align: center; background: none; border: none; color: #fff; font-size: 0.9rem; font-weight: 700; pointer-events: none; padding: 0;}
 
+        /* Totais do Resumo (Cores Clean) */
         .summary-totals { margin-top: 25px; }
         .summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; color: #a0a0a5; font-size: 1rem; font-weight: 500;}
         .summary-line span:last-child { color: #fff; font-weight: 600; }
@@ -227,8 +229,8 @@
             cursor: pointer; transition: all 0.2s; background: #1c1c1e;
         }
         .endereco-lista-item:hover { border-color: #424245; background: #222;}
-        .endereco-lista-item.selected { border-color: #0071e3; background-color: rgba(0, 113, 227, 0.05); }
-        .endereco-lista-radio { margin-top: 4px; accent-color: #0071e3; transform: scale(1.3); cursor: pointer; }
+        .endereco-lista-item.selected { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
+        .endereco-lista-radio { margin-top: 4px; accent-color: #fff; transform: scale(1.3); cursor: pointer; }
         
         .endereco-lista-info { flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
         .endereco-lista-info .nome-tel { color: #fff; font-weight: 700; font-size: 1.05rem; }
@@ -248,7 +250,7 @@
            ========================================================= */
         @media (max-width: 992px) {
             .checkout-container { 
-                display: flex; /* Troca Grid por Flex para manipular a ordem no Mobile */
+                display: flex; 
                 flex-direction: column; 
                 padding: 0 16px;
                 gap: 30px;
@@ -257,11 +259,10 @@
             .checkout-box { width: 100%; }
             .summary-wrapper { position: static; }
 
-            /* A Ordem de Leitura exigida no Telemóvel */
             .box-pessoais  { order: 1; }
             .box-endereco  { order: 2; }
             .box-frete     { order: 3; }
-            .box-resumo    { order: 4; } /* Resumo fica no meio */
+            .box-resumo    { order: 4; } 
             .box-pagamento { order: 5; }
             .btn-submit-wrapper { order: 6; }
         }
@@ -508,7 +509,7 @@
         let listaDeEnderecos = []; 
         let enderecoSelecionado = null; 
         let valorFrete = 0.00; 
-        let subtotalCompra = 0.00; // Variável global para subtotal
+        let subtotalCompra = 0.00; 
 
         // ELEMENTOS UI GERAIS
         const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
