@@ -19,9 +19,31 @@
             .admin-form-row { grid-template-columns: 1fr; gap: 0; }
         }
         .admin-modal {
-            max-width: 600px; /* Alargado ligeiramente para caber os campos duplos */
-            max-height: 90vh; /* Impede que o modal ultrapasse a tela */
-            overflow-y: auto; /* Permite scroll dentro do modal se a tela for pequena */
+            max-width: 600px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
+
+        /* =========================================================
+           CORREÇÃO: ALINHAMENTO DOS BOTÕES DE AÇÃO (768px a 1190px)
+           ========================================================= */
+        @media (min-width: 769px) and (max-width: 1190px) {
+            .admin-table td:last-child {
+                display: flex;
+                flex-direction: column; /* Empilha os botões verticalmente de forma elegante */
+                gap: 8px; /* Dá um respiro de 8px entre eles */
+                justify-content: center;
+                padding: 16px 10px; /* Ajusta o padding para caber melhor na tela espremida */
+            }
+            .admin-table .btn-editar {
+                margin-right: 0 !important; /* Remove a margem lateral que deixava o botão torto */
+                width: 100%; /* Faz os dois botões terem a mesma largura */
+                text-align: center;
+            }
+            .admin-table .btn-deletar {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
