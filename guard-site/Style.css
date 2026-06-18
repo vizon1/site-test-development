@@ -1624,6 +1624,7 @@ nav ul li a:hover {
     align-items: center;
     gap: 14px;
     background: transparent;
+    color: #bbbbbb;
 }
 
 .sidebar-nav-icon {
