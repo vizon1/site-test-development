@@ -1609,7 +1609,7 @@ nav ul li a:hover {
     justify-content: space-between !important;
     align-items: center !important;
     padding: 14px 18px !important;
-    color: #bbbbbb !important;
+    color: #bbbbbb;
     font-size: 15px !important;
     font-weight: 600 !important;
     text-transform: none !important; 
