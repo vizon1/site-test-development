@@ -2943,11 +2943,11 @@ strong {
    ========================================= */
 .shop-card {
     background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%);
-    border: 2px solid #4a4a4a; /* Borda cinza mais clara com 2px de espessura */
+    border: 2px solid #4a4a4a;
     max-width: 278px;
     min-width: 238px;
-    border-radius: 25px; /* O arredondamento do card */
-    overflow: hidden; /* É este comando que atua como uma "máscara" e corta a imagem nas pontas */
+    border-radius: 25px;
+    overflow: hidden;
     padding: 0;
     position: relative;
     display: flex;
@@ -4423,8 +4423,10 @@ body {
     
     .shop-card {
         /* Limites estritos solicitados */
-        max-width: 240px;
-        max-height: 380px;
+        max-width: 240px !important;
+        min-width: 145px !important;
+        max-height: 380px !important;
+        min-height: 270px !important;
         width: 100%;
         border-radius: 16px;
         display: flex;
