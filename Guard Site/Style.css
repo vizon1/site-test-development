@@ -5080,7 +5080,7 @@ display: flex;
 /* =========================================
    RESPONSIVIDADE DOS CARDS (TABLET E CELULAR)
    ========================================= */
-@media (min-width: 900px) and (max-width: 1200px) {
+@media (min-width: 900px) and (max-width: 3800px) {
     .shop-product-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 15px; 
