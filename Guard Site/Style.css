@@ -5154,3 +5154,22 @@ display: flex;
        right: 8px;
     }
 }
+
+/* Força a secção de recomendações a ter 4 cards por linha em PCs */
+.shop-recommendations .shop-product-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Entre 721px e 900px (Tablets e telas médias): Mantém 3 cards */
+@media (max-width: 900px) {
+    .shop-recommendations .shop-product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Abaixo de 720px (Celulares): Reduz para 2 cards para não esmagar */
+@media (max-width: 720px) {
+    .shop-recommendations .shop-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
