@@ -5191,7 +5191,7 @@ display: flex;
         height: 100% !important; 
         display: flex;
         flex-direction: column;
-        border-radius: 14px;
+        border-radius: 25px;
         overflow: hidden; /* Garante que a foto não vaze das bordas arredondadas */
     }
 
@@ -5270,6 +5270,6 @@ display: flex;
         padding: 3px 6px;
         top: 6px;
         right: 6px;
-        border-radius: 4px;
+        border-radius: 6px;
     }
 }
