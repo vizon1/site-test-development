@@ -5076,3 +5076,81 @@ display: flex;
 .login-footer-toggle a:hover {
     text-decoration: underline;
 }
+
+/* =========================================
+   RESPONSIVIDADE DOS CARDS (TABLET E CELULAR)
+   ========================================= */
+@media (min-width: 900px) and (max-width: 1200px) {
+    .shop-product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px; 
+        justify-items: center;
+    }
+    
+    .shop-card {
+        width: 100%;
+        max-width: 100% !important;
+        min-width: 0 !important; /* Desabilita min-width para permitir redução total */
+        height: auto !important; 
+        max-height: none !important;
+        min-height: 0 !important;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 16px; 
+    }
+
+    .shop-card-img {
+        width: 100%;
+        height: auto; 
+        aspect-ratio: 4 / 3; /* Força a proporção da imagem para não distorcer */
+        margin-bottom: 5px;
+    }
+    
+    .shop-card-body {
+        padding: 10px;
+        flex: 1; 
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .shop-card-body h4 {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+        line-height: 1.2; 
+    }
+    
+    .shop-card-rating {
+        font-size: 0.75rem;
+        margin-bottom: 5px;
+    }
+
+    .shop-card-rating span {
+        font-size: 0.7rem;
+    }
+
+    .shop-card-price {
+        font-size: 1rem;
+        margin-bottom: 8px;
+        margin-top: auto; 
+    }
+    
+    .shop-card-actions {
+        display: flex;
+        flex-direction: row; 
+        gap: 5px;
+    }
+    
+    .shop-card-actions button {
+        flex: 1;
+        padding: 8px 4px; 
+        font-size: 0.75rem;
+    }
+    
+    .shop-card-category {
+       font-size: 0.65rem;
+       padding: 3px 6px;
+       top: 8px;
+       right: 8px;
+    }
+}
