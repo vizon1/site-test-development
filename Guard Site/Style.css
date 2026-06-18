@@ -5080,7 +5080,7 @@ display: flex;
 /* =========================================
    RESPONSIVIDADE DOS CARDS (TABLET E CELULAR)
    ========================================= */
-@media (min-width: 900px) and (max-width: 3800px) {
+@media (min-width: 900px) {
     .shop-product-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 15px; 
@@ -5090,7 +5090,7 @@ display: flex;
     .shop-card {
         width: 100%;
         max-width: 100% !important;
-        min-width: 0 !important; /* Desabilita min-width para permitir redução total */
+        min-width: 0 !important;
         height: auto !important; 
         max-height: none !important;
         min-height: 0 !important;
