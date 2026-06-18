@@ -2944,7 +2944,6 @@ strong {
 .shop-card {
     background: linear-gradient(145deg, #1e1e1e 0%, #111111 100%);
     border: 2px solid #4a4a4a; /* Borda cinza mais clara com 2px de espessura */
-    width: 185px;
     border-radius: 25px; /* O arredondamento do card */
     overflow: hidden; /* É este comando que atua como uma "máscara" e corta a imagem nas pontas */
     padding: 0;
