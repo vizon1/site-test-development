@@ -2965,8 +2965,8 @@ strong {
 
 .shop-card-category {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 50px;
+    right: 50px;
     background: rgba(0, 0, 0, 0.85);
     color: #fff;
     padding: 4px 10px;
