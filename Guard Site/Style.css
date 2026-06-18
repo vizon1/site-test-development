@@ -5173,3 +5173,92 @@ display: flex;
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* =========================================
+   RESPONSIVIDADE DOS CARDS (MOBILE: ATÉ 900px)
+   ========================================= */
+@media (max-width: 900px) {
+    .shop-product-grid {
+        grid-template-columns: repeat(2, 1fr); /* Mantém 2 cards por linha */
+        gap: 12px;
+        padding: 0 5px;
+    }
+
+    .shop-card {
+        width: 100%;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: 100% !important; 
+        display: flex;
+        flex-direction: column;
+        border-radius: 16px;
+    }
+
+    /* A MÁGICA DA FOTO: 60% da altura e sem distorcer */
+    .shop-card-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3.5; /* Força uma proporção consistente da imagem */
+        margin-bottom: 0;
+    }
+
+    .shop-card-body {
+        padding: 12px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Textos menores para não poluir o card */
+    .shop-card-body h4 {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+        line-height: 1.3;
+        /* Trava o título em 2 linhas com "..." se for muito grande, garantindo que os cards fiquem alinhados */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 2.6em; 
+    }
+
+    .shop-card-rating {
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+    }
+
+    .shop-card-rating span {
+        font-size: 0.65rem;
+        display: block; /* Quebra o texto "(avaliações)" para a linha de baixo para poupar espaço horizontal */
+        margin-top: 3px;
+    }
+
+    .shop-card-price {
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+        margin-top: auto; /* Empurra o preço e os botões sempre para o fundo */
+    }
+
+    /* Botões mantêm-se robustos para o toque */
+    .shop-card-actions {
+        display: flex;
+        flex-direction: column; /* Empilhados um em cima do outro */
+        gap: 8px;
+    }
+
+    .shop-card-actions button {
+        width: 100%;
+        padding: 10px; /* Tamanho confortável para clicar */
+        font-size: 0.85rem;
+    }
+
+    /* Etiqueta da categoria ajustada */
+    .shop-card-category {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        top: 8px;
+        right: 8px;
+    }
+}
