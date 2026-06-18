@@ -5273,3 +5273,7 @@ display: flex;
         border-radius: 10px;
     }
 }
+
+.auth-link {
+    padding-bottom: 0px;
+    border: none;
