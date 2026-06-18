@@ -5277,7 +5277,7 @@ display: flex;
 .auth-link {
     padding-bottom: 0px;
     border: none;
-    font-size: 0.75rem;
+    font-size: 0.75rem !important;
 }
 
 
