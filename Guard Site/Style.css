@@ -3773,6 +3773,14 @@ select:-webkit-autofill:active {
 /* =========================================
    RESPONSIVIDADE DOS CARDS (CELULAR / 2 POR LINHA)
    ========================================= */
+
+@media (min-width: 900px) and (max-width: 1150px) {
+    .shop-card {
+        min-width: 100% !important;
+        max-height: 100% !important;
+    }
+}
+
 @media (max-width: 900px) {
     .shop-product-grid {
         grid-template-columns: repeat(2, 1fr); /* Força exatamente 2 colunas no celular */
