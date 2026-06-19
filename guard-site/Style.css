@@ -2194,6 +2194,35 @@ nav ul li a:hover {
         justify-content: center !important;
         align-items: center !important;
         flex: 1 !important; 
+        
+   /* =======================================
+   HEADER MOBILE ESTENDIDO ATÉ 920px
+   ======================================= */
+@media (max-width: 920px) {
+    #header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important; 
+        align-items: center !important;
+        height: 85px !important;
+        padding: 0 20px !important;
+        background-color: rgba(15, 15, 15, 0.6) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Oculta os menus de PC e o botão de Carrinho do PC */
+    #nav-container, #desktop-cart-group {
+        display: none !important;
+    }
+
+    #logo-container {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex: 1 !important; 
     }
 
     #logo-container a {
@@ -2206,24 +2235,24 @@ nav ul li a:hover {
     }
 
     #logo {
-        height: 60px !important; /* Tamanho mais elegante para a logo */
+        height: 60px !important;
         width: auto !important; 
         object-fit: contain !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Transformando os ícones em Botões Acrílicos (estilo App) */
-    .mobile-icon {
+    /* Força os botões mobile a aparecerem via CSS */
+    .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         width: 48px !important;
         height: 48px !important;
-        background-color: rgba(255, 255, 255, 0.03) !important; /* Fundo de vidro */
-        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Borda suave */
-        border-radius: 14px !important; /* Quadrado com cantos arredondados (squircle) */
-        color: #cccccc !important; /* Ícone cinza claro elegante */
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        color: #cccccc !important;
         transition: all 0.3s ease !important;
         cursor: pointer;
     }
@@ -2233,12 +2262,10 @@ nav ul li a:hover {
         height: 22px !important;
     }
 
-    /* Oculta os textos "MENU" e "LIGAR" para ficar minimalista */
-    .mobile-icon span {
+    .mobile-icon span:not(.mobile-cart-badge) {
         display: none !important;
     }
 
-    /* Efeito ao tocar no botão (Acende em neon) */
     .mobile-icon:active, 
     .mobile-icon:hover {
         background-color: rgba(255, 255, 0, 0.08) !important;
@@ -2246,9 +2273,7 @@ nav ul li a:hover {
         color: #FFFF00 !important;
         box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
     }
-
-    /* ... mantenha o restante do código mobile daqui para baixo ... */
-
+}
    /* =======================================
        ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
        ======================================= */
