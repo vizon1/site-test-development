@@ -176,20 +176,77 @@
         /* ==========================================
            RESPONSIVIDADE INTELIGENTE
            ========================================== */
-        @media (min-width: 769px) and (max-width: 1150px) {
+        /* ==========================================
+           RESPONSIVIDADE DO HEADER
+           ========================================== */
+        
+        /* 1. Header de PC Compacto (Entre 921px e 1150px) */
+        @media (min-width: 921px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
             #auth-section { padding-left: 12px; min-width: auto; }
             .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
+            #user-first-name { display: none; } 
         }
 
-        @media (max-width: 768px) {
-            #nav-container { display: none; }
-            #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 80px !important; } 
-            #logo-container img { height: 60px !important; } 
+        /* 2. Header Mobile com Logo Central (Até 920px) */
+        @media (max-width: 920px) {
+            /* Esconde os menus de PC */
+            #nav-container, #desktop-cart-group { display: none !important; }
+            #auth-section { display: none !important; }
+            
+            /* Formata o tamanho e fundo do Header */
+            #header { 
+                padding: 0 20px !important; 
+                height: 85px !important; 
+                justify-content: space-between !important;
+                background-color: rgba(15, 15, 15, 0.6) !important;
+                flex-direction: row !important;
+            } 
+            
+            /* Centraliza a Logo perfeitamente */
+            #logo-container { 
+                flex: 1 !important; 
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important;
+            }
+            #logo-container a { margin: 0 auto; display: flex; }
+            #logo-container img { height: 50px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
+            
+            .cart-sidebar { max-width: 100%; border-left: none; }
+
+            /* Força os botões quadrados do Mobile a aparecerem na tela */
+            .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 48px !important;
+                height: 48px !important;
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 14px !important;
+                color: #cccccc !important;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .mobile-icon svg { width: 22px !important; height: 22px !important; }
+            .mobile-icon span:not(.mobile-cart-badge) { display: none !important; }
+            
+            .mobile-icon:active, 
+            .mobile-icon:hover {
+                background-color: rgba(255, 255, 0, 0.08) !important;
+                border-color: rgba(255, 255, 0, 0.3) !important;
+                color: #FFFF00 !important;
+                box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
+            }
+
+            /* Força a barra de rolagem e margens corretas no index no Mobile */
+            #background-image {
+                margin-top: -85px !important; 
+                padding-top: 140px !important; 
+            }
         }
     </style>
 </head>
