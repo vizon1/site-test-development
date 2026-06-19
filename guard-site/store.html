@@ -246,7 +246,7 @@
         /* ==========================================
                          RESPONSIVIDADE
            ========================================== */
-        @media (min-width: 769px) and (max-width: 1150px) {
+        @media (min-width: 921px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
@@ -255,11 +255,10 @@
             #user-first-name { display: none; } 
         }
 
-        @media (max-width: 768px) {
-            #nav-container { display: none; }
+        @media (max-width: 920px) {
+            #nav-container { display: none !important; }
             #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 80px !important; } 
-            #logo-container img { height: 60px !important; } 
+            #auth-section { display: none !important; }
             .cart-sidebar { max-width: 100%; border-left: none; }
         }
     </style>
@@ -476,7 +475,7 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 920) {
             document.getElementById('mobile-menu-btn').style.display = 'flex';
             document.getElementById('mobile-cart-btn').style.display = 'flex';
         }
