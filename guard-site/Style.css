@@ -2162,7 +2162,11 @@ nav ul li a:hover {
     }
 }
 
-@media (max-width: 900px) {
+/* Ajustes para Celulares (Telas menores que 768px) */
+@media (max-width: 768px) {
+    
+    /* Ajustes para Celulares (Telas menores que 768px) */
+@media (max-width: 768px) {
     
     /* =======================================
        NOVO HEADER MOBILE (ESTILO DASHBOARD APP)
@@ -3615,7 +3619,7 @@ select:-webkit-autofill:active {
 }
 
 /* Media Query para telas de até 768px (Celulares e Tablets) */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     #mobile-cart-btn {
         display: flex; /* Ativa o botão no header */
     }
@@ -5276,7 +5280,6 @@ display: flex;
     border: none;
     font-size: 0.75rem !important;
 }
-
 
 
 
