@@ -11,250 +11,53 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* ==========================================
-           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
+           1. CABEÇALHO NÍVEL APPLE (PC)
            ========================================== */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: rgba(15, 15, 15, 0.5) !important;
-            backdrop-filter: blur(25px) !important;
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid transparent;
-            width: 100%;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0); /* Anti-Flicker GPU */
-            -webkit-transform: translateZ(0);
-            will-change: transform;
-        }
-
-        header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.85) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
-        }
-
-        #header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 86px !important; 
-            padding: 0 24px;
-            box-sizing: border-box;
-            transition: height 0.3s ease;
-            gap: 15px; /* Impede que os elementos se toquem */
-        }
-
-        header.header-scrolled #header {
-            height: 60px;
-        }
-
-        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
-        #logo-container {
-            flex: 1;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        #logo-container img {
-            height: 60px !important;
-            width: auto;
-            display: block;
-            transition: height 0.3s ease;
-        }
-
-        header.header-scrolled #logo-container img {
-            height: 45px; 
-        }
-
-        #nav-container {
-            flex: 2; /* Ocupa a maior parte do centro */
-            display: flex;
-            justify-content: center;
-        }
-
-        #navigation-bar {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            align-items: center;
-        }
-
-        #navigation-bar a {
-            color: #d2d2d7;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            transition: color 0.2s ease;
-            white-space: nowrap; 
-        }
-
+        header { position: sticky; top: 0; z-index: 1000; background-color: rgba(15, 15, 15, 0.5) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid transparent; width: 100%; transition: background-color 0.3s ease, border-color 0.3s ease; transform: translateZ(0); -webkit-transform: translateZ(0); will-change: transform; }
+        header.header-scrolled { background-color: rgba(10, 10, 10, 0.85) !important; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        #header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; height: 86px !important; padding: 0 24px; box-sizing: border-box; transition: height 0.3s ease; gap: 15px; }
+        header.header-scrolled #header { height: 60px !important; }
+        
+        #logo-container { flex: 1; display: flex; justify-content: flex-start; align-items: center; }
+        #logo-container img { height: 60px !important; width: auto; display: block; transition: height 0.3s ease; }
+        header.header-scrolled #logo-container img { height: 45px !important; }
+        
+        #nav-container { flex: 2; display: flex; justify-content: center; }
+        #navigation-bar { display: flex; gap: 24px; list-style: none; padding: 0; margin: 0; align-items: center; }
+        #navigation-bar a { color: #d2d2d7; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s ease; white-space: nowrap; }
         #navigation-bar a:hover { color: #ffffff; border-bottom: solid 2px #ffff00;}
-
-        #navigation-bar a.active-nav {
-            color: #FFFF00;
-            font-weight: 600;
-            border-bottom: 2px solid #FFFF00;
-            padding-bottom: 4px;
-        }
-
-        /* Agrupamento da Direita */
-        #desktop-cart-group {
-            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
-            display: flex !important; 
-            align-items: center;
-            justify-content: flex-end;
-            gap: 20px;
-        }
-
-        #open-cart-btn {
-            cursor: pointer;
-            color: #d2d2d7;
-            display: flex;
-            align-items: center;
-            position: relative;
-            transition: color 0.2s ease;
-        }
+        #navigation-bar a.active-nav { color: #FFFF00; font-weight: 600; border-bottom: 2px solid #FFFF00; padding-bottom: 4px; }
+        
+        #desktop-cart-group { flex: 1; display: flex !important; align-items: center; justify-content: flex-end; gap: 20px; }
+        #open-cart-btn { cursor: pointer; color: #d2d2d7; display: flex; align-items: center; position: relative; transition: color 0.2s ease; }
         #open-cart-btn:hover { color: #ffffff; }
-
-        #cart-count {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background: #ff3b30;
-            color: white;
-            border-radius: 12px;
-            padding: 2px 5px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            min-width: 16px;
-            text-align: center;
-            box-sizing: border-box;
-            border: 2px solid rgba(10, 10, 10, 0.85);
-        }
-
-        /* Espaço Fixo e Alinhado à Direita para Autenticação */
-        #auth-section {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            padding-left: 20px;
-            height: 28px;
-            min-width: 130px; 
-        }
-
+        #cart-count { position: absolute; top: -6px; right: -8px; background: #ff3b30; color: white; border-radius: 12px; padding: 2px 5px; font-size: 0.65rem; font-weight: 700; min-width: 16px; text-align: center; box-sizing: border-box; border: 2px solid rgba(10, 10, 10, 0.85); }
+        
+        #auth-section { display: flex; align-items: center; justify-content: flex-end; border-left: 1px solid rgba(255, 255, 255, 0.15); padding-left: 20px; height: 28px; min-width: 130px; }
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
         .auth-link:hover { color: #ffffff; }
         .auth-separator { color: #424245; font-size: 0.8rem; margin: 0 8px; }
-
+        
         #logged-in-ui { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
         #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; transition: transform 0.2s; }
         #user-first-name { font-size: 0.9rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; white-space: nowrap; }
-
-        .profile-dropdown {
-            display: none; position: absolute; top: 100%; right: 0; margin-top: 20px;
-            background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
-            width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-        }
+        .profile-dropdown { display: none; position: absolute; top: 100%; right: 0; margin-top: 20px; background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px; width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
         .profile-dropdown.active { display: flex; animation: fadeIn 0.2s ease forwards; }
         .dropdown-item { padding: 12px 16px; color: #f5f5f7; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease; display: flex; align-items: center; }
         .dropdown-item:hover { background-color: #2c2c2e; }
         .dropdown-divider { height: 1px; background-color: #424245; margin: 4px 0; }
         .dropdown-item.logout { color: #ff4444; }
         .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           RESPONSIVIDADE INTELIGENTE
-           ========================================== */
-        /* ==========================================
-           RESPONSIVIDADE DO HEADER
-           ========================================== */
-        
-        /* 1. Header de PC Compacto (Entre 921px e 1150px) */
-        @media (min-width: 921px) and (max-width: 1150px) {
-            #navigation-bar { gap: 12px; } 
-            #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
-            #desktop-cart-group { gap: 12px; }
-            #auth-section { padding-left: 12px; min-width: auto; }
-            .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; } 
-        }
-
-        /* 2. Header Mobile com Logo Central (Até 920px) */
-        @media (max-width: 920px) {
-            /* Esconde os menus de PC */
-            #nav-container, #desktop-cart-group { display: none !important; }
-            #auth-section { display: none !important; }
-            
-            /* Formata o tamanho e fundo do Header */
-            #header { 
-                padding: 0 20px !important; 
-                height: 85px !important; 
-                justify-content: space-between !important;
-                background-color: rgba(15, 15, 15, 0.6) !important;
-                flex-direction: row !important;
-            } 
-            
-            /* Centraliza a Logo perfeitamente */
-            #logo-container { 
-                flex: 1 !important; 
-                display: flex !important; 
-                justify-content: center !important; 
-                align-items: center !important;
-            }
-            #logo-container a { margin: 0 auto; display: flex; }
-            #logo-container img { height: 50px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
-            
-            .cart-sidebar { max-width: 100%; border-left: none; }
-
-            /* Força os botões quadrados do Mobile a aparecerem na tela */
-            .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 48px !important;
-                height: 48px !important;
-                background-color: rgba(255, 255, 255, 0.03) !important;
-                border: 1px solid rgba(255, 255, 255, 0.08) !important;
-                border-radius: 14px !important;
-                color: #cccccc !important;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            .mobile-icon svg { width: 22px !important; height: 22px !important; }
-            .mobile-icon span:not(.mobile-cart-badge) { display: none !important; }
-            
-            .mobile-icon:active, 
-            .mobile-icon:hover {
-                background-color: rgba(255, 255, 0, 0.08) !important;
-                border-color: rgba(255, 255, 0, 0.3) !important;
-                color: #FFFF00 !important;
-                box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
-            }
-
-            /* Força a barra de rolagem e margens corretas no index no Mobile */
-            #background-image {
-                margin-top: -85px !important; 
-                padding-top: 140px !important; 
-            }
-        }
-        /* ==========================================
-           CARRINHO LATERAL (Oculto por padrão)
+           2. CARRINHO LATERAL (BLINDADO)
            ========================================== */
         .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .cart-overlay.active { opacity: 1; visibility: visible; }
-        .cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background-color: #0a0a0a; border-left: 1px solid #222; z-index: 2001; display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
-        .cart-sidebar.active { right: 0; }
+        .cart-sidebar { position: fixed; top: 0; right: -100% !important; width: 100%; max-width: 450px; height: 100%; background-color: #0a0a0a; border-left: 1px solid #222; z-index: 2001; display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
+        .cart-sidebar.active { right: 0 !important; }
         .cart-header { padding: 24px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #111; }
         .cart-header h2 { margin: 0; font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.5px;}
         .close-btn { background: #1c1c1e; border: none; color: #86868b; width: 38px; height: 38px; border-radius: 50%; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; line-height: 1; }
@@ -279,35 +82,99 @@
         .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
         /* ==========================================
-           HERO ESPECÍFICO PARA TABLETS (600px a 1024px)
+           3. RESPONSIVIDADE DO HEADER E HERO
+           ========================================== */
+        
+        /* 3.1. PC Compacto (Entre 921px e 1150px) */
+        @media (min-width: 921px) and (max-width: 1150px) {
+            #navigation-bar { gap: 12px; } 
+            #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
+            #desktop-cart-group { gap: 12px; }
+            #auth-section { padding-left: 12px; min-width: auto; }
+            .auth-link { font-size: 0.75rem; }
+            #user-first-name { display: none; } 
+        }
+
+        /* 3.2. Header Mobile com Logo Central (Até 920px) */
+        @media (max-width: 920px) {
+            #nav-container, #desktop-cart-group, #auth-section { display: none !important; }
+            
+            #header { 
+                padding: 0 20px !important; 
+                height: 85px !important; 
+                justify-content: space-between !important;
+                background-color: rgba(15, 15, 15, 0.6) !important;
+                flex-direction: row !important;
+            } 
+            
+            #logo-container { 
+                flex: 1 !important; 
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important;
+            }
+            #logo-container a { margin: 0 auto; display: flex; }
+            #logo-container img { height: 50px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
+            
+            .cart-sidebar { max-width: 100%; border-left: none; }
+
+            .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 48px !important;
+                height: 48px !important;
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 14px !important;
+                color: #cccccc !important;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .mobile-icon svg { width: 22px !important; height: 22px !important; }
+            .mobile-icon span:not(.mobile-cart-badge) { display: none !important; }
+            
+            .mobile-icon:active, 
+            .mobile-icon:hover {
+                background-color: rgba(255, 255, 0, 0.08) !important;
+                border-color: rgba(255, 255, 0, 0.3) !important;
+                color: #FFFF00 !important;
+                box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
+            }
+        }
+
+        /* ==========================================
+           4. HERO ESPECÍFICO PARA TABLETS (600px a 1024px)
            ========================================== */
         @media (min-width: 600px) and (max-width: 1024px) {
             #background-image {
                 display: flex !important;
-                flex-direction: column !important; /* Empilha texto em cima, caixa embaixo */
+                flex-direction: column !important;
                 justify-content: center !important;
                 align-items: center !important;
                 height: auto !important;
                 min-height: 100vh !important;
-                padding: 140px 20px 80px 20px !important; /* Espaço para o menu respirar */
-                gap: 50px !important; /* Separação limpa entre o texto e a caixa */
+                padding: 120px 20px 60px 20px !important; 
+                margin-top: 0 !important; /* Zera a margem negativa que quebrava o design */
                 background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url("imagens/background-house.webp") !important;
                 background-position: center !important;
                 background-size: cover !important;
+                gap: 40px !important; /* Espaço limpo entre o texto e a caixa */
             }
 
             #text-header {
-                max-width: 85% !important;
-                margin: 0 auto !important;
+                max-width: 600px !important;
+                margin: 0 auto !important; 
                 text-align: center !important;
-                height: auto !important;
-                display: block !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
                 padding: 0 !important;
             }
 
             #text-header .linha-branca, 
             #text-header .linha-amarela {
-                font-size: 42px !important; /* Tamanho de texto ajustado para Tablet */
+                font-size: 42px !important; 
                 line-height: 1.2 !important;
             }
 
@@ -319,13 +186,53 @@
 
             #menu-orcamento {
                 width: 100% !important;
-                max-width: 420px !important; /* Tamanho de cartão elegante (não ocupa a tela toda) */
-                margin: 0 auto !important;
-                border-radius: 25px !important; /* Arredonda todos os cantos (Cartão flutuante) */
+                max-width: 450px !important; 
+                margin: 0 auto !important; /* Remove as margens laterais que empurravam a caixa para a direita */
+                border-radius: 25px !important; 
                 border: 1px solid rgba(255, 255, 255, 0.1) !important;
-                border-top: 3px solid #FFFF00 !important; /* Detalhe premium da marca */
-                padding: 35px 25px !important;
-                box-shadow: 0 15px 40px rgba(0,0,0,0.8) !important;
+                border-top: 3px solid #FFFF00 !important; 
+                padding: 40px 30px !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
+                background-color: rgba(15, 15, 15, 0.85) !important;
+                backdrop-filter: blur(25px) !important;
+                -webkit-backdrop-filter: blur(25px) !important;
+            }
+        }
+
+        /* ==========================================
+           5. HERO SECTION: MOBILE EXTREMO (< 600px)
+           ========================================== */
+        @media (max-width: 599px) {
+            #background-image {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                height: auto !important;
+                padding: 100px 15px 0 15px !important;
+                margin-top: 0 !important;
+            }
+
+            #text-header {
+                margin: 0 0 30px 0 !important;
+                text-align: center !important;
+                height: auto !important;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #text-header .linha-branca, 
+            #text-header .linha-amarela {
+                font-size: 28px !important;
+                line-height: 1.1 !important;
+            }
+
+            #menu-orcamento {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 30px 30px 0 0 !important;
+                border-top: 3px solid #FFFF00 !important;
             }
         }
     </style>
