@@ -2162,10 +2162,6 @@ nav ul li a:hover {
     }
 }
 
-/* Ajustes para Celulares (Telas menores que 768px) */
-@media (max-width: 768px) {
-    
-
 @media (max-width: 900px) {
     
     /* =======================================
@@ -3619,7 +3615,7 @@ select:-webkit-autofill:active {
 }
 
 /* Media Query para telas de até 768px (Celulares e Tablets) */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     #mobile-cart-btn {
         display: flex; /* Ativa o botão no header */
     }
