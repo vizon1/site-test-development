@@ -5281,6 +5281,56 @@ display: flex;
     font-size: 0.75rem !important;
 }
 
+/* ==========================================
+   FORÇAR HEADER MOBILE ATÉ 920px (OVERRIDE SEGURO)
+   ========================================== */
+@media (max-width: 920px) {
+    #nav-container, #desktop-cart-group, #auth-section { display: none !important; }
+    
+    #header { 
+        display: flex !important;
+        flex-direction: row !important;
+        padding: 0 20px !important; 
+        height: 85px !important; 
+        justify-content: space-between !important;
+        align-items: center !important;
+        background-color: rgba(15, 15, 15, 0.6) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    } 
+    
+    #logo-container { 
+        flex: 1 !important; 
+        display: flex !important; 
+        justify-content: center !important; 
+        align-items: center !important;
+    }
+    #logo-container a { margin: 0 auto !important; display: flex !important; border: none !important; padding: 0 !important; }
+    #logo-container img { height: 50px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
+
+    .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 48px !important;
+        height: 48px !important;
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        color: #cccccc !important;
+        cursor: pointer !important;
+    }
+    .mobile-icon svg { width: 22px !important; height: 22px !important; }
+    .mobile-icon span:not(.mobile-cart-badge) { display: none !important; }
+    .mobile-icon:active, .mobile-icon:hover {
+        background-color: rgba(255, 255, 0, 0.08) !important;
+        border-color: rgba(255, 255, 0, 0.3) !important;
+        color: #FFFF00 !important;
+        box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
+    }
+}
 
 
 
