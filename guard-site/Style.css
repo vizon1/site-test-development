@@ -5333,7 +5333,7 @@ display: flex;
 }
 
 .desktop-cart-group {
-    display: none;
+    display: none !important;
 }
 
 
