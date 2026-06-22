@@ -5332,7 +5332,7 @@ display: flex;
     }
 }
 
-.desktop-cart-group {
+#desktop-cart-group {
     display: none !important;
 }
 
