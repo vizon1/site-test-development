@@ -3531,11 +3531,7 @@ select:-webkit-autofill:active {
     color: #fff; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; 
     display: flex; justify-content: space-between;
 }
-.btn-checkout { 
-    width: 100%; padding: 15px; background: #FFFF00; color: #000; 
-    border: none; border-radius: 40px; font-weight: 800; font-size: 1.1rem; 
-    cursor: pointer; transition: 0.3s;
-}
+
 .btn-checkout:hover { background: #e6e600; box-shadow: 0 0 10px rgba(255,255,0,0.3); }
 
 /* =========================================
