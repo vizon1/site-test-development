@@ -289,17 +289,26 @@
         /* =========================================
            CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
            ========================================= */
-        @media (max-width: 900px) {
-            /* 1. Mantém as estrelas na mesma linha e impede que se separem */
+        @media (max-width: 920px) {
+            /* Coloca tudo na mesma linha de forma flexível */
             .shop-card-rating {
-                display: block !important; 
-                white-space: nowrap !important; 
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                gap: 4px !important;
+                white-space: normal !important;
             }
-            /* 2. Empurra apenas o texto "(15 avaliações)" para a linha de baixo */
+            /* Salva a meia-estrela de ser quebrada pelo seu Style.css */
+            .shop-card-rating span.star-half,
+            .shop-card-rating span.star-fill {
+                display: inline-block !important;
+                margin-top: 0 !important;
+            }
+            /* Deixa o texto "(15 avaliações)" na mesma linha, elegante */
             .shop-card-rating span:last-child {
-                display: block !important; 
-                margin-top: 2px !important; 
-                white-space: normal !important; 
+                display: inline-block !important;
+                margin-top: 0 !important;
+                font-size: 0.65rem !important;
             }
         }
     </style>
