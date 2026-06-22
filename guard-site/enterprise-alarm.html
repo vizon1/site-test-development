@@ -121,6 +121,7 @@
             align-items: center;
             position: relative;
             transition: color 0.2s ease;
+            text-decoration: none;
         }
         #open-cart-btn:hover { color: #ffffff; }
 
@@ -251,7 +252,6 @@
         </div>
     </div>
 
-    <!-- CABEÇALHO PADRÃO DA LOJA APLICADO AQUI -->
     <header>
         <div id="header">
             <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
@@ -262,10 +262,14 @@
                 <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
 
-            <div id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative;">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <a href="store.html" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none; color: #d2d2d7;">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
+                    <rect x="4" y="8" width="16" height="14" rx="2"></rect>
+                    <path d="M8 12a4 4 0 0 0 8 0"></path>
+                </svg>
                 <span id="mobile-cart-count" style="position: absolute; top: -4px; right: -6px; background: #ff3b30; color: white; border-radius: 10px; padding: 1px 5px; font-size: 0.6rem; font-weight: bold;">0</span>
-            </div>
+            </a>
             
             <nav id="nav-container">
                 <ul id="navigation-bar">
@@ -279,6 +283,15 @@
             </nav>
             
             <div id="desktop-cart-group">
+                <a href="store.html" id="open-cart-btn" title="Ir para a Loja" style="text-decoration: none;">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
+                        <rect x="4" y="8" width="16" height="14" rx="2"></rect>
+                        <path d="M8 12a4 4 0 0 0 8 0"></path>
+                    </svg>
+                    <span id="cart-count">0</span>
+                </a>
+
                 <div id="auth-section">
                     <div id="logged-out-ui" style="display: none; align-items: center;">
                         <a href="login.html" class="auth-link">Faça Login</a>
@@ -468,7 +481,6 @@
 
     </section>
 
-    <!-- CARRINHO LATERAL -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
@@ -476,8 +488,7 @@
             <div id="close-cart-btn" class="close-btn" style="font-size: 2rem; cursor: pointer;">&times;</div>
         </div>
         <div class="cart-items" id="cart-items-container">
-            <!-- Renderizado via JS -->
-        </div>
+            </div>
         <div class="cart-footer">
             <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
             <a href="checkout.html" style="text-decoration: none; width: 100%;">
@@ -624,114 +635,20 @@
             localStorage.removeItem('guard_carrinho');
         }
 
-        function atualizarCarrinho() {
-            try {
-                const container = document.getElementById('cart-items-container');
-                const countBadge = document.getElementById('cart-count');
-                const mobileCountBadge = document.getElementById('mobile-cart-count');
-                const totalDisplay = document.getElementById('cart-total-price');
-                
-                container.innerHTML = '';
-                let totalDinheiro = 0;
-                let totalItens = 0;
-
-                if (carrinho.length === 0) {
-                    container.innerHTML = '<p style="color:#888; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
-                }
-
-                carrinho.forEach((item) => {
-                    const precoStr = String(item.preco || "0,00");
-                    const precoNumerico = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
-                    
-                    if (!isNaN(precoNumerico)) {
-                        totalDinheiro += (precoNumerico * item.quantidade);
-                    }
-                    totalItens += item.quantidade;
-
-                    container.innerHTML += `
-                        <div class="cart-item">
-                            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
-                            <div class="cart-item-details">
-                                <div class="cart-item-title">${item.titulo}</div>
-                                <div class="cart-item-price">R$ ${item.preco}</div>
-                                <div class="cart-item-qty">
-                                    <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
-                                    <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
-                                    <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
-                                </div>
-                            </div>
-                            <div class="cart-item-remove" data-id="${item.id}">&times;</div>
-                        </div>
-                    `;
-                });
-
-                if(countBadge) countBadge.textContent = totalItens;
-                if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
-                if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
-            } catch(e) {
-                console.error("Erro no motor do carrinho:", e);
-                localStorage.removeItem('guard_carrinho'); 
-                carrinho = [];
-            }
+        function atualizarCarrinhoContador() {
+            let totalItens = 0;
+            carrinho.forEach((item) => {
+                totalItens += item.quantidade;
+            });
+            
+            const countBadge = document.getElementById('cart-count');
+            const mobileCountBadge = document.getElementById('mobile-cart-count');
+            
+            if(countBadge) countBadge.textContent = totalItens;
+            if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
         }
 
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('qty-plus')) {
-                const item = carrinho.find(i => i.id === e.target.dataset.id);
-                if (item) { item.quantidade += 1; atualizarCarrinho(); }
-            }
-
-            if (e.target.classList.contains('qty-minus')) {
-                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
-                if (index !== -1) {
-                    if (carrinho[index].quantidade > 1) {
-                        carrinho[index].quantidade -= 1;
-                    } else {
-                        carrinho.splice(index, 1);
-                    }
-                    atualizarCarrinho();
-                }
-            }
-
-            if (e.target.classList.contains('cart-item-remove')) {
-                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
-                if (index !== -1) {
-                    carrinho.splice(index, 1);
-                    atualizarCarrinho();
-                }
-            }
-        });
-
-        document.addEventListener('change', (e) => {
-            if (e.target.classList.contains('qty-input')) {
-                const itemId = e.target.dataset.id;
-                let novaQuantidade = parseInt(e.target.value);
-                if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
-                const item = carrinho.find(i => i.id === itemId);
-                if (item) { item.quantidade = novaQuantidade; atualizarCarrinho(); }
-            }
-        });
-
-        const cartSidebar = document.getElementById('cart-sidebar');
-        const cartOverlay = document.getElementById('cart-overlay');
-
-        function abrirCarrinho() {
-            if(cartSidebar) cartSidebar.classList.add('active');
-            if(cartOverlay) cartOverlay.classList.add('active');
-        }
-
-        function fecharCarrinho() {
-            if(cartSidebar) cartSidebar.classList.remove('active');
-            if(cartOverlay) cartOverlay.classList.remove('active');
-        }
-
-        document.getElementById('open-cart-btn')?.addEventListener('click', abrirCarrinho);
-        document.getElementById('mobile-cart-btn')?.addEventListener('click', abrirCarrinho);
-        document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
-        cartOverlay?.addEventListener('click', fecharCarrinho);
-
-        atualizarCarrinho(); // Renderiza o carrinho ao abrir
+        atualizarCarrinhoContador();
 
         // ==========================================
         // GESTÃO DO MENU LATERAL MOBILE E SCROLL
