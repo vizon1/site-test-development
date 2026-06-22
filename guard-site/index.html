@@ -52,7 +52,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-           2. NOVA SACOLA FLUTUANTE (PC)
+           2. NOVA SACOLA FLUTUANTE (PC) - GLASS
            ========================================== */
         .floating-cart-btn {
             position: fixed;
@@ -398,10 +398,8 @@
             </div>
 
             <a href="store.html" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none;">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M19 6h-2.18C16.38 3.71 14.39 2 12 2S7.62 3.71 7.18 6H5c-1.1 0-2 .9-2 2v10c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4V8c0-1.1-.9-2-2-2Zm-7-2c1.3 0 2.42 1.01 2.8 2H9.2C9.58 3.01 10.7 2 12 2Z"></path>
                 </svg>
                 <span id="mobile-cart-count" style="position: absolute; top: -4px; right: -6px; background: #ff3b30; color: white; border-radius: 10px; padding: 1px 5px; font-size: 0.6rem; font-weight: bold;">0</span>
             </a>
@@ -806,7 +804,9 @@
 
             <div class="service-card">
                 <div class="service-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                    </svg>
                 </div>
                 <h3>Instalação limpa e rápida</h3>
                 <p>Nossos técnicos especializados realizam uma instalação estratégica, rápida e sem necessidade de reformas ou fios expostos pela casa.</p>
@@ -910,10 +910,8 @@
     </section>
     
     <a href="store.html" id="floating-cart-btn" class="floating-cart-btn" title="Ir para a Loja">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M19 6h-2.18C16.38 3.71 14.39 2 12 2S7.62 3.71 7.18 6H5c-1.1 0-2 .9-2 2v10c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4V8c0-1.1-.9-2-2-2Zm-7-2c1.3 0 2.42 1.01 2.8 2H9.2C9.58 3.01 10.7 2 12 2Z"></path>
         </svg>
         <span id="floating-cart-count">0</span>
     </a>
