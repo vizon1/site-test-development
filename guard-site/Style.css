@@ -3053,7 +3053,7 @@ strong {
 .shop-card-actions button {
     flex: 1;
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 15px;
     font-family: 'Fira Sans', sans-serif;
     font-weight: 700;
     cursor: pointer;
