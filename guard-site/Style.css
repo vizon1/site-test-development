@@ -1622,6 +1622,9 @@ nav ul li a:hover {
     align-items: center;
     gap: 14px;
     background: transparent;
+}
+
+. auth-user-mobile-color {
     color: #ffffae;
 }
 
