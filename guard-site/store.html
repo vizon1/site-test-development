@@ -163,10 +163,9 @@
             line-height: 1;
         }
 
-        /* Ocultar o botão flutuante no mobile (lá usa o header) */
         @media (max-width: 920px) {
             .floating-cart-btn { display: none !important; }
-        }
+            .logo-container { height: 60px !important; }
 
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; padding-bottom: 0px; border: 0px;}
         .auth-link:hover { color: #ffffff; }
@@ -191,9 +190,6 @@
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==========================================
-                               CARRINHO LATERAL
-           ========================================== */
         .cart-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
@@ -285,12 +281,7 @@
             #auth-section { display: none !important; }
             .cart-sidebar { max-width: 100%; border-left: none; }
         }
-        /* =========================================
-           CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
-           ========================================= */
-        /* =========================================
-           CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
-           ========================================= */
+
         @media (max-width: 920px) {
             .shop-card-rating {
                 display: flex !important;
