@@ -32,6 +32,7 @@ header {
     position: fixed !important;
     background-color: rgba(15, 15, 15, 0.5) !important;
     backdrop-filter: blur(25px) !important;
+    border-bottom: 1px solid #383838;
 }
 
 #background-image, 
