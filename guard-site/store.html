@@ -108,22 +108,6 @@
             gap: 20px;
         }
 
-        #cart-count {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background: #ff3b30;
-            color: white;
-            border-radius: 12px;
-            padding: 2px 5px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            min-width: 16px;
-            text-align: center;
-            box-sizing: border-box;
-            border: 2px solid rgba(10, 10, 10, 0.85);
-        }
-
         #auth-section {
             display: flex;
             align-items: center;
@@ -135,58 +119,52 @@
         }
 
         /* ==========================================
-           NOVO CARRINHO FLUTUANTE DE PC (ESTILO APPLE)
+           CARRINHO FLUTUANTE (ESTILO APPLE)
            ========================================== */
-        /* 1. Esconde o carrinho antigo do cabeçalho no PC */
-        #open-cart-btn { display: none !important; }
-
-        /* 2. Visual Glassmorphism para o novo botão flutuante */
         .floating-cart-btn {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 64px;
-            height: 64px;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background-color: rgba(28, 28, 30, 0.65) !important; /* Fundo translúcido */
-            backdrop-filter: blur(20px) !important; /* Efeito de desfoque do fundo (Vidro) */
-            -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-            display: flex !important;
+            background-color: rgba(28, 28, 30, 0.65); /* Fundo translúcido */
+            backdrop-filter: blur(20px); /* Vidro fosco */
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
             align-items: center;
             justify-content: center;
-            color: #f5f5f7 !important;
+            color: #f5f5f7;
             cursor: pointer;
             z-index: 1999;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, color 0.3s;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
         }
 
         .floating-cart-btn:hover {
             transform: scale(1.08);
-            background-color: rgba(44, 44, 46, 0.85) !important;
-            border-color: rgba(255, 255, 0, 0.4) !important;
-            color: #FFFF00 !important;
+            background-color: rgba(44, 44, 46, 0.85);
+            color: #fff;
         }
 
-        /* 3. A bolinha amarela com o número de itens */
         #floating-cart-count {
             position: absolute;
             top: -4px;
             right: -4px;
-            background-color: #FFFF00;
-            color: #000;
-            font-weight: 800;
-            font-size: 0.75rem;
-            padding: 4px 8px;
+            background-color: #ff3b30;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 2px 6px;
             border-radius: 20px;
-            border: 2px solid #000; /* Borda preta para destacar sobre o botão */
-            min-width: 20px;
+            border: 2px solid #000;
+            min-width: 18px;
             text-align: center;
             line-height: 1;
         }
 
-        /* 4. Esconde este botão no Mobile, porque lá ele já fica no Header */
+        /* Ocultar o botão flutuante no mobile (lá usa o header) */
         @media (max-width: 920px) {
             .floating-cart-btn { display: none !important; }
         }
@@ -215,7 +193,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================
-                       CARRINHO LATERAL
+                               CARRINHO LATERAL
            ========================================== */
         .cart-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -291,7 +269,7 @@
         .btn-checkout:active { transform: translateY(0); }
 
         /* ==========================================
-                         RESPONSIVIDADE
+                             RESPONSIVIDADE
            ========================================== */
         @media (min-width: 921px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
@@ -401,13 +379,8 @@
             </nav>
             
             <div id="desktop-cart-group">
-                <div id="open-cart-btn" title="Carrinho">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                    <span id="cart-count">0</span>
-                </div>
-
                 <div id="auth-section">
-                    <div id="logged-out-ui" style="display: flex; align-items: center; justify-content:center; gap: 6px;">
+                    <div id="logged-out-ui" style="display: none; align-items: center; justify-content:center; gap: 6px;">
                         <a href="login.html" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
                         <a href="login.html" class="auth-link">Cadastre-se</a>
@@ -477,6 +450,11 @@
         </div>
     </section>
     
+    <div id="floating-cart-btn" class="floating-cart-btn" title="Carrinho">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span id="floating-cart-count">0</span>
+    </div>
+
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
@@ -848,8 +826,8 @@
         function atualizarCarrinho() {
             try {
                 const container = document.getElementById('cart-items-container');
-                const countBadge = document.getElementById('cart-count');
                 const mobileCountBadge = document.getElementById('mobile-cart-count');
+                const floatingCountBadge = document.getElementById('floating-cart-count'); // <- Nova linha
                 const totalDisplay = document.getElementById('cart-total-price');
                 
                 container.innerHTML = '';
@@ -886,8 +864,8 @@
                     `;
                 });
 
-                if(countBadge) countBadge.textContent = totalItens;
                 if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+                if(floatingCountBadge) floatingCountBadge.textContent = totalItens; // <- Nova linha
                 if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
             } catch(e) {
@@ -990,8 +968,8 @@
             if(cartOverlay) cartOverlay.classList.remove('active');
         }
 
-        document.getElementById('open-cart-btn')?.addEventListener('click', abrirCarrinho);
         document.getElementById('mobile-cart-btn')?.addEventListener('click', abrirCarrinho);
+        document.getElementById('floating-cart-btn')?.addEventListener('click', abrirCarrinho); // <- Nova linha
         document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
         cartOverlay?.addEventListener('click', fecharCarrinho);
 
