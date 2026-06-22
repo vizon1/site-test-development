@@ -286,6 +286,22 @@
             #auth-section { display: none !important; }
             .cart-sidebar { max-width: 100%; border-left: none; }
         }
+        /* =========================================
+           CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
+           ========================================= */
+        @media (max-width: 900px) {
+            /* 1. Mantém as estrelas na mesma linha e impede que se separem */
+            .shop-card-rating {
+                display: block !important; 
+                white-space: nowrap !important; 
+            }
+            /* 2. Empurra apenas o texto "(15 avaliações)" para a linha de baixo */
+            .shop-card-rating span:last-child {
+                display: block !important; 
+                margin-top: 2px !important; 
+                white-space: normal !important; 
+            }
+        }
     </style>
 </head>
 <body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff;">
