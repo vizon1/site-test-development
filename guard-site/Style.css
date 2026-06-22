@@ -3281,6 +3281,7 @@ strong {
 }
 
 .btn-panel-submit {
+    width: 50% !important;
     background: #FFFF00;
     color: #000000;
     border: none;
