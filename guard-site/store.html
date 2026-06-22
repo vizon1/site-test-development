@@ -289,8 +289,10 @@
         /* =========================================
            CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
            ========================================= */
+        /* =========================================
+           CORREÇÃO CIRÚRGICA: ESTRELAS DO MOBILE
+           ========================================= */
         @media (max-width: 920px) {
-            /* Coloca tudo na mesma linha de forma flexível */
             .shop-card-rating {
                 display: flex !important;
                 flex-wrap: wrap !important;
@@ -298,18 +300,24 @@
                 gap: 4px !important;
                 white-space: normal !important;
             }
-            /* Salva a meia-estrela de ser quebrada pelo seu Style.css */
-            .shop-card-rating span.star-half,
+            
+            .shop-card-rating span.star-half {
+                display: inline-block !important;
+                margin-top: 0 !important;
+                transform: translateY(-1.5px) !important; /* A MÁGICA: Empurra a meia estrela milimetricamente para cima */
+            }
+            
             .shop-card-rating span.star-fill {
                 display: inline-block !important;
                 margin-top: 0 !important;
             }
-            /* Deixa o texto "(15 avaliações)" na mesma linha, elegante */
+            
             .shop-card-rating span:last-child {
                 display: inline-block !important;
                 margin-top: 0 !important;
                 font-size: 0.65rem !important;
             }
+        }
         }
     </style>
 </head>
