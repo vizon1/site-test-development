@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     try {
         const { from, to, products } = req.body;
 
-        // Monta o payload seguindo estritamente a API v2 do Melhor Envio
+        // Monta o payload garantindo que tudo seja número para evitar erros de cálculo
         const melhorEnvioPayload = {
             from: { postal_code: from.postal_code.replace(/\D/g, '') },
             to: { postal_code: to.postal_code.replace(/\D/g, '') },
@@ -21,12 +21,13 @@ export default async function handler(req, res) {
             }))
         };
 
+        // URL oficial de produção (100% gratuita para consultar)
         const response = await fetch('https://melhorenvio.com.br/api/v2/me/shipment/calculate', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.MELHOR_ENVIO_TOKEN}`, // Armazenado nas variáveis de ambiente da Vercel
+                'Authorization': `Bearer ${process.env.MELHOR_ENVIO_TOKEN}`,
                 'User-Agent': 'GuardStore (contato@guardalarmes.com)'
             },
             body: JSON.stringify(melhorEnvioPayload)
