@@ -108,10 +108,10 @@
         .input-group { display: flex; flex-direction: column; width: 100%; }
         .input-group label { font-size: 0.75rem; color: #86868b; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
 
+        /* ATUALIZAÇÃO DA COR AQUI: O select nativamente obedece à cor do navegador */
         .input-group input, .input-group select {
             background-color: #1c1c1e !important;
             border: 1.5px solid transparent !important;
-            color: #fff !important;
             padding: 16px 18px !important;
             border-radius: 12px !important;
             font-size: 1rem !important;
@@ -120,13 +120,29 @@
             appearance: none; -webkit-appearance: none;
         }
 
-        .input-group input:focus, .input-group select:focus {
-            border-color: #FFFF00 !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1);
-        }
+        /* O input de texto sempre branco */
+        .input-group input { color: #fff !important; }
 
+        /* O SELECT FICA CINZA POR PADRÃO (PLACEHOLDER) */
         .input-group select {
+            color: #86868b !important;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto; cursor: pointer;
+        }
+
+        /* MAS SE TIVER A CLASSE DE SUCESSO ELE FICA BRANCO */
+        .input-group select.valor-selecionado {
+            color: #fff !important;
+        }
+
+        /* MAS AS OPÇÕES INTERNAS SÃO SEMPRE BRANCAS */
+        .input-group select option {
+            color: #fff;
+            background-color: #1c1c1e;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #FFFF00 !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1);
         }
 
         .error-text { color: #ff4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
@@ -181,7 +197,6 @@
         .summary-qty-controls { display: flex; align-items: center; background-color: #1c1c1e; border-radius: 20px; width: max-content; border: 1px solid #333; overflow: hidden;}
         .summary-qty-btn { background: none; border: none; color: #fff; font-size: 1.2rem; width: 32px; height: 32px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
         .summary-qty-btn:hover { background-color: #2c2c2e; }
-        /* CORREÇÃO: Remoção de 'pointer-events: none' permitindo digitação */
         .summary-qty-input { width: 30px; text-align: center; background: none; border: none; color: #fff; font-size: 0.9rem; font-weight: 700; padding: 0;}
 
         .summary-totals { margin-top: 25px; }
@@ -316,7 +331,7 @@
                     </div>
                     <div class="input-group">
                         <label for="estado">Estado (UF)</label>
-                        <select id="estado" required>
+                        <select id="estado" required onchange="this.classList.add('valor-selecionado');">
                             <option value="" disabled selected>Selecione...</option>
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
@@ -396,8 +411,8 @@
             
             <div class="input-group" style="margin-bottom: 0;">
                 <label for="pagamento">Método Escolhido</label>
-                <select id="pagamento">
-                    <option value="pix">PIX (Aprovação Imediata e Mais Rápida)</option>
+                <select id="pagamento" class="valor-selecionado">
+                    <option value="pix" selected>PIX (Aprovação Imediata e Mais Rápida)</option>
                     <option value="cartao">Cartão de Crédito (Até 12x)</option>
                     <option value="boleto">Boleto Bancário (Até 3 dias úteis)</option>
                 </select>
@@ -652,6 +667,9 @@
             numeroInput.value = endObj.numero || ''; document.getElementById('bairro').value = endObj.bairro || '';
             document.getElementById('cidade').value = endObj.cidade || ''; document.getElementById('estado').value = endObj.estado || '';
             
+            // GARANTE QUE O ESTADO FIQUE BRANCO AO CARREGAR O ENDEREÇO SALVO
+            document.getElementById('estado').classList.add('valor-selecionado');
+            
             document.getElementById('card-nome').textContent = nomeInput.value || "Destinatário";
             document.getElementById('card-telefone').textContent = telefoneInput.value || "";
             document.getElementById('card-badge').style.display = endObj.isPadrao ? 'inline-block' : 'none';
@@ -675,6 +693,10 @@
             modalEnderecos.classList.remove('active');
             cepInput.value = ''; document.getElementById('rua').value = ''; numeroInput.value = '';
             document.getElementById('bairro').value = ''; document.getElementById('cidade').value = ''; document.getElementById('estado').value = '';
+            
+            // VOLTA O ESTADO PARA A COR DE PLACEHOLDER QUANDO CRIA NOVO
+            document.getElementById('estado').classList.remove('valor-selecionado');
+            
             limparFrete(); editandoEnderecoId.value = ""; 
             document.getElementById('chk-salvar-endereco').checked = true; document.getElementById('chk-endereco-padrao').checked = false;
             cardEnderecoSalvo.style.display = 'none'; blocoInputsEndereco.style.display = 'block'; cepInput.focus();
@@ -712,22 +734,18 @@
             modalEnderecos.classList.remove('active');
         });
 
-        // =========================================
-        // 5. NOVA INTEGRAÇÃO API MELHOR ENVIO
-        // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
             valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
         }
 
-        // --- NOVO: Função para reavaliar o frete em tempo real ---
         function reavaliarFrete() {
             const cepLimpo = cepInput.value.replace(/\D/g, '');
             if (cepLimpo.length === 8) {
-                valorFrete = 0.00; // Zera para evitar confusão de preço visual
+                valorFrete = 0.00;
                 document.getElementById('checkout-frete').textContent = 'R$ 0,00';
                 renderizarResumo();
-                buscarOpcoesDeFrete(); // Refaz o cálculo com os novos pesos/quantidades
+                buscarOpcoesDeFrete(); 
             }
         }
 
@@ -755,7 +773,6 @@
 
                     const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
 
-                    // Força a estrutura nativa com dados estritamente numéricos
                     productsPayload.push({
                         id: String(item.id),
                         weight: Number(peso),
@@ -789,11 +806,7 @@
                 if (Array.isArray(cotacoes)) {
                     cotacoes.forEach((opcao, index) => {
                         if (opcao.error) return; 
-
-                        // FILTRO: Exibe apenas opções cujo nome da empresa contenha "Correios"
-                        if (!opcao.company.name.toLowerCase().includes('correios')) {
-                            return; 
-                        }
+                        if (!opcao.company.name.toLowerCase().includes('correios')) { return; }
 
                         encontrouOpcao = true;
                         const valor = parseFloat(opcao.custom_price || opcao.price);
@@ -812,12 +825,6 @@
                             </div>
                         `;
                     });
-
-                    if (encontrouOpcao) {
-                        const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
-                        if (primeiraOpcao) selecionarFrete(primeiraOpcao);
-                    }
-                }
 
                     if (encontrouOpcao) {
                         const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
@@ -846,7 +853,12 @@
                     const data = await res.json();
                     if (!data.erro) {
                         document.getElementById('rua').value = data.logradouro || ''; document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || ''; document.getElementById('estado').value = data.uf || '';
+                        document.getElementById('cidade').value = data.localidade || ''; 
+                        
+                        document.getElementById('estado').value = data.uf || '';
+                        // FORÇA A COR BRANCA QUANDO O VIACEP PREENCHE SOZINHO
+                        document.getElementById('estado').classList.add('valor-selecionado');
+                        
                         limparErro(cepInput); numeroInput.focus(); 
                     } else { mostrarErro(cepInput, 'CEP não encontrado.'); }
                 } catch (err) { console.error("Erro na busca do CEP:", err); }
@@ -913,7 +925,7 @@
                 if (item) { 
                     item.quantidade += 1; 
                     renderizarResumo(); 
-                    reavaliarFrete(); // <-- AQUI: Avisa o frete
+                    reavaliarFrete(); 
                 }
             }
             if (e.target.classList.contains('qty-minus')) {
@@ -922,11 +934,11 @@
                     if (itensCheckout[index].quantidade > 1) {
                         itensCheckout[index].quantidade -= 1;
                         renderizarResumo();
-                        reavaliarFrete(); // <-- AQUI: Avisa o frete
+                        reavaliarFrete();
                     } else {
                         itensCheckout.splice(index, 1);
                         renderizarResumo();
-                        reavaliarFrete(); // <-- AQUI: Avisa o frete
+                        reavaliarFrete();
                     }
                 }
             }
@@ -940,7 +952,7 @@
                 if (item) { 
                     item.quantidade = novaQuantidade; 
                     renderizarResumo(); 
-                    reavaliarFrete(); // <-- AQUI: Avisa o frete
+                    reavaliarFrete(); 
                 }
             }
         });
@@ -1039,4 +1051,4 @@
         });
     </script>
 </body>
-</html>
+</html>)
