@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="pt-br"><head>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
     <title>Finalizar Compra - Guard</title>
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
@@ -88,6 +90,7 @@
         .frete-nome { display: block; font-weight: 700; color: #fff; margin-bottom: 4px; font-size: 1rem; }
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
+        .frete-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 15px; border-radius: 6px; background: #fff; padding: 2px;}
 
         /* =========================================================
            PAGAMENTO ACCORDION
@@ -97,13 +100,13 @@
         .payment-option:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .payment-option:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
         .payment-option.selecionado { background-color: rgba(255, 255, 255, 0.02); border-color: #fff; z-index: 2; position: relative; }
-        .payment-header { display: flex; align-items: center; padding: 20px; }
+        .payment-header { display: flex; align-items: center; padding: 20px; pointer-events: none; /* Garante que o click caia na div pai */ }
         .payment-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
         .payment-option.selecionado .payment-radio-circle { border-color: #FFFF00; }
         .payment-option.selecionado .payment-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
         .payment-name { font-weight: 600; color: #fff; font-size: 1rem; flex-grow: 1; }
         .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; }
-        .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; }
+        .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; cursor: default; }
         .payment-msg { color: #a0a0a5; font-size: 0.95rem; text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed #333; }
         #cartao-container { display: none; margin-top: 5px; animation: fadeIn 0.4s ease; }
 
@@ -160,7 +163,6 @@
         /* VIEW 1: Grade de Endereços */
         #lista-enderecos-view { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        /* Cartão de Endereço - Selecionado com Borda Branca e Fundo #1c1c1e */
         .endereco-quadradinho { 
             background: #111; border: 1.5px solid #2c2c2e; border-radius: 16px; padding: 20px; 
             cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; 
@@ -171,27 +173,21 @@
         
         .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
         
-        /* Custom Radio Redondo Branco Quando Selecionado */
         .custom-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px;}
         .endereco-quadradinho.selected .custom-radio { border-color: #fff; }
         .endereco-quadradinho.selected .custom-radio::after { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
         
-        /* Ações */
         .endereco-acoes-card { display: flex; gap: 15px; align-items: center; }
         .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-edit:hover { color: #fff; }
-        
-        /* Vermelho Apple Nativo (#ff3b30) no hover */
         .endereco-q-delete { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-delete:hover { color: #ff3b30; }
         
-        /* Textos do Cartão */
         .endereco-q-texto { color: #86868b; font-size: 0.9rem; line-height: 1.6; }
         .endereco-q-texto strong { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         
         .badge-padrao-card { background: #fff; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase;}
 
-        /* Cartão de Adicionar */
         .btn-novo-endereco-redondo { 
             background: #111; border: 1.5px dashed #424245; border-radius: 16px; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -211,7 +207,6 @@
         .btn-salvar-endereco-dinamico.ativo { background-color: #FFFF00; color: #000; cursor: pointer; }
         .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433;}
 
-        /* Rodapé do Modal */
         .modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; background: #111; }
         .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
@@ -350,25 +345,25 @@
         </div>
 
         <div class="checkout-box box-pagamento" style="margin-bottom: 0;">
-            <h2 class="box-title">Pagamento</h2>
+            <h2 class="box-title" style="margin-bottom: 5px;">Pagamento</h2>
             <p style="color: #86868b; font-size: 0.85rem; margin-top: 0; margin-bottom: 20px;">Todas as transações são seguras e criptografadas.</p>
             
             <input type="hidden" id="metodo-pagamento-hidden" value="">
 
             <div class="payment-group">
-                <div class="payment-option" data-metodo="pix" onclick="selecionarPagamento(this)">
+                <div class="payment-option" data-metodo="pix">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">PIX (Aprovação Imediata)</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.</div></div>
                 </div>
-                <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
+                <div class="payment-option" data-metodo="cartao_credito">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Crédito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-credito"></div>
                 </div>
-                <div class="payment-option" data-metodo="cartao_debito" onclick="selecionarPagamento(this)">
+                <div class="payment-option" data-metodo="cartao_debito">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Débito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-debito"></div>
                 </div>
-                <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
+                <div class="payment-option" data-metodo="boleto">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Boleto Bancário</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.</div></div>
                 </div>
@@ -389,6 +384,7 @@
         </div>
     </form>
 
+    <!-- MODAL DE ENDEREÇOS REFORMULADO -->
     <div class="modal-overlay" id="modal-enderecos">
         <div class="modal-content">
             <div class="modal-header">
@@ -424,14 +420,99 @@
         </div>
     </div>
 
+    <!-- UI Scripts (Sem Firebase para carregar instantaneamente) -->
+    <script>
+        // MÁSCARAS
+        const nomeInput = document.getElementById('nome');
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+        const numInput = document.getElementById('numero');
+        const cartaoNumero = document.getElementById('cartao-numero');
+        const cartaoNome = document.getElementById('cartao-nome');
+        const cartaoValidade = document.getElementById('cartao-validade');
+        const cartaoCvv = document.getElementById('cartao-cvv');
+
+        nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
+        numInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+        
+        telefoneInput.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ""); 
+            if (v.length > 11) v = v.substring(0, 11); 
+            if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+            else if (v.length > 0) v = v.replace(/^(\d{0,2})/, "($1");
+            this.value = v;
+        });
+
+        cpfInput.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, "");
+            if (v.length > 14) v = v.substring(0, 14); 
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else {
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2"); v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); v = v.replace(/\.(\d{3})(\d)/, ".$1/$2"); v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            this.value = v;
+        });
+
+        cartaoNumero.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ''); if (v.length > 16) v = v.substring(0, 16);
+            v = v.replace(/(\d{4})(?=\d)/g, '$1 '); this.value = v;
+        });
+
+        cartaoNome.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').toUpperCase(); });
+        cartaoValidade.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ''); if (v.length > 4) v = v.substring(0, 4);
+            if (v.length > 2) v = v.replace(/^(\d{2})(\d)/, '$1/$2'); this.value = v;
+        });
+        cartaoCvv.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+
+        const estadoSelect = document.getElementById('estado');
+        estadoSelect.addEventListener('change', function() {
+            if(this.value !== "") this.classList.remove('placeholder-ativo');
+            else this.classList.add('placeholder-ativo');
+        });
+
+        // LÓGICA DO ACCORDION DE PAGAMENTO DE FORMA NATIVA (SEM 'ONCLICK' NO HTML)
+        const cartaoContainer = document.getElementById('cartao-container');
+        document.querySelectorAll('.payment-option').forEach(opcao => {
+            opcao.addEventListener('click', function(e) {
+                // Remove seleção de todos
+                document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
+                
+                // Adiciona no clicado
+                this.classList.add('selecionado');
+                
+                const metodo = this.getAttribute('data-metodo');
+                document.getElementById('metodo-pagamento-hidden').value = metodo;
+
+                if (metodo === 'cartao_credito' || metodo === 'cartao_debito') {
+                    cartaoContainer.style.display = 'block';
+                    this.querySelector('.payment-content-wrapper').appendChild(cartaoContainer);
+                } else {
+                    cartaoContainer.style.display = 'none';
+                    // Limpar erros visuais caso existam
+                    ['cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
+                        const input = document.getElementById(id);
+                        if(input) {
+                            input.style.borderColor = 'transparent'; 
+                            input.style.backgroundColor = '#1c1c1e'; 
+                            const erroTag = input.parentElement.querySelector('.error-text');
+                            if (erroTag) erroTag.remove();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // =========================================================================================
-        // CONFIGURAÇÕES DO FIREBASE E ROTA DE FRETE
-        // =========================================================================================
         const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
 
@@ -467,7 +548,6 @@
         const freteResultados = document.getElementById('frete-resultados');
         const freteVazio = document.getElementById('frete-vazio');
 
-        const cartaoContainer = document.getElementById('cartao-container');
         const cartaoNumero = document.getElementById('cartao-numero');
         const cartaoNome = document.getElementById('cartao-nome');
         const cartaoValidade = document.getElementById('cartao-validade');
@@ -476,8 +556,74 @@
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
 
+        function mostrarErro(input, mensagem) {
+            input.style.borderColor = '#ff4444'; input.style.backgroundColor = '#2c1c1e';
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
+            if (!erroTag) { erroTag = document.createElement('span'); erroTag.className = 'error-text'; pai.appendChild(erroTag); }
+            erroTag.textContent = mensagem;
+        }
+
+        function limparErro(input) {
+            input.style.borderColor = 'transparent'; input.style.backgroundColor = '#1c1c1e'; 
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
+            if (erroTag) erroTag.remove();
+        }
+
+        function checarObrigatorio(input) {
+            if (!input.value.trim()) { mostrarErro(input, 'Este campo é obrigatório.'); return true; } 
+            else { limparErro(input); return false; }
+        }
+
+        nomeInput.addEventListener('blur', function() {
+            const val = this.value.trim(); if (!val || val.split(/\s+/).length < 2) mostrarErro(this, 'Informe nome e sobrenome.'); else limparErro(this);
+        });
+        telefoneInput.addEventListener('blur', function() {
+            const digitos = this.value.replace(/\D/g, ''); if (digitos.length < 10) mostrarErro(this, 'Telefone incompleto.'); else limparErro(this);
+        });
+
+        // Verificação de cartão
+        ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('blur', (e) => {
+                const metodoAtual = document.getElementById('metodo-pagamento-hidden').value;
+                if (id.startsWith('cartao-') && metodoAtual !== 'cartao_credito' && metodoAtual !== 'cartao_debito') return;
+                checarObrigatorio(e.target);
+            });
+        });
+
+        function testaCPF(strCPF) {
+            let Soma = 0, Resto; strCPF = strCPF.replace(/\D/g, ""); 
+            if (strCPF == "00000000000" || strCPF.length !== 11) return false;
+            if (/^(\d)\1{10}$/.test(strCPF)) return false; 
+            for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false; Soma = 0;
+            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false; return true;
+        }
+
+        function testaCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+            let tamanho = cnpj.length - 2; let numeros = cnpj.substring(0, tamanho); let digitos = cnpj.substring(tamanho);
+            let soma = 0, pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
+            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(0)) return false;
+            tamanho = tamanho + 1; numeros = cnpj.substring(0, tamanho); soma = 0; pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(1)) return false; return true;
+        }
+
+        cpfInput.addEventListener('blur', function() {
+            const val = this.value.replace(/\D/g, '');
+            if (val.length === 0) mostrarErro(this, 'Obrigatório.');
+            else if (val.length <= 11) { if (!testaCPF(val)) mostrarErro(this, 'CPF inválido.'); else limparErro(this); } 
+            else { if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.'); else limparErro(this); }
+        });
+
         // =========================================
-        // LÓGICA DE DETECÇÃO DE MUDANÇA (MODAL)
+        // AVALIAÇÃO DE MUDANÇA NO MODAL
         // =========================================
         function avaliarMudanca() {
             if(!usuarioAtual) return;
@@ -493,24 +639,23 @@
 
             if (mudou) {
                 btnSalvarEdicao.classList.add('ativo'); btnSalvarEdicao.disabled = false;
-                btnSalvarEdicao.textContent = "Salvar e Atualizar";
+                btnSalvarEdicao.textContent = idSecreto.value ? "Salvar Alterações" : "Salvar Novo Endereço";
             } else {
                 btnSalvarEdicao.classList.remove('ativo'); btnSalvarEdicao.disabled = true;
-                btnSalvarEdicao.textContent = "Nenhuma Alteração";
+                btnSalvarEdicao.textContent = idSecreto.value ? "Nenhuma Alteração" : "Preencha para Salvar";
             }
         }
 
-        // Atrelar ouvintes de mudança
         [cepInput, ruaInput, numInput, bairroInput, cidadeInput, estadoSelect, chkPadrao].forEach(el => {
             el.addEventListener('input', avaliarMudanca);
             el.addEventListener('change', avaliarMudanca);
         });
 
         // =========================================
-        // FLUXO DO MODAL DE ENDEREÇOS
+        // FLUXO DO MODAL DE ENDEREÇOS E EXCLUSÃO
         // =========================================
         function abrirModalGerenciador() {
-            if (usuarioAtual) {
+            if(usuarioAtual) {
                 while (formLocalCheckout.firstChild) {
                     formModalContainer.appendChild(formLocalCheckout.firstChild);
                 }
@@ -528,8 +673,14 @@
         window.abrirEdicao = function(id) {
             const end = listaDeEnderecos.find(e => e.id === id);
             if(end) {
-                preencherFormulario(end);
+                idSecreto.value = end.id;
+                cepInput.value = end.cep; ruaInput.value = end.rua; numInput.value = end.numero;
+                bairroInput.value = end.bairro; cidadeInput.value = end.cidade; estadoSelect.value = end.estado;
+                chkPadrao.checked = end.isPadrao;
+                if(end.estado) estadoSelect.classList.remove('placeholder-ativo');
+                
                 snapshotEdicao = { ...end };
+                
                 viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
                 modalFooter.style.display = 'none'; modalTitulo.textContent = "Editar Endereço";
                 avaliarMudanca();
@@ -537,8 +688,14 @@
         };
 
         window.abrirCriacao = function() {
-            preencherFormulario({}); 
-            snapshotEdicao = {};
+            idSecreto.value = "";
+            cepInput.value = ""; ruaInput.value = ""; numInput.value = "";
+            bairroInput.value = ""; cidadeInput.value = ""; estadoSelect.value = "";
+            estadoSelect.classList.add('placeholder-ativo');
+            chkPadrao.checked = false;
+            
+            snapshotEdicao = {}; 
+            
             viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
             modalFooter.style.display = 'none'; modalTitulo.textContent = "Novo Endereço";
             avaliarMudanca();
@@ -606,10 +763,11 @@
                 div.className = `endereco-quadradinho ${isChecked ? 'selected' : ''}`;
                 div.innerHTML = `
                     <div class="endereco-q-header">
+                        <input type="radio" name="endereco_modal" value="${end.id}" class="custom-radio" ${isChecked ? 'checked' : ''} style="display:none;">
                         <div class="custom-radio"></div>
                         <div class="endereco-acoes-card">
-                            <button class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
-                            <button class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
+                            <button type="button" class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                            <button type="button" class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
                         </div>
                     </div>
                     <div class="endereco-q-texto">
@@ -672,7 +830,7 @@
             }
         });
 
-        // CONFIRMAR SELEÇÃO (USAR)
+        // CONFIRMAR SELEÇÃO
         document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
             if (enderecoAtivoModal) {
                 const escolhido = listaDeEnderecos.find(e => e.id === enderecoAtivoModal);
@@ -699,7 +857,7 @@
         }
 
         // =========================================
-        // LOGIN DO UTILIZADOR E MANIPULAÇÃO DE TELA
+        // LOGIN DO USUÁRIO
         // =========================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -709,10 +867,12 @@
                     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        // AUTOPREENCHER DADOS PESSOAIS DA CONTA
                         if(data.nome) nomeInput.value = data.nome;
                         if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
                         if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
 
+                        // AUTOPREENCHER ENDEREÇO
                         if (data.enderecos && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
                             const endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
@@ -722,18 +882,16 @@
                             document.getElementById('aviso-sem-endereco').style.display = 'block';
                             while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); } 
                         }
-                    }
+                    } else if(user.displayName) { nomeInput.value = user.displayName; }
                 } catch (error) {}
             } else {
                 usuarioAtual = null; btnMudarEndereco.style.display = 'none';
-                document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
-                document.getElementById('bloco-inputs-endereco').style.display = 'block';
                 while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
             }
         });
 
         // =========================================
-        // LÓGICA SECURE DE CALCULO DE FRETE (VERCEL)
+        // LÓGICA DE FRETE DA VERCEL
         // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
@@ -773,7 +931,7 @@
 
                 const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
 
-                // Bate na tua API da Vercel para não vazar a tua Token no Navegador!
+                // Chamada da API interna na Vercel!
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -823,6 +981,16 @@
             }
         }
 
+        window.selecionarFrete = function(elemento) {
+            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+            const freteDisplay = document.getElementById('checkout-frete');
+            if(freteDisplay) freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            renderizarResumo();
+        };
+
+        // Autopreenchimento do CEP
         cepInput.addEventListener('input', async (e) => {
             let v = e.target.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); e.target.value = v.substring(0, 9);
             const cepLimpo = v.replace(/\D/g, '');
@@ -842,17 +1010,8 @@
             } else if (cepLimpo.length < 8) { if(!usuarioAtual) limparFrete(); }
         });
 
-        window.selecionarFrete = function(elemento) {
-            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
-            elemento.classList.add('selecionado');
-            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
-            const freteDisplay = document.getElementById('checkout-frete');
-            if(freteDisplay) freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            renderizarResumo();
-        };
-
         // =========================================
-        // CARRINHO & RESUMO DO PEDIDO
+        // CARRINHO & RESUMO
         // =========================================
         const urlParams = new URLSearchParams(window.location.search);
         const isDireto = urlParams.get('direto') === 'true';
@@ -862,7 +1021,6 @@
         const subtotalEl = document.getElementById('checkout-subtotal');
         const totalFinalEl = document.getElementById('checkout-total-final');
 
-        // Renderiza itens
         function renderizarResumo() {
             if (itensCheckout.length === 0) { alert("A sua sessão de compra está vazia."); window.location.href = "store.html"; return; }
             itemsContainer.innerHTML = ''; let subtotal = 0;
@@ -921,7 +1079,7 @@
         });
 
         // =========================================
-        // SUBMIT E SALVAMENTO DE PERFIL
+        // FINALIZAR PEDIDO
         // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
@@ -964,7 +1122,7 @@
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
-            // GRAVAÇÃO AUTOMÁTICA DOS DADOS DE PERFIL NO FIREBASE (SE PRIMEIRA VEZ OU MUDANÇA)
+            // DADOS PESSOAIS DO USUÁRIO LOGADO SÃO ATUALIZADOS AUTOMATICAMENTE 
             if (usuarioAtual) {
                 try {
                     await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
@@ -972,7 +1130,7 @@
                         telefone: telefoneInput.value,
                         cpf: cpfInput.value
                     }, { merge: true });
-                } catch(error) { console.error("Falha ao atualizar dados de perfil:", error); }
+                } catch(error) { console.error("Falha ao salvar dados de perfil:", error); }
             }
 
             const enderecoPedido = usuarioAtual ? enderecoSelecionadoCheckout : {
