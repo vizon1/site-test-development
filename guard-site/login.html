@@ -481,7 +481,7 @@
                     try {
                         document.getElementById('btn-submit').textContent = "Acessando...";
                         await signInWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
-                        window.location.href = "meus-pedidos.html";
+                        window.location.href = "store.html";
                     } catch (error) {
                         let msg = "E-mail ou senha incorretos.";
                         if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
@@ -511,7 +511,7 @@
                     const docSnap = await getDoc(docRef);
                     
                     if (docSnap.exists()) {
-                        window.location.href = "meus-pedidos.html";
+                        window.location.href = "store.html";
                     } else {
                         tempUserGoogle = user;
                         if (user.displayName) {
@@ -559,7 +559,7 @@
                         });
                         
                         alert("Registo via Google concluído!");
-                        window.location.href = "meus-pedidos.html";
+                        window.location.href = "store.html";
                     } catch (err) {
                         alert("Erro ao concluir o registo: " + err.message);
                         btnConfirmarNomeGoogle.textContent = "Concluir";
