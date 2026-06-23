@@ -108,7 +108,7 @@
         .input-group { display: flex; flex-direction: column; width: 100%; }
         .input-group label { font-size: 0.75rem; color: #86868b; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        /* ATUALIZAÇÃO DA COR AQUI: O select nativamente obedece à cor do navegador */
+        /* Ajuste nativo de cores inputs e selects */
         .input-group input, .input-group select {
             background-color: #1c1c1e !important;
             border: 1.5px solid transparent !important;
@@ -119,33 +119,72 @@
             transition: all 0.2s ease; outline: none; box-sizing: border-box; width: 100%;
             appearance: none; -webkit-appearance: none;
         }
-
-        /* O input de texto sempre branco */
+        
         .input-group input { color: #fff !important; }
 
-        /* O SELECT FICA CINZA POR PADRÃO (PLACEHOLDER) */
         .input-group select {
             color: #86868b !important;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto; cursor: pointer;
         }
 
-        /* MAS SE TIVER A CLASSE DE SUCESSO ELE FICA BRANCO */
-        .input-group select.valor-selecionado {
-            color: #fff !important;
-        }
-
-        /* MAS AS OPÇÕES INTERNAS SÃO SEMPRE BRANCAS */
-        .input-group select option {
-            color: #fff;
-            background-color: #1c1c1e;
-        }
+        .input-group select.valor-selecionado { color: #fff !important; }
+        .input-group select option { color: #fff; background-color: #1c1c1e; }
 
         .input-group input:focus, .input-group select:focus {
             border-color: #FFFF00 !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1);
         }
 
         .error-text { color: #ff4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
+
+        /* =========================================================
+           NOVOS ESTILOS DO PAGAMENTO (ACCORDION ESTILO NOCTA)
+           ========================================================= */
+        .payment-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .payment-option {
+            border: 1px solid #333;
+            background-color: #1c1c1e;
+            margin-bottom: -1px; /* Mescla as bordas duplicadas */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        .payment-option:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
+        .payment-option:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+        .payment-option.selecionado {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-color: #fff;
+            z-index: 2; /* Deixa a borda branca sobrepor as outras */
+            position: relative;
+        }
+        .payment-header { display: flex; align-items: center; padding: 20px; }
+        .payment-radio-circle {
+            width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .payment-option.selecionado .payment-radio-circle { border-color: #FFFF00; }
+        .payment-option.selecionado .payment-radio-circle::after {
+            content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%;
+        }
+        .payment-name { font-weight: 600; color: #fff; font-size: 1rem; flex-grow: 1; }
+        
+        .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; }
+        .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; }
+        
+        .payment-msg {
+            color: #a0a0a5; font-size: 0.95rem; text-align: center; padding: 15px;
+            background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed #333;
+        }
+
+        #cartao-container {
+            display: none; margin-top: 5px; animation: fadeIn 0.4s ease;
+        }
 
         .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: none; }
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -175,9 +214,6 @@
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
 
-        /* Dados do Cartão de Crédito */
-        #cartao-container { display: none; background-color: rgba(29, 29, 31, 0.4); border: 1px solid #333; border-radius: 14px; padding: 24px; margin-top: 20px; animation: fadeIn 0.4s ease; }
-
         .btn-panel-submit {
             background-color: #FFFF00; color: #000; border: none; padding: 22px; border-radius: 30px;
             font-size: 1.15rem; font-weight: 800; cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
@@ -205,9 +241,7 @@
         .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #fff; }
 
         /* MODAL DE MEUS ENDEREÇOS */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content { background-color: #111; border: 1px solid #222; border-radius: 24px; width: 90%; max-width: 550px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
@@ -406,20 +440,68 @@
             </div>
         </div>
 
+        <!-- =======================================================
+             NOVA SEÇÃO DE PAGAMENTO (ESTILO NOCTA / ACCORDION)
+             ======================================================= -->
         <div class="checkout-box box-pagamento" style="margin-bottom: 0;">
-            <h2 class="box-title">Pagamento</h2>
+            <h2 class="box-title" style="margin-bottom: 5px;">Pagamento</h2>
+            <p style="color: #86868b; font-size: 0.85rem; margin-top: 0; margin-bottom: 20px;">Todas as transações são seguras e criptografadas.</p>
             
-            <div class="input-group" style="margin-bottom: 0;">
-                <label for="pagamento">Método Escolhido</label>
-                <select id="pagamento" class="valor-selecionado">
-                    <option value="pix" selected>PIX (Aprovação Imediata e Mais Rápida)</option>
-                    <option value="cartao">Cartão de Crédito (Até 12x)</option>
-                    <option value="boleto">Boleto Bancário (Até 3 dias úteis)</option>
-                </select>
+            <!-- Guardará a escolha do usuário silenciosamente -->
+            <input type="hidden" id="metodo-pagamento-hidden" value="">
+
+            <div class="payment-group">
+                <!-- OPÇÃO 1: PIX -->
+                <div class="payment-option" data-metodo="pix" onclick="selecionarPagamento(this)">
+                    <div class="payment-header">
+                        <div class="payment-radio-circle"></div>
+                        <span class="payment-name">PIX (Aprovação Imediata)</span>
+                    </div>
+                    <div class="payment-content-wrapper">
+                        <div class="payment-msg">
+                            Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OPÇÃO 2: CARTÃO DE CRÉDITO -->
+                <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
+                    <div class="payment-header">
+                        <div class="payment-radio-circle"></div>
+                        <span class="payment-name">Cartão de Crédito</span>
+                    </div>
+                    <div class="payment-content-wrapper" id="wrapper-cartao-credito">
+                        <!-- O Formulário de Cartão virá para cá via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- OPÇÃO 3: CARTÃO DE DÉBITO -->
+                <div class="payment-option" data-metodo="cartao_debito" onclick="selecionarPagamento(this)">
+                    <div class="payment-header">
+                        <div class="payment-radio-circle"></div>
+                        <span class="payment-name">Cartão de Débito</span>
+                    </div>
+                    <div class="payment-content-wrapper" id="wrapper-cartao-debito">
+                        <!-- O Formulário de Cartão virá para cá via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- OPÇÃO 4: BOLETO BANCÁRIO -->
+                <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
+                    <div class="payment-header">
+                        <div class="payment-radio-circle"></div>
+                        <span class="payment-name">Boleto Bancário</span>
+                    </div>
+                    <div class="payment-content-wrapper">
+                        <div class="payment-msg">
+                            O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- ESSE FORMULÁRIO FICA ESCONDIDO ATÉ UMA OPÇÃO DE CARTÃO SER CLICADA -->
             <div id="cartao-container">
-                <h3 style="font-size: 1rem; color: #fff; margin-top: 0; margin-bottom: 15px;">Dados do Cartão</h3>
                 <div class="input-group" style="margin-bottom: 15px;">
                     <label>Número do Cartão</label>
                     <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
@@ -439,6 +521,7 @@
                     </div>
                 </div>
             </div>
+            
             <input type="hidden" id="editando-endereco-id" value="">
         </div>
 
@@ -509,7 +592,7 @@
         const numeroInput = document.getElementById('numero');
         const cepInput = document.getElementById('cep-frete');
 
-        const pagamentoSelect = document.getElementById('pagamento');
+        // ELEMENTOS DO NOVO CARTÃO
         const cartaoContainer = document.getElementById('cartao-container');
         const cartaoNumero = document.getElementById('cartao-numero');
         const cartaoNome = document.getElementById('cartao-nome');
@@ -561,10 +644,26 @@
         });
         cartaoCvv.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
 
-        pagamentoSelect.addEventListener('change', function() {
-            if (this.value === 'cartao') { cartaoContainer.style.display = 'block'; } 
-            else { cartaoContainer.style.display = 'none'; limparErro(cartaoNumero); limparErro(cartaoNome); limparErro(cartaoValidade); limparErro(cartaoCvv); }
-        });
+        // LOGICA DE CLICK NA OPÇÃO DE PAGAMENTO 
+        window.selecionarPagamento = function(elemento) {
+            // Remove a seleção anterior
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
+            // Adiciona a seleção no item clicado
+            elemento.classList.add('selecionado');
+            
+            // Pega o método escolhido e salva no input escondido
+            const metodo = elemento.getAttribute('data-metodo');
+            document.getElementById('metodo-pagamento-hidden').value = metodo;
+
+            // Se for Crédito ou Débito, pega o Form do cartão e move pra dentro do Wrapper correspondente
+            if (metodo === 'cartao_credito' || metodo === 'cartao_debito') {
+                cartaoContainer.style.display = 'block';
+                elemento.querySelector('.payment-content-wrapper').appendChild(cartaoContainer);
+            } else {
+                cartaoContainer.style.display = 'none';
+                limparErro(cartaoNumero); limparErro(cartaoNome); limparErro(cartaoValidade); limparErro(cartaoCvv);
+            }
+        };
 
         function mostrarErro(input, mensagem) {
             input.style.borderColor = '#ff4444'; input.style.backgroundColor = '#2c1c1e';
@@ -596,10 +695,12 @@
             else limparErro(this);
         });
 
+        // Verificação nos campos do cartão no Blur só vai ocorrer se a opção escolhida for um cartão
         ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('blur', (e) => {
-                if (id.startsWith('cartao-') && pagamentoSelect.value !== 'cartao') return;
+                const metodoAtual = document.getElementById('metodo-pagamento-hidden').value;
+                if (id.startsWith('cartao-') && metodoAtual !== 'cartao_credito' && metodoAtual !== 'cartao_debito') return;
                 checarObrigatorio(e.target);
             });
         });
@@ -667,7 +768,6 @@
             numeroInput.value = endObj.numero || ''; document.getElementById('bairro').value = endObj.bairro || '';
             document.getElementById('cidade').value = endObj.cidade || ''; document.getElementById('estado').value = endObj.estado || '';
             
-            // GARANTE QUE O ESTADO FIQUE BRANCO AO CARREGAR O ENDEREÇO SALVO
             document.getElementById('estado').classList.add('valor-selecionado');
             
             document.getElementById('card-nome').textContent = nomeInput.value || "Destinatário";
@@ -694,7 +794,6 @@
             cepInput.value = ''; document.getElementById('rua').value = ''; numeroInput.value = '';
             document.getElementById('bairro').value = ''; document.getElementById('cidade').value = ''; document.getElementById('estado').value = '';
             
-            // VOLTA O ESTADO PARA A COR DE PLACEHOLDER QUANDO CRIA NOVO
             document.getElementById('estado').classList.remove('valor-selecionado');
             
             limparFrete(); editandoEnderecoId.value = ""; 
@@ -856,7 +955,6 @@
                         document.getElementById('cidade').value = data.localidade || ''; 
                         
                         document.getElementById('estado').value = data.uf || '';
-                        // FORÇA A COR BRANCA QUANDO O VIACEP PREENCHE SOZINHO
                         document.getElementById('estado').classList.add('valor-selecionado');
                         
                         limparErro(cepInput); numeroInput.focus(); 
@@ -961,6 +1059,13 @@
             e.preventDefault(); 
             let temErro = false;
 
+            // VALIDAÇÃO: Bloqueia se o cliente tentar comprar sem escolher uma forma de pagamento!
+            const metodoSelecionado = document.getElementById('metodo-pagamento-hidden').value;
+            if (!metodoSelecionado) {
+                alert("Por favor, selecione uma forma de pagamento (ex: PIX, Cartão...) para finalizar a compra.");
+                return;
+            }
+
             if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; }
             if (telefoneInput.value.replace(/\D/g, '').length < 10) { mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; }
             const valDoc = cpfInput.value.replace(/\D/g, '');
@@ -981,7 +1086,7 @@
 
             if (valorFrete === 0) { alert("Por favor, selecione uma opção de entrega válida."); temErro = true; }
 
-            if (pagamentoSelect.value === 'cartao') {
+            if (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') {
                 if (checarObrigatorio(cartaoNumero)) temErro = true;
                 if (checarObrigatorio(cartaoNome)) temErro = true;
                 if (checarObrigatorio(cartaoValidade)) temErro = true;
@@ -1032,8 +1137,8 @@
                 frete: valorFrete,
                 total: subtotalCompra + valorFrete,
                 enderecoEntrega: enderecoPedido,
-                metodoPagamento: pagamentoSelect.value,
-                status: pagamentoSelect.value === 'cartao' ? 'Processando Pagamento' : 'Aguardando Pagamento',
+                metodoPagamento: metodoSelecionado, // <- AQUI ESTÁ GRAVANDO SE FOI PIX, CREDITO OU DÉBITO
+                status: (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') ? 'Processando Pagamento' : 'Aguardando Pagamento',
                 dataCriacao: new Date().toISOString()
             };
 
@@ -1042,7 +1147,7 @@
             localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
             localStorage.removeItem(storageKey);
 
-            if (pagamentoSelect.value === 'pix') {
+            if (metodoSelecionado === 'pix') {
                 window.location.href = "pagamento-pix.html";
             } else {
                 alert(`✅ Pedido Registado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`);
@@ -1051,4 +1156,4 @@
         });
     </script>
 </body>
-</html>)
+</html>
