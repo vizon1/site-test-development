@@ -64,7 +64,7 @@
            CARD DO ENDEREÇO PRINCIPAL (TELA DE CHECKOUT)
            ========================================================= */
         #bloco-visualizacao-endereco { display: none; }
-        .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; position: relative; }
+        .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; position: relative; transition: border-color 0.2s; }
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
         .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .endereco-telefone { color: #86868b; font-size: 0.95rem; }
@@ -133,68 +133,87 @@
         .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #FFFF00; }
 
         /* =========================================================
-           MODAL DE ENDEREÇOS (NOVO DESIGN BASEADO NA IMAGEM)
+           MODAL DE ENDEREÇOS (DESIGN "APPLE" BASEADO NA IMAGEM)
            ========================================================= */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 2000; display: none; justify-content: center; align-items: center; 
+            opacity: 0; transition: opacity 0.3s ease; 
+        }
         .modal-overlay.active { display: flex; opacity: 1; }
         
-        /* Modal Content com fundo bem escuro (#111) conforme imagem */
-        .modal-content { background-color: #111; border: 1px solid #222; border-radius: 16px; width: 95%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-content { 
+            background-color: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; 
+            width: 95%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; 
+            transform: translateY(20px) scale(0.98); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); overflow: hidden; position: relative; 
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
         
-        .modal-header { padding: 24px 30px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #111; }
-        .modal-header h3 { margin: 0; color: #fff; font-size: 1.25rem; font-weight: 800;}
+        .modal-header { padding: 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: #111; }
+        .modal-header h3 { margin: 0; color: #fff; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px;}
         
-        /* Botão Fechar X Redondo e Escuro */
         .modal-close { background: #222; border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .modal-close:hover { color: #fff; background: #333; }
         
-        .modal-body { padding: 30px; overflow-y: auto; flex-grow: 1; background: #111; position: relative;}
+        .modal-body { padding: 30px; overflow-y: auto; flex-grow: 1; background: #111; position: relative; }
         
-        /* VIEW 1: Grade de Endereços (Design Exato) */
+        /* VIEW 1: Grade de Endereços */
         #lista-enderecos-view { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        /* Cartão de Endereço */
-        .endereco-quadradinho { background: #111; border: 1.5px solid #2c2c2e; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; min-height: 180px; box-sizing: border-box;}
+        /* Cartão de Endereço - Apple Feel */
+        .endereco-quadradinho { 
+            background: #111; border: 1.5px solid #2c2c2e; border-radius: 16px; padding: 20px; 
+            cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; 
+            flex-direction: column; min-height: 180px; box-sizing: border-box;
+        }
+        .endereco-quadradinho:hover { border-color: #424245; }
         .endereco-quadradinho.selected { border-color: #FFFF00; background-color: rgba(255, 255, 0, 0.02); }
         
         .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
         
         /* Custom Radio Redondo Amarelo */
-        .custom-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .custom-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px;}
         .endereco-quadradinho.selected .custom-radio { border-color: #FFFF00; }
         .endereco-quadradinho.selected .custom-radio::after { content: ''; width: 8px; height: 8px; background: #FFFF00; border-radius: 50%; }
         
-        /* Link Editar */
+        /* Acções: Editar e Excluir */
+        .endereco-acoes-card { display: flex; gap: 15px; align-items: center; }
         .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-edit:hover { color: #fff; }
+        .endereco-q-delete { background: none; border: none; color: #ff453a; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
+        .endereco-q-delete:hover { color: #ff6961; }
         
         /* Textos do Cartão */
         .endereco-q-texto { color: #86868b; font-size: 0.9rem; line-height: 1.6; }
         .endereco-q-texto strong { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         
-        /* Badge Padrão Branco */
         .badge-padrao-card { background: #fff; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase;}
 
-        /* Cartão de Adicionar (Design com a Cruza Gigante) */
-        .btn-novo-endereco-redondo { background: #111; border: 1.5px dashed #424245; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; min-height: 180px; color: #86868b; font-size: 0.95rem; font-weight: 600; }
-        .btn-novo-endereco-redondo:hover { border-color: #666; color: #fff; }
-        .btn-novo-endereco-redondo svg { width: 70px; height: 70px; stroke: #555; stroke-width: 2.5; margin-bottom: 15px; transition: stroke 0.2s; }
-        .btn-novo-endereco-redondo:hover svg { stroke: #86868b; }
+        /* Cartão de Adicionar (Design com a Cruz Gigante) */
+        .btn-novo-endereco-redondo { 
+            background: #111; border: 1.5px dashed #424245; border-radius: 16px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; transition: all 0.2s ease; min-height: 180px; color: #86868b; 
+            font-size: 0.95rem; font-weight: 600; 
+        }
+        .btn-novo-endereco-redondo:hover { border-color: #86868b; color: #fff; background: rgba(255,255,255,0.02);}
+        .btn-novo-endereco-redondo svg { width: 70px; height: 70px; stroke: #424245; stroke-width: 2; margin-bottom: 15px; transition: stroke 0.2s; }
+        .btn-novo-endereco-redondo:hover svg { stroke: #fff; }
 
         /* VIEW 2: Formulário no Modal */
-        #edicao-endereco-view { display: none; }
+        #edicao-endereco-view { display: none; animation: fadeIn 0.3s ease; }
         .modal-back-btn { background: none; border: none; color: #86868b; cursor: pointer; font-size: 0.95rem; font-weight: 600; margin-bottom: 25px; display: flex; align-items: center; gap: 8px; transition: color 0.2s; padding: 0;}
         .modal-back-btn:hover { color: #fff; }
 
-        /* Botão Salvar Dinâmico */
-        .btn-salvar-endereco-dinamico { background-color: #222; color: #86868b; border: none; padding: 16px 24px; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: not-allowed; transition: all 0.3s; text-transform: uppercase; margin-top: 15px;}
+        .btn-salvar-endereco-dinamico { background-color: #222; color: #86868b; border: none; padding: 16px 24px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: not-allowed; transition: all 0.3s; text-transform: uppercase; margin-top: 15px;}
         .btn-salvar-endereco-dinamico.ativo { background-color: #FFFF00; color: #000; cursor: pointer; }
         .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433;}
 
-        /* Rodapé do Modal com Botão Confirmar Amarelo à Direita */
-        .modal-footer { padding: 20px 30px; border-top: 1px solid #222; display: flex; justify-content: flex-end; background: #111; }
-        .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 8px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        /* Rodapé do Modal */
+        .modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; background: #111; }
+        .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
         /* RESPONSIVIDADE */
@@ -206,11 +225,13 @@
             .checkout-box { padding: 24px 20px; border-radius: 16px; }
             .form-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; } 
             .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
-            #lista-enderecos-view { grid-template-columns: 1fr; } /* 1 coluna no telemóvel */
+            #lista-enderecos-view { grid-template-columns: 1fr; } 
             .btn-panel-submit, .btn-confirmar-modal, .btn-salvar-endereco-dinamico { width: 100%; padding: 18px; font-size: 1.05rem; }
             .acao-salvar-wrapper { display: flex; flex-direction: column; width: 100%; }
             .modal-header, .modal-body, .modal-footer { padding: 20px; }
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -259,17 +280,14 @@
         <div class="checkout-box box-endereco">
             <h2 class="box-title" style="display: flex; justify-content: space-between; align-items: center;">
                 Endereço de Entrega
-                <!-- Este botão abre o modal com a lista de endereços se o utilizador estiver logado -->
                 <button type="button" class="btn-link-action" id="btn-mudar-endereco" style="display: none;">Gerir Endereços</button>
             </h2>
 
-            <!-- Bloco Vazio p/ Não Logados ou Sem Endereço -->
             <div id="bloco-inputs-endereco">
                 <div class="aviso-endereco-vazio" id="aviso-sem-endereco" style="display:none;">
                     Você ainda não tem um endereço salvo. Adicione abaixo para continuar!
                 </div>
                 <div id="form-endereco-local">
-                    <!-- O Formulário de morada fica AQUI quando visitante, mas move-se para o MODAL quando logado -->
                     <div class="form-grid">
                         <div class="input-group"><label>CEP</label><input type="tel" id="cep-frete" placeholder="00000-000" maxlength="9"></div>
                         <div class="input-group"><label>Endereço</label><input type="text" id="rua"></div>
@@ -296,11 +314,9 @@
                             </select>
                         </div>
                     </div>
-                    <!-- FIM DO FORMULÁRIO -->
                 </div>
             </div>
 
-            <!-- Cartão do Endereço Ativo (Visível Apenas Para Utilizadores Logados com Morada Selecionada) -->
             <div id="bloco-visualizacao-endereco">
                 <div class="endereco-salvo-card" style="display: block; margin-bottom: 0;">
                     <div class="endereco-header">
@@ -373,7 +389,7 @@
         </div>
     </form>
 
-    <!-- MODAL DE GERENCIAMENTO DE ENDEREÇOS (DESIGN ANTIGO PRESERVADO) -->
+    <!-- MODAL DE GERENCIAMENTO DE ENDEREÇOS (NÍVEL APPLE) -->
     <div class="modal-overlay" id="modal-enderecos">
         <div class="modal-content">
             <div class="modal-header">
@@ -382,12 +398,12 @@
             </div>
             
             <div class="modal-body">
-                <!-- VIEW 1: GRELHA DE QUADRADINHOS (Design Fiel à Imagem) -->
+                <!-- VIEW 1: GRELHA DE QUADRADINHOS -->
                 <div id="lista-enderecos-view">
                     <!-- Gerado via JS -->
                 </div>
 
-                <!-- VIEW 2: FORMULÁRIO DE EDIÇÃO (Recebe o form-endereco-local via JS) -->
+                <!-- VIEW 2: FORMULÁRIO DE EDIÇÃO -->
                 <div id="edicao-endereco-view">
                     <button type="button" class="modal-back-btn" id="btn-voltar-lista">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -409,7 +425,6 @@
                 </div>
             </div>
 
-            <!-- Botão Confirmar Amarelo à Direita (Design Fiel à Imagem) -->
             <div class="modal-footer" id="modal-footer-acao">
                 <button type="button" class="btn-confirmar-modal" id="btn-confirmar-selecao">CONFIRMAR SELEÇÃO</button>
             </div>
@@ -430,7 +445,6 @@
         const CEP_ORIGEM = "01001000"; 
         const TOKEN_MELHOR_ENVIO = "SEU_TOKEN_AQUI"; 
 
-        // VARIÁVEIS DE ESTADO
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
         let enderecoSelecionadoCheckout = null; 
@@ -586,7 +600,7 @@
         });
 
         // =========================================
-        // FLUXO DO MODAL DE ENDEREÇOS
+        // FLUXO DO MODAL DE ENDEREÇOS E EXCLUSÃO
         // =========================================
         function abrirModalGerenciador() {
             if(usuarioAtual) {
@@ -636,11 +650,52 @@
             cepInput.focus();
         };
 
+        // LÓGICA DE EXCLUSÃO 
+        window.excluirEndereco = async function(id) {
+            if(!confirm("Tem certeza que deseja excluir este endereço?")) return;
+            
+            const btnDelete = document.querySelector(`button[onclick="excluirEndereco('${id}')"]`);
+            if(btnDelete) btnDelete.textContent = "Excluindo...";
+
+            const novaLista = listaDeEnderecos.filter(e => e.id !== id);
+            
+            try {
+                await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: novaLista }, { merge: true });
+                listaDeEnderecos = novaLista;
+                
+                // Se excluiu o que estava selecionado na bolinha do Modal
+                if (enderecoAtivoModal === id) {
+                    enderecoAtivoModal = listaDeEnderecos.length > 0 ? (listaDeEnderecos.find(e=>e.isPadrao)?.id || listaDeEnderecos[0].id) : null;
+                }
+
+                // Se excluiu o que estava selecionado no Checkout
+                if (enderecoSelecionadoCheckout && enderecoSelecionadoCheckout.id === id) {
+                    if (listaDeEnderecos.length > 0) {
+                        aplicarNoCheckout(listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0]);
+                    } else {
+                        // Limpou tudo
+                        enderecoSelecionadoCheckout = null;
+                        document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
+                        document.getElementById('bloco-inputs-endereco').style.display = 'block';
+                        document.getElementById('aviso-sem-endereco').style.display = 'block';
+                        while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
+                        limparFrete();
+                    }
+                }
+                
+                renderizarGridModal();
+            } catch(error) {
+                console.error("Erro ao excluir", error);
+                alert("Erro de conexão ao excluir endereço.");
+                if(btnDelete) btnDelete.textContent = "Excluir";
+            }
+        };
+
         document.getElementById('btn-voltar-lista').addEventListener('click', mostrarViewLista);
         document.getElementById('fechar-modal').addEventListener('click', () => modalEnderecos.classList.remove('active'));
         btnMudarEndereco.addEventListener('click', abrirModalGerenciador);
 
-        // GERAÇÃO DO DESIGN ANTIGO NO JS
+        // GERAÇÃO DO DESIGN COM EDIÇÃO E EXCLUSÃO
         function renderizarGridModal() {
             viewLista.innerHTML = '';
             enderecoAtivoModal = enderecoAtivoModal || (enderecoSelecionadoCheckout ? enderecoSelecionadoCheckout.id : null);
@@ -650,12 +705,13 @@
                 const div = document.createElement('div');
                 div.className = `endereco-quadradinho ${isChecked ? 'selected' : ''}`;
                 
-                // Header com Bolinha Customizada e Botão Editar
-                // O Título tem o nome da rua, número e o badge PADRÃO logo ao lado.
                 div.innerHTML = `
                     <div class="endereco-q-header">
                         <div class="custom-radio"></div>
-                        <button class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                        <div class="endereco-acoes-card">
+                            <button class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                            <button class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
+                        </div>
                     </div>
                     <div class="endereco-q-texto">
                         <strong>
@@ -671,13 +727,12 @@
                     if(e.target.tagName.toLowerCase() === 'button') return;
                     document.querySelectorAll('.endereco-quadradinho').forEach(el => el.classList.remove('selected'));
                     div.classList.add('selected'); 
-                    // No design da imagem, ao clicar no card, não usamos input=radio, apenas css e bolinha customizada.
                     enderecoAtivoModal = end.id;
                 });
                 viewLista.appendChild(div);
             });
 
-            // Card de Adicionar Novo (Com o "+" Gigante em Cinza)
+            // Card de Adicionar Novo
             const divNovo = document.createElement('div');
             divNovo.className = 'btn-novo-endereco-redondo';
             divNovo.innerHTML = `
@@ -722,8 +777,10 @@
                 await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: listaDeEnderecos }, { merge: true });
                 enderecoAtivoModal = novoEndereco.id; 
                 
-                // Se o editado era o que estava no checkout, atualiza na tela de fora também
+                // Atualiza tela de fundo se necessário
                 if(enderecoSelecionadoCheckout && enderecoSelecionadoCheckout.id === novoEndereco.id) {
+                    aplicarNoCheckout(novoEndereco);
+                } else if (!enderecoSelecionadoCheckout && novoEndereco.isPadrao) {
                     aplicarNoCheckout(novoEndereco);
                 }
 
@@ -756,7 +813,6 @@
             
             const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
             if(cepLimpo.length === 8) {
-                // Preenche o input invisível para o fetch do Correio
                 cepInput.value = endObj.cep; 
                 buscarOpcoesDeFrete();
             }
@@ -781,11 +837,9 @@
                             listaDeEnderecos = data.enderecos;
                             const endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
                             aplicarNoCheckout(endPadrao);
-                            // Move form pro modal
                             while (formLocalCheckout.firstChild) { formModalContainer.appendChild(formLocalCheckout.firstChild); }
                         } else {
                             document.getElementById('aviso-sem-endereco').style.display = 'block';
-                            // Formulario fica na tela local
                             while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
                         }
                     } else if(user.displayName) { nomeInput.value = user.displayName; }
@@ -797,7 +851,7 @@
         });
 
         // =========================================
-        // LÓGICA DE FRETE & VIACEP
+        // LÓGICA DE FRETE E CARRINHO (Mantidas)
         // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
@@ -917,9 +971,6 @@
             renderizarResumo();
         };
 
-        // =========================================
-        // CARRINHO & RESUMO
-        // =========================================
         const urlParams = new URLSearchParams(window.location.search);
         const isDireto = urlParams.get('direto') === 'true';
         const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
@@ -985,9 +1036,7 @@
             }
         });
 
-        // =========================================
         // FINALIZAR PEDIDO
-        // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
