@@ -790,6 +790,11 @@
                     cotacoes.forEach((opcao, index) => {
                         if (opcao.error) return; 
 
+                        // FILTRO: Exibe apenas opções cujo nome da empresa contenha "Correios"
+                        if (!opcao.company.name.toLowerCase().includes('correios')) {
+                            return; 
+                        }
+
                         encontrouOpcao = true;
                         const valor = parseFloat(opcao.custom_price || opcao.price);
                         const prazo = opcao.custom_delivery_time || opcao.delivery_time;
@@ -807,6 +812,12 @@
                             </div>
                         `;
                     });
+
+                    if (encontrouOpcao) {
+                        const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
+                        if (primeiraOpcao) selecionarFrete(primeiraOpcao);
+                    }
+                }
 
                     if (encontrouOpcao) {
                         const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
