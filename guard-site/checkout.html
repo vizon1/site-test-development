@@ -1047,6 +1047,45 @@
             else if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
             else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
+            // Validação da Data do Cartão (Não aceita cartões vencidos nem meses absurdos)
+        function testaValidadeCartao(validade) {
+            if (validade.length !== 5) return false; // Tem que ter o formato MM/AA
+            
+            const [mesStr, anoStr] = validade.split('/');
+            const mesDigitado = parseInt(mesStr, 10);
+            const anoDigitado = parseInt(anoStr, 10);
+
+            // O mês não pode ser 00 nem maior que 12
+            if (mesDigitado < 1 || mesDigitado > 12) return false;
+
+            // Pegar a data real de hoje
+            const dataAtual = new Date();
+            // Pega os 2 últimos dígitos do ano atual (Ex: 2026 vira 26)
+            const anoAtual = parseInt(dataAtual.getFullYear().toString().slice(-2), 10); 
+            // O getMonth() começa no zero (Janeiro = 0), então somamos 1
+            const mesAtual = dataAtual.getMonth() + 1; 
+
+            // Se o ano for menor que o ano atual, está vencido
+            if (anoDigitado < anoAtual) return false;
+            
+            // Se for o mesmo ano, mas o mês já passou, também está vencido
+            if (anoDigitado === anoAtual && mesDigitado < mesAtual) return false;
+
+            return true; // Se passou por tudo, o cartão é válido!
+        }
+
+        // Evento que avisa o usuário assim que ele tira o mouse do campo de validade
+        cartaoValidade.addEventListener('blur', function() {
+            const val = this.value;
+            if (val.length === 0) return; // A função checarObrigatorio já cuida do campo vazio
+            
+            if (!testaValidadeCartao(val)) {
+                mostrarErro(this, 'Data inválida ou cartão vencido.');
+            } else {
+                limparErro(this);
+            }
+        });
+
             if (!usuarioAtual) {
                 const cepLimpo = cepInput.value.replace(/\D/g, '');
                 if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
@@ -1064,8 +1103,12 @@
             if (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') {
                 if (checarObrigatorio(cartaoNumero)) temErro = true; if (checarObrigatorio(cartaoNome)) temErro = true;
                 if (checarObrigatorio(cartaoValidade)) temErro = true; if (checarObrigatorio(cartaoCvv)) temErro = true;
+                
                 if(cartaoNumero.value.replace(/\D/g,'').length < 14) { mostrarErro(cartaoNumero, 'Incompleto.'); temErro = true; }
-                if(cartaoValidade.value.length < 5) { mostrarErro(cartaoValidade, 'Inválido.'); temErro = true; }
+                
+                // NOVA TRAVA DE SEGURANÇA AQUI 👇
+                if(!testaValidadeCartao(cartaoValidade.value)) { mostrarErro(cartaoValidade, 'Data inválida/vencida.'); temErro = true; }
+                
                 if(cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Inválido.'); temErro = true; }
             }
 
