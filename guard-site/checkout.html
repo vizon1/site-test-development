@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* =========================================================
-           CABEÇALHO FIXO E RESET BÁSICO
+           CABEÇALHO FIXO - BLINDADO CONTRA CORTES
            ========================================================= */
         header { position: sticky !important; top: 0 !important; z-index: 1000 !important; background-color: #000 !important; border-bottom: 1px solid rgba(255,255,255,0.05); display: block !important; }
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
@@ -46,12 +46,13 @@
            ========================================================= */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-grid-full { grid-column: 1 / -1; }
-        .input-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 15px; }
+        .input-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 15px;}
         .input-group label { font-size: 0.75rem; color: #86868b; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
         .input-group input, .input-group select { background-color: #1c1c1e !important; border: 1.5px solid transparent !important; padding: 16px 18px !important; border-radius: 12px !important; font-size: 1rem !important; font-family: inherit !important; transition: all 0.2s ease; outline: none; box-sizing: border-box; width: 100%; appearance: none; -webkit-appearance: none; }
+        
         .input-group input { color: #fff !important; }
-        .input-group select { color: #86868b !important; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto; cursor: pointer; }
-        .input-group select.valor-selecionado { color: #fff !important; }
+        .input-group select { color: #fff !important; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto; cursor: pointer; }
+        .input-group select.placeholder-ativo { color: #86868b !important; }
         .input-group select option { color: #fff; background-color: #1c1c1e; }
         .input-group input:focus, .input-group select:focus { border-color: #FFFF00 !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1); }
         .error-text { color: #ff4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
@@ -68,12 +69,11 @@
         .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .endereco-telefone { color: #86868b; font-size: 0.95rem; }
         .endereco-badge { background-color: #fff; color: #000; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
-        .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
+        .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; }
         .btn-link-action { background: none; border: none; padding: 0; color: #86868b; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
         .btn-link-action:hover { color: #fff; }
-
-        /* Alerta de formulário logado sem endereço */
-        .aviso-endereco-vazio { background: rgba(255,255,0,0.1); border: 1px dashed #FFFF00; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+        .endereco-acoes-topo { position: absolute; right: 24px; top: 24px; }
+        .aviso-endereco-vazio { background: rgba(255,255,0,0.05); border: 1px dashed #FFFF00; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; color: #FFFF00; font-weight: 500;}
 
         /* =========================================================
            FRETES
@@ -92,7 +92,7 @@
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
 
         /* =========================================================
-           PAGAMENTO
+           PAGAMENTO ACCORDION
            ========================================================= */
         .payment-group { display: flex; flex-direction: column; width: 100%; margin-top: 10px; }
         .payment-option { border: 1px solid #333; background-color: #1c1c1e; margin-bottom: -1px; cursor: pointer; transition: all 0.2s ease; overflow: hidden; }
@@ -130,53 +130,51 @@
         .summary-totals { margin-top: 25px; }
         .summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; color: #a0a0a5; font-size: 1rem; font-weight: 500;}
         .summary-line span:last-child { color: #fff; font-weight: 600; }
-        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #fff; }
+        .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #FFFF00; }
 
         /* =========================================================
-           MODAL E GERENCIADOR DE ENDEREÇOS (DENTRO DO MODAL)
+           MODAL DE ENDEREÇOS (GRELHA DE QUADRADINHOS E EDIÇÃO)
            ========================================================= */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        
-        .modal-content { background-color: #111; border: 1px solid #222; border-radius: 24px; width: 95%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
+        .modal-content { background-color: #111; border: 1px solid #222; border-radius: 24px; width: 95%; max-width: 850px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        
         .modal-header { padding: 24px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #111; }
         .modal-header h3 { margin: 0; color: #fff; font-size: 1.3rem; font-weight: 800;}
         .modal-close { background: #1c1c1e; border: none; color: #86868b; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .modal-close:hover { color: #fff; background: #2c2c2e; }
+        .modal-body { padding: 24px; overflow-y: auto; flex-grow: 1; background: #0a0a0a; position: relative;}
         
-        .modal-body { padding: 24px; overflow-y: auto; flex-grow: 1; background: #0a0a0a; position: relative; }
-        
-        /* Grid de Exibição dos Endereços */
-        #lista-enderecos-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        
+        /* VIEW 1: Lista de Endereços */
+        #lista-enderecos-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .endereco-quadradinho { background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; min-height: 160px; }
         .endereco-quadradinho:hover { border-color: #424245; }
         .endereco-quadradinho.selected { border-color: #FFFF00; background-color: rgba(255, 255, 0, 0.03); }
         .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .endereco-q-radio { accent-color: #FFFF00; transform: scale(1.2); cursor: pointer; margin-top: 3px; }
-        .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+        .endereco-q-radio { accent-color: #FFFF00; transform: scale(1.3); cursor: pointer; margin-top: 2px;}
+        .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-edit:hover { color: #fff; }
-        .endereco-q-texto { color: #a0a0a5; font-size: 0.9rem; line-height: 1.5; flex-grow: 1; }
-        .endereco-q-texto strong { color: #fff; font-size: 1rem; display: block; margin-bottom: 5px; }
+        .endereco-q-texto { color: #a0a0a5; font-size: 0.95rem; line-height: 1.5; flex-grow: 1; }
+        .endereco-q-texto strong { color: #fff; font-size: 1.05rem; display: block; margin-bottom: 5px; }
 
-        .btn-novo-endereco-redondo { background: transparent; border: 2px dashed #424245; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; min-height: 160px; color: #86868b; }
+        .btn-novo-endereco-redondo { background: transparent; border: 2px dashed #424245; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; min-height: 160px; color: #86868b; font-weight: 600; }
         .btn-novo-endereco-redondo:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.02); }
 
-        /* Formulário de Edição (Dentro do Modal) */
+        /* VIEW 2: Formulário no Modal */
         #edicao-endereco-view { display: none; }
-        .modal-back-btn { background: none; border: none; color: #86868b; cursor: pointer; font-size: 0.9rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 5px; }
-        .modal-back-btn:hover { color: #fff; text-decoration: underline; }
+        .modal-back-btn { background: none; border: none; color: #86868b; cursor: pointer; font-size: 0.95rem; font-weight: 600; margin-bottom: 25px; display: flex; align-items: center; gap: 8px; transition: color 0.2s; padding: 0;}
+        .modal-back-btn:hover { color: #fff; }
 
-        .btn-salvar-endereco-dinamico { background-color: #333; color: #86868b; border: none; padding: 16px 20px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: not-allowed; width: max-content; transition: all 0.3s; text-transform: uppercase; margin-top: 10px; align-self: flex-start;}
+        /* Botão Salvar Dinâmico */
+        .btn-salvar-endereco-dinamico { background-color: #333; color: #86868b; border: none; padding: 16px 24px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: not-allowed; transition: all 0.3s; text-transform: uppercase; margin-top: 10px;}
         .btn-salvar-endereco-dinamico.ativo { background-color: #FFFF00; color: #000; cursor: pointer; }
-        .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); }
+        .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433;}
 
         .modal-footer { padding: 20px 24px; border-top: 1px solid #222; display: flex; justify-content: flex-end; background: #111; }
-        .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 16px 32px; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
+        /* RESPONSIVIDADE */
         @media (max-width: 992px) {
             .checkout-container { display: flex; flex-direction: column; padding: 0 16px; gap: 30px; margin-top: 20px; }
             .box-pessoais  { order: 1; } .box-endereco  { order: 2; } .box-frete     { order: 3; } .box-resumo    { order: 4; } .box-pagamento { order: 5; } .btn-submit-wrapper { order: 6; }
@@ -185,8 +183,9 @@
             .checkout-box { padding: 24px 20px; border-radius: 16px; }
             .form-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; } 
             .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
-            #lista-enderecos-view { grid-template-columns: 1fr; } 
-            .btn-salvar-endereco-dinamico { width: 100%; }
+            #lista-enderecos-view { grid-template-columns: 1fr; } /* 1 coluna no telemóvel */
+            .btn-panel-submit, .btn-confirmar-modal, .btn-salvar-endereco-dinamico { width: 100%; padding: 18px; font-size: 1.05rem; }
+            .acao-salvar-wrapper { display: flex; flex-direction: column; width: 100%; }
         }
     </style>
 </head>
@@ -241,9 +240,35 @@
 
             <div id="bloco-inputs-endereco">
                 <div class="aviso-endereco-vazio" id="aviso-sem-endereco" style="display:none;">
-                    Você ainda não tem um endereço salvo. Adicione abaixo!
+                    Você ainda não tem um endereço salvo. Adicione abaixo para continuar!
                 </div>
                 <div id="form-endereco-local">
+                    <div class="form-grid">
+                        <div class="input-group"><label>CEP</label><input type="tel" id="cep-frete" placeholder="00000-000" maxlength="9"></div>
+                        <div class="input-group"><label>Endereço</label><input type="text" id="rua"></div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Número</label><input type="text" id="numero" maxlength="8" inputmode="numeric"></div>
+                        <div class="input-group"><label>Bairro</label><input type="text" id="bairro"></div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Cidade</label><input type="text" id="cidade"></div>
+                        <div class="input-group">
+                            <label>Estado (UF)</label>
+                            <select id="estado" class="placeholder-ativo" required>
+                                <option value="" disabled selected>Selecione...</option>
+                                <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
                     </div>
             </div>
 
@@ -264,7 +289,7 @@
         <div class="checkout-box box-frete">
             <h2 class="box-title">Opções de Entrega</h2>
             <div id="frete-container">
-                <div id="frete-vazio" class="frete-vazio-msg">Informe um CEP válido para ver os prazos.</div>
+                <div id="frete-vazio" class="frete-vazio-msg">Informe um CEP válido para ver as opções e prazos.</div>
                 <div id="frete-resultados" style="display: none; flex-direction: column;"></div>
             </div>
         </div>
@@ -274,19 +299,21 @@
             <div id="checkout-items-container"></div>
             <div class="summary-totals">
                 <div class="summary-line"><span>Subtotal</span><span id="checkout-subtotal">R$ 0,00</span></div>
-                <div class="summary-line"><span>Frete Expresso</span><span id="checkout-frete">R$ 0,00</span></div>
+                <div class="summary-line"><span>Frete</span><span id="checkout-frete">R$ 0,00</span></div>
                 <div class="summary-total-final"><span>Total a Pagar</span><span id="checkout-total-final">R$ 0,00</span></div>
             </div>
         </div>
 
         <div class="checkout-box box-pagamento" style="margin-bottom: 0;">
             <h2 class="box-title" style="margin-bottom: 5px;">Pagamento</h2>
-            <p style="color: #86868b; font-size: 0.85rem; margin-top: 0; margin-bottom: 20px;">Todas as transações são seguras.</p>
+            <p style="color: #86868b; font-size: 0.85rem; margin-top: 0; margin-bottom: 20px;">Todas as transações são seguras e criptografadas.</p>
+            
             <input type="hidden" id="metodo-pagamento-hidden" value="">
 
             <div class="payment-group">
                 <div class="payment-option" data-metodo="pix" onclick="selecionarPagamento(this)">
-                    <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">PIX</span></div>
+                    <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">PIX (Aprovação Imediata)</span></div>
+                    <div class="payment-content-wrapper"><div class="payment-msg">Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.</div></div>
                 </div>
                 <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Crédito</span></div>
@@ -298,6 +325,7 @@
                 </div>
                 <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Boleto Bancário</span></div>
+                    <div class="payment-content-wrapper"><div class="payment-msg">O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.</div></div>
                 </div>
             </div>
 
@@ -305,8 +333,8 @@
                 <div class="input-group" style="margin-bottom: 15px;"><label>Número do Cartão</label><input type="text" id="cartao-numero" maxlength="19" inputmode="numeric"></div>
                 <div class="input-group" style="margin-bottom: 15px;"><label>Nome no Cartão</label><input type="text" id="cartao-nome"></div>
                 <div class="form-grid" style="margin-bottom: 0;">
-                    <div class="input-group" style="margin-bottom: 0;"><label>Validade</label><input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5"></div>
-                    <div class="input-group" style="margin-bottom: 0;"><label>CVV</label><input type="text" id="cartao-cvv" maxlength="4"></div>
+                    <div class="input-group" style="margin-bottom: 0;"><label>Validade</label><input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric"></div>
+                    <div class="input-group" style="margin-bottom: 0;"><label>CVV</label><input type="text" id="cartao-cvv" maxlength="4" inputmode="numeric"></div>
                 </div>
             </div>
         </div>
@@ -329,43 +357,26 @@
 
                 <div id="edicao-endereco-view">
                     <button type="button" class="modal-back-btn" id="btn-voltar-lista">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                         Voltar para a lista
                     </button>
 
                     <div id="form-endereco-modal">
-                        <div class="form-grid">
-                            <div class="input-group"><label>CEP</label><input type="tel" id="cep-frete" placeholder="00000-000" maxlength="9"></div>
-                            <div class="input-group"><label>Endereço</label><input type="text" id="rua"></div>
                         </div>
-                        <div class="form-grid">
-                            <div class="input-group"><label>Número</label><input type="text" id="numero"></div>
-                            <div class="input-group"><label>Bairro</label><input type="text" id="bairro"></div>
-                        </div>
-                        <div class="form-grid">
-                            <div class="input-group"><label>Cidade</label><input type="text" id="cidade"></div>
-                            <div class="input-group">
-                                <label>Estado (UF)</label>
-                                <select id="estado" required onchange="this.classList.add('valor-selecionado');">
-                                    <option value="" disabled selected>Selecione...</option>
-                                    <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="SP">São Paulo</option>
-                                    <option value="RJ">Rio de Janeiro</option> </select>
-                            </div>
-                        </div>
-                        <div class="checkbox-container">
-                            <input type="checkbox" id="chk-endereco-padrao">
-                            <label for="chk-endereco-padrao">Definir como meu endereço Padrão</label>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: flex-start;">
-                            <button type="button" class="btn-salvar-endereco-dinamico" id="btn-salvar-edicao-endereco" disabled>Salvar Alterações</button>
-                        </div>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="chk-endereco-padrao">
+                        <label for="chk-endereco-padrao">Definir como meu endereço padrão de entrega</label>
+                    </div>
+                    
+                    <div class="acao-salvar-wrapper">
+                        <button type="button" class="btn-salvar-endereco-dinamico" id="btn-salvar-edicao-endereco" disabled>Nenhuma Alteração</button>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer" id="modal-footer-acao">
-                <button type="button" class="btn-confirmar-modal" id="btn-confirmar-selecao">Usar Selecionado</button>
+                <button type="button" class="btn-confirmar-modal" id="btn-confirmar-selecao">Confirmar Seleção</button>
             </div>
         </div>
     </div>
@@ -375,16 +386,25 @@
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+        // =========================================================================================
+        // CONFIGURAÇÕES DO FIREBASE E MELHOR ENVIO
+        // =========================================================================================
         const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
 
+        const CEP_ORIGEM = "01001000"; 
+        const TOKEN_MELHOR_ENVIO = "SEU_TOKEN_AQUI"; 
+
+        // VARIÁVEIS DE ESTADO
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
-        let enderecoSelecionadoCheckout = null; // O que está visivel no checkout
-        let enderecoAtivoModal = null; // O que o user selecionou na bolinha do modal
-        let snapshotEdicao = {}; // Para comparar se o formulario mudou
-        
-        // Elementos Globais
+        let enderecoSelecionadoCheckout = null; 
+        let enderecoAtivoModal = null; 
+        let snapshotEdicao = {}; 
+        let valorFrete = 0.00; 
+        let subtotalCompra = 0.00; 
+
+        // DOM ELEMENTS
         const btnMudarEndereco = document.getElementById('btn-mudar-endereco');
         const modalEnderecos = document.getElementById('modal-enderecos');
         const viewLista = document.getElementById('lista-enderecos-view');
@@ -396,7 +416,6 @@
         const formLocalCheckout = document.getElementById('form-endereco-local');
         const formModalContainer = document.getElementById('form-endereco-modal');
 
-        // Referencias dos Inputs (Movemos de um lado para o outro)
         const cepInput = document.getElementById('cep-frete');
         const ruaInput = document.getElementById('rua');
         const numInput = document.getElementById('numero');
@@ -406,11 +425,104 @@
         const chkPadrao = document.getElementById('chk-endereco-padrao');
         const idSecreto = document.getElementById('editando-endereco-id');
 
-        // MÁSCARAS E VALIDAÇÕES GERAIS (As mesmas de antes)
-        // ... (Mantenha todas as funções de máscara do CPF, Telefone, Cartão etc que já estavam perfeitas) ...
+        const freteResultados = document.getElementById('frete-resultados');
+        const freteVazio = document.getElementById('frete-vazio');
+
+        const cartaoContainer = document.getElementById('cartao-container');
+        const cartaoNumero = document.getElementById('cartao-numero');
+        const cartaoNome = document.getElementById('cartao-nome');
+        const cartaoValidade = document.getElementById('cartao-validade');
+        const cartaoCvv = document.getElementById('cartao-cvv');
+        const nomeInput = document.getElementById('nome');
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
 
         // =========================================
-        // LÓGICA DE DETECÇÃO DE MUDANÇA (MODAL)
+        // MÁSCARAS & EVENTOS BÁSICOS
+        // =========================================
+        nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
+        numInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+        
+        telefoneInput.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ""); 
+            if (v.length > 11) v = v.substring(0, 11); 
+            if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+            else if (v.length > 0) v = v.replace(/^(\d{0,2})/, "($1");
+            this.value = v;
+        });
+
+        cpfInput.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, "");
+            if (v.length > 14) v = v.substring(0, 14); 
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else {
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2"); v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); v = v.replace(/\.(\d{3})(\d)/, ".$1/$2"); v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            this.value = v;
+        });
+
+        cartaoNumero.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ''); if (v.length > 16) v = v.substring(0, 16);
+            v = v.replace(/(\d{4})(?=\d)/g, '$1 '); this.value = v;
+        });
+
+        cartaoNome.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').toUpperCase(); });
+        cartaoValidade.addEventListener('input', function() {
+            let v = this.value.replace(/\D/g, ''); if (v.length > 4) v = v.substring(0, 4);
+            if (v.length > 2) v = v.replace(/^(\d{2})(\d)/, '$1/$2'); this.value = v;
+        });
+        cartaoCvv.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+
+        estadoSelect.addEventListener('change', function() {
+            if(this.value !== "") this.classList.remove('placeholder-ativo');
+            else this.classList.add('placeholder-ativo');
+        });
+
+        window.selecionarPagamento = function(elemento) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            const metodo = elemento.getAttribute('data-metodo');
+            document.getElementById('metodo-pagamento-hidden').value = metodo;
+
+            if (metodo === 'cartao_credito' || metodo === 'cartao_debito') {
+                cartaoContainer.style.display = 'block';
+                elemento.querySelector('.payment-content-wrapper').appendChild(cartaoContainer);
+            } else {
+                cartaoContainer.style.display = 'none';
+                limparErro(cartaoNumero); limparErro(cartaoNome); limparErro(cartaoValidade); limparErro(cartaoCvv);
+            }
+        };
+
+        function mostrarErro(input, mensagem) {
+            input.style.borderColor = '#ff4444'; input.style.backgroundColor = '#2c1c1e';
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
+            if (!erroTag) { erroTag = document.createElement('span'); erroTag.className = 'error-text'; pai.appendChild(erroTag); }
+            erroTag.textContent = mensagem;
+        }
+
+        function limparErro(input) {
+            input.style.borderColor = 'transparent'; input.style.backgroundColor = '#1c1c1e'; 
+            let pai = input.parentElement; let erroTag = pai.querySelector('.error-text');
+            if (erroTag) erroTag.remove();
+        }
+
+        function checarObrigatorio(input) {
+            if (!input.value.trim()) { mostrarErro(input, 'Este campo é obrigatório.'); return true; } 
+            else { limparErro(input); return false; }
+        }
+
+        nomeInput.addEventListener('blur', function() {
+            const val = this.value.trim(); if (!val || val.split(/\s+/).length < 2) mostrarErro(this, 'Informe nome e sobrenome.'); else limparErro(this);
+        });
+        telefoneInput.addEventListener('blur', function() {
+            const digitos = this.value.replace(/\D/g, ''); if (digitos.length < 10) mostrarErro(this, 'Telefone incompleto.'); else limparErro(this);
+        });
+
+        // =========================================
+        // AVALIAÇÃO DE MUDANÇA NO MODAL
         // =========================================
         function avaliarMudanca() {
             if(!usuarioAtual) return;
@@ -426,14 +538,13 @@
 
             if (mudou) {
                 btnSalvarEdicao.classList.add('ativo'); btnSalvarEdicao.disabled = false;
-                btnSalvarEdicao.textContent = "Salvar e Atualizar";
+                btnSalvarEdicao.textContent = idSecreto.value ? "Salvar Alterações" : "Salvar Novo Endereço";
             } else {
                 btnSalvarEdicao.classList.remove('ativo'); btnSalvarEdicao.disabled = true;
-                btnSalvarEdicao.textContent = "Nenhuma Alteração";
+                btnSalvarEdicao.textContent = idSecreto.value ? "Nenhuma Alteração" : "Preencha para Salvar";
             }
         }
 
-        // Atrelar ouvintes de mudança
         [cepInput, ruaInput, numInput, bairroInput, cidadeInput, estadoSelect, chkPadrao].forEach(el => {
             el.addEventListener('input', avaliarMudanca);
             el.addEventListener('change', avaliarMudanca);
@@ -443,41 +554,50 @@
         // FLUXO DO MODAL DE ENDEREÇOS
         // =========================================
         function abrirModalGerenciador() {
-            // Garante que o form está dentro do modal (usuário logado)
-            formModalContainer.appendChild(cepInput.closest('.form-grid').parentElement);
-            
+            // Se logado, transfere inputs para o modal
+            if(usuarioAtual) {
+                while (formLocalCheckout.firstChild) {
+                    formModalContainer.appendChild(formLocalCheckout.firstChild);
+                }
+            }
             modalEnderecos.classList.add('active');
             mostrarViewLista();
             renderizarGridModal();
         }
 
         function mostrarViewLista() {
-            viewLista.style.display = 'grid';
-            viewEdicao.style.display = 'none';
-            modalFooter.style.display = 'flex';
-            modalTitulo.textContent = "Meus Endereços";
+            viewLista.style.display = 'grid'; viewEdicao.style.display = 'none';
+            modalFooter.style.display = 'flex'; modalTitulo.textContent = "Meus Endereços";
         }
 
         window.abrirEdicao = function(id) {
             const end = listaDeEnderecos.find(e => e.id === id);
             if(end) {
-                preencherFormulario(end);
+                idSecreto.value = end.id;
+                cepInput.value = end.cep; ruaInput.value = end.rua; numInput.value = end.numero;
+                bairroInput.value = end.bairro; cidadeInput.value = end.cidade; estadoSelect.value = end.estado;
+                chkPadrao.checked = end.isPadrao;
+                if(end.estado) estadoSelect.classList.remove('placeholder-ativo');
+                
                 snapshotEdicao = { ...end };
-                viewLista.style.display = 'none';
-                viewEdicao.style.display = 'block';
-                modalFooter.style.display = 'none';
-                modalTitulo.textContent = "Editar Endereço";
+                
+                viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
+                modalFooter.style.display = 'none'; modalTitulo.textContent = "Editar Endereço";
                 avaliarMudanca();
             }
         };
 
         window.abrirCriacao = function() {
-            preencherFormulario({}); // Limpo
-            snapshotEdicao = {};
-            viewLista.style.display = 'none';
-            viewEdicao.style.display = 'block';
-            modalFooter.style.display = 'none';
-            modalTitulo.textContent = "Novo Endereço";
+            idSecreto.value = "";
+            cepInput.value = ""; ruaInput.value = ""; numInput.value = "";
+            bairroInput.value = ""; cidadeInput.value = ""; estadoSelect.value = "";
+            estadoSelect.classList.add('placeholder-ativo');
+            chkPadrao.checked = false;
+            
+            snapshotEdicao = {}; // Vazio
+            
+            viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
+            modalFooter.style.display = 'none'; modalTitulo.textContent = "Novo Endereço";
             avaliarMudanca();
             cepInput.focus();
         };
@@ -485,15 +605,6 @@
         document.getElementById('btn-voltar-lista').addEventListener('click', mostrarViewLista);
         document.getElementById('fechar-modal').addEventListener('click', () => modalEnderecos.classList.remove('active'));
         btnMudarEndereco.addEventListener('click', abrirModalGerenciador);
-
-        function preencherFormulario(end) {
-            idSecreto.value = end.id || "";
-            cepInput.value = end.cep || ""; ruaInput.value = end.rua || "";
-            numInput.value = end.numero || ""; bairroInput.value = end.bairro || "";
-            cidadeInput.value = end.cidade || ""; estadoSelect.value = end.estado || "";
-            chkPadrao.checked = end.isPadrao || false;
-            if(end.estado) estadoSelect.classList.add('valor-selecionado'); else estadoSelect.classList.remove('valor-selecionado');
-        }
 
         function renderizarGridModal() {
             viewLista.innerHTML = '';
@@ -532,6 +643,11 @@
         // SALVAR DENTRO DO MODAL
         btnSalvarEdicao.addEventListener('click', async () => {
             if (btnSalvarEdicao.disabled) return;
+            
+            if (cepInput.value.replace(/\D/g, '').length !== 8 || !ruaInput.value || !numInput.value || !bairroInput.value || !cidadeInput.value || !estadoSelect.value) {
+                alert("Preencha todos os campos corretamente."); return;
+            }
+
             btnSalvarEdicao.textContent = "Aguarde..."; btnSalvarEdicao.disabled = true;
 
             const novoEndereco = {
@@ -553,21 +669,22 @@
 
             try {
                 await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: listaDeEnderecos }, { merge: true });
-                enderecoAtivoModal = novoEndereco.id; // Foca no que acabou de criar/editar
-                mostrarViewLista();
-                renderizarGridModal();
+                enderecoAtivoModal = novoEndereco.id; 
                 
-                // Se foi o que já tava no checkout, atualiza lá fora também
+                // Se o editado era o que estava no checkout, atualiza na tela de fora também
                 if(enderecoSelecionadoCheckout && enderecoSelecionadoCheckout.id === novoEndereco.id) {
                     aplicarNoCheckout(novoEndereco);
                 }
+
+                mostrarViewLista();
+                renderizarGridModal();
             } catch(error) { 
                 console.error("Erro ao salvar", error); 
                 btnSalvarEdicao.textContent = "Tentar Novamente"; btnSalvarEdicao.disabled = false;
             }
         });
 
-        // CONFIRMAR SELEÇÃO (USAR)
+        // CONFIRMAR SELEÇÃO
         document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
             if (enderecoAtivoModal) {
                 const escolhido = listaDeEnderecos.find(e => e.id === enderecoAtivoModal);
@@ -581,17 +698,21 @@
             document.getElementById('bloco-inputs-endereco').style.display = 'none';
             document.getElementById('bloco-visualizacao-endereco').style.display = 'block';
             
-            document.getElementById('card-nome').textContent = document.getElementById('nome').value || "Destinatário";
-            document.getElementById('card-telefone').textContent = document.getElementById('telefone').value || "";
+            document.getElementById('card-nome').textContent = nomeInput.value || "Destinatário";
+            document.getElementById('card-telefone').textContent = telefoneInput.value || "";
             document.getElementById('card-badge').style.display = endObj.isPadrao ? 'inline-block' : 'none';
-            document.getElementById('card-endereco-texto').innerHTML = `${endObj.rua}, ${endObj.numero}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
+            document.getElementById('card-endereco-texto').innerHTML = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
             
-            // Simula frete aqui...
-            // buscarOpcoesDeFrete();
+            const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
+            if(cepLimpo.length === 8) {
+                // Preenche o input invisível para o fetch do Correio
+                cepInput.value = endObj.cep; 
+                buscarOpcoesDeFrete();
+            }
         }
 
         // =========================================
-        // LOGIN DO UTILIZADOR
+        // LOGIN DO USUÁRIO
         // =========================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -601,25 +722,297 @@
                     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        if(data.nome) nomeInput.value = data.nome;
+                        if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
+                        if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
+
                         if (data.enderecos && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
                             const endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
                             aplicarNoCheckout(endPadrao);
+                            // Move form pro modal
+                            while (formLocalCheckout.firstChild) { formModalContainer.appendChild(formLocalCheckout.firstChild); }
                         } else {
-                            // Está logado mas não tem endereço
                             document.getElementById('aviso-sem-endereco').style.display = 'block';
-                            formLocalCheckout.appendChild(cepInput.closest('.form-grid').parentElement); // Volta o form pra tela normal
+                            // Formulario fica na tela local
+                            while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
                         }
-                    }
+                    } else if(user.displayName) { nomeInput.value = user.displayName; }
                 } catch (error) {}
             } else {
-                // Visitante: Usa o form na tela
                 usuarioAtual = null; btnMudarEndereco.style.display = 'none';
-                formLocalCheckout.appendChild(cepInput.closest('.form-grid').parentElement);
+                while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
             }
         });
-        
-        // ... (Mantenha a lógica final do SUBMIT id="checkoutForm" e Carrinho intactos)
+
+        // =========================================
+        // LÓGICA DE FRETE & VIACEP
+        // =========================================
+        function limparFrete() {
+            freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
+            valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
+        }
+
+        function reavaliarFrete() {
+            const cepLimpo = cepInput.value.replace(/\D/g, '');
+            if (cepLimpo.length === 8) {
+                valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00';
+                renderizarResumo(); buscarOpcoesDeFrete(); 
+            }
+        }
+
+        async function buscarOpcoesDeFrete() {
+            const cepDestino = cepInput.value.replace(/\D/g, '');
+            if (cepDestino.length !== 8) return;
+
+            freteVazio.style.display = 'none'; freteResultados.style.display = 'flex';
+            freteResultados.innerHTML = '<div style="color: #fff; font-size: 0.95rem; padding: 20px; text-align: center;">A calcular opções de entrega...</div>';
+
+            try {
+                let productsPayload = [];
+                for (const item of itensCheckout) {
+                    const docSnap = await getDoc(doc(db, "produtos", item.id));
+                    let peso = 0.5, altura = 15, largura = 20, comprimento = 20; 
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        if(data.peso) peso = parseFloat(data.peso);
+                        if(data.altura) altura = parseFloat(data.altura);
+                        if(data.largura) largura = parseFloat(data.largura);
+                        if(data.comprimento) comprimento = parseFloat(data.comprimento);
+                    }
+                    const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
+                    productsPayload.push({ id: String(item.id), weight: Number(peso), width: Number(largura), height: Number(altura), length: Number(comprimento), insurance_value: Number(precoNumerico), quantity: parseInt(item.quantidade) });
+                }
+
+                const payload = { from: { postal_code: CEP_ORIGEM }, to: { postal_code: cepDestino }, products: productsPayload };
+
+                // Em produção mudar para https://www.melhorenvio.com.br/api/v2/me/shipment/calculate
+                const response = await fetch('https://sandbox.melhorenvio.com.br/api/v2/me/shipment/calculate', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN_MELHOR_ENVIO}`, 'User-Agent': 'suporte@guard.com' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error('Erro na resposta');
+                const cotacoes = await response.json();
+
+                freteResultados.innerHTML = '';
+                let encontrouOpcao = false;
+
+                if (Array.isArray(cotacoes)) {
+                    // Ordena por preço (do mais barato ao mais caro)
+                    cotacoes.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+                    cotacoes.forEach((opcao, index) => {
+                        if (opcao.error) return; 
+                        if (!opcao.company.name.toLowerCase().includes('correios')) return; 
+
+                        encontrouOpcao = true;
+                        const valor = parseFloat(opcao.custom_price || opcao.price);
+                        const prazo = opcao.custom_delivery_time || opcao.delivery_time;
+
+                        freteResultados.innerHTML += `
+                            <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
+                                <div class="frete-info-container">
+                                    <div class="frete-radio-circle"></div>
+                                    <img src="${opcao.company.picture}" alt="Logo" style="width:30px; margin-right:15px; border-radius:4px;">
+                                    <div>
+                                        <span class="frete-nome">${opcao.company.name} - ${opcao.name}</span>
+                                        <span class="frete-prazo">Entrega em até ${prazo} dias úteis</span>
+                                    </div>
+                                </div>
+                                <div class="frete-valor">R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                            </div>
+                        `;
+                    });
+
+                    if (encontrouOpcao) {
+                        const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
+                        if (primeiraOpcao) selecionarFrete(primeiraOpcao);
+                    }
+                }
+
+                if (!encontrouOpcao) freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Nenhuma transportadora disponível para este CEP.</div>';
+
+            } catch (error) {
+                console.error("Erro ao processar frete:", error);
+                freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Não foi possível puxar os fretes. Verifique a conexão.</div>';
+            }
+        }
+
+        cepInput.addEventListener('input', async (e) => {
+            let v = e.target.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); e.target.value = v.substring(0, 9);
+            const cepLimpo = v.replace(/\D/g, '');
+
+            if (cepLimpo.length === 8) {
+                if(!usuarioAtual) buscarOpcoesDeFrete(); // Só roda o frete autmático aqui se for visitante (se for logado, só roda no Confirmar)
+                try {
+                    const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    const data = await res.json();
+                    if (!data.erro) {
+                        ruaInput.value = data.logradouro || ''; bairroInput.value = data.bairro || '';
+                        cidadeInput.value = data.localidade || ''; estadoSelect.value = data.uf || '';
+                        estadoSelect.classList.remove('placeholder-ativo');
+                        limparErro(cepInput); numInput.focus(); avaliarMudanca();
+                    } else { mostrarErro(cepInput, 'CEP não encontrado.'); }
+                } catch (err) { console.error("Erro CEP:", err); }
+            } else if (cepLimpo.length < 8) { if(!usuarioAtual) limparFrete(); }
+        });
+
+        window.selecionarFrete = function(elemento) {
+            document.querySelectorAll('.frete-opcao').forEach(el => el.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            valorFrete = parseFloat(elemento.getAttribute('data-valor'));
+            const freteDisplay = document.getElementById('checkout-frete');
+            if(freteDisplay) freteDisplay.textContent = 'R$ ' + valorFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            renderizarResumo();
+        };
+
+        // =========================================
+        // CARRINHO & RESUMO
+        // =========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const isDireto = urlParams.get('direto') === 'true';
+        const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
+        let itensCheckout = JSON.parse(localStorage.getItem(storageKey)) || [];
+        const itemsContainer = document.getElementById('checkout-items-container');
+        const subtotalEl = document.getElementById('checkout-subtotal');
+        const totalFinalEl = document.getElementById('checkout-total-final');
+
+        function renderizarResumo() {
+            if (itensCheckout.length === 0) { alert("A sua sessão de compra está vazia."); window.location.href = "store.html"; return; }
+            itemsContainer.innerHTML = ''; let subtotal = 0;
+
+            itensCheckout.forEach(item => {
+                const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
+                const totalDoItem = precoNumerico * item.quantidade; subtotal += totalDoItem;
+
+                itemsContainer.innerHTML += `
+                    <div class="summary-item">
+                        <div class="summary-item-info">
+                            <img src="${item.imagem}" class="summary-item-img" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                            <div>
+                                <div class="summary-item-title">${item.titulo}</div>
+                                <div class="summary-qty-controls">
+                                    <button type="button" class="summary-qty-btn qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="summary-qty-input qty-input" data-id="${item.id}" value="${item.quantidade}" min="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <button type="button" class="summary-qty-btn qty-plus" data-id="${item.id}">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-item-price">R$ ${(totalDoItem).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    </div>
+                `;
+            });
+            subtotalCompra = subtotal; 
+            const totalFinal = subtotal + valorFrete;
+            subtotalEl.textContent = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            totalFinalEl.textContent = 'R$ ' + totalFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            localStorage.setItem(storageKey, JSON.stringify(itensCheckout));
+        }
+        renderizarResumo();
+
+        itemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('qty-plus')) {
+                const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade += 1; renderizarResumo(); reavaliarFrete(); }
+            }
+            if (e.target.classList.contains('qty-minus')) {
+                const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (itensCheckout[index].quantidade > 1) { itensCheckout[index].quantidade -= 1; } 
+                    else { itensCheckout.splice(index, 1); }
+                    renderizarResumo(); reavaliarFrete();
+                }
+            }
+        });
+
+        itemsContainer.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                let novaQuantidade = parseInt(e.target.value);
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
+                const item = itensCheckout.find(i => i.id === e.target.dataset.id);
+                if (item) { item.quantidade = novaQuantidade; renderizarResumo(); reavaliarFrete(); }
+            }
+        });
+
+        // =========================================
+        // FINALIZAR PEDIDO
+        // =========================================
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            let temErro = false;
+
+            const metodoSelecionado = document.getElementById('metodo-pagamento-hidden').value;
+            if (!metodoSelecionado) { alert("Selecione uma forma de pagamento para finalizar."); return; }
+
+            if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; }
+            if (telefoneInput.value.replace(/\D/g, '').length < 10) { mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; }
+            const valDoc = cpfInput.value.replace(/\D/g, '');
+            if (valDoc.length === 0) { mostrarErro(cpfInput, 'Obrigatório.'); temErro = true; }
+            else if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
+            else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
+
+            if (!usuarioAtual) {
+                // Se for visitante, valida os campos que estão na tela normal
+                const cepLimpo = cepInput.value.replace(/\D/g, '');
+                if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
+                if (checarObrigatorio(ruaInput)) temErro = true;
+                if (checarObrigatorio(numInput)) temErro = true;
+                if (checarObrigatorio(bairroInput)) temErro = true;
+                if (checarObrigatorio(cidadeInput)) temErro = true;
+                if (estadoSelect.value.trim().length !== 2) { mostrarErro(estadoSelect, 'UF deve ter 2 letras.'); temErro = true; } else { limparErro(estadoSelect); }
+            } else {
+                // Se for logado, confere se tem um endereco selecionado
+                if(!enderecoSelecionadoCheckout) { alert("Selecione ou cadastre um endereço de entrega."); temErro = true; }
+            }
+
+            if (valorFrete === 0) { alert("Selecione uma opção de entrega válida."); temErro = true; }
+
+            if (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') {
+                if (checarObrigatorio(cartaoNumero)) temErro = true; if (checarObrigatorio(cartaoNome)) temErro = true;
+                if (checarObrigatorio(cartaoValidade)) temErro = true; if (checarObrigatorio(cartaoCvv)) temErro = true;
+                if(cartaoNumero.value.replace(/\D/g,'').length < 14) { mostrarErro(cartaoNumero, 'Incompleto.'); temErro = true; }
+                if(cartaoValidade.value.length < 5) { mostrarErro(cartaoValidade, 'Inválido.'); temErro = true; }
+                if(cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Inválido.'); temErro = true; }
+            }
+
+            if (temErro || document.querySelectorAll('.error-text').length > 0) return alert("Existem campos incorretos. Verifique o formulário.");
+            
+            const btnSalvar = document.getElementById('btn-finalizar-pedido');
+            btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
+
+            const enderecoPedido = usuarioAtual ? enderecoSelecionadoCheckout : {
+                cep: cepInput.value, rua: ruaInput.value.trim(), numero: numInput.value.trim(),
+                bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase()
+            };
+
+            const novoPedido = {
+                userId: usuarioAtual ? usuarioAtual.uid : 'visitante',
+                clienteNome: nomeInput.value.trim(),
+                clienteCpf: cpfInput.value,
+                clienteTelefone: telefoneInput.value,
+                itens: itensCheckout,
+                subtotal: subtotalCompra,
+                frete: valorFrete,
+                total: subtotalCompra + valorFrete,
+                enderecoEntrega: enderecoPedido,
+                metodoPagamento: metodoSelecionado, 
+                status: (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') ? 'Processando Pagamento' : 'Aguardando Pagamento',
+                dataCriacao: new Date().toISOString()
+            };
+
+            try { await addDoc(collection(db, "pedidos"), novoPedido); } catch (error) { console.error("Erro ao gerar pedido:", error); }
+
+            localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
+            localStorage.removeItem(storageKey);
+
+            if (metodoSelecionado === 'pix') window.location.href = "pagamento-pix.html";
+            else {
+                alert(`✅ Pedido Registado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`);
+                window.location.href = "meus-pedidos.html"; 
+            }
+        });
     </script>
 </body>
 </html>
