@@ -839,6 +839,15 @@
             searchContainer.classList.remove('error-border');
             errorText.classList.remove('show');
             aplicarFiltros();
+
+            // Lógica para ocultar categorias no mobile ao digitar
+            if (window.innerWidth <= 920) {
+                if (e.target.value.trim() !== '') {
+                    document.body.classList.add('is-searching-mobile');
+                } else {
+                    document.body.classList.remove('is-searching-mobile');
+                }
+            }
         });
 
         document.querySelectorAll('#categoryFilter a').forEach(link => {
