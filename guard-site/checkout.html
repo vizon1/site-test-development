@@ -226,13 +226,23 @@
             .btn-panel-submit { padding: 18px; font-size: 1.05rem; }
         }
 
-        .input-group select:invalid {
+        /* Força a cor cinza quando o select está no valor inicial vazio (inválido) */
+        #estado:invalid, 
+        #pagamento:invalid {
             color: #86868b !important;
         }
         
-        .input-group select option {
-            color: #fff;
-            background-color: #1c1c1e;
+        /* Retorna para a cor branca assim que o usuário seleciona um estado real (válido) */
+        #estado:valid, 
+        #pagamento:valid {
+            color: #ffffff !important;
+        }
+        
+        /* Garante que a lista de opções ao clicar continue branca e legível */
+        #estado option, 
+        #pagamento option {
+            color: #ffffff !important;
+            background-color: #1c1c1e !important;
         }
     </style>
 </head>
