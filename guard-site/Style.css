@@ -5327,6 +5327,11 @@ display: flex;
         color: #FFFF00 !important;
         box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
     }
+    
+    body.is-searching-mobile .shop-sidebar-filters {
+        display: none !important;
+    }
+}
 }
 
 
