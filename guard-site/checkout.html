@@ -226,23 +226,8 @@
             .btn-panel-submit { padding: 18px; font-size: 1.05rem; }
         }
 
-        /* Força a cor cinza quando o select está no valor inicial vazio (inválido) */
-        #estado:invalid, 
-        #pagamento:invalid {
+        #estado.placeholder-ativo {
             color: #86868b !important;
-        }
-        
-        /* Retorna para a cor branca assim que o usuário seleciona um estado real (válido) */
-        #estado:valid, 
-        #pagamento:valid {
-            color: #ffffff !important;
-        }
-        
-        /* Garante que a lista de opções ao clicar continue branca e legível */
-        #estado option, 
-        #pagamento option {
-            color: #ffffff !important;
-            background-color: #1c1c1e !important;
         }
     </style>
 </head>
@@ -334,8 +319,8 @@
                         <input type="text" id="cidade" placeholder="Sua cidade" maxlength="50">
                     </div>
                     <div class="input-group">
-                        <label for="estado" id="estado-color">Estado (UF)</label>
-                        <select id="estado" required>
+                        <label for="estado">Estado (UF)</label>
+                        <select id="estado" class="placeholder-ativo" required>
                             <option value="" disabled selected>Selecione...</option>
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
@@ -1056,6 +1041,13 @@
                 window.location.href = "meus-pedidos.html"; 
             }
         });
+
+        const estadoSelect = document.getElementById('estado');
+        if (estadoSelect) {
+            estadoSelect.addEventListener('change', function() {
+                this.classList.remove('placeholder-ativo');
+            });
+        }
     </script>
 </body>
 </html>
