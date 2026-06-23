@@ -755,14 +755,15 @@
 
                     const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
 
+                    // Força a estrutura nativa com dados estritamente numéricos
                     productsPayload.push({
-                        id: item.id,
-                        weight: peso,
-                        width: largura,
-                        height: altura,
-                        length: comprimento,
-                        insurance_value: precoNumerico,
-                        quantity: item.quantidade // AQUI: A API vai multiplicar automaticamente!
+                        id: String(item.id),
+                        weight: Number(peso),
+                        width: Number(largura),
+                        height: Number(altura),
+                        length: Number(comprimento),
+                        insurance_value: Number(precoNumerico),
+                        quantity: mountaineer ? parseInt(item.quantidade) : Number(item.quantidade)
                     });
                 }
 
