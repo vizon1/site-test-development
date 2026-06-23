@@ -289,7 +289,16 @@
         function preencherCampos(id, pedido) {
             // 1. Cabeçalho do Pedido
             document.getElementById('d-id').textContent = `Pedido #${id.substring(0, 8).toUpperCase()}`;
-            document.getElementById('d-data').textContent = `Realizado em ${pedido.data || "Data indisponível"}`;
+            
+            // Formatação correta da data puxando de "dataCriacao"
+            let dataFormatada = "Data indisponível";
+            if (pedido.dataCriacao) {
+                const dataObj = new Date(pedido.dataCriacao);
+                dataFormatada = dataObj.toLocaleDateString('pt-BR') + ' às ' + dataObj.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+            } else if (pedido.data) {
+                dataFormatada = pedido.data; // Fallback para pedidos antigos
+            }
+            document.getElementById('d-data').textContent = `Realizado em ${dataFormatada}`;
             
             const statusEl = document.getElementById('d-status');
             const statusStr = pedido.status || "Aguardando pagamento";
@@ -301,9 +310,9 @@
             const rastreioTxt = pedido.rastreio ? pedido.rastreio : "Aguardando código";
             document.getElementById('d-rastreio').textContent = rastreioTxt;
 
-            // 3. Endereço
-            if (pedido.endereco) {
-                const end = pedido.endereco;
+            // 3. Endereço (Corrigido de pedido.endereco para pedido.enderecoEntrega)
+            const end = pedido.enderecoEntrega || pedido.endereco;
+            if (end) {
                 document.getElementById('d-endereco').innerHTML = `
                     ${end.rua || ""}, ${end.numero || "S/N"} ${end.complemento ? ' - ' + end.complemento : ''}<br>
                     ${end.bairro || ""}, ${end.cidade || ""} - ${end.estado || ""}<br>
@@ -343,7 +352,6 @@
                     `;
                 });
             } else if (pedido.item) {
-                // Suporte para pedidos antigos (legado)
                 htmlItens = `
                     <div class="order-item">
                         <img src="imagens/logo.webp" alt="Produto Guard">
@@ -359,19 +367,13 @@
 
             listaItens.innerHTML = htmlItens;
 
-            // 6. Valores (Assumindo frete grátis se não estiver guardado)
-            const valorTotal = parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
-            let freteNum = 0;
-            
-            // Se o total for maior que o subtotal dos itens, a diferença é o frete
-            if (valorTotal > subtotalCalc && subtotalCalc > 0) {
-                freteNum = valorTotal - subtotalCalc;
-            } else if (subtotalCalc === 0) {
-                subtotalCalc = valorTotal; // Fallback se não conseguir calcular
-            }
+            // 6. Valores (Agora puxando os dados exatos salvos no banco, com fallback dinâmico)
+            const valorTotal = pedido.total !== undefined ? parseFloat(pedido.total) : parseFloat(String(pedido.total || "0").replace(/\./g, '').replace(',', '.'));
+            const subtotalReal = pedido.subtotal !== undefined ? parseFloat(pedido.subtotal) : subtotalCalc;
+            const freteReal = pedido.frete !== undefined ? parseFloat(pedido.frete) : (valorTotal > subtotalReal ? valorTotal - subtotalReal : 0);
 
-            document.getElementById('d-subtotal').textContent = `R$ ${subtotalCalc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('d-frete').textContent = freteNum === 0 ? "Grátis" : `R$ ${freteNum.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-subtotal').textContent = `R$ ${subtotalReal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('d-frete').textContent = freteReal === 0 ? "Grátis" : `R$ ${freteReal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             document.getElementById('d-total').textContent = `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
             // Exibe o painel com transição suave
