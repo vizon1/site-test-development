@@ -5305,7 +5305,7 @@ display: flex;
         align-items: center !important;
     }
     #logo-container a { margin: 0 auto !important; display: flex !important; border: none !important; padding: 0 !important; }
-    #logo-container img { height: 50px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
+    #logo-container img { height: 60px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
 
     .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
         display: flex !important;
