@@ -853,9 +853,16 @@
                     const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
                     const data = await res.json();
                     if (!data.erro) {
-                        document.getElementById('rua').value = data.logradouro || ''; document.getElementById('bairro').value = data.bairro || '';
-                        document.getElementById('cidade').value = data.localidade || ''; document.getElementById('estado').value = data.uf || '';
-                        limparErro(cepInput); numeroInput.focus(); 
+                        document.getElementById('rua').value = data.logradouro || ''; 
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.localidade || ''; 
+                        document.getElementById('estado').value = data.uf || '';
+                        
+                        // 👇 NOVA LINHA ADICIONADA AQUI 👇
+                        document.getElementById('estado').classList.remove('placeholder-ativo');
+                        
+                        limparErro(cepInput); 
+                        numeroInput.focus(); 
                     } else { mostrarErro(cepInput, 'CEP não encontrado.'); }
                 } catch (err) { console.error("Erro na busca do CEP:", err); }
             } else if (cepLimpo.length < 8) { limparFrete(); }
