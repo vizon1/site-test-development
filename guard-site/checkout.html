@@ -141,37 +141,24 @@
            NOVOS ESTILOS DO PAGAMENTO (ACCORDION ESTILO NOCTA)
            ========================================================= */
         .payment-group {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin-top: 10px;
+            display: flex; flex-direction: column; width: 100%; margin-top: 10px;
         }
         .payment-option {
-            border: 1px solid #333;
-            background-color: #1c1c1e;
-            margin-bottom: -1px; /* Mescla as bordas duplicadas */
-            cursor: pointer;
-            transition: all 0.2s ease;
-            overflow: hidden;
+            border: 1px solid #333; background-color: #1c1c1e; margin-bottom: -1px; 
+            cursor: pointer; transition: all 0.2s ease; overflow: hidden;
         }
         .payment-option:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .payment-option:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
         .payment-option.selecionado {
-            background-color: rgba(255, 255, 255, 0.02);
-            border-color: #fff;
-            z-index: 2; /* Deixa a borda branca sobrepor as outras */
-            position: relative;
+            background-color: rgba(255, 255, 255, 0.02); border-color: #fff; z-index: 2; position: relative;
         }
         .payment-header { display: flex; align-items: center; padding: 20px; }
         .payment-radio-circle {
             width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b;
-            margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-            transition: all 0.2s ease;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;
         }
         .payment-option.selecionado .payment-radio-circle { border-color: #FFFF00; }
-        .payment-option.selecionado .payment-radio-circle::after {
-            content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%;
-        }
+        .payment-option.selecionado .payment-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
         .payment-name { font-weight: 600; color: #fff; font-size: 1rem; flex-grow: 1; }
         
         .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; }
@@ -182,19 +169,31 @@
             background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed #333;
         }
 
-        #cartao-container {
-            display: none; margin-top: 5px; animation: fadeIn 0.4s ease;
-        }
+        #cartao-container { display: none; margin-top: 5px; animation: fadeIn 0.4s ease; }
 
-        .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: none; }
+        /* =========================================================
+           CARD DE ENDEREÇO SALVO (MODIFICADO COM BOTÃO DINÂMICO)
+           ========================================================= */
+        .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: none; position: relative; }
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
         .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .endereco-telefone { color: #86868b; font-size: 0.95rem; }
         .endereco-badge { background-color: #fff; color: #000; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
-        .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
-        .endereco-acoes { display: flex; gap: 20px; border-top: 1px solid #333; padding-top: 16px; }
-        .btn-link-action { background: none; border: none; padding: 0; color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
-        .btn-link-action:hover { color: #a0a0a5; }
+        
+        .endereco-acoes-topo { position: absolute; right: 24px; top: 24px; }
+        .btn-link-action { background: none; border: none; padding: 0; color: #86868b; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
+        .btn-link-action:hover { color: #fff; }
+
+        /* Botão Salvar Dinâmico do Bloco de Endereço */
+        .btn-salvar-endereco-dinamico {
+            background-color: #333; color: #86868b; border: none; padding: 14px 20px; border-radius: 10px;
+            font-size: 0.95rem; font-weight: 700; cursor: not-allowed; width: 100%; transition: all 0.3s;
+            text-transform: uppercase; margin-top: 20px;
+        }
+        .btn-salvar-endereco-dinamico.ativo {
+            background-color: #FFFF00; color: #000; cursor: pointer;
+        }
+        .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); }
 
         .checkbox-container { display: flex; align-items: center; gap: 12px; margin-top: 16px; cursor: pointer; }
         .checkbox-container input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
@@ -207,6 +206,7 @@
         .frete-opcao:hover { border-color: #666; }
         .frete-opcao.selecionado { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
         .frete-info-container { display: flex; align-items: center;}
+        .frete-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 15px; border-radius: 6px; background: #fff; padding: 2px;}
         .frete-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
         .frete-opcao.selecionado .frete-radio-circle { border-color: #fff; }
         .frete-opcao.selecionado .frete-radio-circle::after { content: ''; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
@@ -240,27 +240,62 @@
         .summary-line span:last-child { color: #fff; font-weight: 600; }
         .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #fff; }
 
-        /* MODAL DE MEUS ENDEREÇOS */
+        /* =========================================================
+           NOVO MODAL DE ENDEREÇOS (GRELHA DE QUADRADINHOS)
+           ========================================================= */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { background-color: #111; border: 1px solid #222; border-radius: 24px; width: 90%; max-width: 550px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; }
+        
+        .modal-content { background-color: #111; border: 1px solid #222; border-radius: 24px; width: 95%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
+        
         .modal-header { padding: 24px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #111; }
         .modal-header h3 { margin: 0; color: #fff; font-size: 1.3rem; font-weight: 800;}
         .modal-close { background: #1c1c1e; border: none; color: #86868b; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .modal-close:hover { color: #fff; background: #2c2c2e; }
+        
         .modal-body { padding: 24px; overflow-y: auto; flex-grow: 1; background: #0a0a0a; }
+        
+        /* Grid dos quadradinhos */
+        #lista-enderecos-modal {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .endereco-quadradinho {
+            background: #1c1c1e; border: 2px solid #2c2c2e; border-radius: 16px; padding: 20px;
+            cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column;
+            min-height: 160px;
+        }
+        .endereco-quadradinho:hover { border-color: #424245; }
+        .endereco-quadradinho.selected { border-color: #FFFF00; background-color: rgba(255, 255, 0, 0.03); }
+        
+        .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .endereco-q-radio { accent-color: #FFFF00; transform: scale(1.2); cursor: pointer; }
+        .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+        .endereco-q-edit:hover { color: #fff; }
+
+        .endereco-q-texto { color: #a0a0a5; font-size: 0.9rem; line-height: 1.5; flex-grow: 1; }
+        .endereco-q-texto strong { color: #fff; font-size: 1rem; display: block; margin-bottom: 5px; }
+
+        /* Botão Redondo Mais (+) */
+        .btn-novo-endereco-redondo {
+            background: transparent; border: 2px dashed #424245; border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; min-height: 160px; color: #86868b;
+        }
+        .btn-novo-endereco-redondo:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.02); }
+        .btn-novo-endereco-redondo svg { margin-bottom: 10px; width: 30px; height: 30px; }
+
+        /* Botão Salvar Modal (Canto inferior direito) */
         .modal-footer { padding: 20px 24px; border-top: 1px solid #222; display: flex; justify-content: flex-end; background: #111; }
-        .endereco-lista-item { display: flex; align-items: flex-start; gap: 15px; padding: 20px; border: 1.5px solid #2c2c2e; border-radius: 16px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; background: #1c1c1e; }
-        .endereco-lista-item:hover { border-color: #424245; background: #222;}
-        .endereco-lista-item.selected { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
-        .endereco-lista-radio { margin-top: 4px; accent-color: #fff; transform: scale(1.3); cursor: pointer; }
-        .endereco-lista-info { flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
-        .endereco-lista-info .nome-tel { color: #fff; font-weight: 700; font-size: 1.05rem; }
-        .endereco-lista-info .nome-tel span { color: #86868b; font-weight: 500; font-size: 0.9rem; margin-left: 10px; }
-        .endereco-lista-info .texto { color: #a0a0a5; font-size: 0.95rem; line-height: 1.5; }
-        .btn-novo-endereco { background-color: transparent; border: 1.5px dashed #424245; border-radius: 16px; color: #d2d2d7; padding: 20px; text-align: center; cursor: pointer; width: 100%; font-size: 1rem; font-weight: 600; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .btn-novo-endereco:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.02);}
+        .btn-confirmar-modal {
+            background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+        }
+        .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
         @media (max-width: 992px) {
             .checkout-container { display: flex; flex-direction: column; padding: 0 16px; gap: 30px; margin-top: 20px; }
@@ -273,6 +308,7 @@
             .form-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; } .input-group { margin-bottom: 0; } 
             .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
             .btn-panel-submit { padding: 18px; font-size: 1.05rem; }
+            #lista-enderecos-modal { grid-template-columns: 1fr; } /* Uma coluna no telemovel */
         }
     </style>
 </head>
@@ -324,17 +360,8 @@
         <div class="checkout-box box-endereco">
             <h2 class="box-title">Endereço de Entrega</h2>
 
-            <div id="card-endereco-selecionado" class="endereco-salvo-card">
-                <div class="endereco-header">
-                    <span class="endereco-nome" id="card-nome">Carregando...</span>
-                    <span class="endereco-telefone" id="card-telefone"></span>
-                    <span class="endereco-badge" id="card-badge" style="display: none;">Padrão</span>
-                </div>
-                <div class="endereco-detalhes" id="card-endereco-texto"></div>
-                <div class="endereco-acoes">
-                    <button type="button" class="btn-link-action" id="btn-mudar-endereco">Escolher outro endereço</button>
-                    <button type="button" class="btn-link-action" id="btn-editar-endereco">Editar</button> 
-                </div>
+            <div class="endereco-acoes-topo">
+                <button type="button" class="btn-link-action" id="btn-mudar-endereco" style="display: none;">Escolher ou Adicionar</button>
             </div>
 
             <div id="bloco-inputs-endereco">
@@ -365,47 +392,27 @@
                     </div>
                     <div class="input-group">
                         <label for="estado">Estado (UF)</label>
-                        <select id="estado" required onchange="this.classList.add('valor-selecionado');">
+                        <select id="estado" required onchange="this.classList.add('valor-selecionado'); window.avaliarMudancaEndereco();">
                             <option value="" disabled selected>Selecione...</option>
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">Paraná</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
+                            <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
                         </select>
                     </div>
                 </div>
+
                 <div id="auth-save-options" style="display: none; padding-top: 10px;">
                     <div class="checkbox-container">
-                        <input type="checkbox" id="chk-salvar-endereco" checked>
-                        <label for="chk-salvar-endereco">Salvar este endereço para agilizar compras futuras</label>
-                    </div>
-                    <div class="checkbox-container">
                         <input type="checkbox" id="chk-endereco-padrao">
-                        <label for="chk-endereco-padrao">Definir como meu endereço Padrão</label>
+                        <label for="chk-endereco-padrao">Definir como meu endereço Padrão de entrega</label>
                     </div>
+                    <button type="button" class="btn-salvar-endereco-dinamico" id="btn-salvar-edicao-endereco" disabled>Salvar Alterações no Endereço</button>
                 </div>
             </div>
         </div>
@@ -414,7 +421,7 @@
             <h2 class="box-title">Opções de Entrega</h2>
             <div id="frete-container">
                 <div id="frete-vazio" class="frete-vazio-msg">
-                    Informe ou selecione um endereço válido acima para ver as opções e prazos de entrega.
+                    Informe um CEP válido acima para ver as opções e prazos de entrega.
                 </div>
                 <div id="frete-resultados" style="display: none; flex-direction: column;"></div>
             </div>
@@ -440,67 +447,50 @@
             </div>
         </div>
 
-        <!-- =======================================================
-             NOVA SEÇÃO DE PAGAMENTO (ESTILO NOCTA / ACCORDION)
-             ======================================================= -->
         <div class="checkout-box box-pagamento" style="margin-bottom: 0;">
             <h2 class="box-title" style="margin-bottom: 5px;">Pagamento</h2>
             <p style="color: #86868b; font-size: 0.85rem; margin-top: 0; margin-bottom: 20px;">Todas as transações são seguras e criptografadas.</p>
             
-            <!-- Guardará a escolha do usuário silenciosamente -->
             <input type="hidden" id="metodo-pagamento-hidden" value="">
 
             <div class="payment-group">
-                <!-- OPÇÃO 1: PIX -->
                 <div class="payment-option" data-metodo="pix" onclick="selecionarPagamento(this)">
                     <div class="payment-header">
                         <div class="payment-radio-circle"></div>
                         <span class="payment-name">PIX (Aprovação Imediata)</span>
                     </div>
                     <div class="payment-content-wrapper">
-                        <div class="payment-msg">
-                            Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.
-                        </div>
+                        <div class="payment-msg">Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.</div>
                     </div>
                 </div>
 
-                <!-- OPÇÃO 2: CARTÃO DE CRÉDITO -->
                 <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
                     <div class="payment-header">
                         <div class="payment-radio-circle"></div>
                         <span class="payment-name">Cartão de Crédito</span>
                     </div>
-                    <div class="payment-content-wrapper" id="wrapper-cartao-credito">
-                        <!-- O Formulário de Cartão virá para cá via JavaScript -->
-                    </div>
+                    <div class="payment-content-wrapper" id="wrapper-cartao-credito"></div>
                 </div>
 
-                <!-- OPÇÃO 3: CARTÃO DE DÉBITO -->
                 <div class="payment-option" data-metodo="cartao_debito" onclick="selecionarPagamento(this)">
                     <div class="payment-header">
                         <div class="payment-radio-circle"></div>
                         <span class="payment-name">Cartão de Débito</span>
                     </div>
-                    <div class="payment-content-wrapper" id="wrapper-cartao-debito">
-                        <!-- O Formulário de Cartão virá para cá via JavaScript -->
-                    </div>
+                    <div class="payment-content-wrapper" id="wrapper-cartao-debito"></div>
                 </div>
 
-                <!-- OPÇÃO 4: BOLETO BANCÁRIO -->
                 <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
                     <div class="payment-header">
                         <div class="payment-radio-circle"></div>
                         <span class="payment-name">Boleto Bancário</span>
                     </div>
                     <div class="payment-content-wrapper">
-                        <div class="payment-msg">
-                            O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.
-                        </div>
+                        <div class="payment-msg">O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.</div>
                     </div>
                 </div>
             </div>
 
-            <!-- ESSE FORMULÁRIO FICA ESCONDIDO ATÉ UMA OPÇÃO DE CARTÃO SER CLICADA -->
             <div id="cartao-container">
                 <div class="input-group" style="margin-bottom: 15px;">
                     <label>Número do Cartão</label>
@@ -539,15 +529,10 @@
             </div>
             <div class="modal-body">
                 <div id="lista-enderecos-modal">
-                    <p style="text-align:center; color:#86868b;">Procurando endereços...</p>
-                </div>
-                <button type="button" class="btn-novo-endereco" id="btn-add-novo-end">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Adicionar Novo Endereço
-                </button>
+                    </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-panel-submit" id="btn-confirmar-selecao" style="margin-top:0; padding: 16px 24px; font-size: 1rem; width: auto;">Confirmar Seleção</button>
+                <button type="button" class="btn-confirmar-modal" id="btn-confirmar-selecao">Confirmar Seleção</button>
             </div>
         </div>
     </div>
@@ -572,35 +557,52 @@
 
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
-        let enderecoSelecionado = null; 
+        let enderecoAtivoSnapshot = {}; // Guarda o estado do endereço original para comparar
         let valorFrete = 0.00; 
         let subtotalCompra = 0.00; 
 
-        const cardEnderecoSalvo = document.getElementById('card-endereco-selecionado');
+        // CONFIGURAÇÕES DO MELHOR ENVIO (SANDBOX)
+        const CEP_ORIGEM = "01001000"; 
+        const TOKEN_MELHOR_ENVIO = "SEU_TOKEN_AQUI"; 
+        
+        // Elementos da UI
+        const freteResultados = document.getElementById('frete-resultados');
+        const freteVazio = document.getElementById('frete-vazio');
+        
         const blocoInputsEndereco = document.getElementById('bloco-inputs-endereco');
         const authSaveOptions = document.getElementById('auth-save-options');
+        const btnSalvarEndereco = document.getElementById('btn-salvar-edicao-endereco');
+        const btnMudarEndereco = document.getElementById('btn-mudar-endereco');
         const editandoEnderecoId = document.getElementById('editando-endereco-id');
 
         const modalEnderecos = document.getElementById('modal-enderecos');
         const listaModal = document.getElementById('lista-enderecos-modal');
-        const freteResultados = document.getElementById('frete-resultados');
-        const freteVazio = document.getElementById('frete-vazio');
 
         const nomeInput = document.getElementById('nome');
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
-        const numeroInput = document.getElementById('numero');
+        
         const cepInput = document.getElementById('cep-frete');
+        const ruaInput = document.getElementById('rua');
+        const numeroInput = document.getElementById('numero');
+        const bairroInput = document.getElementById('bairro');
+        const cidadeInput = document.getElementById('cidade');
+        const estadoSelect = document.getElementById('estado');
+        const chkPadrao = document.getElementById('chk-endereco-padrao');
 
-        // ELEMENTOS DO NOVO CARTÃO
         const cartaoContainer = document.getElementById('cartao-container');
         const cartaoNumero = document.getElementById('cartao-numero');
         const cartaoNome = document.getElementById('cartao-nome');
         const cartaoValidade = document.getElementById('cartao-validade');
         const cartaoCvv = document.getElementById('cartao-cvv');
 
+        // MÁSCARAS
         nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
-        numeroInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+        numeroInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); window.avaliarMudancaEndereco(); });
+        ruaInput.addEventListener('input', () => window.avaliarMudancaEndereco());
+        bairroInput.addEventListener('input', () => window.avaliarMudancaEndereco());
+        cidadeInput.addEventListener('input', () => window.avaliarMudancaEndereco());
+        chkPadrao.addEventListener('change', () => window.avaliarMudancaEndereco());
         
         telefoneInput.addEventListener('input', function() {
             let v = this.value.replace(/\D/g, ""); 
@@ -644,18 +646,12 @@
         });
         cartaoCvv.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
 
-        // LOGICA DE CLICK NA OPÇÃO DE PAGAMENTO 
         window.selecionarPagamento = function(elemento) {
-            // Remove a seleção anterior
             document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
-            // Adiciona a seleção no item clicado
             elemento.classList.add('selecionado');
-            
-            // Pega o método escolhido e salva no input escondido
             const metodo = elemento.getAttribute('data-metodo');
             document.getElementById('metodo-pagamento-hidden').value = metodo;
 
-            // Se for Crédito ou Débito, pega o Form do cartão e move pra dentro do Wrapper correspondente
             if (metodo === 'cartao_credito' || metodo === 'cartao_debito') {
                 cartaoContainer.style.display = 'block';
                 elemento.querySelector('.payment-content-wrapper').appendChild(cartaoContainer);
@@ -695,7 +691,6 @@
             else limparErro(this);
         });
 
-        // Verificação nos campos do cartão no Blur só vai ocorrer se a opção escolhida for um cartão
         ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cartao-numero', 'cartao-nome', 'cartao-validade', 'cartao-cvv'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('blur', (e) => {
@@ -705,35 +700,83 @@
             });
         });
 
-        function testaCPF(strCPF) {
-            let Soma = 0, Resto; strCPF = strCPF.replace(/\D/g, ""); 
-            if (strCPF == "00000000000" || strCPF.length !== 11) return false;
-            if (/^(\d)\1{10}$/.test(strCPF)) return false; 
-            for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(9, 10))) return false; Soma = 0;
-            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11; if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(10, 11))) return false; return true;
-        }
-
-        function testaCNPJ(cnpj) {
-            cnpj = cnpj.replace(/\D/g, '');
-            if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
-            let tamanho = cnpj.length - 2; let numeros = cnpj.substring(0, tamanho); let digitos = cnpj.substring(tamanho);
-            let soma = 0, pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
-            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(0)) return false;
-            tamanho = tamanho + 1; numeros = cnpj.substring(0, tamanho); soma = 0; pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
-            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(1)) return false; return true;
-        }
-
         cpfInput.addEventListener('blur', function() {
             const val = this.value.replace(/\D/g, '');
             if (val.length === 0) mostrarErro(this, 'Obrigatório.');
-            else if (val.length <= 11) { if (!testaCPF(val)) mostrarErro(this, 'CPF inválido.'); else limparErro(this); } 
-            else { if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.'); else limparErro(this); }
+        });
+
+        // =========================================
+        // LÓGICA DE DETECÇÃO DE MUDANÇA NO ENDEREÇO
+        // =========================================
+        window.avaliarMudancaEndereco = function() {
+            if(!usuarioAtual) return; // Só importa se estiver logado
+            
+            const mudou = (
+                cepInput.value !== (enderecoAtivoSnapshot.cep || '') ||
+                ruaInput.value.trim() !== (enderecoAtivoSnapshot.rua || '') ||
+                numeroInput.value.trim() !== (enderecoAtivoSnapshot.numero || '') ||
+                bairroInput.value.trim() !== (enderecoAtivoSnapshot.bairro || '') ||
+                cidadeInput.value.trim() !== (enderecoAtivoSnapshot.cidade || '') ||
+                estadoSelect.value !== (enderecoAtivoSnapshot.estado || '') ||
+                chkPadrao.checked !== (enderecoAtivoSnapshot.isPadrao || false)
+            );
+
+            if (mudou) {
+                btnSalvarEndereco.classList.add('ativo');
+                btnSalvarEndereco.disabled = false;
+                btnSalvarEndereco.textContent = editandoEnderecoId.value ? "Salvar Alterações" : "Salvar Novo Endereço";
+            } else {
+                btnSalvarEndereco.classList.remove('ativo');
+                btnSalvarEndereco.disabled = true;
+                btnSalvarEndereco.textContent = "Endereço Guardado";
+            }
+        };
+
+        // Salvar endereço clicando no botão dinâmico
+        btnSalvarEndereco.addEventListener('click', async () => {
+            if (btnSalvarEndereco.disabled) return;
+            
+            // Validar antes de salvar
+            if (cepInput.value.replace(/\D/g, '').length !== 8 || !ruaInput.value || !numeroInput.value || !bairroInput.value || !cidadeInput.value || !estadoSelect.value) {
+                alert("Preencha todos os campos de endereço antes de salvar.");
+                return;
+            }
+
+            btnSalvarEndereco.textContent = "Salvando...";
+            btnSalvarEndereco.disabled = true;
+
+            const novoEndereco = {
+                id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString(),
+                cep: cepInput.value,
+                rua: ruaInput.value.trim(),
+                numero: numeroInput.value.trim(),
+                bairro: bairroInput.value.trim(),
+                cidade: cidadeInput.value.trim(),
+                estado: estadoSelect.value.toUpperCase(),
+                isPadrao: chkPadrao.checked
+            };
+
+            if (novoEndereco.isPadrao) {
+                listaDeEnderecos.forEach(e => e.isPadrao = false);
+            }
+
+            if (editandoEnderecoId.value !== "") {
+                const index = listaDeEnderecos.findIndex(e => e.id === editandoEnderecoId.value);
+                if(index !== -1) listaDeEnderecos[index] = novoEndereco;
+            } else {
+                if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
+                listaDeEnderecos.push(novoEndereco);
+                editandoEnderecoId.value = novoEndereco.id; // Agora ele existe
+            }
+
+            try {
+                await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: listaDeEnderecos }, { merge: true });
+                enderecoAtivoSnapshot = { ...novoEndereco }; // Atualiza o snapshot para bater igual
+                window.avaliarMudancaEndereco(); // Força a verificação para esmaecer o botão
+            } catch(error) { 
+                console.error("Falha ao salvar endereço do usuário", error); 
+                btnSalvarEndereco.textContent = "Erro ao Salvar";
+            }
         });
 
         onAuthStateChanged(auth, async (user) => {
@@ -749,103 +792,114 @@
 
                         if (data.enderecos && Array.isArray(data.enderecos) && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
+                            btnMudarEndereco.style.display = 'block'; // Mostra botão para abrir modal
                             let endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
-                            aplicarEnderecoSelecionado(endPadrao);
-                        } else if (data.endereco) {
+                            preencherCamposEndereco(endPadrao);
+                        } else if (data.endereco) { // Legado
                             const endMigrado = { id: Date.now().toString(), ...data.endereco, isPadrao: true };
-                            listaDeEnderecos = [endMigrado]; aplicarEnderecoSelecionado(endMigrado);
+                            listaDeEnderecos = [endMigrado]; preencherCamposEndereco(endMigrado);
+                            btnMudarEndereco.style.display = 'block';
                             await setDoc(userRef, { enderecos: listaDeEnderecos }, { merge: true });
                         }
                     } else if(user.displayName) { nomeInput.value = user.displayName; }
                 } catch (error) { console.error("Erro ao carregar dados do usuário:", error); }
-            } else { usuarioAtual = null; authSaveOptions.style.display = 'none'; }
+            } else { usuarioAtual = null; authSaveOptions.style.display = 'none'; btnMudarEndereco.style.display = 'none'; }
         });
 
-        function aplicarEnderecoSelecionado(endObj) {
-            enderecoSelecionado = endObj;
-            blocoInputsEndereco.style.display = 'none'; cardEnderecoSalvo.style.display = 'block';
-            cepInput.value = endObj.cep || ''; document.getElementById('rua').value = endObj.rua || '';
-            numeroInput.value = endObj.numero || ''; document.getElementById('bairro').value = endObj.bairro || '';
-            document.getElementById('cidade').value = endObj.cidade || ''; document.getElementById('estado').value = endObj.estado || '';
+        function preencherCamposEndereco(endObj) {
+            editandoEnderecoId.value = endObj.id || "";
+            cepInput.value = endObj.cep || ''; ruaInput.value = endObj.rua || '';
+            numeroInput.value = endObj.numero || ''; bairroInput.value = endObj.bairro || '';
+            cidadeInput.value = endObj.cidade || ''; estadoSelect.value = endObj.estado || '';
+            chkPadrao.checked = endObj.isPadrao || false;
             
-            document.getElementById('estado').classList.add('valor-selecionado');
+            if(endObj.estado) estadoSelect.classList.add('valor-selecionado');
             
-            document.getElementById('card-nome').textContent = nomeInput.value || "Destinatário";
-            document.getElementById('card-telefone').textContent = telefoneInput.value || "";
-            document.getElementById('card-badge').style.display = endObj.isPadrao ? 'inline-block' : 'none';
+            // Salva a foto do estado original para comparar depois
+            enderecoAtivoSnapshot = { ...endObj };
+            window.avaliarMudancaEndereco(); // Vai esmaecer o botão pois é idêntico
 
-            const strEndereco = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
-            document.getElementById('card-endereco-texto').innerHTML = strEndereco;
             const cepLimpo = (endObj.cep || '').replace(/\D/g, '');
             if(cepLimpo.length === 8) buscarOpcoesDeFrete();
         }
 
-        document.getElementById('btn-editar-endereco').addEventListener('click', () => {
-            cardEnderecoSalvo.style.display = 'none'; blocoInputsEndereco.style.display = 'block';
-            editandoEnderecoId.value = enderecoSelecionado.id;
-            document.getElementById('chk-salvar-endereco').checked = true; document.getElementById('chk-endereco-padrao').checked = enderecoSelecionado.isPadrao;
-            cepInput.focus();
-        });
-
-        document.getElementById('btn-mudar-endereco').addEventListener('click', () => { modalEnderecos.classList.add('active'); renderizarListaModal(); });
+        // ABRIR MODAL
+        btnMudarEndereco.addEventListener('click', () => { modalEnderecos.classList.add('active'); renderizarListaModal(); });
         document.getElementById('fechar-modal').addEventListener('click', () => { modalEnderecos.classList.remove('active'); });
-        document.getElementById('btn-add-novo-end').addEventListener('click', () => {
+
+        window.editarEnderecoModal = function(id) {
+            const encontrado = listaDeEnderecos.find(e => e.id === id);
+            if (encontrado) {
+                preencherCamposEndereco(encontrado);
+                modalEnderecos.classList.remove('active');
+            }
+        };
+
+        window.novoEnderecoModal = function() {
             modalEnderecos.classList.remove('active');
-            cepInput.value = ''; document.getElementById('rua').value = ''; numeroInput.value = '';
-            document.getElementById('bairro').value = ''; document.getElementById('cidade').value = ''; document.getElementById('estado').value = '';
+            editandoEnderecoId.value = ""; 
+            enderecoAtivoSnapshot = {}; // Zera o snapshot para que qualquer letra acenda o botão de Salvar
             
-            document.getElementById('estado').classList.remove('valor-selecionado');
+            cepInput.value = ''; ruaInput.value = ''; numeroInput.value = '';
+            bairroInput.value = ''; cidadeInput.value = ''; estadoSelect.value = '';
+            estadoSelect.classList.remove('valor-selecionado');
+            chkPadrao.checked = false;
             
-            limparFrete(); editandoEnderecoId.value = ""; 
-            document.getElementById('chk-salvar-endereco').checked = true; document.getElementById('chk-endereco-padrao').checked = false;
-            cardEnderecoSalvo.style.display = 'none'; blocoInputsEndereco.style.display = 'block'; cepInput.focus();
-        });
+            limparFrete(); window.avaliarMudancaEndereco(); cepInput.focus();
+        };
 
         let radioSelecionadoModal = null;
         function renderizarListaModal() {
-            if (listaDeEnderecos.length === 0) { listaModal.innerHTML = '<p style="text-align:center; color:#86868b;">Você não tem endereços salvos.</p>'; return; }
             listaModal.innerHTML = '';
-            radioSelecionadoModal = enderecoSelecionado ? enderecoSelecionado.id : listaDeEnderecos[0].id;
+            radioSelecionadoModal = editandoEnderecoId.value || (listaDeEnderecos.length > 0 ? listaDeEnderecos[0].id : null);
+            
             listaDeEnderecos.forEach(end => {
                 const isChecked = end.id === radioSelecionadoModal;
-                const div = document.createElement('div'); div.className = `endereco-lista-item ${isChecked ? 'selected' : ''}`;
+                const div = document.createElement('div'); 
+                div.className = `endereco-quadradinho ${isChecked ? 'selected' : ''}`;
                 div.innerHTML = `
-                    <input type="radio" name="endereco_modal" value="${end.id}" class="endereco-lista-radio" ${isChecked ? 'checked' : ''}>
-                    <div class="endereco-lista-info">
-                        <div class="nome-tel">${nomeInput.value || "Eu"} <span>${telefoneInput.value || ""}</span></div>
-                        <div class="texto">${end.rua}, ${end.numero} ${end.complemento ? '- '+end.complemento : ''}<br>${end.bairro}, ${end.cidade} - ${end.estado}<br>${end.cep}</div>
-                        ${end.isPadrao ? '<span class="endereco-badge" style="width: max-content; margin-top: 5px;">Padrão</span>' : ''}
+                    <div class="endereco-q-header">
+                        <input type="radio" name="endereco_modal" value="${end.id}" class="endereco-q-radio" ${isChecked ? 'checked' : ''}>
+                        <button class="endereco-q-edit" onclick="editarEnderecoModal('${end.id}')">Editar</button>
+                    </div>
+                    <div class="endereco-q-texto">
+                        <strong>${end.rua}, ${end.numero} ${end.isPadrao ? ' <span class="endereco-badge" style="margin-left:5px;">Padrão</span>' : ''}</strong>
+                        ${end.bairro}, ${end.cidade} - ${end.estado}<br>${end.cep}
                     </div>
                 `;
-                div.addEventListener('click', () => {
-                    document.querySelectorAll('.endereco-lista-item').forEach(el => el.classList.remove('selected'));
+                div.addEventListener('click', (e) => {
+                    if(e.target.tagName.toLowerCase() === 'button') return; // Se clicou em editar, não seleciona
+                    document.querySelectorAll('.endereco-quadradinho').forEach(el => el.classList.remove('selected'));
                     div.classList.add('selected'); div.querySelector('input').checked = true; radioSelecionadoModal = end.id;
                 });
                 listaModal.appendChild(div);
             });
+
+            // Adiciona o botão de Novo no final da grelha
+            const divNovo = document.createElement('div');
+            divNovo.className = 'btn-novo-endereco-redondo';
+            divNovo.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Adicionar Novo Endereço
+            `;
+            divNovo.onclick = window.novoEnderecoModal;
+            listaModal.appendChild(divNovo);
         }
 
         document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
             if (radioSelecionadoModal) {
                 const encontrado = listaDeEnderecos.find(e => e.id === radioSelecionadoModal);
-                if (encontrado) aplicarEnderecoSelecionado(encontrado);
+                if (encontrado) preencherCamposEndereco(encontrado);
             }
             modalEnderecos.classList.remove('active');
         });
 
+        // =========================================
+        // LÓGICA DE FRETE
+        // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
             valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
-        }
-
-        function reavaliarFrete() {
-            const cepLimpo = cepInput.value.replace(/\D/g, '');
-            if (cepLimpo.length === 8) {
-                valorFrete = 0.00;
-                document.getElementById('checkout-frete').textContent = 'R$ 0,00';
-                renderizarResumo();
-                buscarOpcoesDeFrete(); 
-            }
         }
 
         async function buscarOpcoesDeFrete() {
@@ -873,30 +927,17 @@
                     const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
 
                     productsPayload.push({
-                        id: String(item.id),
-                        weight: Number(peso),
-                        width: Number(largura),
-                        height: Number(altura),
-                        length: Number(comprimento),
-                        insurance_value: Number(precoNumerico),
-                        quantity: parseInt(item.quantidade)
+                        id: String(item.id), weight: Number(peso), width: Number(largura), height: Number(altura), length: Number(comprimento), insurance_value: Number(precoNumerico), quantity: parseInt(item.quantidade)
                     });
                 }
 
-                const payload = {
-                    from: { postal_code: "11320400" }, 
-                    to: { postal_code: cepDestino },
-                    products: productsPayload
-                };
+                const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
 
                 const response = await fetch('/api/frete', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) throw new Error('Erro na resposta do servidor');
-                
                 const cotacoes = await response.json();
 
                 freteResultados.innerHTML = '';
@@ -931,9 +972,7 @@
                     }
                 }
 
-                if (!encontrouOpcao) {
-                    freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Nenhuma transportadora disponível para este CEP.</div>';
-                }
+                if (!encontrouOpcao) freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Nenhuma transportadora disponível para este CEP.</div>';
 
             } catch (error) {
                 console.error("Erro ao processar frete:", error);
@@ -944,8 +983,10 @@
         cepInput.addEventListener('input', async (e) => {
             let v = e.target.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); e.target.value = v.substring(0, 9);
             const cepLimpo = v.replace(/\D/g, '');
+            window.avaliarMudancaEndereco();
 
             if (cepLimpo.length === 8) {
+                valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
                 buscarOpcoesDeFrete(); 
                 try {
                     const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
@@ -957,7 +998,7 @@
                         document.getElementById('estado').value = data.uf || '';
                         document.getElementById('estado').classList.add('valor-selecionado');
                         
-                        limparErro(cepInput); numeroInput.focus(); 
+                        limparErro(cepInput); numeroInput.focus(); window.avaliarMudancaEndereco();
                     } else { mostrarErro(cepInput, 'CEP não encontrado.'); }
                 } catch (err) { console.error("Erro na busca do CEP:", err); }
             } else if (cepLimpo.length < 8) { limparFrete(); }
@@ -1020,24 +1061,13 @@
         itemsContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('qty-plus')) {
                 const item = itensCheckout.find(i => i.id === e.target.dataset.id);
-                if (item) { 
-                    item.quantidade += 1; 
-                    renderizarResumo(); 
-                    reavaliarFrete(); 
-                }
+                if (item) { item.quantidade += 1; renderizarResumo(); buscarOpcoesDeFrete(); }
             }
             if (e.target.classList.contains('qty-minus')) {
                 const index = itensCheckout.findIndex(i => i.id === e.target.dataset.id);
                 if (index !== -1) {
-                    if (itensCheckout[index].quantidade > 1) {
-                        itensCheckout[index].quantidade -= 1;
-                        renderizarResumo();
-                        reavaliarFrete();
-                    } else {
-                        itensCheckout.splice(index, 1);
-                        renderizarResumo();
-                        reavaliarFrete();
-                    }
+                    if (itensCheckout[index].quantidade > 1) { itensCheckout[index].quantidade -= 1; renderizarResumo(); buscarOpcoesDeFrete(); } 
+                    else { itensCheckout.splice(index, 1); renderizarResumo(); buscarOpcoesDeFrete(); }
                 }
             }
         });
@@ -1047,11 +1077,7 @@
                 let novaQuantidade = parseInt(e.target.value);
                 if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
                 const item = itensCheckout.find(i => i.id === e.target.dataset.id);
-                if (item) { 
-                    item.quantidade = novaQuantidade; 
-                    renderizarResumo(); 
-                    reavaliarFrete(); 
-                }
+                if (item) { item.quantidade = novaQuantidade; renderizarResumo(); buscarOpcoesDeFrete(); }
             }
         });
 
@@ -1059,12 +1085,8 @@
             e.preventDefault(); 
             let temErro = false;
 
-            // VALIDAÇÃO: Bloqueia se o cliente tentar comprar sem escolher uma forma de pagamento!
             const metodoSelecionado = document.getElementById('metodo-pagamento-hidden').value;
-            if (!metodoSelecionado) {
-                alert("Por favor, selecione uma forma de pagamento (ex: PIX, Cartão...) para finalizar a compra.");
-                return;
-            }
+            if (!metodoSelecionado) { alert("Por favor, selecione uma forma de pagamento para finalizar a compra."); return; }
 
             if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; }
             if (telefoneInput.value.replace(/\D/g, '').length < 10) { mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; }
@@ -1073,16 +1095,13 @@
             else if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
             else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
-            if (blocoInputsEndereco.style.display !== 'none') {
-                const cepLimpo = cepInput.value.replace(/\D/g, '');
-                if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
-                if (checarObrigatorio(document.getElementById('rua'))) temErro = true;
-                if (checarObrigatorio(numeroInput)) temErro = true;
-                if (checarObrigatorio(document.getElementById('bairro'))) temErro = true;
-                if (checarObrigatorio(document.getElementById('cidade'))) temErro = true;
-                const estado = document.getElementById('estado');
-                if (estado.value.trim().length !== 2) { mostrarErro(estado, 'UF deve ter 2 letras.'); temErro = true; } else { limparErro(estado); }
-            }
+            const cepLimpo = cepInput.value.replace(/\D/g, '');
+            if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
+            if (checarObrigatorio(ruaInput)) temErro = true;
+            if (checarObrigatorio(numeroInput)) temErro = true;
+            if (checarObrigatorio(bairroInput)) temErro = true;
+            if (checarObrigatorio(cidadeInput)) temErro = true;
+            if (estadoSelect.value.trim().length !== 2) { mostrarErro(estadoSelect, 'UF deve ter 2 letras.'); temErro = true; } else { limparErro(estadoSelect); }
 
             if (valorFrete === 0) { alert("Por favor, selecione uma opção de entrega válida."); temErro = true; }
 
@@ -1098,34 +1117,20 @@
 
             if (temErro || document.querySelectorAll('.error-text').length > 0) return alert("Existem campos incorretos. Verifique os avisos no formulário.");
             
-            const btnSalvar = document.getElementById('btn-finalizar-pedido');
-            btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
-
-            const enderecoPedido = blocoInputsEndereco.style.display !== 'none' ? {
-                cep: cepInput.value,
-                rua: document.getElementById('rua').value.trim(),
-                numero: numeroInput.value.trim(),
-                bairro: document.getElementById('bairro').value.trim(),
-                cidade: document.getElementById('cidade').value.trim(),
-                estado: document.getElementById('estado').value.toUpperCase()
-            } : enderecoSelecionado;
-
-            if (usuarioAtual && blocoInputsEndereco.style.display !== 'none' && document.getElementById('chk-salvar-endereco').checked) {
-                const novoEndereco = { ...enderecoPedido, isPadrao: document.getElementById('chk-endereco-padrao').checked, id: editandoEnderecoId.value !== "" ? editandoEnderecoId.value : Date.now().toString() };
-                if (novoEndereco.isPadrao) listaDeEnderecos.forEach(e => e.isPadrao = false);
-                if (editandoEnderecoId.value !== "") {
-                    const index = listaDeEnderecos.findIndex(e => e.id === editandoEnderecoId.value);
-                    if(index !== -1) listaDeEnderecos[index] = novoEndereco;
-                } else {
-                    if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
-                    listaDeEnderecos.push(novoEndereco);
-                }
-                try {
-                    await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
-                        nome: nomeInput.value.trim(), telefone: telefoneInput.value, cpf: cpfInput.value, enderecos: listaDeEnderecos
-                    }, { merge: true });
-                } catch(error) { console.error("Falha ao salvar endereço do usuário", error); }
+            // Forçar salvamento do endereço caso o utilizador não tenha clicado no botão amarelo "Salvar Alterações"
+            if (!btnSalvarEndereco.disabled && usuarioAtual) {
+                btnSalvarEndereco.click(); 
+                // Pequena pausa para dar tempo ao Firebase de registar o endereço antes de avançar
+                await new Promise(r => setTimeout(r, 500)); 
             }
+
+            const btnSalvarFinal = document.getElementById('btn-finalizar-pedido');
+            btnSalvarFinal.textContent = "PROCESSANDO..."; btnSalvarFinal.disabled = true;
+
+            const enderecoPedido = {
+                cep: cepInput.value, rua: ruaInput.value.trim(), numero: numeroInput.value.trim(),
+                bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase()
+            };
 
             const novoPedido = {
                 userId: usuarioAtual ? usuarioAtual.uid : 'visitante',
@@ -1137,7 +1142,7 @@
                 frete: valorFrete,
                 total: subtotalCompra + valorFrete,
                 enderecoEntrega: enderecoPedido,
-                metodoPagamento: metodoSelecionado, // <- AQUI ESTÁ GRAVANDO SE FOI PIX, CREDITO OU DÉBITO
+                metodoPagamento: metodoSelecionado,
                 status: (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') ? 'Processando Pagamento' : 'Aguardando Pagamento',
                 dataCriacao: new Date().toISOString()
             };
