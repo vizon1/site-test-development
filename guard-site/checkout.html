@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
+        /* =========================================================
+           CABEÇALHO FIXO E RESET BÁSICO
+           ========================================================= */
         header { position: sticky !important; top: 0 !important; z-index: 1000 !important; background-color: #000 !important; border-bottom: 1px solid rgba(255,255,255,0.05); display: block !important; }
         .back-arrow { color: #86868b; transition: color 0.2s ease; display: flex; align-items: center; }
         .back-arrow:hover { color: #ffffff; }
@@ -24,7 +27,10 @@
         }
 
         body { background-color: #000; color: #f5f5f7; font-family: 'Fira Sans', sans-serif; margin: 0; -webkit-font-smoothing: antialiased; }
-        
+
+        /* =========================================================
+           LAYOUT PRINCIPAL (GRID)
+           ========================================================= */
         .checkout-container { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px 40px; max-width: 1200px; margin: 40px auto 80px; padding: 0 24px; align-items: start; }
         .box-pessoais { grid-column: 1; grid-row: 1; }
         .box-endereco { grid-column: 1; grid-row: 2; }
@@ -35,6 +41,9 @@
         .checkout-box { background-color: #0a0a0a; border: 1px solid #222; border-radius: 20px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; width: 100%; }
         .box-title { font-size: 1.3rem; font-weight: 700; margin-top: 0; margin-bottom: 24px; border-bottom: 1px solid #222; padding-bottom: 16px; color: #fff; letter-spacing: -0.5px; }
 
+        /* =========================================================
+           FORMULÁRIOS NATIVOS
+           ========================================================= */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-grid-full { grid-column: 1 / -1; }
         .input-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 15px;}
@@ -51,6 +60,9 @@
         .checkbox-container input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
         .checkbox-container label { color: #d2d2d7; font-size: 0.95rem; cursor: pointer; font-weight: 500; user-select: none; }
 
+        /* =========================================================
+           CARD DO ENDEREÇO PRINCIPAL (TELA DE CHECKOUT)
+           ========================================================= */
         #bloco-visualizacao-endereco { display: none; }
         .endereco-salvo-card { background: #1c1c1e; border: 1.5px solid #333; border-radius: 16px; padding: 24px; position: relative; transition: border-color 0.2s; }
         .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -63,6 +75,9 @@
         .endereco-acoes-topo { position: absolute; right: 24px; top: 24px; }
         .aviso-endereco-vazio { background: rgba(255,255,0,0.05); border: 1px dashed #FFFF00; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; color: #FFFF00; font-weight: 500;}
 
+        /* =========================================================
+           FRETES
+           ========================================================= */
         #frete-container { margin-bottom: 24px; }
         .frete-vazio-msg { color: #86868b; font-size: 0.95rem; padding: 20px; border: 1.5px dashed #333; border-radius: 12px; text-align: center; background: rgba(255,255,255,0.02); }
         .frete-opcao { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1.5px solid #333; border-radius: 14px; cursor: pointer; transition: all 0.2s ease; background-color: #1c1c1e; margin-bottom: 12px; }
@@ -77,21 +92,31 @@
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
         .frete-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 15px; border-radius: 6px; background: #fff; padding: 2px;}
 
+        /* =========================================================
+           PAGAMENTO ACCORDION
+           ========================================================= */
         .payment-group { display: flex; flex-direction: column; width: 100%; margin-top: 10px; }
         .payment-option { border: 1px solid #333; background-color: #1c1c1e; margin-bottom: -1px; cursor: pointer; transition: all 0.2s ease; overflow: hidden; }
         .payment-option:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .payment-option:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
         .payment-option.selecionado { background-color: rgba(255, 255, 255, 0.02); border-color: #fff; z-index: 2; position: relative; }
-        .payment-header { display: flex; align-items: center; padding: 20px; pointer-events: none; /* Garante que o click caia na div pai */ }
+        
+        /* A TRAVA PARA O BUBBLING DO CLIQUE (pointer-events: none nos filhos para o JS não confundir o alvo) */
+        .payment-header { display: flex; align-items: center; padding: 20px; pointer-events: none; }
         .payment-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
         .payment-option.selecionado .payment-radio-circle { border-color: #FFFF00; }
         .payment-option.selecionado .payment-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
         .payment-name { font-weight: 600; color: #fff; font-size: 1rem; flex-grow: 1; }
-        .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; }
-        .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; cursor: default; }
+        
+        .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; cursor: default; }
+        .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; }
         .payment-msg { color: #a0a0a5; font-size: 0.95rem; text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed #333; }
+        
         #cartao-container { display: none; margin-top: 5px; animation: fadeIn 0.4s ease; }
 
+        /* =========================================================
+           BOTÕES GERAIS E RESUMO
+           ========================================================= */
         .btn-panel-submit { background-color: #FFFF00; color: #000; border: none; padding: 22px; border-radius: 30px; font-size: 1.15rem; font-weight: 800; cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
         .btn-panel-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
         .btn-panel-submit:active { transform: translateY(0); }
@@ -112,6 +137,9 @@
         .summary-line span:last-child { color: #fff; font-weight: 600; }
         .summary-total-final { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 25px; border-top: 1px solid #333; font-size: 1.4rem; font-weight: 800; color: #FFFF00; }
 
+        /* =========================================================
+           MODAL DE ENDEREÇOS (DESIGN "APPLE" PREMIUM)
+           ========================================================= */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
             background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -144,7 +172,6 @@
             flex-direction: column; min-height: 180px; box-sizing: border-box;
         }
         .endereco-quadradinho:hover { border-color: #424245; }
-        
         .endereco-quadradinho.selected { border-color: #fff; background-color: #1c1c1e; }
         
         .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
@@ -153,24 +180,14 @@
         .endereco-quadradinho.selected .custom-radio { border-color: #fff; }
         .endereco-quadradinho.selected .custom-radio::after { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
         
-        /* Acções: Editar e Excluir */
         .endereco-acoes-card { display: flex; gap: 15px; align-items: center; }
-        
-        .endereco-q-edit { 
-            background: none; border: none; color: #86868b; font-size: 0.85rem; 
-            font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;
-        }
+        .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-edit:hover { color: #fff; }
-
-        .endereco-q-delete { 
-            background: none; border: none; color: #86868b; font-size: 0.85rem; 
-            font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;
-        }
-        .endereco-q-delete:hover { color: #ff3b30; }
+        .endereco-q-delete { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
+        .endereco-q-delete:hover { color: #ff3b30; } /* Apple Red */
         
         .endereco-q-texto { color: #86868b; font-size: 0.9rem; line-height: 1.6; }
         .endereco-q-texto strong { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        
         .badge-padrao-card { background: #fff; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase;}
 
         .btn-novo-endereco-redondo { 
@@ -322,7 +339,7 @@
             <div id="checkout-items-container"></div>
             <div class="summary-totals">
                 <div class="summary-line"><span>Subtotal</span><span id="checkout-subtotal">R$ 0,00</span></div>
-                <div class="summary-line"><span>Frete Expresso</span><span id="checkout-frete">R$ 0,00</span></div>
+                <div class="summary-line"><span>Frete</span><span id="checkout-frete">R$ 0,00</span></div>
                 <div class="summary-total-final"><span>Total a Pagar</span><span id="checkout-total-final">R$ 0,00</span></div>
             </div>
         </div>
@@ -338,26 +355,41 @@
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">PIX (Aprovação Imediata)</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.</div></div>
                 </div>
+                
                 <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Crédito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-credito"></div>
                 </div>
+                
                 <div class="payment-option" data-metodo="cartao_debito" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Débito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-debito"></div>
                 </div>
+                
                 <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Boleto Bancário</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.</div></div>
                 </div>
             </div>
 
-            <div id="cartao-container">
-                <div class="input-group" style="margin-bottom: 15px;"><label>Número do Cartão</label><input type="text" id="cartao-numero" maxlength="19" inputmode="numeric"></div>
-                <div class="input-group" style="margin-bottom: 15px;"><label>Nome no Cartão</label><input type="text" id="cartao-nome"></div>
+            <div id="cartao-container" onclick="event.stopPropagation()">
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Número do Cartão</label>
+                    <input type="text" id="cartao-numero" maxlength="19" inputmode="numeric">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Nome no Cartão</label>
+                    <input type="text" id="cartao-nome">
+                </div>
                 <div class="form-grid" style="margin-bottom: 0;">
-                    <div class="input-group" style="margin-bottom: 0;"><label>Validade</label><input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric"></div>
-                    <div class="input-group" style="margin-bottom: 0;"><label>CVV</label><input type="text" id="cartao-cvv" maxlength="4" inputmode="numeric"></div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>Validade</label>
+                        <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>CVV</label>
+                        <input type="text" id="cartao-cvv" maxlength="4" inputmode="numeric">
+                    </div>
                 </div>
             </div>
         </div>
@@ -403,15 +435,15 @@
     </div>
 
     <script type="module">
-       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+        // =========================================================================================
+        // CONFIGURAÇÕES DO FIREBASE E ROTA DE FRETE
+        // =========================================================================================
         const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
-
-        const CEP_ORIGEM = "01001000"; 
-        const TOKEN_MELHOR_ENVIO = "SEU_TOKEN_AQUI"; 
 
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
@@ -421,6 +453,7 @@
         let valorFrete = 0.00; 
         let subtotalCompra = 0.00; 
 
+        // DOM ELEMENTS
         const btnMudarEndereco = document.getElementById('btn-mudar-endereco');
         const modalEnderecos = document.getElementById('modal-enderecos');
         const viewLista = document.getElementById('lista-enderecos-view');
@@ -428,7 +461,6 @@
         const modalFooter = document.getElementById('modal-footer-acao');
         const modalTitulo = document.getElementById('modal-titulo-principal');
         const btnSalvarEdicao = document.getElementById('btn-salvar-edicao-endereco');
-        const btnExcluirEdicao = document.getElementById('btn-excluir-endereco');
         
         const formLocalCheckout = document.getElementById('form-endereco-local');
         const formModalContainer = document.getElementById('form-endereco-modal');
@@ -454,6 +486,9 @@
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
 
+        // =========================================
+        // MÁSCARAS & EVENTOS BÁSICOS
+        // =========================================
         nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
         numInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
         
@@ -498,7 +533,9 @@
         });
 
         window.selecionarPagamento = function(elemento) {
+            // Se já está selecionado, não faz nada para evitar recarregar e dar blur!
             if (elemento.classList.contains('selecionado')) return;
+
             document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
             elemento.classList.add('selecionado');
             const metodo = elemento.getAttribute('data-metodo');
@@ -531,13 +568,18 @@
             else { limparErro(input); return false; }
         }
 
+        // =========================================
+        // FUNÇÕES DE VALIDAÇÃO ESPECÍFICA NO BLUR
+        // =========================================
         nomeInput.addEventListener('blur', function() {
             const val = this.value.trim(); if (!val || val.split(/\s+/).length < 2) mostrarErro(this, 'Informe nome e sobrenome.'); else limparErro(this);
         });
+        
         telefoneInput.addEventListener('blur', function() {
             const digitos = this.value.replace(/\D/g, ''); if (digitos.length < 10) mostrarErro(this, 'Telefone incompleto.'); else limparErro(this);
         });
 
+        // Removido campos de cartão daqui para evitar conflito
         ['rua', 'numero', 'bairro', 'cidade', 'estado'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('blur', (e) => {
@@ -547,6 +589,7 @@
 
         function testaValidadeCartao(validade) {
             if (validade.length !== 5) return false;
+            
             const [mesStr, anoStr] = validade.split('/');
             const mesDigitado = parseInt(mesStr, 10);
             const anoDigitado = parseInt(anoStr, 10);
@@ -555,8 +598,8 @@
             if (mesDigitado < 1 || mesDigitado > 12) return false;
 
             const dataAtual = new Date();
-            const anoAtual = parseInt(dataAtual.getFullYear().toString().slice(-2), 10);
-            const mesAtual = dataAtual.getMonth() + 1;
+            const anoAtual = parseInt(dataAtual.getFullYear().toString().slice(-2), 10); 
+            const mesAtual = dataAtual.getMonth() + 1; 
 
             if (anoDigitado < anoAtual) return false;
             if (anoDigitado === anoAtual && mesDigitado < mesAtual) return false;
@@ -595,6 +638,7 @@
             else limparErro(this);
         });
 
+
         function testaCPF(strCPF) {
             let Soma = 0, Resto; strCPF = strCPF.replace(/\D/g, ""); 
             if (strCPF == "00000000000" || strCPF.length !== 11) return false;
@@ -626,6 +670,9 @@
             else { if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.'); else limparErro(this); }
         });
 
+        // =========================================
+        // AVALIAÇÃO DE MUDANÇA NO MODAL
+        // =========================================
         function avaliarMudanca() {
             if(!usuarioAtual) return;
             const mudou = (
@@ -652,6 +699,9 @@
             el.addEventListener('change', avaliarMudanca);
         });
 
+        // =========================================
+        // FLUXO DO MODAL DE ENDEREÇOS E EXCLUSÃO
+        // =========================================
         function abrirModalGerenciador() {
             if(usuarioAtual) {
                 while (formLocalCheckout.firstChild) {
@@ -754,8 +804,8 @@
                         <input type="radio" name="endereco_modal" value="${end.id}" class="custom-radio" ${isChecked ? 'checked' : ''} style="display:none;">
                         <div class="custom-radio"></div>
                         <div class="endereco-acoes-card">
-                            <button type="button" class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
-                            <button type="button" class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
+                            <button class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                            <button class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
                         </div>
                     </div>
                     <div class="endereco-q-texto">
@@ -779,6 +829,7 @@
             viewLista.appendChild(divNovo);
         }
 
+        // SALVAR DENTRO DO MODAL
         btnSalvarEdicao.addEventListener('click', async () => {
             if (btnSalvarEdicao.disabled) return;
             btnSalvarEdicao.textContent = "Aguarde..."; btnSalvarEdicao.disabled = true;
@@ -842,6 +893,9 @@
             }
         }
 
+        // =========================================
+        // LOGIN DO USUÁRIO & PERFIL
+        // =========================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user; 
@@ -850,6 +904,7 @@
                     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        
                         if(data.nome) nomeInput.value = data.nome;
                         if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
                         if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
@@ -873,6 +928,9 @@
             }
         });
 
+        // =========================================
+        // LÓGICA DE FRETE DA VERCEL
+        // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
             valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
@@ -900,10 +958,12 @@
                     let peso = 0.5, altura = 15, largura = 20, comprimento = 20; 
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        if(data.peso) peso = parseFloat(data.peso);
-                        if(data.altura) altura = parseFloat(data.altura);
-                        if(data.largura) largura = parseFloat(data.largura);
-                        if(data.comprimento) comprimento = parseFloat(data.comprimento);
+                        
+                        // CORREÇÃO AQUI: Assegura que virgulas cadastradas no DB não quebrem o frete
+                        if(data.peso) peso = parseFloat(String(data.peso).replace(',','.'));
+                        if(data.altura) altura = parseFloat(String(data.altura).replace(',','.'));
+                        if(data.largura) largura = parseFloat(String(data.largura).replace(',','.'));
+                        if(data.comprimento) comprimento = parseFloat(String(data.comprimento).replace(',','.'));
                     }
                     const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
                     productsPayload.push({ id: String(item.id), weight: Number(peso), width: Number(largura), height: Number(altura), length: Number(comprimento), insurance_value: Number(precoNumerico), quantity: parseInt(item.quantidade) });
@@ -911,7 +971,7 @@
 
                 const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
 
-                // Chamada da API interna na Vercel
+                // Chamada da API interna na Vercel!
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -989,6 +1049,9 @@
             renderizarResumo();
         };
 
+        // =========================================
+        // CARRINHO & RESUMO DO PEDIDO
+        // =========================================
         const urlParams = new URLSearchParams(window.location.search);
         const isDireto = urlParams.get('direto') === 'true';
         const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
@@ -1054,6 +1117,9 @@
             }
         });
 
+        // =========================================
+        // FINALIZAR PEDIDO
+        // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
@@ -1104,6 +1170,7 @@
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
+            // SALVAMENTO AUTOMÁTICO DO PERFIL
             if (usuarioAtual) {
                 try {
                     await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
