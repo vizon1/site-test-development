@@ -6,7 +6,6 @@ export default async function handler(req, res) {
     try {
         const { from, to, products } = req.body;
 
-        // O Melhor Envio exige array de 'products' para fazer o empacotamento automático
         const melhorEnvioPayload = {
             from: { postal_code: from.postal_code.replace(/\D/g, '') },
             to: { postal_code: to.postal_code.replace(/\D/g, '') },
@@ -18,7 +17,12 @@ export default async function handler(req, res) {
                 length: Number(p.length),
                 insurance_value: Number(p.insurance_value),
                 quantity: parseInt(p.quantity)
-            }))
+            })),
+            // Adicionamos options explícitos para bater com o cálculo do painel
+            options: {
+                receipt: false,   // Desativa Aviso de Recebimento (AR)
+                own_hand: false   // Desativa Mão Própria
+            }
         };
 
         const response = await fetch('https://melhorenvio.com.br/api/v2/me/shipment/calculate', {
