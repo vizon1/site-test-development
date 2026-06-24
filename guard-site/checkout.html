@@ -55,6 +55,16 @@
         .input-group select.placeholder-ativo { color: #86868b !important; }
         .input-group select option { color: #fff; background-color: #1c1c1e; }
         .input-group input:focus, .input-group select:focus { border-color: #FFF !important; background-color: #222 !important; box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1); }
+
+        .input-group input:-webkit-autofill,
+        .input-group input:-webkit-autofill:hover, 
+        .input-group input:-webkit-autofill:focus, 
+        .input-group input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #1c1c1e inset !important;
+            -webkit-text-fill-color: #fff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        
         .error-text { color: #ff4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
         .checkbox-container { display: flex; align-items: center; gap: 12px; margin-top: 16px; cursor: pointer; }
         .checkbox-container input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
