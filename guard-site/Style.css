@@ -3595,7 +3595,7 @@ select:-webkit-autofill:active {
 
 #mobile-cart-btn {
     position: relative;
-    display: none; /* Escondido por padrão em telas grandes (Desktop) */
+    display: none !important;
     align-items: center;
     justify-content: center;
     cursor: pointer;
