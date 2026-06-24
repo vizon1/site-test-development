@@ -81,6 +81,7 @@
         #frete-container { margin-bottom: 24px; }
         .frete-vazio-msg { color: #86868b; font-size: 0.95rem; padding: 20px; border: 1.5px dashed #333; border-radius: 12px; text-align: center; background: rgba(255,255,255,0.02); }
         .frete-opcao { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1.5px solid #333; border-radius: 14px; cursor: pointer; transition: all 0.2s ease; background-color: #1c1c1e; margin-bottom: 12px; }
+        .frete-opcao:last-child { margin-bottom: 0; }
         .frete-opcao:hover { border-color: #666; }
         .frete-opcao.selecionado { border-color: #fff; background-color: rgba(255, 255, 255, 0.05); }
         .frete-info-container { display: flex; align-items: center;}
@@ -90,7 +91,6 @@
         .frete-nome { display: block; font-weight: 700; color: #fff; margin-bottom: 4px; font-size: 1rem; }
         .frete-prazo { display: block; font-size: 0.85rem; color: #a0a0a5; }
         .frete-valor { font-weight: 800; color: #fff; font-size: 1.1rem; }
-        .frete-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 15px; border-radius: 6px; background: #fff; padding: 2px;}
 
         /* =========================================================
            PAGAMENTO ACCORDION
@@ -100,18 +100,14 @@
         .payment-option:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .payment-option:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
         .payment-option.selecionado { background-color: rgba(255, 255, 255, 0.02); border-color: #fff; z-index: 2; position: relative; }
-        
-        /* A TRAVA PARA O BUBBLING DO CLIQUE (pointer-events: none nos filhos para o JS não confundir o alvo) */
         .payment-header { display: flex; align-items: center; padding: 20px; pointer-events: none; }
         .payment-radio-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #86868b; margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
         .payment-option.selecionado .payment-radio-circle { border-color: #FFFF00; }
         .payment-option.selecionado .payment-radio-circle::after { content: ''; width: 10px; height: 10px; background: #FFFF00; border-radius: 50%; }
         .payment-name { font-weight: 600; color: #fff; font-size: 1rem; flex-grow: 1; }
-        
         .payment-content-wrapper { display: none; padding: 0 20px 20px 20px; cursor: default; }
         .payment-option.selecionado .payment-content-wrapper { display: block; animation: fadeIn 0.3s ease; }
         .payment-msg { color: #a0a0a5; font-size: 0.95rem; text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed #333; }
-        
         #cartao-container { display: none; margin-top: 5px; animation: fadeIn 0.4s ease; }
 
         /* =========================================================
@@ -184,7 +180,7 @@
         .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
         .endereco-q-edit:hover { color: #fff; }
         .endereco-q-delete { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
-        .endereco-q-delete:hover { color: #ff3b30; } /* Apple Red */
+        .endereco-q-delete:hover { color: #ff3b30; } 
         
         .endereco-q-texto { color: #86868b; font-size: 0.9rem; line-height: 1.6; }
         .endereco-q-texto strong { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -212,6 +208,7 @@
         .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
+        /* RESPONSIVIDADE */
         @media (max-width: 992px) {
             .checkout-container { display: flex; flex-direction: column; padding: 0 16px; gap: 30px; margin-top: 20px; }
             .box-pessoais  { order: 1; } .box-endereco  { order: 2; } .box-frete     { order: 3; } .box-resumo    { order: 4; } .box-pagamento { order: 5; } .btn-submit-wrapper { order: 6; }
@@ -339,7 +336,7 @@
             <div id="checkout-items-container"></div>
             <div class="summary-totals">
                 <div class="summary-line"><span>Subtotal</span><span id="checkout-subtotal">R$ 0,00</span></div>
-                <div class="summary-line"><span>Frete</span><span id="checkout-frete">R$ 0,00</span></div>
+                <div class="summary-line"><span>Frete Expresso</span><span id="checkout-frete">R$ 0,00</span></div>
                 <div class="summary-total-final"><span>Total a Pagar</span><span id="checkout-total-final">R$ 0,00</span></div>
             </div>
         </div>
@@ -355,41 +352,26 @@
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">PIX (Aprovação Imediata)</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">Você receberá um código PIX (Copia e Cola) e o QR Code após a finalização da compra.</div></div>
                 </div>
-                
                 <div class="payment-option" data-metodo="cartao_credito" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Crédito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-credito"></div>
                 </div>
-                
                 <div class="payment-option" data-metodo="cartao_debito" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Cartão de Débito</span></div>
                     <div class="payment-content-wrapper" id="wrapper-cartao-debito"></div>
                 </div>
-                
                 <div class="payment-option" data-metodo="boleto" onclick="selecionarPagamento(this)">
                     <div class="payment-header"><div class="payment-radio-circle"></div><span class="payment-name">Boleto Bancário</span></div>
                     <div class="payment-content-wrapper"><div class="payment-msg">O boleto será gerado após a confirmação. O prazo de compensação é de até 3 dias úteis.</div></div>
                 </div>
             </div>
 
-            <div id="cartao-container" onclick="event.stopPropagation()">
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <label>Número do Cartão</label>
-                    <input type="text" id="cartao-numero" maxlength="19" inputmode="numeric">
-                </div>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <label>Nome no Cartão</label>
-                    <input type="text" id="cartao-nome">
-                </div>
+            <div id="cartao-container">
+                <div class="input-group" style="margin-bottom: 15px;"><label>Número do Cartão</label><input type="text" id="cartao-numero" maxlength="19" inputmode="numeric"></div>
+                <div class="input-group" style="margin-bottom: 15px;"><label>Nome no Cartão</label><input type="text" id="cartao-nome"></div>
                 <div class="form-grid" style="margin-bottom: 0;">
-                    <div class="input-group" style="margin-bottom: 0;">
-                        <label>Validade</label>
-                        <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric">
-                    </div>
-                    <div class="input-group" style="margin-bottom: 0;">
-                        <label>CVV</label>
-                        <input type="text" id="cartao-cvv" maxlength="4" inputmode="numeric">
-                    </div>
+                    <div class="input-group" style="margin-bottom: 0;"><label>Validade</label><input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" inputmode="numeric"></div>
+                    <div class="input-group" style="margin-bottom: 0;"><label>CVV</label><input type="text" id="cartao-cvv" maxlength="4" inputmode="numeric"></div>
                 </div>
             </div>
         </div>
@@ -439,11 +421,11 @@
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // =========================================================================================
-        // CONFIGURAÇÕES DO FIREBASE E ROTA DE FRETE
-        // =========================================================================================
         const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
+
+        const CEP_ORIGEM = "01001000"; 
+        const TOKEN_MELHOR_ENVIO = "SEU_TOKEN_AQUI"; 
 
         let usuarioAtual = null;
         let listaDeEnderecos = []; 
@@ -453,7 +435,6 @@
         let valorFrete = 0.00; 
         let subtotalCompra = 0.00; 
 
-        // DOM ELEMENTS
         const btnMudarEndereco = document.getElementById('btn-mudar-endereco');
         const modalEnderecos = document.getElementById('modal-enderecos');
         const viewLista = document.getElementById('lista-enderecos-view');
@@ -486,9 +467,6 @@
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
 
-        // =========================================
-        // MÁSCARAS & EVENTOS BÁSICOS
-        // =========================================
         nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
         numInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
         
@@ -533,9 +511,7 @@
         });
 
         window.selecionarPagamento = function(elemento) {
-            // Se já está selecionado, não faz nada para evitar recarregar e dar blur!
             if (elemento.classList.contains('selecionado')) return;
-
             document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selecionado'));
             elemento.classList.add('selecionado');
             const metodo = elemento.getAttribute('data-metodo');
@@ -568,18 +544,13 @@
             else { limparErro(input); return false; }
         }
 
-        // =========================================
-        // FUNÇÕES DE VALIDAÇÃO ESPECÍFICA NO BLUR
-        // =========================================
         nomeInput.addEventListener('blur', function() {
             const val = this.value.trim(); if (!val || val.split(/\s+/).length < 2) mostrarErro(this, 'Informe nome e sobrenome.'); else limparErro(this);
         });
-        
         telefoneInput.addEventListener('blur', function() {
             const digitos = this.value.replace(/\D/g, ''); if (digitos.length < 10) mostrarErro(this, 'Telefone incompleto.'); else limparErro(this);
         });
 
-        // Removido campos de cartão daqui para evitar conflito
         ['rua', 'numero', 'bairro', 'cidade', 'estado'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('blur', (e) => {
@@ -589,7 +560,6 @@
 
         function testaValidadeCartao(validade) {
             if (validade.length !== 5) return false;
-            
             const [mesStr, anoStr] = validade.split('/');
             const mesDigitado = parseInt(mesStr, 10);
             const anoDigitado = parseInt(anoStr, 10);
@@ -598,11 +568,11 @@
             if (mesDigitado < 1 || mesDigitado > 12) return false;
 
             const dataAtual = new Date();
-            const anoAtual = parseInt(dataAtual.getFullYear().toString().slice(-2), 10); 
-            const mesAtual = dataAtual.getMonth() + 1; 
+            const anoAtual = parseInt(dataAtual.getFullYear().toString().slice(-2), 10);
+            const mesAtual = dataAtual.getMonth() + 1;
 
-            if (anoDigitado < anoAtual) return false;
-            if (anoDigitado === anoAtual && mesDigitado < mesAtual) return false;
+            if (anoDigitado < anoAtual) return false; 
+            if (anoDigitado === anoAtual && mesDigitado < mesAtual) return false; 
 
             return true;
         }
@@ -638,7 +608,6 @@
             else limparErro(this);
         });
 
-
         function testaCPF(strCPF) {
             let Soma = 0, Resto; strCPF = strCPF.replace(/\D/g, ""); 
             if (strCPF == "00000000000" || strCPF.length !== 11) return false;
@@ -670,9 +639,6 @@
             else { if (!testaCNPJ(val)) mostrarErro(this, 'CNPJ inválido.'); else limparErro(this); }
         });
 
-        // =========================================
-        // AVALIAÇÃO DE MUDANÇA NO MODAL
-        // =========================================
         function avaliarMudanca() {
             if(!usuarioAtual) return;
             const mudou = (
@@ -699,9 +665,6 @@
             el.addEventListener('change', avaliarMudanca);
         });
 
-        // =========================================
-        // FLUXO DO MODAL DE ENDEREÇOS E EXCLUSÃO
-        // =========================================
         function abrirModalGerenciador() {
             if(usuarioAtual) {
                 while (formLocalCheckout.firstChild) {
@@ -804,8 +767,8 @@
                         <input type="radio" name="endereco_modal" value="${end.id}" class="custom-radio" ${isChecked ? 'checked' : ''} style="display:none;">
                         <div class="custom-radio"></div>
                         <div class="endereco-acoes-card">
-                            <button class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
-                            <button class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
+                            <button type="button" class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                            <button type="button" class="endereco-q-delete" onclick="excluirEndereco('${end.id}')">Excluir</button>
                         </div>
                     </div>
                     <div class="endereco-q-texto">
@@ -829,7 +792,6 @@
             viewLista.appendChild(divNovo);
         }
 
-        // SALVAR DENTRO DO MODAL
         btnSalvarEdicao.addEventListener('click', async () => {
             if (btnSalvarEdicao.disabled) return;
             btnSalvarEdicao.textContent = "Aguarde..."; btnSalvarEdicao.disabled = true;
@@ -893,9 +855,6 @@
             }
         }
 
-        // =========================================
-        // LOGIN DO USUÁRIO & PERFIL
-        // =========================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user; 
@@ -904,7 +863,6 @@
                     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
                         if(data.nome) nomeInput.value = data.nome;
                         if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
                         if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
@@ -928,9 +886,6 @@
             }
         });
 
-        // =========================================
-        // LÓGICA DE FRETE DA VERCEL
-        // =========================================
         function limparFrete() {
             freteResultados.style.display = 'none'; freteVazio.style.display = 'block';
             valorFrete = 0.00; document.getElementById('checkout-frete').textContent = 'R$ 0,00'; renderizarResumo();
@@ -958,8 +913,6 @@
                     let peso = 0.5, altura = 15, largura = 20, comprimento = 20; 
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
-                        // CORREÇÃO AQUI: Assegura que virgulas cadastradas no DB não quebrem o frete
                         if(data.peso) peso = parseFloat(String(data.peso).replace(',','.'));
                         if(data.altura) altura = parseFloat(String(data.altura).replace(',','.'));
                         if(data.largura) largura = parseFloat(String(data.largura).replace(',','.'));
@@ -971,7 +924,6 @@
 
                 const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
 
-                // Chamada da API interna na Vercel!
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -990,13 +942,14 @@
                         if (!opcao.company.name.toLowerCase().includes('correios')) return; 
 
                         encontrouOpcao = true;
-                        const valor = parseFloat(opcao.custom_price || opcao.price);
+                        const valor = parseFloat(opcao.price);
                         const prazo = opcao.custom_delivery_time || opcao.delivery_time;
 
                         freteResultados.innerHTML += `
                             <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
                                 <div class="frete-info-container">
                                     <div class="frete-radio-circle"></div>
+                                    <img src="${opcao.company.picture}" alt="Logo" style="width:30px; margin-right:15px; border-radius:4px;">
                                     <div>
                                         <span class="frete-nome">${opcao.company.name} - ${opcao.name}</span>
                                         <span class="frete-prazo">Entrega em até ${prazo} dias úteis</span>
@@ -1049,9 +1002,6 @@
             renderizarResumo();
         };
 
-        // =========================================
-        // CARRINHO & RESUMO DO PEDIDO
-        // =========================================
         const urlParams = new URLSearchParams(window.location.search);
         const isDireto = urlParams.get('direto') === 'true';
         const storageKey = isDireto ? 'guard_compra_direta' : 'guard_carrinho';
@@ -1117,9 +1067,6 @@
             }
         });
 
-        // =========================================
-        // FINALIZAR PEDIDO
-        // =========================================
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
@@ -1170,7 +1117,6 @@
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
-            // SALVAMENTO AUTOMÁTICO DO PERFIL
             if (usuarioAtual) {
                 try {
                     await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
@@ -1214,4 +1160,4 @@
         });
     </script>
 </body>
-</html>
+</html>)
