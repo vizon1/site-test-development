@@ -32,79 +32,42 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==========================================
-           CABEÇALHO CORRIGIDO (NÃO CORTA O SITE)
-           ========================================== */
+        /* CABEÇALHO */
         header {
-            position: sticky !important; /* Mantém no topo respeitando o espaço */
-            top: 0;
-            z-index: 1000;
-            background-color: #000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            will-change: transform;
-            width: 100%;
+            position: sticky !important; top: 0; z-index: 1000; background-color: #000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); transform: translateZ(0); width: 100%;
         }
-
         #header { 
-            position: relative !important; /* SOBREPÕE O STYLE.CSS QUE CAUSAVA O CORTE */
-            display: flex !important; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 24px; 
-            width: 100%; 
-            box-sizing: border-box; 
-            height: 80px !important; /* Define a altura física que empurra o site */
-            background: transparent !important;
+            position: relative !important; display: flex !important; justify-content: space-between; 
+            align-items: center; padding: 0 24px; width: 100%; box-sizing: border-box; height: 80px !important; background: transparent !important;
         }
-        
         .page-logo-img { height: 48px; width: auto; display: block; flex-shrink: 0; }
         .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
         .title-container { display: flex; align-items: center; gap: 15px; min-width: 0; }
 
         @media (max-width: 1024px) {
-            #user-first-name { display: none; } /* Oculta o nome de perfil no iPad/Tela dividida */
+            #user-first-name { display: none; }
             .page-title-text { font-size: 1rem; }
         }
-
-        /* ==== AJUSTES PARA MOBILE ==== */
         @media (max-width: 850px) {
             #header { padding: 0 15px !important; height: 65px !important; justify-content: flex-start; }
-            
-            /* Logo um pouco maior no mobile */
             .page-logo-img { height: 42px; }
-            
-            /* Ajusta o título para não estourar a largura, mas permite que seja exibido */
             .page-title-text { font-size: 0.95rem; display: block; white-space: normal; line-height: 1.1; }
-            
-            /* Deixa a logo, barra e texto bem próximos no mobile */
             .title-container { gap: 8px; margin-left: 15px; }
-
-            /* Oculta o menu de perfil do usuário inteiramente no mobile */
             #desktop-cart-group { display: none !important; }
-            
             .title-separator { height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px; flex-shrink: 0; display: block; }
         }
-
         @media (max-width: 480px) {
-            .page-logo-img { height: 38px; } /* Ajuste fino para telas muito pequenas */
+            .page-logo-img { height: 38px; }
             .page-title-text { font-size: 0.85rem; }
             .title-separator { height: 20px !important; }
         }
 
-        /* Estilos da Página de Perfil */
+        /* Estrutura Perfil */
         .account-wrapper { 
-            width: 100%;
-            box-sizing: border-box;
-            max-width: 1100px; 
-            margin: 40px auto; /* Margem reduzida porque o header já ocupa espaço */
-            padding: 0 20px; 
-            display: flex; 
-            gap: 40px; 
-            min-height: 60vh; 
+            width: 100%; box-sizing: border-box; max-width: 1100px; margin: 40px auto; padding: 0 20px; 
+            display: flex; gap: 40px; min-height: 60vh; 
         }
-        
         .account-sidebar { width: 260px; flex-shrink: 0; }
         .account-nav { list-style: none; padding: 0; margin: 0; }
         .account-nav li { padding: 14px 18px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; color: #86868b; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
@@ -112,50 +75,41 @@
         .account-nav li.active { background-color: #2c2c2e; color: #fff; }
         
         .account-content { 
-            flex-grow: 1; 
-            min-width: 0; /* Impede o flexbox de estourar a tela */
-            background-color: #111111; 
-            border: 1px solid #333333; 
-            border-radius: 16px; 
-            padding: 40px; 
-            box-sizing: border-box;
+            flex-grow: 1; min-width: 0; background-color: #111111; border: 1px solid #333333; 
+            border-radius: 16px; padding: 40px; box-sizing: border-box;
         }
         .tab-pane { display: none; }
         .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
-        
         .section-title { font-size: 1.5rem; margin: 0 0 25px 0; color: #fff; border-bottom: 1px solid #333; padding-bottom: 15px; }
         
-        /* Grid de Formulários estilo Apple */
+        /* Formulários estilo Apple (Para a aba de Perfil) */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-full { grid-column: 1 / -1; }
-        .apple-input-group { margin-bottom: 15px; }
-        .apple-input-group label { display: block; margin-bottom: 6px; color: #a0a0a5; font-size: 0.85rem; font-weight: 500; }
+        .apple-input-group { margin-bottom: 15px; width: 100%; }
+        .apple-input-group label { display: block; margin-bottom: 6px; color: #a0a0a5; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;}
         .apple-input-group input, .apple-input-group select {
-            width: 100%; padding: 14px 16px; background-color: #1d1d1f; border: 1px solid #424245;
-            border-radius: 10px; color: #fff; font-size: 0.95rem; outline: none; box-sizing: border-box; transition: border-color 0.3s ease;
+            width: 100%; padding: 14px 16px; background-color: #1c1c1e; border: 1.5px solid transparent;
+            border-radius: 10px; color: #fff; font-size: 0.95rem; outline: none; box-sizing: border-box; transition: all 0.2s ease;
         }
-        .apple-input-group input:focus, .apple-input-group select:focus { border-color: #0071e3; }
+        .apple-input-group input:focus, .apple-input-group select:focus { border-color: #0071e3; background-color: #222; }
         .apple-input-group input:disabled { opacity: 0.6; cursor: not-allowed; }
+        .apple-input-group select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto; }
+        .apple-input-group select.placeholder-ativo { color: #86868b !important; }
 
         .btn-save { background-color: #0071e3; color: #fff; border: none; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
         .btn-save:hover { background-color: #0077ed; }
         .btn-danger { background-color: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .btn-danger:hover { background-color: rgba(255, 68, 68, 0.1); }
 
-        /* Checkbox Switch Style */
+        /* Toggles e Senhas */
         .toggle-switch { display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 20px; }
         .toggle-switch input { display: none; }
         .slider { width: 44px; height: 24px; background-color: #424245; border-radius: 24px; position: relative; transition: 0.3s; }
         .slider::before { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: #fff; top: 2px; left: 2px; transition: 0.3s; }
         .toggle-switch input:checked + .slider { background-color: #32CD32; }
         .toggle-switch input:checked + .slider::before { transform: translateX(20px); }
-
-        /* Estilos de Senha Avançada */
         input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none !important; }
-        .toggle-password {
-            position: absolute; right: 16px; top: 38px; cursor: pointer; color: #86868b;
-            display: block; background: none; border: none; padding: 0; outline: none; transition: color 0.2s ease;
-        }
+        .toggle-password { position: absolute; right: 16px; top: 38px; cursor: pointer; color: #86868b; display: block; background: none; border: none; padding: 0; outline: none; transition: color 0.2s ease; }
         .toggle-password:hover { color: #fff; }
         .check-item { display: flex; align-items: center; gap: 12px; color: #86868b; font-size: 0.95rem; transition: color 0.3s ease; }
         .check-item.valid { color: #d2d2d7; }
@@ -164,26 +118,119 @@
         .check-item.valid .check-icon { background-color: #32CD32; box-shadow: 0 0 8px rgba(50, 205, 50, 0.3); }
         .check-item.valid .check-icon svg { opacity: 1; }
 
-        /* Responsividade para Telas Divididas e Mobile */
+        /* =========================================================
+           NOVOS ESTILOS - CARD ENDEREÇO E MODAL
+           ========================================================= */
+        .btn-link-action { background: none; border: none; padding: 0; color: #0071e3; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
+        .btn-link-action:hover { color: #0077ed; }
+
+        .endereco-salvo-card { background: #1d1d1f; border: 1px solid #424245; border-radius: 16px; padding: 24px; position: relative; }
+        .endereco-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .endereco-nome { font-weight: 700; color: #fff; font-size: 1.1rem; }
+        .endereco-telefone { color: #86868b; font-size: 0.95rem; }
+        .endereco-badge { background-color: #0071e3; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+        .endereco-detalhes { color: #d2d2d7; font-size: 1rem; line-height: 1.6; }
+        
+        .aviso-endereco-vazio { background: rgba(0, 113, 227, 0.1); border: 1px dashed #0071e3; color: #0071e3; padding: 20px; border-radius: 12px; text-align: center; font-weight: 500;}
+
+        /* MODAL DE ENDEREÇOS (DESIGN APPLE PREMIUM) */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 2000; display: none; justify-content: center; align-items: center; 
+            opacity: 0; transition: opacity 0.3s ease; 
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-content { 
+            background-color: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; 
+            width: 95%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; 
+            transform: translateY(20px) scale(0.98); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); overflow: hidden; position: relative; 
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        
+        .modal-header { padding: 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: #111; }
+        .modal-header h3 { margin: 0; color: #fff; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px;}
+        
+        .modal-close { background: #222; border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close:hover { color: #fff; background: #333; }
+        
+        .modal-body { padding: 30px; overflow-y: auto; flex-grow: 1; background: #111; position: relative; }
+        
+        #lista-enderecos-view { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        .endereco-quadradinho { 
+            background: #111; border: 1.5px solid #2c2c2e; border-radius: 16px; padding: 20px; 
+            cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; 
+            flex-direction: column; min-height: 180px; box-sizing: border-box;
+        }
+        .endereco-quadradinho:hover { border-color: #424245; }
+        .endereco-quadradinho.selected { border-color: #fff; background-color: #1c1c1e; }
+        
+        .endereco-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        
+        .custom-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px;}
+        .endereco-quadradinho.selected .custom-radio { border-color: #fff; }
+        .endereco-quadradinho.selected .custom-radio::after { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
+        
+        .endereco-acoes-card { display: flex; gap: 15px; align-items: center; }
+        .endereco-q-edit { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
+        .endereco-q-edit:hover { color: #fff; }
+        .endereco-q-delete { background: none; border: none; color: #86868b; font-size: 0.85rem; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0; transition: color 0.2s;}
+        .endereco-q-delete:hover { color: #ff3b30; } 
+        
+        .endereco-q-texto { color: #86868b; font-size: 0.9rem; line-height: 1.6; }
+        .endereco-q-texto strong { color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .badge-padrao-card { background: #fff; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px; text-transform: uppercase;}
+
+        .btn-novo-endereco-redondo { 
+            background: #111; border: 1.5px dashed #424245; border-radius: 16px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; transition: all 0.2s ease; min-height: 180px; color: #86868b; 
+            font-size: 0.95rem; font-weight: 600; 
+        }
+        .btn-novo-endereco-redondo:hover { border-color: #86868b; color: #fff; background: rgba(255,255,255,0.02);}
+        .btn-novo-endereco-redondo svg { width: 70px; height: 70px; stroke: #424245; stroke-width: 2; margin-bottom: 15px; transition: stroke 0.2s; }
+        .btn-novo-endereco-redondo:hover svg { stroke: #fff; }
+
+        #edicao-endereco-view { display: none; animation: fadeIn 0.3s ease; }
+        .modal-back-btn { background: none; border: none; color: #86868b; cursor: pointer; font-size: 0.95rem; font-weight: 600; margin-bottom: 25px; display: flex; align-items: center; gap: 8px; transition: color 0.2s; padding: 0;}
+        .modal-back-btn:hover { color: #fff; }
+
+        .acao-salvar-wrapper { display: flex; justify-content: flex-start; align-items: center; gap: 15px; margin-top: 15px; flex-wrap: wrap;}
+        .btn-salvar-endereco-dinamico { background-color: #222; color: #86868b; border: none; padding: 16px 24px; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: not-allowed; transition: all 0.3s; text-transform: uppercase;}
+        .btn-salvar-endereco-dinamico.ativo { background-color: #FFFF00; color: #000; cursor: pointer; }
+        .btn-salvar-endereco-dinamico.ativo:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433;}
+
+        .modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; background: #111; }
+        .btn-confirmar-modal { background-color: #FFFF00; color: #000; border: none; padding: 14px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        .btn-confirmar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
+
+        .checkbox-container-modal { display: flex; align-items: center; gap: 12px; margin-top: 5px; cursor: pointer; }
+        .checkbox-container-modal input { accent-color: #fff; width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-container-modal label { color: #d2d2d7; font-size: 0.95rem; cursor: pointer; font-weight: 500; user-select: none; }
+
+
         @media (max-width: 1024px) {
             .account-wrapper { flex-direction: column; gap: 20px; padding: 0 15px; margin: 30px auto 20px auto; }
             .account-sidebar { width: 100%; }
-            .account-nav { 
-                display: flex; 
-                overflow-x: auto; 
-                white-space: nowrap; 
-                padding-bottom: 5px; 
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
+            .account-nav { display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
             .account-nav::-webkit-scrollbar { display: none; }
             .account-nav li { margin-bottom: 0; margin-right: 10px; }
             .form-grid { grid-template-columns: 1fr; }
             .account-content { padding: 20px; }
         }
+        @media (max-width: 600px) {
+            .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
+            #lista-enderecos-view { grid-template-columns: 1fr; } 
+            .btn-confirmar-modal, .btn-salvar-endereco-dinamico { width: 100%; padding: 18px; font-size: 1.05rem; justify-content: center;}
+            .acao-salvar-wrapper { flex-direction: column; gap: 10px; width: 100%; }
+            .modal-header, .modal-body, .modal-footer { padding: 20px; }
+        }
     </style>
 </head>
-<body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff; overflow-x: hidden;">
+<body>
 
     <header>
         <div id="header">
@@ -259,7 +306,7 @@
                         </div>
                         <div class="apple-input-group">
                             <label>Telefone / WhatsApp</label>
-                            <input type="text" id="perfil-telefone" placeholder="(00) 00000-0000" maxlength="15">
+                            <input type="tel" id="perfil-telefone" placeholder="(00) 00000-0000" maxlength="15">
                         </div>
                         <div class="apple-input-group">
                             <label>CPF / CNPJ</label>
@@ -272,43 +319,25 @@
             </div>
 
             <div id="tab-enderecos" class="tab-pane">
-                <h2 class="section-title">Endereço Principal de Entrega</h2>
-                <form id="form-endereco">
-                    <div class="form-grid">
-                        <div class="apple-input-group">
-                            <label>CEP</label>
-                            <input type="text" id="end-cep" placeholder="00000-000" maxlength="9" required>
+                <h2 class="section-title" style="display: flex; justify-content: space-between; align-items: center; border-bottom: none; padding-bottom: 0; margin-bottom: 20px;">
+                    Endereço de Entrega
+                    <button type="button" class="btn-link-action" id="btn-mudar-endereco">Gerir Endereços</button>
+                </h2>
+
+                <div id="bloco-visualizacao-endereco" style="display: none;">
+                    <div class="endereco-salvo-card">
+                        <div class="endereco-header">
+                            <span class="endereco-nome" id="card-nome">Seu Nome</span>
+                            <span class="endereco-telefone" id="card-telefone">Telefone</span>
+                            <span class="endereco-badge" id="card-badge" style="display: none;">Padrão</span>
                         </div>
-                        <div class="apple-input-group form-full">
-                            <label>Rua / Avenida</label>
-                            <input type="text" id="end-rua" required>
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Número</label>
-                            <input type="text" id="end-numero" required>
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Complemento (Opcional)</label>
-                            <input type="text" id="end-complemento" placeholder="Apto, Bloco, etc.">
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Bairro</label>
-                            <input type="text" id="end-bairro" required>
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Cidade</label>
-                            <input type="text" id="end-cidade" required>
-                        </div>
-                        <div class="apple-input-group">
-                            <label>Estado</label>
-                            <select id="end-estado" required>
-                                <option value="" disabled selected>Selecione...</option>
-                                <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
-                            </select>
-                        </div>
+                        <div class="endereco-detalhes" id="card-endereco-texto"></div>
                     </div>
-                    <button type="submit" class="btn-save" id="btn-save-end">Salvar Endereço</button>
-                </form>
+                </div>
+
+                <div id="aviso-sem-endereco" class="aviso-endereco-vazio" style="display: none;">
+                    Você ainda não tem um endereço salvo. Clique em "Gerir Endereços" para adicionar.
+                </div>
             </div>
 
             <div id="tab-seguranca" class="tab-pane">
@@ -390,6 +419,73 @@
         </main>
     </div>
 
+    <div class="modal-overlay" id="modal-enderecos">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo-principal">Meus Endereços</h3>
+                <button class="modal-close" id="fechar-modal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="lista-enderecos-view">
+                    </div>
+
+                <div id="edicao-endereco-view">
+                    <button type="button" class="modal-back-btn" id="btn-voltar-lista">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        Voltar para a lista
+                    </button>
+
+                    <input type="hidden" id="editando-endereco-id" value="">
+                    <div id="form-endereco-modal">
+                        <div class="form-grid">
+                            <div class="apple-input-group"><label>CEP</label><input type="tel" id="cep-frete" placeholder="00000-000" maxlength="9"></div>
+                            <div class="apple-input-group"><label>Endereço</label><input type="text" id="rua"></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="apple-input-group"><label>Número</label><input type="text" id="numero" maxlength="8" inputmode="numeric"></div>
+                            <div class="apple-input-group"><label>Complemento (Opcional)</label><input type="text" id="complemento" placeholder="Apto, Bloco, etc."></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="apple-input-group"><label>Bairro</label><input type="text" id="bairro"></div>
+                            <div class="apple-input-group"><label>Cidade</label><input type="text" id="cidade"></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="apple-input-group" style="grid-column: 1/-1;">
+                                <label>Estado (UF)</label>
+                                <select id="estado" class="placeholder-ativo">
+                                    <option value="" disabled selected>Selecione...</option>
+                                    <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-container-modal">
+                        <input type="checkbox" id="chk-endereco-padrao">
+                        <label for="chk-endereco-padrao">Definir como meu endereço padrão</label>
+                    </div>
+                    
+                    <div class="acao-salvar-wrapper">
+                        <button type="button" class="btn-salvar-endereco-dinamico" id="btn-salvar-edicao-endereco" disabled>Nenhuma Alteração</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="modal-footer-acao">
+                <button type="button" class="btn-confirmar-modal" id="btn-confirmar-selecao">Confirmar Seleção</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="main-footer">
         <div class="footer-links">
             <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
@@ -421,57 +517,12 @@
         let usuarioAtual = null;
         let senhaValida = false; 
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                usuarioAtual = user;
-                
-                document.getElementById('logged-in-ui').style.display = 'flex';
-                let nome = user.displayName;
-                if (!nome) {
-                    const snap = await getDoc(doc(db, "usuarios", user.uid));
-                    if (snap.exists() && snap.data().nome) nome = snap.data().nome;
-                }
-                const primeiroNome = nome ? nome.split(' ')[0] : 'Cliente';
-                document.getElementById('user-first-name').textContent = primeiroNome;
-                document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
+        // VARIÁVEIS DE ENDEREÇO
+        let listaDeEnderecos = []; 
+        let enderecoAtivoModal = null; 
+        let snapshotEdicao = {}; 
 
-                document.getElementById('perfil-email').value = user.email;
-                
-                const docRef = doc(db, "usuarios", user.uid);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById('perfil-nome').value = data.nome || user.displayName || "";
-                    document.getElementById('perfil-telefone').value = data.telefone || "";
-                    document.getElementById('perfil-cpf').value = data.cpf || "";
-                    
-                    if(data.marketing !== undefined) {
-                        document.getElementById('lgpd-marketing').checked = data.marketing;
-                    }
-
-                    if(data.endereco) {
-                        document.getElementById('end-cep').value = data.endereco.cep || "";
-                        document.getElementById('end-rua').value = data.endereco.rua || "";
-                        document.getElementById('end-numero').value = data.endereco.numero || "";
-                        document.getElementById('end-complemento').value = data.endereco.complemento || "";
-                        document.getElementById('end-bairro').value = data.endereco.bairro || "";
-                        document.getElementById('end-cidade').value = data.endereco.cidade || "";
-                        document.getElementById('end-estado').value = data.endereco.estado || "";
-                    }
-                }
-
-                const isGoogle = user.providerData.some(provider => provider.providerId === 'google.com');
-                if (isGoogle) {
-                    document.getElementById('google-auth-warning').style.display = 'block';
-                    document.getElementById('form-senha').style.display = 'none';
-                }
-
-            } else {
-                window.location.href = "login.html";
-            }
-        });
-
+        // TABS LOGIC
         const tabs = document.querySelectorAll('.account-nav li');
         const panes = document.querySelectorAll('.tab-pane');
 
@@ -479,12 +530,12 @@
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 panes.forEach(p => p.classList.remove('active'));
-                
                 tab.classList.add('active');
                 document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
             });
         });
 
+        // MENU SUSPENSO
         const loggedInUI = document.getElementById('logged-in-ui');
         const profileDropdown = document.getElementById('profile-dropdown');
         loggedInUI.addEventListener('click', (e) => {
@@ -495,6 +546,62 @@
             if (!loggedInUI.contains(e.target)) profileDropdown.classList.remove('active');
         });
 
+        // ==========================================
+        // CARREGAMENTO DO USUÁRIO
+        // ==========================================
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioAtual = user;
+                document.getElementById('logged-in-ui').style.display = 'flex';
+                
+                let nome = user.displayName;
+                try {
+                    const snap = await getDoc(doc(db, "usuarios", user.uid));
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        if (data.nome) nome = data.nome;
+
+                        document.getElementById('perfil-nome').value = data.nome || user.displayName || "";
+                        document.getElementById('perfil-telefone').value = data.telefone || "";
+                        document.getElementById('perfil-cpf').value = data.cpf || "";
+                        if(data.marketing !== undefined) document.getElementById('lgpd-marketing').checked = data.marketing;
+
+                        // CARREGA A LISTA DE ENDEREÇOS
+                        if (data.enderecos && Array.isArray(data.enderecos) && data.enderecos.length > 0) {
+                            listaDeEnderecos = data.enderecos;
+                            const endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
+                            aplicarNoPerfil(endPadrao);
+                        } else if (data.endereco) {
+                            // Migração de endereço antigo
+                            const endMigrado = { id: Date.now().toString(), ...data.endereco, isPadrao: true };
+                            listaDeEnderecos = [endMigrado];
+                            aplicarNoPerfil(endMigrado);
+                            await setDoc(doc(db, "usuarios", user.uid), { enderecos: listaDeEnderecos }, { merge: true });
+                        } else {
+                            document.getElementById('aviso-sem-endereco').style.display = 'block';
+                            document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
+                        }
+                    }
+                } catch (error) { console.error(error); }
+
+                const primeiroNome = nome ? nome.split(' ')[0] : 'Cliente';
+                document.getElementById('user-first-name').textContent = primeiroNome;
+                document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
+                document.getElementById('perfil-email').value = user.email;
+
+                const isGoogle = user.providerData.some(provider => provider.providerId === 'google.com');
+                if (isGoogle) {
+                    document.getElementById('google-auth-warning').style.display = 'block';
+                    document.getElementById('form-senha').style.display = 'none';
+                }
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        // ==========================================
+        // MÁSCARAS E VALIDAÇÕES DO PERFIL
+        // ==========================================
         document.getElementById('perfil-telefone').addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
@@ -503,14 +610,9 @@
         document.getElementById('perfil-cpf').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, "");
             if (v.length <= 11) { 
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
             } else { 
-                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2"); v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); v = v.replace(/\.(\d{3})(\d)/, ".$1/$2"); v = v.replace(/(\d{4})(\d)/, "$1-$2");
             }
             e.target.value = v;
         });
@@ -535,24 +637,13 @@
             cnpj = cnpj.replace(/[^\d]+/g, '');
             if (cnpj == '' || cnpj.length != 14 || /^(\d)\1{13}$/.test(cnpj)) return false;
             let tamanho = cnpj.length - 2
-            let numeros = cnpj.substring(0, tamanho);
-            let digitos = cnpj.substring(tamanho);
-            let soma = 0;
-            let pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) {
-                soma += numeros.charAt(tamanho - i) * pos--;
-                if (pos < 2) pos = 9;
-            }
+            let numeros = cnpj.substring(0, tamanho); let digitos = cnpj.substring(tamanho);
+            let soma = 0; let pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
             let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
             if (resultado != digitos.charAt(0)) return false;
-            tamanho = tamanho + 1;
-            numeros = cnpj.substring(0, tamanho);
-            soma = 0;
-            pos = tamanho - 7;
-            for (let i = tamanho; i >= 1; i--) {
-                soma += numeros.charAt(tamanho - i) * pos--;
-                if (pos < 2) pos = 9;
-            }
+            tamanho = tamanho + 1; numeros = cnpj.substring(0, tamanho); soma = 0; pos = tamanho - 7;
+            for (let i = tamanho; i >= 1; i--) { soma += numeros.charAt(tamanho - i) * pos--; if (pos < 2) pos = 9; }
             resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
             if (resultado != digitos.charAt(1)) return false;
             return true;
@@ -561,58 +652,279 @@
         document.getElementById('perfil-cpf').addEventListener('blur', function (e) {
             const valorLimpo = e.target.value.replace(/\D/g, "");
             const errorCpf = document.getElementById('error-cpf');
-            
             if(valorLimpo.length > 0) {
                 let isCpfCnpjValido = false;
                 if(valorLimpo.length <= 11) isCpfCnpjValido = validarCPF(valorLimpo);
                 else isCpfCnpjValido = validarCNPJ(valorLimpo);
 
-                if(!isCpfCnpjValido) {
-                    errorCpf.style.display = 'block';
-                    e.target.style.borderColor = '#ff4444';
-                } else {
-                    errorCpf.style.display = 'none';
-                    e.target.style.borderColor = '#424245';
-                }
-            } else {
-                errorCpf.style.display = 'none';
-                e.target.style.borderColor = '#424245';
-            }
+                if(!isCpfCnpjValido) { errorCpf.style.display = 'block'; e.target.style.borderColor = '#ff4444'; } 
+                else { errorCpf.style.display = 'none'; e.target.style.borderColor = '#424245'; }
+            } else { errorCpf.style.display = 'none'; e.target.style.borderColor = '#424245'; }
         });
 
-        const inputCep = document.getElementById('end-cep');
-        inputCep.addEventListener('input', async function (e) {
+        // SALVAR DADOS PESSOAIS
+        document.getElementById('form-dados').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputCpfCnpj = document.getElementById('perfil-cpf');
+            const valorLimpo = inputCpfCnpj.value.replace(/\D/g, "");
+            
+            if(valorLimpo.length > 0) {
+                let isCpfCnpjValido = false;
+                if(valorLimpo.length <= 11) isCpfCnpjValido = validarCPF(valorLimpo);
+                else isCpfCnpjValido = validarCNPJ(valorLimpo);
+                if(!isCpfCnpjValido) { document.getElementById('error-cpf').style.display = 'block'; inputCpfCnpj.style.borderColor = '#ff4444'; return; }
+            }
+
+            const btn = document.getElementById('btn-save-dados');
+            btn.textContent = "A guardar...";
+            try {
+                await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
+                    nome: document.getElementById('perfil-nome').value.trim(),
+                    telefone: document.getElementById('perfil-telefone').value,
+                    cpf: document.getElementById('perfil-cpf').value,
+                    marketing: document.getElementById('lgpd-marketing').checked
+                }, { merge: true });
+                // Atualiza o nome exibido em outros lugares também
+                document.getElementById('card-nome').textContent = document.getElementById('perfil-nome').value.trim();
+                document.getElementById('card-telefone').textContent = document.getElementById('perfil-telefone').value;
+                alert("Dados atualizados com sucesso!");
+            } catch (err) { alert("Erro ao salvar: " + err.message); } 
+            finally { btn.textContent = "Salvar Dados"; }
+        });
+
+        // ==========================================
+        // MODAL DE ENDEREÇOS & LÓGICA DE SALVAMENTO
+        // ==========================================
+        const modalEnderecos = document.getElementById('modal-enderecos');
+        const viewLista = document.getElementById('lista-enderecos-view');
+        const viewEdicao = document.getElementById('edicao-endereco-view');
+        const modalFooter = document.getElementById('modal-footer-acao');
+        const modalTitulo = document.getElementById('modal-titulo-principal');
+        const btnSalvarEdicao = document.getElementById('btn-salvar-edicao-endereco');
+        
+        const cepInput = document.getElementById('cep-frete');
+        const ruaInput = document.getElementById('rua');
+        const numInput = document.getElementById('numero');
+        const complementoInput = document.getElementById('complemento');
+        const bairroInput = document.getElementById('bairro');
+        const cidadeInput = document.getElementById('cidade');
+        const estadoSelect = document.getElementById('estado');
+        const chkPadrao = document.getElementById('chk-endereco-padrao');
+        const idSecreto = document.getElementById('editando-endereco-id');
+
+        // Mostra o card de visualização na ABA Meu Endereço
+        function aplicarNoPerfil(endObj) {
+            document.getElementById('aviso-sem-endereco').style.display = 'none';
+            document.getElementById('bloco-visualizacao-endereco').style.display = 'block';
+            
+            document.getElementById('card-nome').textContent = document.getElementById('perfil-nome').value || "Seu Nome";
+            document.getElementById('card-telefone').textContent = document.getElementById('perfil-telefone').value || "";
+            document.getElementById('card-badge').style.display = endObj.isPadrao ? 'inline-block' : 'none';
+            document.getElementById('card-endereco-texto').innerHTML = `${endObj.rua}, ${endObj.numero} ${endObj.complemento ? ' - '+endObj.complemento : ''}<br>${endObj.bairro}, ${endObj.cidade} - ${endObj.estado}<br>${endObj.cep}`;
+        }
+
+        // Abre o Modal
+        document.getElementById('btn-mudar-endereco').addEventListener('click', () => {
+            modalEnderecos.classList.add('active');
+            mostrarViewLista();
+            renderizarGridModal();
+        });
+
+        document.getElementById('fechar-modal').addEventListener('click', () => modalEnderecos.classList.remove('active'));
+        document.getElementById('btn-voltar-lista').addEventListener('click', mostrarViewLista);
+
+        function mostrarViewLista() {
+            viewLista.style.display = 'grid'; viewEdicao.style.display = 'none';
+            modalFooter.style.display = 'flex'; modalTitulo.textContent = "Meus Endereços";
+        }
+
+        function renderizarGridModal() {
+            viewLista.innerHTML = '';
+            // Se não houver nada ativo, seleciona o padrão
+            if (!enderecoAtivoModal && listaDeEnderecos.length > 0) {
+                const padrao = listaDeEnderecos.find(e => e.isPadrao);
+                enderecoAtivoModal = padrao ? padrao.id : listaDeEnderecos[0].id;
+            }
+
+            listaDeEnderecos.forEach(end => {
+                const isChecked = end.id === enderecoAtivoModal;
+                const div = document.createElement('div');
+                div.className = `endereco-quadradinho ${isChecked ? 'selected' : ''}`;
+                div.innerHTML = `
+                    <div class="endereco-q-header">
+                        <div class="custom-radio"></div>
+                        <div class="endereco-acoes-card">
+                            <button type="button" class="endereco-q-edit" onclick="abrirEdicao('${end.id}')">Editar</button>
+                        </div>
+                    </div>
+                    <div class="endereco-q-texto">
+                        <strong>${end.rua}, ${end.numero} ${end.isPadrao ? ' <span class="badge-padrao-card">Padrão</span>' : ''}</strong>
+                        ${end.bairro}, ${end.cidade} - ${end.estado}<br>${end.cep}
+                    </div>
+                `;
+                div.addEventListener('click', (e) => {
+                    if(e.target.tagName.toLowerCase() === 'button') return;
+                    document.querySelectorAll('.endereco-quadradinho').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected'); 
+                    enderecoAtivoModal = end.id;
+                });
+                viewLista.appendChild(div);
+            });
+
+            const divNovo = document.createElement('div');
+            divNovo.className = 'btn-novo-endereco-redondo';
+            divNovo.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Novo Endereço`;
+            divNovo.onclick = window.abrirCriacao;
+            viewLista.appendChild(divNovo);
+        }
+
+        window.abrirEdicao = function(id) {
+            const end = listaDeEnderecos.find(e => e.id === id);
+            if(end) {
+                idSecreto.value = end.id;
+                cepInput.value = end.cep || ""; ruaInput.value = end.rua || ""; 
+                numInput.value = end.numero || ""; complementoInput.value = end.complemento || "";
+                bairroInput.value = end.bairro || ""; cidadeInput.value = end.cidade || ""; estadoSelect.value = end.estado || "";
+                chkPadrao.checked = end.isPadrao || false;
+                
+                if(end.estado) estadoSelect.classList.remove('placeholder-ativo');
+                snapshotEdicao = { ...end };
+                
+                viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
+                modalFooter.style.display = 'none'; modalTitulo.textContent = "Editar Endereço";
+                avaliarMudanca();
+            }
+        };
+
+        window.abrirCriacao = function() {
+            idSecreto.value = "";
+            cepInput.value = ""; ruaInput.value = ""; numInput.value = ""; complementoInput.value = "";
+            bairroInput.value = ""; cidadeInput.value = ""; estadoSelect.value = "";
+            estadoSelect.classList.add('placeholder-ativo');
+            chkPadrao.checked = false;
+            
+            snapshotEdicao = {}; 
+            
+            viewLista.style.display = 'none'; viewEdicao.style.display = 'block';
+            modalFooter.style.display = 'none'; modalTitulo.textContent = "Novo Endereço";
+            avaliarMudanca();
+            cepInput.focus();
+        };
+
+        // ViaCEP Integrado no Modal
+        cepInput.addEventListener('input', async function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
             e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
             
             let cepLimpo = e.target.value.replace(/\D/g, '');
+            avaliarMudanca();
             if (cepLimpo.length === 8) {
                 try {
                     let response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
                     let data = await response.json();
                     if (!data.erro) {
-                        document.getElementById('end-rua').value = data.logradouro || "";
-                        document.getElementById('end-bairro').value = data.bairro || "";
-                        document.getElementById('end-cidade').value = data.localidade || "";
-                        document.getElementById('end-estado').value = data.uf || "";
-                        document.getElementById('end-numero').focus();
+                        ruaInput.value = data.logradouro || ""; bairroInput.value = data.bairro || "";
+                        cidadeInput.value = data.localidade || ""; estadoSelect.value = data.uf || "";
+                        estadoSelect.classList.remove('placeholder-ativo');
+                        numInput.focus(); avaliarMudanca();
                     }
-                } catch (error) {
-                    console.error("Erro ao buscar o CEP:", error);
-                }
+                } catch (error) { console.error("Erro ViaCEP:", error); }
             }
         });
 
+        estadoSelect.addEventListener('change', function() {
+            if(this.value !== "") this.classList.remove('placeholder-ativo');
+            else this.classList.add('placeholder-ativo');
+        });
+
+        function avaliarMudanca() {
+            if(!usuarioAtual) return;
+            const mudou = (
+                cepInput.value !== (snapshotEdicao.cep || '') ||
+                ruaInput.value.trim() !== (snapshotEdicao.rua || '') ||
+                numInput.value.trim() !== (snapshotEdicao.numero || '') ||
+                complementoInput.value.trim() !== (snapshotEdicao.complemento || '') ||
+                bairroInput.value.trim() !== (snapshotEdicao.bairro || '') ||
+                cidadeInput.value.trim() !== (snapshotEdicao.cidade || '') ||
+                estadoSelect.value !== (snapshotEdicao.estado || '') ||
+                chkPadrao.checked !== (snapshotEdicao.isPadrao || false)
+            );
+
+            if (mudou) {
+                btnSalvarEdicao.classList.add('ativo'); btnSalvarEdicao.disabled = false;
+                btnSalvarEdicao.textContent = idSecreto.value ? "Salvar Alterações" : "Salvar Novo Endereço";
+            } else {
+                btnSalvarEdicao.classList.remove('ativo'); btnSalvarEdicao.disabled = true;
+                btnSalvarEdicao.textContent = idSecreto.value ? "Nenhuma Alteração" : "Preencha para Salvar";
+            }
+        }
+
+        [cepInput, ruaInput, numInput, complementoInput, bairroInput, cidadeInput, estadoSelect, chkPadrao].forEach(el => {
+            el.addEventListener('input', avaliarMudanca); el.addEventListener('change', avaliarMudanca);
+        });
+
+        // Salvar as Edições do Modal no Firebase
+        btnSalvarEdicao.addEventListener('click', async () => {
+            if (btnSalvarEdicao.disabled) return;
+            
+            if (cepInput.value.replace(/\D/g, '').length !== 8 || !ruaInput.value || !numInput.value || !bairroInput.value || !cidadeInput.value || !estadoSelect.value) {
+                alert("Preencha todos os campos obrigatórios corretamente."); return;
+            }
+
+            btnSalvarEdicao.textContent = "Aguarde..."; btnSalvarEdicao.disabled = true;
+
+            const novoEndereco = {
+                id: idSecreto.value !== "" ? idSecreto.value : Date.now().toString(),
+                cep: cepInput.value, rua: ruaInput.value.trim(), numero: numInput.value.trim(), complemento: complementoInput.value.trim(),
+                bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase(),
+                isPadrao: chkPadrao.checked
+            };
+
+            if (novoEndereco.isPadrao) listaDeEnderecos.forEach(e => e.isPadrao = false);
+
+            if (idSecreto.value !== "") {
+                const index = listaDeEnderecos.findIndex(e => e.id === idSecreto.value);
+                if(index !== -1) listaDeEnderecos[index] = novoEndereco;
+            } else {
+                if (listaDeEnderecos.length === 0) novoEndereco.isPadrao = true;
+                listaDeEnderecos.push(novoEndereco);
+            }
+
+            try {
+                await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: listaDeEnderecos }, { merge: true });
+                enderecoAtivoModal = novoEndereco.id; 
+                
+                // Força atualizar o background com o novo padrão se existir
+                const endPadrao = listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0];
+                aplicarNoPerfil(endPadrao);
+                
+                mostrarViewLista();
+                renderizarGridModal();
+            } catch(error) { 
+                console.error("Erro ao salvar", error); 
+                btnSalvarEdicao.textContent = "Tentar Novamente"; btnSalvarEdicao.disabled = false;
+            }
+        });
+
+        // Fechar Modal salvando a seleção Padrão na tela
+        document.getElementById('btn-confirmar-selecao').addEventListener('click', () => {
+            if (enderecoAtivoModal) {
+                const escolhido = listaDeEnderecos.find(e => e.id === enderecoAtivoModal);
+                if (escolhido) aplicarNoPerfil(escolhido);
+            }
+            modalEnderecos.classList.remove('active');
+        });
+
+        // ==========================================
+        // SENHA E SEGURANÇA
+        // ==========================================
         const inputNovaSenha = document.getElementById('nova-senha');
-        const strengthContainer = document.getElementById('password-strength-container');
         const strengthBar = document.getElementById('strength-bar');
         const strengthText = document.getElementById('strength-text');
-        const checklistContainer = document.getElementById('password-checklist');
-        const togglePasswordBtn = document.getElementById('toggle-password-btn');
-        const eyeIcon = document.getElementById('eye-icon');
         const errorPassword = document.getElementById('error-password');
 
-        togglePasswordBtn.addEventListener('click', () => {
+        document.getElementById('toggle-password-btn').addEventListener('click', () => {
+            const eyeIcon = document.getElementById('eye-icon');
             if (inputNovaSenha.type === 'password') {
                 inputNovaSenha.type = 'text';
                 eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
@@ -624,7 +936,6 @@
 
         const atualizarVisuaisSenha = (e) => {
             const pwd = e.target.value;
-
             const isLengthValid = pwd.length >= 8;
             const hasUpper = /[A-Z]/.test(pwd);
             const hasLower = /[a-z]/.test(pwd);
@@ -632,51 +943,24 @@
 
             function atualizarCheck(id, valido) {
                 const el = document.getElementById(id);
-                if (valido) el.classList.add('valid');
-                else el.classList.remove('valid');
+                if (valido) el.classList.add('valid'); else el.classList.remove('valid');
             }
 
-            atualizarCheck('req-length', isLengthValid);
-            atualizarCheck('req-upper', hasUpper);
-            atualizarCheck('req-lower', hasLower);
-            atualizarCheck('req-num', hasNumber);
+            atualizarCheck('req-length', isLengthValid); atualizarCheck('req-upper', hasUpper);
+            atualizarCheck('req-lower', hasLower); atualizarCheck('req-num', hasNumber);
 
             let forca = 0;
-            if (isLengthValid) forca++;
-            if (hasUpper) forca++;
-            if (hasLower) forca++;
-            if (hasNumber) forca++;
+            if (isLengthValid) forca++; if (hasUpper) forca++; if (hasLower) forca++; if (hasNumber) forca++;
 
             if (pwd.length === 0) {
-                strengthBar.style.width = '0%';
-                strengthBar.style.background = 'transparent';
-                strengthBar.style.boxShadow = 'none';
-                strengthText.textContent = '';
-                senhaValida = false;
+                strengthBar.style.width = '0%'; strengthBar.style.background = 'transparent'; strengthText.textContent = ''; senhaValida = false;
             } else if (forca <= 2) {
-                strengthBar.style.width = '33%';
-                strengthBar.style.background = '#ff4b4b';
-                strengthBar.style.boxShadow = '0 0 15px rgba(255, 75, 75, 0.4)';
-                strengthText.textContent = 'Fraca';
-                strengthText.style.color = '#ff4b4b';
-                senhaValida = false;
+                strengthBar.style.width = '33%'; strengthBar.style.background = '#ff4b4b'; strengthText.textContent = 'Fraca'; strengthText.style.color = '#ff4b4b'; senhaValida = false;
             } else if (forca === 3) {
-                strengthBar.style.width = '66%';
-                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b)';
-                strengthBar.style.boxShadow = '0 0 15px rgba(255, 235, 59, 0.4)';
-                strengthText.textContent = 'Média';
-                strengthText.style.color = '#ffeb3b';
-                senhaValida = false; 
+                strengthBar.style.width = '66%'; strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b)'; strengthText.textContent = 'Média'; strengthText.style.color = '#ffeb3b'; senhaValida = false; 
             } else if (forca === 4) {
-                strengthBar.style.width = '100%';
-                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b, #32cd32)';
-                strengthBar.style.boxShadow = '0 0 15px rgba(50, 205, 50, 0.5)';
-                strengthText.textContent = 'Forte';
-                strengthText.style.color = '#32cd32';
-                senhaValida = true;
-                
-                errorPassword.style.display = 'none';
-                inputNovaSenha.style.borderColor = '#424245';
+                strengthBar.style.width = '100%'; strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b, #32cd32)'; strengthText.textContent = 'Forte'; strengthText.style.color = '#32cd32'; senhaValida = true;
+                errorPassword.style.display = 'none'; inputNovaSenha.style.borderColor = '#424245';
             }
         };
 
@@ -684,144 +968,55 @@
         inputNovaSenha.addEventListener('change', atualizarVisuaisSenha);
 
         function resetarVisuaisSenha() {
-            if(strengthBar) {
-                strengthBar.style.width = '0%';
-                strengthBar.style.background = 'transparent';
-                strengthBar.style.boxShadow = 'none';
-            }
+            if(strengthBar) { strengthBar.style.width = '0%'; strengthBar.style.background = 'transparent'; }
             if(strengthText) strengthText.textContent = '';
             document.querySelectorAll('.check-item').forEach(el => el.classList.remove('valid'));
             senhaValida = false;
         }
 
-        document.getElementById('form-dados').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const inputCpfCnpj = document.getElementById('perfil-cpf');
-            const valorLimpo = inputCpfCnpj.value.replace(/\D/g, "");
-            
-            if(valorLimpo.length > 0) {
-                let isCpfCnpjValido = false;
-                if(valorLimpo.length <= 11) isCpfCnpjValido = validarCPF(valorLimpo);
-                else isCpfCnpjValido = validarCNPJ(valorLimpo);
-
-                if(!isCpfCnpjValido) {
-                    document.getElementById('error-cpf').style.display = 'block';
-                    inputCpfCnpj.style.borderColor = '#ff4444';
-                    return; 
-                }
-            }
-
-            const btn = document.getElementById('btn-save-dados');
-            btn.textContent = "A guardar...";
-            
-            try {
-                await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
-                    nome: document.getElementById('perfil-nome').value.trim(),
-                    telefone: document.getElementById('perfil-telefone').value,
-                    cpf: document.getElementById('perfil-cpf').value,
-                    marketing: document.getElementById('lgpd-marketing').checked
-                }, { merge: true });
-                
-                alert("Dados atualizados com sucesso!");
-            } catch (err) {
-                alert("Erro ao salvar: " + err.message);
-            } finally {
-                btn.textContent = "Salvar Dados";
-            }
-        });
-
-        document.getElementById('form-endereco').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btn-save-end');
-            btn.textContent = "A guardar...";
-            
-            try {
-                await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
-                    endereco: {
-                        cep: document.getElementById('end-cep').value,
-                        rua: document.getElementById('end-rua').value.trim(),
-                        numero: document.getElementById('end-numero').value.trim(),
-                        complemento: document.getElementById('end-complemento').value.trim(),
-                        bairro: document.getElementById('end-bairro').value.trim(),
-                        cidade: document.getElementById('end-cidade').value.trim(),
-                        estado: document.getElementById('end-estado').value
-                    }
-                }, { merge: true });
-                
-                alert("Endereço salvo com sucesso!");
-            } catch (err) {
-                alert("Erro ao salvar: " + err.message);
-            } finally {
-                btn.textContent = "Salvar Endereço";
-            }
-        });
-
         document.getElementById('form-senha').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             if (!senhaValida) {
                 errorPassword.textContent = 'A nova senha não atende aos requisitos mínimos.';
-                errorPassword.style.display = 'block';
-                inputNovaSenha.style.borderColor = '#ff4444';
-                return;
+                errorPassword.style.display = 'block'; inputNovaSenha.style.borderColor = '#ff4444'; return;
             }
-
             const btn = document.getElementById('btn-save-senha');
             const senhaAtual = document.getElementById('senha-atual').value;
-            const novaSenha = inputNovaSenha.value;
-            
             btn.textContent = "Validando...";
             try {
                 const credential = EmailAuthProvider.credential(usuarioAtual.email, senhaAtual);
                 await reauthenticateWithCredential(usuarioAtual, credential);
-                
-                await updatePassword(usuarioAtual, novaSenha);
+                await updatePassword(usuarioAtual, inputNovaSenha.value);
                 alert("Senha atualizada com sucesso!");
                 document.getElementById('form-senha').reset();
-                
                 resetarVisuaisSenha();
-
             } catch (err) {
-                if (err.code === 'auth/invalid-credential') {
-                    alert("A senha atual que informou está incorreta.");
-                } else {
-                    alert("Erro ao atualizar senha: " + err.message);
-                }
-            } finally {
-                btn.textContent = "Atualizar Senha";
-            }
+                if (err.code === 'auth/invalid-credential') alert("A senha atual que informou está incorreta.");
+                else alert("Erro ao atualizar senha: " + err.message);
+            } finally { btn.textContent = "Atualizar Senha"; }
         });
 
+        // LGPD e Excluir Conta
         document.getElementById('lgpd-marketing').addEventListener('change', async (e) => {
-            if(usuarioAtual) {
-                await setDoc(doc(db, "usuarios", usuarioAtual.uid), { marketing: e.target.checked }, { merge: true });
-            }
+            if(usuarioAtual) await setDoc(doc(db, "usuarios", usuarioAtual.uid), { marketing: e.target.checked }, { merge: true });
         });
 
         document.getElementById('btn-excluir-conta').addEventListener('click', async () => {
-            const confirmar = confirm("TEM A CERTEZA? Esta ação apagará definitivamente a sua conta Guard ID.");
-            if (confirmar) {
+            if (confirm("TEM A CERTEZA? Esta ação apagará definitivamente a sua conta Guard ID.")) {
                 try {
                     await deleteUser(usuarioAtual);
-                    alert("Conta excluída. Lamentamos vê-lo partir.");
-                    window.location.href = "index.html";
+                    alert("Conta excluída. Lamentamos vê-lo partir."); window.location.href = "index.html";
                 } catch (err) {
-                    if (err.code === 'auth/requires-recent-login') {
-                        alert("Por segurança, saia da sua conta, faça login novamente e tente excluir.");
-                    } else {
-                        alert("Erro ao excluir: " + err.message);
-                    }
+                    if (err.code === 'auth/requires-recent-login') alert("Por segurança, saia da sua conta, faça login novamente e tente excluir.");
+                    else alert("Erro ao excluir: " + err.message);
                 }
             }
         });
 
         document.getElementById('btn-logout').addEventListener('click', async (e) => {
             e.preventDefault();
-            await signOut(auth);
-            window.location.href = "index.html";
+            await signOut(auth); window.location.href = "index.html";
         });
-
     </script>
 </body>
 </html>
