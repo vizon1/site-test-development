@@ -935,13 +935,19 @@
                 freteResultados.innerHTML = '';
                 let encontrouOpcao = false;
 
-                if (Array.isArray(cotacoes)) {
+                
+
+               if (Array.isArray(cotacoes)) {
+                    // Ordena usando o custom_price para o mais barato aparecer primeiro corretamente
+                    cotacoes.sort((a, b) => parseFloat(a.custom_price || a.price) - parseFloat(b.custom_price || b.price));
+        
                     cotacoes.forEach((opcao, index) => {
                         if (opcao.error) return; 
                         if (!opcao.company.name.toLowerCase().includes('correios')) return; 
-
+        
                         encontrouOpcao = true;
-                        const valor = parseFloat(opcao.price);
+                        // ✅ Agora ele puxa o preço de balcão/com margem. Se por acaso falhar, o fallback é o price.
+                        const valor = parseFloat(opcao.custom_price || opcao.price);
                         const prazo = opcao.custom_delivery_time || opcao.delivery_time;
 
                         freteResultados.innerHTML += `
