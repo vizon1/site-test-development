@@ -18,14 +18,15 @@ export default async function handler(req, res) {
                 insurance_value: Number(p.insurance_value),
                 quantity: parseInt(p.quantity)
             })),
-            // Adicionamos options explícitos para bater com o cálculo do painel
+            // Força desligar serviços que encarecem o pacote na cotação da API
             options: {
-                receipt: false,   // Desativa Aviso de Recebimento (AR)
-                own_hand: false   // Desativa Mão Própria
+                receipt: false,
+                own_hand: false
             }
         };
 
-        const response = await fetch('https://melhorenvio.com.br/api/v2/me/shipment/calculate', {
+        // URL DE PRODUÇÃO (Sem a palavra "sandbox")
+        const response = await fetch('https://www.melhorenvio.com.br/api/v2/me/shipment/calculate', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
