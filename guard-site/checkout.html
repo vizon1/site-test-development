@@ -917,8 +917,19 @@
                         if(data.largura) largura = parseFloat(String(data.largura).replace(',','.'));
                         if(data.comprimento) comprimento = parseFloat(String(data.comprimento).replace(',','.'));
                     }
-                    const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
-                    productsPayload.push({ id: String(item.id), weight: Number(peso), width: Number(largura), height: Number(altura), length: Number(comprimento), insurance_value: Number(precoNumerico), quantity: parseInt(item.quantidade) });
+
+                    const precoLimpo = String(item.preco).replace(/[^\d,]/g, '');
+                    const precoNumerico = parseFloat(precoLimpo.replace(',', '.'));
+                    
+                    productsPayload.push({ 
+                        id: String(item.id), 
+                        weight: Number(peso), 
+                        width: Number(largura), 
+                        height: Number(altura), 
+                        length: Number(comprimento), 
+                        insurance_value: Number(precoNumerico),
+                        quantity: parseInt(item.quantidade) 
+                    });
                 }
 
                 const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
