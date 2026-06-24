@@ -901,15 +901,16 @@
         async function buscarOpcoesDeFrete() {
             const cepDestino = cepInput.value.replace(/\D/g, '');
             if (cepDestino.length !== 8) return;
-
+        
             freteVazio.style.display = 'none'; freteResultados.style.display = 'flex';
             freteResultados.innerHTML = '<div style="color: #fff; font-size: 0.95rem; padding: 20px; text-align: center;">A calcular opções de entrega...</div>';
-
+        
             try {
                 let productsPayload = [];
                 for (const item of itensCheckout) {
                     const docSnap = await getDoc(doc(db, "produtos", item.id));
                     let peso = 0.5, altura = 15, largura = 20, comprimento = 20; 
+                    
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         if(data.peso) peso = parseFloat(String(data.peso).replace(',','.'));
@@ -917,7 +918,8 @@
                         if(data.largura) largura = parseFloat(String(data.largura).replace(',','.'));
                         if(data.comprimento) comprimento = parseFloat(String(data.comprimento).replace(',','.'));
                     }
-
+                    
+                    // Tratamento ninja para garantir que o preço seja número
                     const precoLimpo = String(item.preco).replace(/[^\d,]/g, '');
                     const precoNumerico = parseFloat(precoLimpo.replace(',', '.'));
                     
@@ -927,29 +929,32 @@
                         width: Number(largura), 
                         height: Number(altura), 
                         length: Number(comprimento), 
-                        insurance_value: Number(precoNumerico),
+                        insurance_value: Number(precoNumerico), 
                         quantity: parseInt(item.quantidade) 
                     });
                 }
-
-                const payload = { from: { postal_code: "11320400" }, to: { postal_code: cepDestino }, products: productsPayload };
-
+        
+                const payload = { 
+                    from: { postal_code: CEP_ORIGEM }, 
+                    to: { postal_code: cepDestino }, 
+                    products: productsPayload 
+                };
+        
+                // CHAMANDO A SUA API INTERNA E NÃO O MELHOR ENVIO DIRETAMENTE
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
+        
                 if (!response.ok) throw new Error('Erro na resposta');
                 const cotacoes = await response.json();
-
+        
                 freteResultados.innerHTML = '';
                 let encontrouOpcao = false;
-
-                
-
-               if (Array.isArray(cotacoes)) {
-                    // Ordena usando o custom_price para o mais barato aparecer primeiro corretamente
+        
+                if (Array.isArray(cotacoes)) {
+                    // Ordena pelo preço real
                     cotacoes.sort((a, b) => parseFloat(a.custom_price || a.price) - parseFloat(b.custom_price || b.price));
         
                     cotacoes.forEach((opcao, index) => {
@@ -957,10 +962,10 @@
                         if (!opcao.company.name.toLowerCase().includes('correios')) return; 
         
                         encontrouOpcao = true;
-                        // ✅ Agora ele puxa o preço de balcão/com margem. Se por acaso falhar, o fallback é o price.
+                        // Exibe o preço real de balcão/com margem
                         const valor = parseFloat(opcao.custom_price || opcao.price);
                         const prazo = opcao.custom_delivery_time || opcao.delivery_time;
-
+        
                         freteResultados.innerHTML += `
                             <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
                                 <div class="frete-info-container">
@@ -975,15 +980,15 @@
                             </div>
                         `;
                     });
-
+        
                     if (encontrouOpcao) {
                         const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
                         if (primeiraOpcao) selecionarFrete(primeiraOpcao);
                     }
                 }
-
+        
                 if (!encontrouOpcao) freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Nenhuma transportadora disponível para este CEP.</div>';
-
+        
             } catch (error) {
                 console.error("Erro ao processar frete:", error);
                 freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Não foi possível puxar os fretes. Verifique a conexão.</div>';
