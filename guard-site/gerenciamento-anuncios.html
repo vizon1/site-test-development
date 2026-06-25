@@ -87,10 +87,11 @@
             border-radius: 24px; padding: 20px 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 100%; box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .admin-table { 
-            width: 100%; border-collapse: collapse;
+            width: 100%; border-collapse: collapse; min-width: 100%;
         }
         .admin-table th {
             text-align: left; padding: 15px 10px; color: var(--text-secondary); 
@@ -168,11 +169,16 @@
 
         .section-divider { font-size: 1rem; color: #fff; margin-top: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; font-weight: 600;}
 
-        /* RESPONSIVIDADE MOBILE COM CARDS (Correção definitiva) */
+        /* =========================================================
+           RESPONSIVIDADE MOBILE COM CARDS
+           ========================================================= */
         @media (max-width: 768px) {
             .page-header { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 15px; }
             .btn-novo-anuncio { width: 100%; text-align: center; }
-            .table-wrapper { padding: 15px; border-radius: 16px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+            
+            /* Removemos o fundo da tabela para os cards brilharem */
+            .table-wrapper { padding: 0; background: transparent; border: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;}
+            
             .form-row { flex-direction: column; gap: 0; }
             .admin-title { font-size: 1rem; }
             .header-content { padding: 0 15px; }
@@ -181,11 +187,10 @@
             .modal-footer { flex-direction: column; }
             .btn-cancelar, .btn-salvar-modal { width: 100%; text-align: center; padding: 16px;}
 
-            /* MAGIA DO CARD NO MOBILE */
-            table thead {
-                display: none;
-            }
+            /* Esconde o Cabeçalho da Tabela */
+            table thead { display: none; }
             
+            /* Transforma Linhas em Cards */
             table, tbody, tr, td {
                 display: block;
                 width: 100%;
@@ -200,28 +205,20 @@
                 padding: 15px;
             }
             
+            /* Design Interno do Card */
             td {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
-                padding: 12px 0;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                text-align: right;
-            }
-            
-            td {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start; /* Alinha pelo topo para textos de múltiplas linhas ficarem bonitos */
+                align-items: flex-start; /* Alinhamento ao topo para quebrar o texto direito */
                 padding: 14px 0;
                 border-bottom: 1px solid rgba(255,255,255,0.05);
-                text-align: right;
-                gap: 20px; /* Cria a barreira invisível entre o Rótulo e o Texto */
+                gap: 20px; /* Barreira invisível para impedir que o texto esmague o rótulo */
             }
             
             td:last-child { 
                 border-bottom: none; 
-                justify-content: flex-end; 
+                padding-bottom: 0;
+                justify-content: flex-end; /* Alinha os botões à direita */
             }
         
             td::before {
@@ -231,13 +228,25 @@
                 text-transform: uppercase;
                 font-size: 0.8rem;
                 text-align: left;
-                flex-shrink: 0; /* Comando mágico: proíbe o rótulo de ser esmagado pelo texto da direita */
-                margin-top: 2px; /* Alinha perfeitamente com a primeira linha do texto da direita */
+                flex-shrink: 0; /* Bloqueia o rótulo: ele nunca vai diminuir de tamanho */
+                margin-top: 3px;
             }
 
-            /* Força os textos e imagens a respeitarem o espaço */
-            .prod-img { flex-shrink: 0; }
-            .prod-title { word-break: break-word; text-align: right; }
+            /* Força os textos do produto a respeitarem o espaço da direita e quebrarem a linha */
+            .prod-title, .badge-cat, .prod-preco {
+                flex: 1;
+                text-align: right;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                word-break: break-word; /* Força quebra de palavras gigantes se necessário */
+                min-width: 0; /* Comando mágico do Flexbox para forçar texto a quebrar e não estourar a tela */
+            }
+
+            .prod-img { flex-shrink: 0; margin-left: auto; }
+            
+            td[data-label="Ações"]::before {
+                display: none; /* Esconde a palavra "Ações" para os botões ficarem limpos */
+            }
         }
     </style>
 </head>
@@ -420,8 +429,8 @@
                             <td data-label="Imagem"><img src="${p.imagem}" alt="img" class="prod-img"></td>
                             <td data-label="Título"><span class="prod-title">${p.titulo}</span></td>
                             <td data-label="Categoria"><span class="badge-cat">${p.categoria}</span></td>
-                            <td data-label="Preço" style="white-space: nowrap;">R$ ${p.preco}</td>
-                            <td data-label="Ações" style="text-align: right; min-width: 160px; white-space: nowrap;">
+                            <td data-label="Preço"><span class="prod-preco">R$ ${p.preco}</span></td>
+                            <td data-label="Ações">
                                 <button class="btn-action btn-edit" onclick="abrirModal('${p.id}')">Editar</button>
                                 <button class="btn-action btn-delete" onclick="apagarProduto('${p.id}')">Excluir</button>
                             </td>
