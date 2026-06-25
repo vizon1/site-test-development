@@ -240,38 +240,104 @@
             .prod-title { word-break: break-word; text-align: right; }
         }
 
-        @media (max-width: 900px) {
-            .shop-card-body h4 {
-                font-size: 0.85rem; 
-                margin-bottom: 8px;
-                line-height: 1.3;
-                
-                /* A MÁGICA QUE IMPEDE O TEXTO DE ESTOURAR */
-                display: -webkit-box;
-                -webkit-line-clamp: 2; /* Só permite no máximo 2 linhas */
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis; /* Adiciona os 3 pontinhos no final (...) */
-                min-height: 2.6em; /* Garante que a altura base exista para alinhar tudo, mesmo que tenha só 1 linha */
+        /* =========================================================
+           RESPONSIVIDADE DA TABELA ADMIN (MOBILE) - BLINDADO CONTRA STYLE.CSS
+           ========================================================= */
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 15px; }
+            .btn-novo-anuncio { width: 100%; text-align: center; }
+            .table-wrapper { padding: 15px; border-radius: 16px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+            .form-row { flex-direction: column; gap: 0; }
+            .admin-title { font-size: 1rem; }
+            .header-content { padding: 0 15px; }
+            
+            .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
+            .modal-footer { flex-direction: column; }
+            .btn-cancelar, .btn-salvar-modal { width: 100%; text-align: center; padding: 16px;}
+
+            /* MAGIA DO CARD NO MOBILE (BLINDAGEM TOTAL) */
+            .admin-table thead {
+                display: none !important;
             }
+            
+            .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .admin-table tr {
+                margin-bottom: 20px !important;
+                background-color: var(--surface-color) !important;
+                border: 1px solid var(--border-color) !important;
+                border-radius: 16px !important;
+                padding: 15px !important;
+            }
+            
+            .admin-table td {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 14px 0 !important;
+                border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+                text-align: right !important;
+                gap: 20px !important;
+                position: static !important; /* Reseta o relative do style.css */
+            }
+            
+            .admin-table td:last-child { 
+                border-bottom: none !important; 
+                justify-content: center !important; 
+            }
+        
+            /* Rótulo Esquerdo */
+            .admin-table td::before {
+                content: attr(data-label) !important;
+                position: static !important; /* Reseta o absolute do style.css */
+                font-weight: 600 !important;
+                color: var(--text-secondary) !important;
+                text-transform: uppercase !important;
+                font-size: 0.8rem !important;
+                text-align: left !important;
+                width: auto !important; /* Reseta o 45% do style.css */
+                flex-shrink: 0 !important; 
+                margin-top: 0 !important;
+            }
+
+            /* Força os textos a respeitarem o espaço (Corte Inteligente) */
+            .prod-img { flex-shrink: 0 !important; }
+            
+            .admin-table td[data-label="Título"] .prod-title {
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important; /* Trava em 2 linhas máximo */
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                word-break: break-word !important;
+                text-align: right !important;
+                max-width: 60% !important; /* Impede de invadir a esquerda */
+                white-space: normal !important; /* Reseta o nowrap do style.css */
+                font-size: 0.9rem !important;
+            }
+
+            /* Reseta alinhamentos forçados do style.css */
+            .admin-table td[data-label="Título"],
+            .admin-table td[data-label="Preço"],
+            .admin-table td[data-label="Ações"] {
+                display: flex !important;
+                justify-content: space-between !important;
+                text-align: right !important;
+            }
+
+            /* Ações centralizadas no fundo */
+            .admin-table td[data-label="Ações"] {
+                justify-content: center !important;
+                gap: 15px !important;
+                padding-top: 15px !important;
+            }
+            .admin-table td[data-label="Ações"]::before { display: none !important; }
         }
         
-        /* Para telas de celulares muito pequenos (< 720px) */
-        @media (max-width: 720px) {
-            .shop-card-body h4 {
-                font-size: 0.75rem; 
-                margin-bottom: 6px;
-                line-height: 1.3;
-                
-                /* CÓPIA DA REGRA PARA GARANTIR SEGURANÇA NOS CELULARES MENORES */
-                display: -webkit-box;
-                -webkit-line-clamp: 2; 
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis; 
-                min-height: 2.6em;
-            }
-        }
     </style>
 </head>
 <body>
