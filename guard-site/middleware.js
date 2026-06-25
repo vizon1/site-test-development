@@ -1,28 +1,27 @@
-import { NextResponse } from 'next/server';
-
+// middleware.js na raiz do projeto
 export const config = {
-    // Estas são as rotas que a Vercel vai proteger na borda
+    // 🚨 AQUI VOCÊ DEFINE QUAIS PÁGINAS O SEGURANÇA DEVE PROTEGER
     matcher: [
         '/admin.html',
-        '/admin',
         '/painel.html',
         '/gerenciamento-anuncios.html',
         '/gerenciador-caixas.html'
     ],
 };
 
-export function middleware(request) {
-    // Pega o token de administrador dos cookies
+export default function middleware(request) {
+    // Tenta pegar o ingresso VIP (Cookie HttpOnly)
     const adminToken = request.cookies.get('guard_admin_token');
 
-    // Se o token NÃO existir ou for inválido, bloqueia acesso e simula página inexistente (404)
+    // Se a pessoa NÃO TIVER o token VIP...
     if (!adminToken) {
-        // Redireciona silenciosamente para uma página de erro 404 personalizada 
-        // ou para a home se você preferir. 
-        request.nextUrl.pathname = '/404.html';
-        return NextResponse.rewrite(request.nextUrl);
+        // Redireciona ela imediatamente de volta para a loja antes da página carregar
+        return Response.redirect(new URL('/store.html', request.url));
+        
+        // (Opcional) Se você quiser que a página pareça que NÃO EXISTE, 
+        // em vez de redirecionar para a loja, você pode usar:
+        // return Response.redirect(new URL('/404.html', request.url));
     }
 
-    // Se tiver o cookie, permite baixar a página html
-    return NextResponse.next();
+    // Se tiver o token, o segurança abre a porta e a página HTML carrega perfeitamente.
 }
