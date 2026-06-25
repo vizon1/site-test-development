@@ -209,9 +209,19 @@
                 text-align: right;
             }
             
+            td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start; /* Alinha pelo topo para textos de múltiplas linhas ficarem bonitos */
+                padding: 14px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                text-align: right;
+                gap: 20px; /* Cria a barreira invisível entre o Rótulo e o Texto */
+            }
+            
             td:last-child { 
                 border-bottom: none; 
-                justify-content: flex-end; /* Alinha os botões à direita */
+                justify-content: flex-end; 
             }
         
             td::before {
@@ -221,10 +231,13 @@
                 text-transform: uppercase;
                 font-size: 0.8rem;
                 text-align: left;
+                flex-shrink: 0; /* Comando mágico: proíbe o rótulo de ser esmagado pelo texto da direita */
+                margin-top: 2px; /* Alinha perfeitamente com a primeira linha do texto da direita */
             }
 
-            /* Força a imagem a não quebrar no flex */
+            /* Força os textos e imagens a respeitarem o espaço */
             .prod-img { flex-shrink: 0; }
+            .prod-title { word-break: break-word; text-align: right; }
         }
     </style>
 </head>
