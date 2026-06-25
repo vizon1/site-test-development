@@ -212,7 +212,6 @@
         const togglePasswordBtn = document.getElementById('toggle-password-btn');
         const eyeIcon = document.getElementById('eye-icon');
 
-        // Limpa apenas as mensagens vermelhas de erro
         function limparErros() {
             if(errorNome) errorNome.style.display = 'none';
             if(errorEmail) errorEmail.style.display = 'none';
@@ -222,7 +221,6 @@
             if(inputSenha) inputSenha.style.borderColor = '#424245';
         }
 
-        // Limpa tudo (incluindo estado da senha e UI de força)
         function resetarVisuaisSenha() {
             if(strengthBar) {
                 strengthBar.style.width = '0%';
@@ -410,164 +408,4 @@
                 strengthText.style.color = '#ff4b4b';
                 senhaValida = false;
             } else if (forca === 3) {
-                strengthBar.style.width = '66%';
-                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b)';
-                strengthBar.style.boxShadow = '0 0 15px rgba(255, 235, 59, 0.4)';
-                strengthText.textContent = 'Média';
-                strengthText.style.color = '#ffeb3b';
-                senhaValida = false; 
-            } else if (forca === 4) {
-                strengthBar.style.width = '100%';
-                strengthBar.style.background = 'linear-gradient(90deg, #ff4b4b, #ffeb3b, #32cd32)';
-                strengthBar.style.boxShadow = '0 0 15px rgba(50, 205, 50, 0.5)';
-                strengthText.textContent = 'Forte';
-                strengthText.style.color = '#32cd32';
-                senhaValida = true;
-                
-                // Remove o erro visual ativamente caso a pessoa tenha clicado "Continuar" antes
-                if(errorPassword) errorPassword.style.display = 'none';
-                if(inputSenha) inputSenha.style.borderColor = '#424245';
-            }
-        };
-
-        if(inputSenha) {
-            inputSenha.addEventListener('input', atualizarVisuaisSenha);
-            inputSenha.addEventListener('change', atualizarVisuaisSenha);
-        }
-
-        if(form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                limparErros(); // Limpa apenas as tags vermelhas
-
-                const isEmailValid = validarEmail();
-                const isNomeValid = validarNome();
-                const isSenhaValid = validarSenhaBlur(); // Executa e lê a variável senhaValida intacta
-
-                if (modoCadastro) {
-                    if (!isEmailValid || !isNomeValid || !isSenhaValid) return;
-                    
-                    if (!senhaValida) {
-                        errorPassword.textContent = 'Cumpra todos os requisitos de segurança abaixo.';
-                        errorPassword.style.display = 'block';
-                        inputSenha.style.borderColor = '#ff4444';
-                        return;
-                    }
-                    
-                    try {
-                        const btn = document.getElementById('btn-submit');
-                        btn.textContent = "Criando...";
-                        
-                        const userCredential = await createUserWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
-                        const user = userCredential.user;
-
-                        await setDoc(doc(db, "usuarios", user.uid), {
-                            nome: inputNome.value.trim(),
-                            email: inputEmail.value.trim(),
-                            dataCadastro: new Date()
-                        });
-
-                        alert("Guard ID criado com sucesso!");
-                        window.location.href = "store.html";
-                    } catch (error) {
-                        let msg = error.message;
-                        if(error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
-                        alert("Erro ao criar conta: " + msg);
-                        document.getElementById('btn-submit').textContent = "Continuar";
-                    }
-                } else {
-                    if (!isEmailValid || !isSenhaValid) return;
-                    
-                    try {
-                        document.getElementById('btn-submit').textContent = "Acessando...";
-                        await signInWithEmailAndPassword(auth, inputEmail.value.trim(), inputSenha.value);
-                        window.location.href = "store.html";
-                    } catch (error) {
-                        let msg = "E-mail ou senha incorretos.";
-                        if(error.code === 'auth/too-many-requests') msg = "Conta temporariamente bloqueada por muitas tentativas.";
-                        alert(msg);
-                        document.getElementById('btn-submit').textContent = "Continuar";
-                    }
-                }
-            });
-        }
-        
-        const provider = new GoogleAuthProvider();
-        const btnGoogle = document.getElementById('btn-google');
-        const modalNomeGoogle = document.getElementById('modal-nome-google');
-        const inputNomeGoogle = document.getElementById('google-nome');
-        const errorGoogleNome = document.getElementById('error-google-nome');
-        const btnConfirmarNomeGoogle = document.getElementById('btn-confirmar-nome-google');
-        
-        let tempUserGoogle = null; 
-
-        if(btnGoogle) {
-            btnGoogle.addEventListener('click', async () => {
-                try {
-                    const result = await signInWithPopup(auth, provider);
-                    const user = result.user;
-                    
-                    const docRef = doc(db, "usuarios", user.uid);
-                    const docSnap = await getDoc(docRef);
-                    
-                    if (docSnap.exists()) {
-                        window.location.href = "store.html";
-                    } else {
-                        tempUserGoogle = user;
-                        if (user.displayName) {
-                            inputNomeGoogle.value = user.displayName; 
-                        }
-                        modalNomeGoogle.style.display = 'flex';
-                        inputNomeGoogle.style.borderColor = '#424245';
-                        errorGoogleNome.style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error("Erro Google Auth:", error);
-                    alert("Erro ao aceder com o Google: " + error.message);
-                }
-            });
-        }
-
-        if(inputNomeGoogle) {
-            inputNomeGoogle.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/[0-9]/g, '');
-            });
-        }
-
-        if(btnConfirmarNomeGoogle) {
-            btnConfirmarNomeGoogle.addEventListener('click', async () => {
-                const nomeValido = inputNomeGoogle.value.trim();
-                
-                if (nomeValido.split(' ').length < 2) {
-                    errorGoogleNome.style.display = 'block';
-                    inputNomeGoogle.style.borderColor = '#ff4444';
-                    return;
-                }
-                
-                errorGoogleNome.style.display = 'none';
-                inputNomeGoogle.style.borderColor = '#424245';
-
-                if (tempUserGoogle) {
-                    try {
-                        btnConfirmarNomeGoogle.textContent = "A guardar...";
-                        btnConfirmarNomeGoogle.style.pointerEvents = "none";
-                        
-                        await setDoc(doc(db, "usuarios", tempUserGoogle.uid), {
-                            nome: nomeValido,
-                            email: tempUserGoogle.email,
-                            dataCadastro: new Date()
-                        });
-                        
-                        alert("Registo via Google concluído!");
-                        window.location.href = "store.html";
-                    } catch (err) {
-                        alert("Erro ao concluir o registo: " + err.message);
-                        btnConfirmarNomeGoogle.textContent = "Concluir";
-                        btnConfirmarNomeGoogle.style.pointerEvents = "auto";
-                    }
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+                strengthBar.style.width
