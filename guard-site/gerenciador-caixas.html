@@ -203,39 +203,74 @@
     </header>
 
     <main class="panel-container">
-        <div class="page-header">
-            <h1>📦 Gerir Caixas</h1>
-        </div>
+        <div class="container">
+        <h1>📦 Estoque de Caixas</h1>
         
         <div class="grid-caixas" id="lista-caixas">
-            <p style="color: var(--text-secondary); width: 100%; text-align: center; padding: 40px 0;">A carregar base de dados de embalagens...</p>
+            <p style="color: #86868b;">A carregar caixas...</p>
         </div>
 
-        <div class="form-box">
-            <h2>Cadastrar Nova Caixa</h2>
-            <form id="form-caixa">
-                <div class="form-grid" style="grid-template-columns: 1fr;">
-                    <div class="input-group">
-                        <label>Nome (Ex: Caixa Padrão P)</label>
-                        <input type="text" id="nome-caixa" placeholder="Identificação da embalagem" required>
+            <div class="form-box">
+                <h2>Cadastrar Nova Caixa</h2>
+                <form id="form-caixa">
+                    <div class="form-grid" style="grid-template-columns: 1fr;">
+                        <div class="input-group">
+                            <label>Nome (Ex: Caixa Padrão P)</label>
+                            <input type="text" id="nome-caixa" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-grid">
-                    <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="alt" placeholder="Ex: 15" required></div>
-                    <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="larg" placeholder="Ex: 20" required></div>
-                </div>
-                <div class="form-grid">
-                    <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="comp" placeholder="Ex: 20" required></div>
-                    <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="peso" placeholder="Ex: 0.15" required></div>
-                </div>
-                <div class="form-grid" style="grid-template-columns: 1fr;">
-                    <div class="input-group">
-                        <label>Quantidade em Estoque</label>
-                        <input type="number" id="estoque" placeholder="Ex: 100" required>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="alt" required></div>
+                        <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="larg" required></div>
                     </div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="comp" required></div>
+                        <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="peso" placeholder="Ex: 0.15" required></div>
+                    </div>
+                    <div class="form-grid" style="grid-template-columns: 1fr;">
+                        <div class="input-group">
+                            <label>Quantidade em Estoque</label>
+                            <input type="number" id="estoque" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-salvar" id="btn-add">Adicionar Caixa</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-editar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Editar Caixa</h3>
+                    <button class="modal-close" onclick="fecharModalEdicao()">&times;</button>
                 </div>
-                <button type="submit" class="btn-salvar" id="btn-add">Adicionar Caixa ao Sistema</button>
-            </form>
+                <div class="modal-body">
+                    <form id="form-editar-caixa">
+                        <input type="hidden" id="edit-id">
+                        <div class="form-grid" style="grid-template-columns: 1fr;">
+                            <div class="input-group">
+                                <label>Nome</label>
+                                <input type="text" id="edit-nome" required>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="edit-alt" required></div>
+                            <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="edit-larg" required></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="edit-comp" required></div>
+                            <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="edit-peso" required></div>
+                        </div>
+                        <div class="form-grid" style="grid-template-columns: 1fr;">
+                            <div class="input-group">
+                                <label>Quantidade em Estoque</label>
+                                <input type="number" id="edit-estoque" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-salvar" id="btn-salvar-edicao">Salvar Alterações</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </main>
 
