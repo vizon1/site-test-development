@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     const uidDoUsuario = decodedData.user_id;
 
     // COLOQUE AQUI O SEU EMAIL DE ADMINISTRADOR! 
-    const adminEmails = ["seuemail@gmail.com", "contato@guardalarmes.com"];
+    const adminEmails = ["patricksilvaps017@gmail.com", "contato@guardalarmes.com"];
 
     if (!adminEmails.includes(emailDoUsuario)) {
         return res.status(403).json({ error: 'Acesso Negado' });
