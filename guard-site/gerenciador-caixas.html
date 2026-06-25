@@ -297,7 +297,7 @@
 
             querySnapshot.forEach((doc) => {
                 const cx = doc.data();
-                const alerta = cx.estoque < 10 ? `<span class="badge-alerta">Restam ${cx.estoque}</span>` : '';
+                const alerta = cx.estoque < 100 ? `<span class="badge-alerta">Restam ${cx.estoque}</span>` : '';
                 lista.innerHTML += `
                     <div class="card-caixa">
                         ${alerta}
