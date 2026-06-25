@@ -141,7 +141,7 @@
         .btn-panel-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
         /* =========================================================
-           CARD DE PREVIEW (LOJA)
+           CARD DE PREVIEW (LOJA E AÇÃO)
            ========================================================= */
         .preview-card-container { display: flex; justify-content: center; margin-top: 20px;}
         .shop-card { 
@@ -159,6 +159,12 @@
         .shop-card-actions { display: flex; gap: 10px; }
         .btn-add-cart { flex: 1; background: #222; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600;}
         .btn-buy-now { flex: 1; background: var(--accent); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700;}
+
+        .action-card {
+            background: #111; border: 1px solid #333; border-radius: 16px; padding: 20px;
+            width: 100%; max-width: 320px; box-sizing: border-box; margin: 20px auto 0;
+            display: flex; flex-direction: column;
+        }
 
         .page-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; margin-top: 10px; letter-spacing: -0.5px; margin-top: 100px;}
         
@@ -178,7 +184,6 @@
             .panel-form-section, .panel-preview-section { padding: 24px 20px; border-radius: 16px;}
             .admin-title { font-size: 1rem; }
             .header-content { padding: 0 15px; }
-            .h
         }
 
         @media (min-width: 901px) {
@@ -286,19 +291,10 @@
                     <textarea id="productDescription" rows="4" placeholder="Descreva os principais diferenciais técnicos deste item..." required style="resize: vertical;"></textarea>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" style="margin-bottom: 0;">
                     <label for="productImageUrl">Link da Imagem do Produto</label>
                     <input type="url" id="productImageUrl" placeholder="Cole o link direto da foto (ex: https://i.imgur.com/...)" required>
                 </div>
-
-                <div class="input-group" style="margin-bottom: 0;">
-                    <div class="custom-checkbox-container">
-                        <input type="checkbox" id="productRecommended">
-                        <label for="productRecommended">Destacar na aba "Explore as nossas recomendações"</label>
-                    </div>
-                </div>
-                
-                <button type="submit" id="btn-submit-desktop" class="btn-panel-submit" style="margin-top: 30px;">Publicar Item</button>
             </form>
         </section>
 
@@ -326,6 +322,15 @@
                     </div>
                 </div>
             </div>
+
+            <div class="action-card">
+                <div class="custom-checkbox-container" style="margin-bottom: 20px;">
+                    <input type="checkbox" id="productRecommended" form="productForm">
+                    <label for="productRecommended">Destacar na aba "Explore as nossas recomendações"</label>
+                </div>
+                <button type="submit" form="productForm" id="btn-submit-desktop" class="btn-panel-submit" style="margin-top: 0;">Publicar Item</button>
+            </div>
+            
         </section>
     </main>
 
@@ -400,17 +405,19 @@
             previewImg.src = url ? url : svgPadrao;
         });
 
-        // Evento Mobile aciona o Form
-        submitBtnMobile.addEventListener('click', () => {
-            if(form.reportValidity()) form.dispatchEvent(new Event('submit'));
-        });
+        // Evento Mobile aciona o Form (Caso exista um botao especifico no futuro)
+        if(submitBtnMobile) {
+            submitBtnMobile.addEventListener('click', () => {
+                if(form.reportValidity()) form.dispatchEvent(new Event('submit'));
+            });
+        }
 
         // --- Envio de dados para o Firestore ---
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             submitBtnDesktop.innerHTML = "PUBLICANDO..."; submitBtnDesktop.style.pointerEvents = "none"; submitBtnDesktop.style.opacity = "0.7";
-            submitBtnMobile.innerHTML = "PUBLICANDO..."; submitBtnMobile.style.pointerEvents = "none"; submitBtnMobile.style.opacity = "0.7";
+            if(submitBtnMobile) { submitBtnMobile.innerHTML = "PUBLICANDO..."; submitBtnMobile.style.pointerEvents = "none"; submitBtnMobile.style.opacity = "0.7"; }
 
             try {
                 await addDoc(collection(db, "produtos"), {
@@ -442,7 +449,7 @@
                 alert('❌ Erro de conexão. Verifique o console.');
             } finally {
                 submitBtnDesktop.innerHTML = "PUBLICAR ITEM"; submitBtnDesktop.style.pointerEvents = "auto"; submitBtnDesktop.style.opacity = "1";
-                submitBtnMobile.innerHTML = "PUBLICAR ITEM"; submitBtnMobile.style.pointerEvents = "auto"; submitBtnMobile.style.opacity = "1";
+                if(submitBtnMobile) { submitBtnMobile.innerHTML = "PUBLICAR ITEM"; submitBtnMobile.style.pointerEvents = "auto"; submitBtnMobile.style.opacity = "1"; }
             }
         });
     </script>
