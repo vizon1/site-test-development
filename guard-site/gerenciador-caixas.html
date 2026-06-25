@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Gerir Caixas - Guard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #000; color: #f5f5f7; font-family: 'Fira Sans', sans-serif; margin: 0; padding: 40px 20px; }
+        .container { max-width: 900px; margin: auto; }
+        h1 { font-weight: 800; font-size: 2rem; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 30px; }
+        
+        .grid-caixas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;}
+        .card-caixa { background: #111; border: 1.5px solid #222; border-radius: 16px; padding: 20px; position: relative; }
+        .card-caixa h3 { margin: 0 0 10px 0; color: #FFFF00; font-size: 1.2rem; }
+        .card-caixa p { margin: 5px 0; color: #86868b; font-size: 0.95rem; }
+        .card-caixa strong { color: #fff; }
+        .badge-alerta { background: rgba(255, 59, 48, 0.1); color: #ff3b30; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; position: absolute; top: 20px; right: 20px; border: 1px solid rgba(255, 59, 48, 0.3);}
+        .btn-excluir { background: none; border: none; color: #ff3b30; cursor: pointer; text-decoration: underline; margin-top: 15px; font-weight: 600; padding: 0;}
+
+        .form-box { background: #111; border: 1.5px solid #222; border-radius: 16px; padding: 30px; }
+        .form-box h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.3rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { color: #86868b; font-size: 0.8rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
+        .input-group input { background: #1c1c1e; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 8px; outline: none; font-size: 1rem; }
+        .input-group input:focus { border-color: #FFFF00; }
+        .btn-salvar { background: #FFFF00; color: #000; border: none; padding: 16px; border-radius: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer; width: 100%; margin-top: 10px; transition: transform 0.2s;}
+        .btn-salvar:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Estoque de Caixas</h1>
+        
+        <div class="grid-caixas" id="lista-caixas">
+            <p style="color: #86868b;">A carregar caixas...</p>
+        </div>
+
+        <div class="form-box">
+            <h2>Cadastrar Nova Caixa</h2>
+            <form id="form-caixa">
+                <div class="form-grid" style="grid-template-columns: 1fr;">
+                    <div class="input-group">
+                        <label>Nome (Ex: Caixa Padrão P)</label>
+                        <input type="text" id="nome-caixa" required>
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="alt" required></div>
+                    <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="larg" required></div>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="comp" required></div>
+                    <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="peso" placeholder="Ex: 0.15" required></div>
+                </div>
+                <div class="form-grid" style="grid-template-columns: 1fr;">
+                    <div class="input-group">
+                        <label>Quantidade em Estoque</label>
+                        <input type="number" id="estoque" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-salvar" id="btn-add">Adicionar Caixa</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
+        const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+
+        async function carregarCaixas() {
+            const lista = document.getElementById('lista-caixas');
+            lista.innerHTML = '';
+            const querySnapshot = await getDocs(collection(db, "caixas"));
+            
+            if (querySnapshot.empty) {
+                lista.innerHTML = '<p style="color: #86868b;">Nenhuma caixa cadastrada.</p>'; return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const cx = doc.data();
+                const alerta = cx.estoque < 10 ? `<span class="badge-alerta">Restam ${cx.estoque}</span>` : '';
+                lista.innerHTML += `
+                    <div class="card-caixa">
+                        ${alerta}
+                        <h3>${cx.nome}</h3>
+                        <p>Dimensões: <strong>${cx.altura}x${cx.largura}x${cx.comprimento} cm</strong></p>
+                        <p>Soma dos lados: <strong>${Number(cx.altura)+Number(cx.largura)+Number(cx.comprimento)} cm</strong></p>
+                        <p>Peso Vazia: <strong>${cx.pesoVazia} kg</strong></p>
+                        <p>Estoque Atual: <strong>${cx.estoque} un</strong></p>
+                        <button class="btn-excluir" onclick="excluirCaixa('${doc.id}')">Excluir</button>
+                    </div>
+                `;
+            });
+        }
+
+        window.excluirCaixa = async function(id) {
+            if(confirm("Tem certeza que deseja excluir esta caixa?")) {
+                await deleteDoc(doc(db, "caixas", id));
+                carregarCaixas();
+            }
+        };
+
+        document.getElementById('form-caixa').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-add');
+            btn.textContent = "Adicionando..."; btn.disabled = true;
+
+            const novaCaixa = {
+                nome: document.getElementById('nome-caixa').value,
+                altura: Number(document.getElementById('alt').value),
+                largura: Number(document.getElementById('larg').value),
+                comprimento: Number(document.getElementById('comp').value),
+                pesoVazia: Number(document.getElementById('peso').value),
+                estoque: parseInt(document.getElementById('estoque').value)
+            };
+
+            await addDoc(collection(db, "caixas"), novaCaixa);
+            document.getElementById('form-caixa').reset();
+            btn.textContent = "Adicionar Caixa"; btn.disabled = false;
+            carregarCaixas();
+        });
+
+        carregarCaixas();
+    </script>
+</body>
+</html>
