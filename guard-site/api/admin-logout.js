@@ -5,7 +5,7 @@ export default function handler(req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: -1,
+        maxAge: -1, // Data de validade no passado destroi o cookie
         path: '/'
     });
 
