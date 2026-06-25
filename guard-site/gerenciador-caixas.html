@@ -225,40 +225,6 @@
         </div>
     </main>
 
-    <div class="modal-overlay" id="modal-adicionar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Cadastrar Nova Caixa</h3>
-                <button class="modal-close" onclick="fecharModalAdicionar()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="form-caixa">
-                    <div class="form-grid" style="grid-template-columns: 1fr;">
-                        <div class="input-group">
-                            <label>Nome (Ex: Caixa Padrão P)</label>
-                            <input type="text" id="nome-caixa" placeholder="Identificação da embalagem" required>
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="alt" placeholder="Ex: 15" required></div>
-                        <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="larg" placeholder="Ex: 20" required></div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="comp" placeholder="Ex: 20" required></div>
-                        <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="peso" placeholder="Ex: 0.15" required></div>
-                    </div>
-                    <div class="form-grid" style="grid-template-columns: 1fr;">
-                        <div class="input-group">
-                            <label>Quantidade em Estoque</label>
-                            <input type="number" id="estoque" placeholder="Ex: 100" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-salvar" id="btn-add">Feito</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="modal-editar">
         <div class="modal-content">
             <div class="modal-header">
@@ -289,6 +255,40 @@
                         </div>
                     </div>
                     <button type="submit" class="btn-salvar" id="btn-salvar-edicao" style="margin-top: 20px;">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-adicionar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cadastrar Nova Caixa</h3>
+                <button class="modal-close" onclick="fecharModalAdicionar()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-caixa">
+                    <div class="form-grid" style="grid-template-columns: 1fr;">
+                        <div class="input-group">
+                            <label>Nome (Ex: Caixa Padrão P)</label>
+                            <input type="text" id="nome-caixa" placeholder="Identificação da embalagem" required>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Altura (cm)</label><input type="number" step="0.1" id="alt" placeholder="Ex: 15" required></div>
+                        <div class="input-group"><label>Largura (cm)</label><input type="number" step="0.1" id="larg" placeholder="Ex: 20" required></div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Comprimento (cm)</label><input type="number" step="0.1" id="comp" placeholder="Ex: 20" required></div>
+                        <div class="input-group"><label>Peso Vazia (kg)</label><input type="number" step="0.01" id="peso" placeholder="Ex: 0.15" required></div>
+                    </div>
+                    <div class="form-grid" style="grid-template-columns: 1fr;">
+                        <div class="input-group">
+                            <label>Quantidade em Estoque</label>
+                            <input type="number" id="estoque" placeholder="Ex: 100" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-salvar" id="btn-add">Feito</button>
                 </form>
             </div>
         </div>
