@@ -1,6 +1,6 @@
-// middleware.js na raiz do projeto
+import { NextResponse } from 'next/server';
+
 export const config = {
-    // 🚨 AQUI VOCÊ DEFINE QUAIS PÁGINAS O SEGURANÇA DEVE PROTEGER
     matcher: [
         '/admin.html',
         '/painel.html',
@@ -9,19 +9,14 @@ export const config = {
     ],
 };
 
-export default function middleware(request) {
-    // Tenta pegar o ingresso VIP (Cookie HttpOnly)
+export function middleware(request) {
     const adminToken = request.cookies.get('guard_admin_token');
 
-    // Se a pessoa NÃO TIVER o token VIP...
     if (!adminToken) {
-        // Redireciona ela imediatamente de volta para a loja antes da página carregar
-        return Response.redirect(new URL('/store.html', request.url));
-        
-        // (Opcional) Se você quiser que a página pareça que NÃO EXISTE, 
-        // em vez de redirecionar para a loja, você pode usar:
-        // return Response.redirect(new URL('/404.html', request.url));
+        // Se a pessoa não tiver o Cookie, redireciona ela para a loja
+        request.nextUrl.pathname = '/store.html';
+        return NextResponse.redirect(request.nextUrl);
     }
 
-    // Se tiver o token, o segurança abre a porta e a página HTML carrega perfeitamente.
+    return NextResponse.next();
 }
