@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
-
 export const config = {
+    // 🚨 AQUI ESTÃO AS PÁGINAS PROTEGIDAS
     matcher: [
         '/admin.html',
         '/painel.html',
@@ -9,14 +8,18 @@ export const config = {
     ],
 };
 
-export function middleware(request) {
-    const adminToken = request.cookies.get('guard_admin_token');
+export default function middleware(request) {
+    // Pega os cookies diretamente do cabeçalho
+    const cookieHeader = request.headers.get('cookie') || '';
+    
+    // Verifica se o cookie invisível de Admin está presente
+    const hasAdminToken = cookieHeader.includes('guard_admin_token=');
 
-    if (!adminToken) {
-        // Se a pessoa não tiver o Cookie, redireciona ela para a loja
-        request.nextUrl.pathname = '/store.html';
-        return NextResponse.redirect(request.nextUrl);
+    if (!hasAdminToken) {
+        // Se a pessoa NÃO TIVER o token, redireciona para a loja imediatamente
+        const url = new URL('/store.html', request.url);
+        return Response.redirect(url, 302);
     }
 
-    return NextResponse.next();
+    // Se for um Admin, deixa a página carregar
 }
