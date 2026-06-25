@@ -154,11 +154,12 @@
         
         document.getElementById('btn-logout').addEventListener('click', async () => {
             try {
-                // Remove o cookie seguro chamando sua API de logout (veremos no passo 3)
+                // Remove o cookie seguro chamando sua API de logout
                 await fetch('/api/admin-logout', { method: 'POST' });
                 // Desloga do Firebase
                 await signOut(getAuth());
-                window.location.href = '/login.html';
+                // REDIRECIONAMENTO CORRIGIDO: Envia o administrador para a Loja
+                window.location.href = '/store.html';
             } catch (error) {
                 console.error("Erro ao encerrar sessão segura:", error);
             }
