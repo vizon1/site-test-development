@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         // 👇 AQUI ESTÃO OS EMAILS DOS ADMINISTRADORES
         const adminEmails = [
             "patricksilvaps017@gmail.com", 
-            "contato@guardalarmes.com"
+            "tick155t@gmail.com"
         ];
 
         if (!adminEmails.includes(emailDoUsuario)) {
