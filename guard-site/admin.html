@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Guard Admin | Central de Comando</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --surface-color: rgba(28, 28, 30, 0.6);
+            --surface-hover: rgba(44, 44, 46, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent: #FFFF00;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-primary);
+            font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at 50% 0%, rgba(255,255,0,0.03) 0%, transparent 50%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { height: 32px; }
+        .badge-admin {
+            background: rgba(255, 255, 0, 0.1); color: var(--accent); border: 1px solid rgba(255, 255, 0, 0.2);
+            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+        }
+        .btn-logout {
+            background: transparent; color: #ff453a; border: none; font-size: 0.95rem; font-weight: 500;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: opacity 0.2s;
+        }
+        .btn-logout:hover { opacity: 0.7; }
+
+        /* MAIN CONTENT */
+        main { max-width: 1200px; margin: 60px auto; padding: 0 24px; width: 100%; box-sizing: border-box; flex-grow: 1; }
+        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin: 0 0 10px 0; }
+        p.subtitle { color: var(--text-secondary); font-size: 1.1rem; margin: 0 0 50px 0; }
+
+        /* BENTO GRID (Estilo Apple) */
+        .grid-dashboard {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+        }
+
+        .card-tool {
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 24px;
+            padding: 32px; display: flex; flex-direction: column; justify-content: space-between;
+            text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; overflow: hidden;
+        }
+        .card-tool::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); opacity: 0; transition: opacity 0.4s;
+        }
+        .card-tool:hover { transform: translateY(-5px) scale(1.02); background: var(--surface-hover); box-shadow: 0 30px 60px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.15); }
+        .card-tool:hover::before { opacity: 1; }
+
+        .icon-wrapper {
+            width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+        }
+        .icon-add { background: rgba(50, 205, 50, 0.1); color: #32cd32; }
+        .icon-manage { background: rgba(0, 113, 227, 0.1); color: #0071e3; }
+        .icon-box { background: rgba(255, 159, 10, 0.1); color: #ff9f0a; }
+
+        .card-tool h3 { margin: 0 0 8px 0; font-size: 1.3rem; font-weight: 600; }
+        .card-tool p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+        .card-arrow { align-self: flex-end; margin-top: 20px; color: var(--text-secondary); transition: transform 0.3s, color 0.3s; }
+        .card-tool:hover .card-arrow { transform: translateX(5px); color: #fff; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            main { margin: 40px auto; }
+            .grid-dashboard { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <img src="imagens/logo.webp" alt="Guard">
+                <span class="badge-admin">Admin Secure</span>
+            </div>
+            <button class="btn-logout" id="btn-logout">
+                Encerrar Sessão
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <h1>Central de Comando</h1>
+        <p class="subtitle">Bem-vindo ao painel administrativo. Todas as conexões são monitoradas e criptografadas.</p>
+
+        <div class="grid-dashboard">
+            <a href="/painel.html" class="card-tool">
+                <div>
+                    <div class="icon-wrapper icon-add">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </div>
+                    <h3>Criar Anúncios</h3>
+                    <p>Adicione novos produtos, defina preços, estoque e faça o upload de imagens para a loja.</p>
+                </div>
+                <div class="card-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <a href="/gerenciamento-anuncios.html" class="card-tool">
+                <div>
+                    <div class="icon-wrapper icon-manage">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </div>
+                    <h3>Gerenciar Anúncios</h3>
+                    <p>Edite produtos existentes, atualize descrições, modifique preços ou oculte itens esgotados.</p>
+                </div>
+                <div class="card-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <a href="/gerenciador-caixas.html" class="card-tool">
+                <div>
+                    <div class="icon-wrapper icon-box">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    </div>
+                    <h3>Gerenciador de Embalagens</h3>
+                    <p>Configure tamanhos e pesos das caixas de envio para integração com a Melhor Envio.</p>
+                </div>
+                <div class="card-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <script type="module">
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            try {
+                // Remove o cookie seguro chamando sua API de logout (veremos no passo 3)
+                await fetch('/api/admin-logout', { method: 'POST' });
+                // Desloga do Firebase
+                await signOut(getAuth());
+                window.location.href = '/login.html';
+            } catch (error) {
+                console.error("Erro ao encerrar sessão segura:", error);
+            }
+        });
+    </script>
+</body>
+</html>
