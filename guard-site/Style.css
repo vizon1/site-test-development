@@ -3963,7 +3963,7 @@ body {
 
 /* A div mágica que força a proporção quadrada (1:1) */
 .square-image-box {
-    width: 100%; /* Ocupa toda a largura da coluna */
+    width: 80%; /* Ocupa toda a largura da coluna */
     aspect-ratio: 1 / 1; /* Força a caixa a ser sempre um quadrado perfeito */
     
     /* Estilo "Aesthetic" combinando com o site */
