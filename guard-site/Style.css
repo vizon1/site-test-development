@@ -3965,8 +3965,8 @@ body {
     aspect-ratio: 1 / 1; /* Força a caixa a ser sempre um quadrado perfeito */
     
     /* Estilo "Aesthetic" combinando com o site */
-    background-color: #111; /* Fundo cinza muito escuro para a caixa */
-    border: 1px solid rgb(74, 74, 74); /* Borda amarela fina */
+    background-color: #fff; /* Fundo cinza muito escuro para a caixa */
+    border: 1px solid rgb(74, 74, 74);
     border-radius: 50px; /* Cantos arredondados elegantes */
     
     /* Configurações para o corte da imagem */
@@ -3978,8 +3978,8 @@ body {
 
 /* Estilo para a imagem dentro da caixa quadrada */
 .square-image-box img {
-    width: 100%; /* Preenche a largura da caixa */
-    height: 100%; /* Preenche a altura da caixa */
+    width: 80%; /* Preenche a largura da caixa */
+    height: 80%; /* Preenche a altura da caixa */
     
     /* A propriedade crucial para não distorcer */
     object-fit: cover; /* Escala a imagem para preencher, cortando o excesso se necessário, sem esticar */
