@@ -5382,3 +5382,17 @@ display: flex;
     
     .apple-alert-btn.cancel { color: #ff453a; font-weight: 400; border-right: 1px solid rgba(255, 255, 255, 0.1); }
     .apple-alert-btn.confirm { font-weight: 600; }
+
+    .badge-adm-loja {
+        background-color: rgba(255, 69, 58, 0.15);
+        color: #ff453a;
+        border: 1px solid rgba(255, 69, 58, 0.3);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: none; /* Começa invisível */
+        margin-top: 2px;
+}
