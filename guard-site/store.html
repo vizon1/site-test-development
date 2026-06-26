@@ -679,7 +679,7 @@
 
         async function inicializarLoja() {
             const grid = document.getElementById('produtosGrid');
-            grid.innerHTML = '<p style="color:#FFFF00; text-align:center; width:100%; padding:20px;">A carregar catálogo Guard...</p>';
+            grid.innerHTML = '<p style="color:#FFFF00; text-align:center; width:100%; padding:20px;">Carregando...</p>';
 
             try {
                 const querySnapshot = await getDocs(collection(db, "produtos"));
