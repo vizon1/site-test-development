@@ -46,12 +46,10 @@
         }
         .btn-logout:hover { opacity: 0.7; }
 
-        /* MAIN CONTENT */
         main { max-width: 1200px; margin: 60px auto; padding: 0 24px; width: 100%; box-sizing: border-box; flex-grow: 1; }
         h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin: 0 0 10px 0; }
         p.subtitle { color: var(--text-secondary); font-size: 1.1rem; margin: 0 0 50px 0; }
 
-        /* BENTO GRID (Estilo Apple) */
         .grid-dashboard {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
         }
@@ -153,7 +151,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Inicialização obrigatória do Firebase
         const firebaseConfig = { 
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", 
             authDomain: "loja-guard.firebaseapp.com", 
@@ -168,13 +165,11 @@
             btn.textContent = "Saindo...";
 
             try {
-                // Remove o cookie seguro chamando sua API (o catch evita que a página trave se a API não estiver a rodar localmente)
+
                 await fetch('/api/admin-logout', { method: 'POST' }).catch(err => console.log("Aviso API Cookie:", err));
                 
-                // Desloga efetivamente do Firebase
                 await signOut(auth);
                 
-                // Redireciona para a loja
                 window.location.href = 'store.html';
             } catch (error) {
                 console.error("Erro ao encerrar sessão segura:", error);
