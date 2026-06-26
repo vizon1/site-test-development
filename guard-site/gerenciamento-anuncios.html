@@ -540,7 +540,7 @@
 
         // DELETAR PRODUTO
         window.apagarProduto = async function(id) {
-            if (confirm("ATENÇÃO: Tem certeza que deseja excluir este produto permanentemente?")) {
+            if (await confirm("ATENÇÃO: Tem certeza que deseja excluir este produto permanentemente?")) {
                 try {
                     await deleteDoc(doc(db, "produtos", id));
                     alert("Produto apagado com sucesso!");
