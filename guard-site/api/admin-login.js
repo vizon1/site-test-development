@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         const emailDoUsuario = decodedData.email;
         const uidDoUsuario = decodedData.user_id;
 
-        // 👇 AQUI ESTÃO OS EMAILS DOS ADMINISTRADORES
+        // EMAILS DOS ADMINISTRADORES
         const adminEmails = [
             "patricksilvaps017@gmail.com", 
             "tick155t@gmail.com",
