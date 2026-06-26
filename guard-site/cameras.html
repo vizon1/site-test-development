@@ -12,9 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* ==========================================
-           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
-           ========================================== */
         header {
             position: sticky;
             top: 0;
@@ -24,7 +21,7 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             width: 100%;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0); /* Anti-Flicker GPU */
+            transform: translateZ(0);
             -webkit-transform: translateZ(0);
             will-change: transform;
         }
@@ -44,14 +41,13 @@
             padding: 0 24px;
             box-sizing: border-box;
             transition: height 0.3s ease;
-            gap: 15px; /* Impede que os elementos se toquem */
+            gap: 15px;
         }
 
         header.header-scrolled #header {
             height: 60px;
         }
 
-        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
         #logo-container {
             flex: 1;
             display: flex;
@@ -71,7 +67,7 @@
         }
 
         #nav-container {
-            flex: 2; /* Ocupa a maior parte do centro */
+            flex: 2;
             display: flex;
             justify-content: center;
         }
@@ -105,9 +101,8 @@
             padding-bottom: 4px;
         }
 
-        /* Agrupamento da Direita */
         #desktop-cart-group {
-            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
+            flex: 1;
             display: flex !important; 
             align-items: center;
             justify-content: flex-end;
@@ -140,7 +135,6 @@
             border: 2px solid rgba(10, 10, 10, 0.85);
         }
 
-        /* Espaço Fixo e Alinhado à Direita para Autenticação */
         #auth-section {
             display: flex;
             align-items: center;
@@ -174,16 +168,13 @@
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==========================================
-           RESPONSIVIDADE INTELIGENTE
-           ========================================== */
         @media (min-width: 769px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
             #auth-section { padding-left: 12px; min-width: auto; }
             .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
+            #user-first-name { display: none; }
         }
 
         @media (max-width: 768px) {
@@ -532,15 +523,11 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // Ajuste inicial para mobile
         if (window.innerWidth <= 768) {
             document.getElementById('mobile-menu-btn').style.display = 'flex';
             document.getElementById('mobile-cart-btn').style.display = 'flex';
         }
 
-        // ==========================================
-        // GESTÃO DE ESTADO DE LOGIN E FLICKER
-        // ==========================================
         const loggedOutUI = document.getElementById('logged-out-ui');
         const loggedInUI = document.getElementById('logged-in-ui');
         const userFirstName = document.getElementById('user-first-name');
@@ -629,9 +616,6 @@
         if(btnLogout) btnLogout.addEventListener('click', executarLogout);
         if(mobileBtnLogout) mobileBtnLogout.addEventListener('click', executarLogout);
 
-        // ==========================================
-        // GESTÃO DO MENU LATERAL MOBILE E SCROLL
-        // ==========================================
         const sidebarMenu = document.getElementById('sidebar-menu');
         const overlaySidebar = document.getElementById('sidebar-overlay');
         
