@@ -71,7 +71,7 @@
            LAYOUT PRINCIPAL (GRID) - AJUSTADO E MENOR
            ========================================================= */
         .panel-container {
-            display: flex; flex-direction: row; max-width: 1200px; margin: 30px auto 60px; 
+            display: flex; flex-direction: row; max-width: 1200px; margin: 100px auto 60px; 
             gap: 20px; padding: 0 24px; box-sizing: border-box; align-items: flex-start; width: 100%; margin-top: 90px;
         }
 
@@ -166,14 +166,14 @@
         .btn-buy-now { flex: 1; background: var(--accent); color: #000; border: none; padding: 8px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;}
 
         .action-card {
-            max-width: 260px; margin: 0 auto; /* Mantém a largura igual ao preview reduzido */
+           margin: 0 auto;
         }
 
         /* =========================================================
            RESPONSIVIDADE MOBILE
            ========================================================= */
         @media (max-width: 900px) {
-            .panel-container { flex-direction: column; padding: 0 16px; margin-top: 30px; }
+            .panel-container { flex-direction: column; padding: 0 16px;}
             .left-column-wrapper { order: 1; }
             .right-column-wrapper { position: static; order: 2; margin-bottom: 40px; }
         }
