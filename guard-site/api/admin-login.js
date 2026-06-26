@@ -35,3 +35,26 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Erro ao validar Token' });
     }
 }
+
+async function checarSeloAdmin() {
+    try {
+        // Vai bater no arquivo que acabamos de criar
+        const resposta = await fetch('/api/verificar-admin');
+        
+        if (resposta.ok) {
+            const dados = await resposta.json();
+            
+            // Se a API confirmar que tem o cookie, exibe o selo!
+            if (dados.isAdmin) {
+                const badgeAdm = document.getElementById('badge-adm-header');
+                if (badgeAdm) badgeAdm.style.display = 'inline-block';
+            }
+        }
+    } catch (erro) {
+        // Falha silenciosa: se der erro (cliente comum ou sem internet), o selo continua oculto
+        console.log("Selo ADM não ativado.");
+    }
+}
+
+// Executa a função assim que o script carregar
+checarSeloAdmin();
