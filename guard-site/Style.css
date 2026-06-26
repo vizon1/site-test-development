@@ -5407,8 +5407,18 @@ display: flex;
         position: absolute !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        justify-content: center !important;
-        flex: none !important;
         width: max-content !important;
+        justify-content: center !important;
+        gap: 0 !important;
     }
+
+    .badge-adm-loja {
+        position: absolute !important;
+        left: 100% !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin-left: 8px !important;
+        white-space: nowrap !important;
+    }
+
 }
