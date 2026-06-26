@@ -43,81 +43,80 @@
         }
 
         .header-content {
-            max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 100px;
+            max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 80px; /* Reduzido de 100px para 80px */
             display: flex; justify-content: space-between; align-items: center;
         }
 
         .back-arrow { 
             color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; 
-            font-weight: 500; font-size: 1rem; transition: color 0.2s ease; gap: 4px; padding: 0 !important; border: 0 !important;
+            font-weight: 500; font-size: 0.9rem; transition: color 0.2s ease; gap: 4px; padding: 0 !important; border: 0 !important;
         }
         .back-arrow:hover { color: #ffffff; }
 
         .admin-title {
-            color: var(--apple-red); font-weight: 700; font-size: 1.1rem; 
+            color: var(--apple-red); font-weight: 700; font-size: 1rem; 
             letter-spacing: 1.5px; text-transform: uppercase;
         }
 
         .store-link {
             background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none;
-            padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
             transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; border: 0 !important;
         }
         .store-link:hover { background: rgba(255, 255, 255, 0.2); }
 
         /* =========================================================
-           LAYOUT PRINCIPAL (GRID) - CORRIGIDO
+           LAYOUT PRINCIPAL (GRID) - AJUSTADO E MAIS COMPACTO
            ========================================================= */
         .panel-container {
-            display: flex; flex-direction: row; max-width: 1200px; margin: 40px auto 60px; 
-            gap: 30px; padding: 0 24px; box-sizing: border-box; align-items: flex-start; width: 100%; margin-top: 120px;
+            display: flex; flex-direction: row; max-width: 1200px; margin: 30px auto 60px; 
+            gap: 24px; padding: 0 24px; box-sizing: border-box; align-items: flex-start; width: 100%; margin-top: 100px;
         }
 
-        /* Envolve a área da esquerda (Título + Form + Botões de Publicar) */
         .left-column-wrapper {
-            flex: 1.5; display: flex; flex-direction: column; gap: 24px; width: 100%; box-sizing: border-box;
+            flex: 1.5; display: flex; flex-direction: column; gap: 20px; width: 100%; box-sizing: border-box;
         }
 
-        /* Envolve a área da direita (Preview STICKY) */
+        /* O SEGREDO DO STICKY: align-self: flex-start impede que estique com a coluna da esquerda */
         .right-column-wrapper {
-            flex: 1; position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px; width: 100%; box-sizing: border-box;
+            flex: 1; position: sticky; top: 100px; display: flex; flex-direction: column; gap: 20px; width: 100%; box-sizing: border-box; align-self: flex-start;
         }
 
         .panel-form-section, .preview-box, .action-box {
             background: var(--surface-color); border: 1px solid var(--border-color);
-            border-radius: 24px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-radius: 16px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.5); /* Diminuído padding e borda */
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             box-sizing: border-box; width: 100%;
         }
 
-        .page-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0; margin-top: 0; letter-spacing: -0.5px;}
+        .page-header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0; margin-top: 0; letter-spacing: -0.5px;}
 
-        .panel-form-section h2 { margin-top: 0; font-size: 1.8rem; letter-spacing: -0.5px; margin-bottom: 5px;}
-        .panel-subtitle { color: var(--text-secondary); margin-bottom: 30px; margin-top: 0; font-size: 0.95rem;}
+        .panel-form-section h2 { margin-top: 0; font-size: 1.5rem; letter-spacing: -0.5px; margin-bottom: 5px;}
+        .panel-subtitle { color: var(--text-secondary); margin-bottom: 25px; margin-top: 0; font-size: 0.9rem;}
 
         /* =========================================================
-           FORMULÁRIOS ESTILO APPLE
+           FORMULÁRIOS ESTILO APPLE - MAIS FINOS
            ========================================================= */
-        .form-row { display: flex; gap: 20px; width: 100%; }
-        .input-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 20px; }
+        .form-row { display: flex; gap: 15px; width: 100%; } /* Menor gap */
+        .input-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 15px; } /* Menor espaçamento */
         
         .input-group label {
-            font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; 
+            font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 6px; 
             font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
         }
 
         .input-group input, .input-group select, .input-group textarea {
             background-color: rgba(0,0,0,0.4) !important;
             border: 1.5px solid rgba(255,255,255,0.1) !important;
-            color: #fff !important; padding: 16px 18px !important; border-radius: 12px !important;
-            font-size: 1rem !important; font-family: inherit !important; transition: all 0.3s ease;
+            color: #fff !important; padding: 12px 14px !important; border-radius: 8px !important; /* Menor preenchimento */
+            font-size: 0.9rem !important; font-family: inherit !important; transition: all 0.3s ease;
             outline: none; box-sizing: border-box; width: 100%;
         }
 
         .input-group select {
             appearance: none; -webkit-appearance: none;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2386868b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto; cursor: pointer;
+            background-repeat: no-repeat; background-position: right 12px top 50%; background-size: 10px auto; cursor: pointer;
         }
         .input-group select option { background-color: #1c1c1e; color: #fff; }
 
@@ -126,44 +125,45 @@
             box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.1);
         }
 
-        /* Checkbox Customizado */
-        .custom-checkbox-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .custom-checkbox-container input { accent-color: var(--accent); width: 22px; height: 22px; cursor: pointer; flex-shrink: 0; }
-        .custom-checkbox-container label { color: #d2d2d7; font-size: 0.95rem; font-weight: 500; cursor: pointer; user-select: none; text-transform: none; letter-spacing: normal;}
+        .custom-checkbox-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .custom-checkbox-container input { accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+        .custom-checkbox-container label { color: #d2d2d7; font-size: 0.85rem; font-weight: 500; cursor: pointer; user-select: none; text-transform: none; letter-spacing: normal;}
 
-        /* Secionador Visual Logística */
         .section-divider {
-            font-size: 1.1rem; color: #fff; margin-top: 10px; margin-bottom: 20px; 
-            border-bottom: 1px solid var(--border-color); padding-bottom: 10px; font-weight: 600;
+            font-size: 1rem; color: #fff; margin-top: 10px; margin-bottom: 15px; 
+            border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-weight: 600;
         }
 
-        /* Botão Submeter */
         .btn-panel-submit {
-            background-color: var(--accent); color: #000; border: none; padding: 20px;
-            border-radius: 14px; font-size: 1.1rem; font-weight: 800; cursor: pointer; width: 100%;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;
+            background-color: var(--accent); color: #000; border: none; padding: 15px;
+            border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer; width: 100%;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); text-transform: uppercase; letter-spacing: 1px; margin-top: 15px;
         }
-        .btn-panel-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
+        .btn-panel-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 255, 0, 0.2); background-color: #fff433; }
 
         /* =========================================================
-           CARD DE PREVIEW (LOJA)
+           CARD DE PREVIEW (LOJA) - MAIS COMPACTO
            ========================================================= */
-        .preview-card-container { display: flex; justify-content: center; margin-top: 20px;}
+        .preview-card-container { display: flex; justify-content: center; margin-top: 15px;}
         .shop-card { 
-            background: #111; border: 1px solid #333; border-radius: 16px; padding: 20px; 
-            width: 100%; max-width: 320px; box-sizing: border-box; display: flex; flex-direction: column;
+            background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; 
+            width: 100%; max-width: 280px; box-sizing: border-box; display: flex; flex-direction: column; /* Reduzido max-width */
         }
-        .shop-card-category { font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .shop-card-img { width: 100%; height: 200px; background: rgba(255,255,255,0.02); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden;}
+        .shop-card-category { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .shop-card-img { width: 100%; height: 160px; background: rgba(255,255,255,0.02); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; overflow: hidden;}
         .shop-card-img img { max-width: 80%; max-height: 80%; object-fit: contain; }
-        .shop-card-body h4 { margin: 0 0 10px 0; font-size: 1.1rem; color: #fff; font-weight: 600; line-height: 1.3;}
-        .shop-card-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 0.9rem;}
+        .shop-card-body h4 { margin: 0 0 8px 0; font-size: 1rem; color: #fff; font-weight: 600; line-height: 1.3;}
+        .shop-card-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; font-size: 0.8rem;}
         .shop-card-rating span:first-child { color: var(--accent); }
         .shop-card-rating span:last-child { color: var(--text-secondary); }
-        .shop-card-price { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 20px;}
-        .shop-card-actions { display: flex; gap: 10px; }
-        .btn-add-cart { flex: 1; background: #222; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600;}
-        .btn-buy-now { flex: 1; background: var(--accent); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700;}
+        .shop-card-price { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 15px;}
+        .shop-card-actions { display: flex; gap: 8px; }
+        .btn-add-cart { flex: 1; background: #222; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem;}
+        .btn-buy-now { flex: 1; background: var(--accent); color: #000; border: none; padding: 10px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;}
+
+        .action-card {
+            max-width: 280px; margin: 0 auto; /* Mantém a largura igual ao preview */
+        }
 
         /* =========================================================
            RESPONSIVIDADE MOBILE
@@ -176,8 +176,8 @@
 
         @media (max-width: 768px) {
             .form-row { flex-direction: column; gap: 0; }
-            .panel-form-section, .preview-box, .action-box { padding: 24px 20px; border-radius: 16px;}
-            .admin-title { font-size: 1rem; }
+            .panel-form-section, .preview-box, .action-box { padding: 20px 16px; border-radius: 12px;}
+            .admin-title { font-size: 0.9rem; }
             .header-content { padding: 0 15px; }
         }
     </style>
@@ -187,14 +187,14 @@
     <header>
         <div class="header-content">
             <a href="admin.html" class="back-arrow" title="Voltar ao Painel">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 <span>Voltar</span>
             </a>
             
             <div class="admin-title">ADMINISTRAÇÃO</div>
             
             <a href="store.html" class="store-link">
-                Ver Loja <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                Ver Loja <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
             </a>
         </div>
     </header>
@@ -289,20 +289,12 @@
                     </div>
                 </form>
             </section>
-
-            <section class="action-box">
-                <h3 style="font-size: 1.2rem; margin-top: 0; margin-bottom: 15px; color: #fff;">Configurações de Publicação</h3>
-                <div class="custom-checkbox-container">
-                    <input type="checkbox" id="productRecommended" form="productForm">
-                    <label for="productRecommended">Destacar na aba "Explore as nossas recomendações"</label>
-                </div>
-                <button type="submit" form="productForm" id="btn-submit-desktop" class="btn-panel-submit">Publicar Item</button>
-            </section>
         </div>
 
         <div class="right-column-wrapper">
+            
             <section class="preview-box">
-                <h3 style="font-size: 1.3rem; margin-top: 0; margin-bottom: 5px; color: #fff;">Visualização</h3>
+                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 5px; color: #fff;">Visualização</h3>
                 <p class="panel-subtitle">Como aparecerá na loja:</p>
 
                 <div class="preview-card-container">
@@ -326,6 +318,16 @@
                     </div>
                 </div>
             </section>
+
+            <section class="action-box action-card">
+                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 15px; color: #fff;">Configurações de Publicação</h3>
+                <div class="custom-checkbox-container">
+                    <input type="checkbox" id="productRecommended" form="productForm">
+                    <label for="productRecommended">Destacar na aba "Explore as nossas recomendações"</label>
+                </div>
+                <button type="submit" form="productForm" id="btn-submit-desktop" class="btn-panel-submit">Publicar Item</button>
+            </section>
+            
         </div>
     </main>
 
