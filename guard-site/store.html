@@ -1053,6 +1053,45 @@
                 }
             }
         });
+
+        async function checarSeloAdmin() {
+            try {
+                const resposta = await fetch('/api/verificar-admin');
+                console.log("[Selo ADM] Status da API:", resposta.status);
+                
+                if (resposta.ok) {
+                    const dados = await resposta.json();
+                    console.log("[Selo ADM] Dados recebidos:", dados);
+                    
+                    if (dados.isAdmin) {
+                        // Cria uma verificação em loop contínuo até o HTML renderizar na tela
+                        const encontrarElemento = setInterval(() => {
+                            const badgeAdm = document.getElementById('badge-adm-header');
+                            if (badgeAdm) {
+                                badgeAdm.style.display = 'inline-block';
+                                clearInterval(encontrarElemento);
+                                console.log("[Selo ADM] Elemento encontrado e exibido com sucesso!");
+                            }
+                        }, 100);
+        
+                        // Cancela o loop após 5 segundos se o HTML não tiver a tag de fato
+                        setTimeout(() => clearInterval(encontrarElemento), 5000);
+                    }
+                } else {
+                    console.log("[Selo ADM] Usuário não está autenticado como administrador no servidor.");
+                }
+            } catch (erro) {
+                console.error("[Selo ADM] Erro crítico na comunicação com a API:", erro);
+            }
+        }
+        
+        // Garante que o script só rode quando a árvore de elementos HTML estiver totalmente pronta
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checarSeloAdmin);
+        } else {
+            checarSeloAdmin();
+        }
+        
     </script>
     <script src="apple-alerts.js"></script>
 </body>
