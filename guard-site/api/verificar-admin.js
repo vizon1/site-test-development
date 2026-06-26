@@ -1,12 +1,20 @@
 export default function handler(req, res) {
-    // Vercel/Next.js já transforma os cookies num objeto fácil de ler
-    const tokenAdmin = req.cookies.guard_admin_token;
+    // Tenta ler os cookies interpretados ou faz o mapeamento manual
+    const cookies = req.cookies || {};
+    let tokenAdmin = cookies.guard_admin_token;
 
-    // Se o cookie existir na máquina do usuário, ele é admin
+    if (!tokenAdmin && req.headers.cookie) {
+        const rawCookies = req.headers.cookie.split(';');
+        const parsedCookie = rawCookies.find(c => c.trim().startsWith('guard_admin_token='));
+        if (parsedCookie) {
+            tokenAdmin = parsedCookie.split('=')[1];
+        }
+    }
+
+    // Se o token existir no navegador do usuário, confirma o acesso de administrador
     if (tokenAdmin) {
         return res.status(200).json({ isAdmin: true });
     }
 
-    // Se não existir, é um cliente comum
     return res.status(401).json({ isAdmin: false });
 }
