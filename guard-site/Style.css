@@ -3925,6 +3925,8 @@ select:-webkit-autofill:active {
     padding: 18px;
     font-size: 1.1rem;
     border-radius: 12px;
+    border-radius: 30px; 
+    cursor: pointer;
 }
 
 /* Responsividade do Produto */
