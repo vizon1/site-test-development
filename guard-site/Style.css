@@ -4422,6 +4422,11 @@ body {
    RESPONSIVIDADE DOS CARDS (TABLET E CELULAR)
    ========================================= */
 @media (max-width: 900px) {
+
+    .square-image-box {
+        width: 100%;
+    }
+    
     .shop-product-grid {
         /* Define 3 colunas por padrão abaixo de 900px */
         grid-template-columns: repeat(3, 1fr);
