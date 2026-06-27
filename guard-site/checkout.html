@@ -1243,9 +1243,9 @@
                     campoComErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
                     // Opcional: Adiciona um pequeno "piscar" para chamar ainda mais a atenção
-                    campoComErro.style.transition = 'transform 0.3s ease';
+                    campoComErro.style.transition = 'transform 0.5s ease';
                     campoComErro.style.transform = 'scale(1.02)';
-                    setTimeout(() => { campoComErro.style.transform = 'scale(1)'; }, 300);
+                    setTimeout(() => { campoComErro.style.transform = 'scale(1)'; }, 500);
                 }
 
                 // Exibe o alerta depois do scroll
