@@ -1227,8 +1227,32 @@
                 limparErro(inputSenhaOpcional);
             }
 
-            // Trava de segurança: Se houver qualquer erro na tela, não avança.
+           // ==========================================
+            // SCROLL INTELIGENTE PARA O PRIMEIRO ERRO (UX APPLE)
+            // ==========================================
             if (temErro || document.querySelectorAll('.error-text').length > 0) {
+                
+                // Procura a primeira mensagem de erro ativa na página
+                const primeiroErro = document.querySelector('.error-text');
+                
+                if (primeiroErro) {
+                    // Encontra o input (ou caixa) associada a este erro para focar nela
+                    const campoComErro = primeiroErro.closest('.input-group') || primeiroErro.parentElement;
+                    
+                    // Faz o scroll suave até o erro, centralizando-o na tela
+                    campoComErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Opcional: Adiciona um pequeno "piscar" para chamar ainda mais a atenção
+                    campoComErro.style.transition = 'transform 0.3s ease';
+                    campoComErro.style.transform = 'scale(1.02)';
+                    setTimeout(() => { campoComErro.style.transform = 'scale(1)'; }, 300);
+                }
+
+                // Exibe o alerta depois do scroll
+                setTimeout(async () => {
+                    await alert("Existem campos incorretos ou em falta. Por favor, verifique o formulário.", "Atenção");
+                }, 400);
+                
                 return;
             }
             
