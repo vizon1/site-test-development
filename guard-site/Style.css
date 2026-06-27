@@ -5384,9 +5384,9 @@ display: flex;
     .apple-alert-btn.confirm { font-weight: 600; }
 
     .badge-adm-loja {
-        background-color: rgba(255, 69, 58, 0.15);
-        color: #ff453a;
-        border: 1px solid rgba(255, 69, 58, 0.3);
+        background-color: #ffff0024;
+        color: #ff0;
+        border: 1px solid #ff0;
         padding: 4px 8px;
         border-radius: 6px;
         font-size: 0.5rem;
