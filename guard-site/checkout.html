@@ -418,9 +418,9 @@
         </div>
     </div>
 
+    <script src="apple-alerts.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        // ADICIONADO: createUserWithEmailAndPassword e updateProfile
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
@@ -722,39 +722,40 @@
         };
 
         window.excluirEndereco = async function(id) {
-            if(!confirm("Tem certeza que deseja excluir este endereço?")) return;
-            
-            const btnDelete = document.querySelector(`button[onclick="excluirEndereco('${id}')"]`);
-            if(btnDelete) btnDelete.textContent = "Excluindo...";
-
-            const novaLista = listaDeEnderecos.filter(e => e.id !== id);
-            
-            try {
-                await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: novaLista }, { merge: true });
-                listaDeEnderecos = novaLista;
+            if(await confirm("Tem certeza que deseja excluir este endereço?")) {
                 
-                if (enderecoAtivoModal === id) {
-                    enderecoAtivoModal = listaDeEnderecos.length > 0 ? (listaDeEnderecos.find(e=>e.isPadrao)?.id || listaDeEnderecos[0].id) : null;
-                }
+                const btnDelete = document.querySelector(`button[onclick="excluirEndereco('${id}')"]`);
+                if(btnDelete) btnDelete.textContent = "Excluindo...";
 
-                if (enderecoSelecionadoCheckout && enderecoSelecionadoCheckout.id === id) {
-                    if (listaDeEnderecos.length > 0) {
-                        aplicarNoCheckout(listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0]);
-                    } else {
-                        enderecoSelecionadoCheckout = null;
-                        document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
-                        document.getElementById('bloco-inputs-endereco').style.display = 'block';
-                        document.getElementById('aviso-sem-endereco').style.display = 'block';
-                        while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
-                        limparFrete();
+                const novaLista = listaDeEnderecos.filter(e => e.id !== id);
+                
+                try {
+                    await setDoc(doc(db, "usuarios", usuarioAtual.uid), { enderecos: novaLista }, { merge: true });
+                    listaDeEnderecos = novaLista;
+                    
+                    if (enderecoAtivoModal === id) {
+                        enderecoAtivoModal = listaDeEnderecos.length > 0 ? (listaDeEnderecos.find(e=>e.isPadrao)?.id || listaDeEnderecos[0].id) : null;
                     }
+
+                    if (enderecoSelecionadoCheckout && enderecoSelecionadoCheckout.id === id) {
+                        if (listaDeEnderecos.length > 0) {
+                            aplicarNoCheckout(listaDeEnderecos.find(e => e.isPadrao) || listaDeEnderecos[0]);
+                        } else {
+                            enderecoSelecionadoCheckout = null;
+                            document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
+                            document.getElementById('bloco-inputs-endereco').style.display = 'block';
+                            document.getElementById('aviso-sem-endereco').style.display = 'block';
+                            while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
+                            limparFrete();
+                        }
+                    }
+                    
+                    renderizarGridModal();
+                } catch(error) {
+                    console.error("Erro ao excluir", error);
+                    alert("Erro de conexão ao excluir endereço.");
+                    if(btnDelete) btnDelete.textContent = "Excluir";
                 }
-                
-                renderizarGridModal();
-            } catch(error) {
-                console.error("Erro ao excluir", error);
-                alert("Erro de conexão ao excluir endereço.");
-                if(btnDelete) btnDelete.textContent = "Excluir";
             }
         };
 
@@ -843,7 +844,7 @@
                 const escolhido = listaDeEnderecos.find(e => e.id === enderecoAtivoModal);
                 if (escolhido) aplicarNoCheckout(escolhido);
             }
-            modalEnderecos.classList.remove('active');
+            document.getElementById('modal-enderecos').classList.remove('active');
         });
 
         function aplicarNoCheckout(endObj) {
@@ -868,7 +869,6 @@
                 usuarioAtual = user; 
                 btnMudarEndereco.style.display = 'block';
                 
-                // Oculta a caixa de cadastro porque o usuário já está logado
                 const boxSenha = document.getElementById('box-cadastro-opcional');
                 if (boxSenha) boxSenha.style.display = 'none';
 
@@ -901,7 +901,6 @@
                 document.getElementById('bloco-inputs-endereco').style.display = 'block';
                 while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
                 
-                // Garante que a caixa opcional de senha aparece para visitantes
                 const boxSenha = document.getElementById('box-cadastro-opcional');
                 if (boxSenha) boxSenha.style.display = 'block';
             }
@@ -1203,7 +1202,10 @@
                 else if (cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Incompleto.'); temErro = true; }
             }
 
-            if (temErro || document.querySelectorAll('.error-text').length > 0) return alert("Existem campos incorretos. Verifique o formulário.");
+            if (temErro || document.querySelectorAll('.error-text').length > 0) {
+                alert("Existem campos incorretos. Verifique o formulário.");
+                return;
+            }
             
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
@@ -1213,9 +1215,9 @@
 
             // LÓGICA DE CADASTRO INVISÍVEL
             if (!usuarioAtual && senhaOpcional.length > 0) {
-                if (senhaOpcional.length < 6) {
-                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 6 caracteres.');
-                    alert("A senha opcional deve ter no mínimo 6 caracteres.");
+                if (senhaOpcional.length < 8) {
+                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 8 caracteres.');
+                    alert("A senha opcional deve ter no mínimo 8 caracteres.");
                     btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
                     return;
                 }
@@ -1261,20 +1263,14 @@
                 } catch(error) { console.error("Falha ao salvar dados do usuário", error); }
             }
 
-            if (!usuarioAtual && senhaOpcional.length > 0) {
-                // 👇 AQUI: Mude de 6 para 8!
-                if (senhaOpcional.length < 8) {
-                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 8 caracteres.');
-                    alert("A senha opcional deve ter no mínimo 8 caracteres.");
-                    btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
-                    return;
-                }
-                
-                try {
+            const enderecoPedido = usuarioAtual ? enderecoSelecionadoCheckout : {
+                cep: cepInput.value, rua: ruaInput.value.trim(), numero: numInput.value.trim(),
+                bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase()
+            };
 
             const novoPedido = {
                 userId: finalUserId,
-                clienteEmail: emailDigitado, // Guardamos o email do pedido para enviar notificações
+                clienteEmail: emailDigitado,
                 clienteNome: nomeInput.value.trim(),
                 clienteCpf: cpfInput.value,
                 clienteTelefone: telefoneInput.value,
