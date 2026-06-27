@@ -374,7 +374,7 @@
             </p>
             <div class="input-group" style="margin-bottom: 0;">
                 <label style="color: #FFFF00;">Senha (Opcional)</label>
-                <input type="password" id="senha-opcional" placeholder="Mínimo de 6 caracteres">
+                <input type="password" id="senha-opcional" placeholder="Mínimo de 8 caracteres">
             </div>
         </div>
 
@@ -1261,10 +1261,16 @@
                 } catch(error) { console.error("Falha ao salvar dados do usuário", error); }
             }
 
-            const enderecoPedido = usuarioAtual ? enderecoSelecionadoCheckout : {
-                cep: cepInput.value, rua: ruaInput.value.trim(), numero: numInput.value.trim(),
-                bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase()
-            };
+            if (!usuarioAtual && senhaOpcional.length > 0) {
+                // 👇 AQUI: Mude de 6 para 8!
+                if (senhaOpcional.length < 8) {
+                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 8 caracteres.');
+                    alert("A senha opcional deve ter no mínimo 8 caracteres.");
+                    btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
+                    return;
+                }
+                
+                try {
 
             const novoPedido = {
                 userId: finalUserId,
