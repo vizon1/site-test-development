@@ -30,8 +30,9 @@
         .box-endereco { grid-column: 1; grid-row: 2; }
         .box-frete    { grid-column: 1; grid-row: 3; }
         .box-pagamento{ grid-column: 1; grid-row: 4; }
-        .btn-submit-wrapper { width: 100%; grid-column: 1; grid-row: 5; display: flex; justify-content: center; }
-        .box-resumo { grid-column: 2; grid-row: 1 / span 5; align-self: start; position: sticky; top: 110px; background: linear-gradient(145deg, #111, #0a0a0a); }
+        .box-cadastro-opcional { grid-column: 1; grid-row: 5; } /* NOVO BLOCO */
+        .btn-submit-wrapper { width: 100%; grid-column: 1; grid-row: 6; display: flex; justify-content: center; }
+        .box-resumo { grid-column: 2; grid-row: 1 / span 6; align-self: start; position: sticky; top: 110px; background: linear-gradient(145deg, #111, #0a0a0a); }
         .checkout-box { background-color: #0a0a0a; border: 1px solid #222; border-radius: 20px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; width: 100%; }
         .box-title { font-size: 1.3rem; font-weight: 700; margin-top: 0; margin-bottom: 24px; border-bottom: 1px solid #222; padding-bottom: 16px; color: #fff; letter-spacing: -0.5px; }
 
@@ -197,7 +198,7 @@
 
         @media (max-width: 992px) {
             .checkout-container { display: flex; flex-direction: column; padding: 0 16px; gap: 30px; margin-top: 20px; }
-            .box-pessoais  { order: 1; } .box-endereco  { order: 2; } .box-frete     { order: 3; } .box-resumo    { order: 4; } .box-pagamento { order: 5; } .btn-submit-wrapper { order: 6; }
+            .box-pessoais  { order: 1; } .box-endereco  { order: 2; } .box-frete     { order: 3; } .box-resumo    { order: 4; } .box-pagamento { order: 5; } .box-cadastro-opcional { order: 6; } .btn-submit-wrapper { order: 7; }
         }
         @media (max-width: 600px) {
             .checkout-box { padding: 24px 20px; border-radius: 16px; }
@@ -248,7 +249,11 @@
                 </div>
             </div>
             <div class="form-grid">
-                <div class="input-group form-grid-full">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="email" placeholder="seu@email.com">
+                </div>
+                <div class="input-group">
                     <label>Telefone</label>
                     <input type="tel" id="telefone" placeholder="(00) 00000-0000" maxlength="15">
                 </div>
@@ -362,6 +367,17 @@
             </div>
         </div>
 
+        <div class="checkout-box box-cadastro-opcional" id="box-cadastro-opcional" style="background: rgba(255,255,0,0.05); border-color: rgba(255,255,0,0.2);">
+            <h3 style="font-size: 1.1rem; margin: 0 0 8px 0; color: #FFFF00;">Quer rastrear seu pedido depois?</h3>
+            <p style="font-size: 0.85rem; color: #a0a0a5; margin-top: 0; margin-bottom: 15px; line-height: 1.4;">
+                Crie uma senha abaixo para salvar seus dados e acompanhar a entrega. Se preferir comprar como visitante, deixe em branco.
+            </p>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label style="color: #FFFF00;">Senha (Opcional)</label>
+                <input type="password" id="senha-opcional" placeholder="Mínimo de 6 caracteres">
+            </div>
+        </div>
+
         <div class="btn-submit-wrapper">
             <button type="submit" class="btn-panel-submit" id="btn-finalizar-pedido">Confirmar e Pagar</button>
         </div>
@@ -404,8 +420,9 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        // ADICIONADO: createUserWithEmailAndPassword e updateProfile
         import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = { apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20", authDomain: "loja-guard.firebaseapp.com", projectId: "loja-guard" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
@@ -453,6 +470,7 @@
         const nomeInput = document.getElementById('nome');
         const cpfInput = document.getElementById('cpf');
         const telefoneInput = document.getElementById('telefone');
+        const emailInput = document.getElementById('email');
 
         nomeInput.addEventListener('input', function() { this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); });
         numInput.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
@@ -530,6 +548,8 @@
             if (!input.value.trim()) { mostrarErro(input, 'Este campo é obrigatório.'); return true; } 
             else { limparErro(input); return false; }
         }
+        
+        function testaEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
         nomeInput.addEventListener('blur', function() {
             const val = this.value.trim(); if (!val || val.split(/\s+/).length < 2) mostrarErro(this, 'Informe nome e sobrenome.'); else limparErro(this);
@@ -847,6 +867,11 @@
             if (user) {
                 usuarioAtual = user; 
                 btnMudarEndereco.style.display = 'block';
+                
+                // Oculta a caixa de cadastro porque o usuário já está logado
+                const boxSenha = document.getElementById('box-cadastro-opcional');
+                if (boxSenha) boxSenha.style.display = 'none';
+
                 try {
                     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
                     if (docSnap.exists()) {
@@ -854,6 +879,7 @@
                         if(data.nome) nomeInput.value = data.nome;
                         if(data.telefone) { telefoneInput.value = data.telefone; telefoneInput.dispatchEvent(new Event('input')); }
                         if(data.cpf) { cpfInput.value = data.cpf; cpfInput.dispatchEvent(new Event('input')); }
+                        if(data.email) { emailInput.value = data.email; emailInput.readOnly = true; emailInput.style.opacity = '0.7';}
 
                         if (data.enderecos && data.enderecos.length > 0) {
                             listaDeEnderecos = data.enderecos;
@@ -864,13 +890,20 @@
                             document.getElementById('aviso-sem-endereco').style.display = 'block';
                             while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); } 
                         }
-                    } else if(user.displayName) { nomeInput.value = user.displayName; }
+                    } else if(user.displayName) { 
+                        nomeInput.value = user.displayName; 
+                        emailInput.value = user.email || '';
+                    }
                 } catch (error) {}
             } else {
                 usuarioAtual = null; btnMudarEndereco.style.display = 'none';
                 document.getElementById('bloco-visualizacao-endereco').style.display = 'none';
                 document.getElementById('bloco-inputs-endereco').style.display = 'block';
                 while (formModalContainer.firstChild) { formLocalCheckout.appendChild(formModalContainer.firstChild); }
+                
+                // Garante que a caixa opcional de senha aparece para visitantes
+                const boxSenha = document.getElementById('box-cadastro-opcional');
+                if (boxSenha) boxSenha.style.display = 'block';
             }
         });
 
@@ -1134,6 +1167,11 @@
             else if (valDoc.length <= 11 && !testaCPF(valDoc)) { mostrarErro(cpfInput, 'CPF Inválido.'); temErro = true; }
             else if (valDoc.length > 11 && !testaCNPJ(valDoc)) { mostrarErro(cpfInput, 'CNPJ Inválido.'); temErro = true; }
 
+            const emailDigitado = emailInput.value.trim();
+            if (!emailDigitado) { mostrarErro(emailInput, 'E-mail obrigatório.'); temErro = true; }
+            else if (!testaEmail(emailDigitado)) { mostrarErro(emailInput, 'E-mail inválido.'); temErro = true; }
+            else { limparErro(emailInput); }
+
             if (!usuarioAtual) {
                 const cepLimpo = cepInput.value.replace(/\D/g, '');
                 if (cepLimpo.length !== 8) { mostrarErro(cepInput, 'CEP incompleto.'); temErro = true; } else { limparErro(cepInput); }
@@ -1170,7 +1208,50 @@
             const btnSalvar = document.getElementById('btn-finalizar-pedido');
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
-            if (usuarioAtual) {
+            let finalUserId = usuarioAtual ? usuarioAtual.uid : 'visitante';
+            const senhaOpcional = document.getElementById('senha-opcional') ? document.getElementById('senha-opcional').value.trim() : '';
+
+            // LÓGICA DE CADASTRO INVISÍVEL
+            if (!usuarioAtual && senhaOpcional.length > 0) {
+                if (senhaOpcional.length < 6) {
+                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 6 caracteres.');
+                    alert("A senha opcional deve ter no mínimo 6 caracteres.");
+                    btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
+                    return;
+                }
+                
+                try {
+                    const userCred = await createUserWithEmailAndPassword(auth, emailDigitado, senhaOpcional);
+                    const newUser = userCred.user;
+                    await updateProfile(newUser, { displayName: nomeInput.value.split(' ')[0] });
+                    finalUserId = newUser.uid;
+
+                    const novoEnderecoDb = {
+                        id: Date.now().toString(),
+                        cep: cepInput.value, rua: ruaInput.value.trim(), numero: numInput.value.trim(),
+                        bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase(),
+                        isPadrao: true
+                    };
+
+                    await setDoc(doc(db, "usuarios", finalUserId), {
+                        nome: nomeInput.value.trim(),
+                        telefone: telefoneInput.value,
+                        cpf: cpfInput.value,
+                        email: emailDigitado,
+                        enderecos: [novoEnderecoDb]
+                    });
+
+                } catch (error) {
+                    console.error("Erro ao criar conta invisível:", error);
+                    if (error.code === 'auth/email-already-in-use') {
+                        alert("Este e-mail já possui uma conta. Por favor, faça login pelo menu ou finalize a compra deixando o campo da senha em branco.");
+                    } else {
+                        alert("Erro ao criar a sua conta. Tente finalizar sem digitar a senha.");
+                    }
+                    btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
+                    return;
+                }
+            } else if (usuarioAtual) {
                 try {
                     await setDoc(doc(db, "usuarios", usuarioAtual.uid), {
                         nome: nomeInput.value.trim(),
@@ -1186,7 +1267,8 @@
             };
 
             const novoPedido = {
-                userId: usuarioAtual ? usuarioAtual.uid : 'visitante',
+                userId: finalUserId,
+                clienteEmail: emailDigitado, // Guardamos o email do pedido para enviar notificações
                 clienteNome: nomeInput.value.trim(),
                 clienteCpf: cpfInput.value,
                 clienteTelefone: telefoneInput.value,
@@ -1219,6 +1301,5 @@
             }
         });
     </script>
-    <script src="apple-alerts.js"></script>
 </body>
 </html>
