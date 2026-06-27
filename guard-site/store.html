@@ -197,6 +197,15 @@
         .dropdown-item.logout { color: #ff4444; }
         .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
         
+        /* ADICIONADO: Estilo do dropdown do ADM */
+        #badge-adm-wrapper { position: relative; display: flex; align-items: center; cursor: pointer; }
+        #adm-dropdown {
+            display: none; position: absolute; top: 100%; left: 0; margin-top: 15px;
+            background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
+            width: 240px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        #adm-dropdown.active { display: flex; animation: fadeIn 0.2s ease forwards; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .cart-overlay {
@@ -300,6 +309,28 @@
         }
 
         @media (max-width: 920px) {
+            #header {
+                position: relative;
+            }
+            
+            #logo-container {
+                position: absolute !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: max-content !important;
+                justify-content: center !important;
+                gap: 0 !important; /* Anula o espaço para não interferir no centro */
+            }
+
+            .badge-adm-loja {
+                position: absolute !important;
+                left: 100% !important; 
+                top: 50% !important;
+                transform: translateY(-50%) !important; 
+                margin-left: 8px !important; 
+                white-space: nowrap !important;
+            }
+
             .shop-card-rating {
                 display: flex !important;
                 flex-wrap: wrap !important;
@@ -311,7 +342,7 @@
                 display: inline-block !important;
                 margin-top: 0 !important;
                 margin-right: 5px !important;
-                transform: translateY(-1.5px) !important; /* A MÁGICA: Empurra a meia estrela milimetricamente para cima */
+                transform: translateY(-1.5px) !important;
             }
             
             .shop-card-rating span.star-fill {
@@ -411,12 +442,18 @@
             <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
                 <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </div>
-
+            
             <div id="logo-container" style="display: flex; align-items: center; gap: 12px;"> 
                 <a href="index.html">
                     <img src="imagens/logo.webp" alt="Logo Guard" id="logo">
                 </a>
-                <span id="badge-adm-header" class="badge-adm-loja">ADM</span>
+                
+                <div id="badge-adm-wrapper">
+                    <span id="badge-adm-header" class="badge-adm-loja">ADM</span>
+                    <div id="adm-dropdown">
+                        <a href="admin.html" class="dropdown-item" style="color: #FFFF00; font-weight: 600;">Ir para o Painel Admin</a>
+                    </div>
+                </div>
             </div>
 
             <div id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative;">
@@ -636,16 +673,31 @@
             if (authSection) authSection.style.opacity = '1';
         });
 
+        // ADICIONADO: Evento para abrir o dropdown de admin
+        const badgeAdmWrapper = document.getElementById('badge-adm-wrapper');
+        const admDropdown = document.getElementById('adm-dropdown');
+        if(badgeAdmWrapper) {
+            badgeAdmWrapper.addEventListener('click', (e) => {
+                e.stopPropagation();
+                admDropdown.classList.toggle('active');
+                if(profileDropdown) profileDropdown.classList.remove('active');
+            });
+        }
+
         if(loggedInUI) {
             loggedInUI.addEventListener('click', (e) => {
                 e.stopPropagation();
                 profileDropdown.classList.toggle('active');
+                if(admDropdown) admDropdown.classList.remove('active');
             });
         }
 
         document.addEventListener('click', (e) => {
             if (loggedInUI && !loggedInUI.contains(e.target)) {
                 profileDropdown.classList.remove('active');
+            }
+            if (badgeAdmWrapper && !badgeAdmWrapper.contains(e.target)) {
+                admDropdown.classList.remove('active');
             }
         });
 
