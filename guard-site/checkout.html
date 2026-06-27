@@ -1152,12 +1152,20 @@
             }
         });
 
+        // ADICIONA LIMPEZA DINÂMICA AO ESCREVER NA SENHA OPCIONAL
+        const inputSenhaOpcionalDinamico = document.getElementById('senha-opcional');
+        if (inputSenhaOpcionalDinamico) {
+            inputSenhaOpcionalDinamico.addEventListener('input', function() {
+                limparErro(this);
+            });
+        }
+
         document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             let temErro = false;
 
             const metodoSelecionado = document.getElementById('metodo-pagamento-hidden').value;
-            if (!metodoSelecionado) { alert("Selecione uma forma de pagamento para finalizar."); return; }
+            if (!metodoSelecionado) { await alert("Selecione uma forma de pagamento para finalizar."); return; }
 
             if (!nomeInput.value.trim() || nomeInput.value.trim().split(/\s+/).length < 2) { mostrarErro(nomeInput, 'Informe nome e sobrenome válidos.'); temErro = true; }
             if (telefoneInput.value.replace(/\D/g, '').length < 10) { mostrarErro(telefoneInput, 'Telefone incompleto.'); temErro = true; }
@@ -1180,10 +1188,10 @@
                 if (checarObrigatorio(cidadeInput)) temErro = true;
                 if (estadoSelect.value.trim().length !== 2) { mostrarErro(estadoSelect, 'UF deve ter 2 letras.'); temErro = true; } else { limparErro(estadoSelect); }
             } else {
-                if(!enderecoSelecionadoCheckout) { alert("Selecione ou cadastre um endereço de entrega."); temErro = true; }
+                if(!enderecoSelecionadoCheckout) { await alert("Selecione ou cadastre um endereço de entrega."); temErro = true; }
             }
 
-            if (valorFrete === 0) { alert("Selecione uma opção de entrega válida."); temErro = true; }
+            if (valorFrete === 0) { await alert("Selecione uma opção de entrega válida."); temErro = true; }
 
             if (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') {
                 if (checarObrigatorio(cartaoNome)) temErro = true;
@@ -1202,8 +1210,25 @@
                 else if (cartaoCvv.value.length < 3) { mostrarErro(cartaoCvv, 'Incompleto.'); temErro = true; }
             }
 
+            // ==========================================
+            // CORREÇÃO: VALIDAÇÃO DA SENHA ANTES DE TRAVAR
+            // ==========================================
+            const inputSenhaOpcional = document.getElementById('senha-opcional');
+            const senhaOpcional = inputSenhaOpcional ? inputSenhaOpcional.value.trim() : '';
+
+            if (!usuarioAtual && senhaOpcional.length > 0) {
+                if (senhaOpcional.length < 8) {
+                    mostrarErro(inputSenhaOpcional, 'A senha deve ter no mínimo 8 caracteres.');
+                    temErro = true;
+                } else {
+                    limparErro(inputSenhaOpcional);
+                }
+            } else if (inputSenhaOpcional) {
+                limparErro(inputSenhaOpcional);
+            }
+
+            // Trava de segurança: Se houver qualquer erro na tela, não avança.
             if (temErro || document.querySelectorAll('.error-text').length > 0) {
-                alert("Existem campos incorretos. Verifique o formulário.");
                 return;
             }
             
@@ -1211,17 +1236,9 @@
             btnSalvar.textContent = "PROCESSANDO..."; btnSalvar.disabled = true;
 
             let finalUserId = usuarioAtual ? usuarioAtual.uid : 'visitante';
-            const senhaOpcional = document.getElementById('senha-opcional') ? document.getElementById('senha-opcional').value.trim() : '';
 
             // LÓGICA DE CADASTRO INVISÍVEL
-            if (!usuarioAtual && senhaOpcional.length > 0) {
-                if (senhaOpcional.length < 8) {
-                    mostrarErro(document.getElementById('senha-opcional'), 'A senha deve ter no mínimo 8 caracteres.');
-                    alert("A senha opcional deve ter no mínimo 8 caracteres.");
-                    btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
-                    return;
-                }
-                
+            if (!usuarioAtual && senhaOpcional.length >= 8) {
                 try {
                     const userCred = await createUserWithEmailAndPassword(auth, emailDigitado, senhaOpcional);
                     const newUser = userCred.user;
@@ -1246,9 +1263,9 @@
                 } catch (error) {
                     console.error("Erro ao criar conta invisível:", error);
                     if (error.code === 'auth/email-already-in-use') {
-                        alert("Este e-mail já possui uma conta. Por favor, faça login pelo menu ou finalize a compra deixando o campo da senha em branco.");
+                        await alert("Este e-mail já possui uma conta. Por favor, faça login pelo menu ou finalize a compra deixando o campo da senha em branco.", "Aviso");
                     } else {
-                        alert("Erro ao criar a sua conta. Tente finalizar sem digitar a senha.");
+                        await alert("Erro ao criar a sua conta. Tente finalizar sem digitar a senha.", "Erro");
                     }
                     btnSalvar.textContent = "Confirmar e Pagar"; btnSalvar.disabled = false;
                     return;
@@ -1298,7 +1315,7 @@
 
             if (metodoSelecionado === 'pix') window.location.href = "pagamento-pix.html";
             else {
-                alert(`✅ Pedido Registado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`);
+                await alert(`Pedido Registrado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`, "Sucesso");
                 window.location.href = "meus-pedidos.html"; 
             }
         });
