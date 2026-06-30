@@ -33,6 +33,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* BARRA DE ROLAGEM CUSTOMIZADA DARK MODE (Para os Modais) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000000; border-radius: 4px;}
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+
         /* =========================================================
            CABEÇALHO ADMINISTRATIVO (ALTURA 100px)
            ========================================================= */
@@ -57,7 +63,6 @@
             align-items: center !important;
         }
 
-        /* BOTÃO VOLTAR */
         #admin-header .back-arrow { 
             border: none !important; padding: 0 !important; margin: 0 !important; background: transparent !important;
             color: var(--text-secondary) !important; text-decoration: none !important; display: flex !important; 
@@ -152,7 +157,7 @@
         .card-caixa.card-rolo h3 { color: #fff; }
 
         .card-caixa p { margin: 6px 0; color: var(--text-secondary); font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center;}
-        .card-caixa strong { color: #fff; font-weight: 600; }
+        .card-caixa strong { color: #fff; font-weight: 600; text-align: right; }
         
         .badge-alerta { 
             background: rgba(255, 59, 48, 0.1); color: var(--apple-red); padding: 4px 10px; border-radius: 8px; 
@@ -174,24 +179,40 @@
         .rolo-controls { 
             display: flex; align-items: center; background-color: #111; 
             border-radius: 20px; width: max-content; border: 1px solid #333; overflow: hidden;
-            padding: 4px; gap: 4px;
+            padding: 2px 4px; gap: 4px;
         }
         .btn-rolo-calc { 
-            background: rgba(255,255,255,0.05); border: none; color: #fff; font-size: 1.2rem; 
+            background: transparent; border: none; color: #fff; font-size: 1.2rem; 
             width: 32px; height: 32px; cursor: pointer; transition: background 0.2s; 
             display: flex; align-items: center; justify-content: center; border-radius: 50%;
         }
-        .btn-rolo-calc:hover { background-color: rgba(255,255,255,0.15); }
+        .btn-rolo-calc:hover { background-color: rgba(255,255,255,0.1); }
         .rolo-val-input { 
-            width: 50px; text-align: center; background: none; border: none; 
+            width: 45px; text-align: center; background: none; border: none; 
             color: #fff; font-size: 0.95rem; font-weight: 700; padding: 0; 
             -moz-appearance: textfield; outline: none;
         }
-        /* Remove o spinner cinza irritante dos inputs number em todos os navegadores */
         .rolo-val-input::-webkit-outer-spin-button, 
         .rolo-val-input::-webkit-inner-spin-button { 
             -webkit-appearance: none; margin: 0; display: none;
         }
+
+        /* NOVO: CARD HORIZONTAL PARA ADICIONAR ROLOS NO TOPO */
+        .card-adicionar-sleek {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            cursor: pointer; padding: 15px; border-radius: 16px;
+            grid-column: 1 / -1; 
+            transition: all 0.2s ease;
+        }
+        .card-adicionar-sleek:hover { 
+            background: rgba(255, 255, 255, 0.05); 
+            border-color: var(--accent); 
+            color: var(--accent); 
+        }
+        .card-adicionar-sleek svg { width: 20px; height: 20px; color: inherit; }
+        .card-adicionar-sleek span { font-size: 1rem; font-weight: 600; color: inherit; }
 
         /* CARD DE ADICIONAR (CAIXA) */
         .card-adicionar {
@@ -206,23 +227,6 @@
         .card-adicionar svg { width: 48px; height: 48px; color: var(--accent); margin-bottom: 15px; transition: transform 0.3s ease; }
         .card-adicionar:hover svg { transform: scale(1.1); }
         .card-adicionar span { font-size: 1.2rem; font-weight: 600; color: #fff; }
-
-        /* NOVO: CARD HORIZONTAL PARA ADICIONAR ROLOS NO TOPO */
-        .card-adicionar-sleek {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            cursor: pointer; padding: 15px; border-radius: 16px;
-            grid-column: 1 / -1; /* Ocupa a linha toda no topo do grid */
-            transition: all 0.2s ease;
-        }
-        .card-adicionar-sleek:hover { 
-            background: rgba(255, 255, 255, 0.05); 
-            border-color: var(--accent); 
-            color: var(--accent); 
-        }
-        .card-adicionar-sleek svg { width: 20px; height: 20px; color: inherit; }
-        .card-adicionar-sleek span { font-size: 1rem; font-weight: 600; color: inherit; }
 
         /* =========================================================
            ESTILOS GERAIS DE FORMULÁRIO (USADO NOS MODAIS)
@@ -317,6 +321,7 @@
         </div>
     </main>
 
+    <!-- MODAL GESTÃO DE ROLOS DE PLÁSTICO BOLHA -->
     <div class="modal-overlay" id="modal-gerir-rolos">
         <div class="modal-content">
             <div class="modal-header">
@@ -328,11 +333,13 @@
             </div>
             <div class="modal-body" style="background: #000;">
                 <div class="grid-caixas" id="lista-rolos-modal" style="margin-bottom: 0;">
-                    </div>
+                    <!-- Preenchido via JS -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL CADASTRAR NOVO ROLO -->
     <div class="modal-overlay" id="modal-adicionar-rolo">
         <div class="modal-content" style="max-width: 500px;">
             <div class="modal-header">
@@ -357,6 +364,7 @@
         </div>
     </div>
 
+    <!-- MODAL EDITAR CAIXA -->
     <div class="modal-overlay" id="modal-editar">
         <div class="modal-content">
             <div class="modal-header">
@@ -392,6 +400,7 @@
         </div>
     </div>
 
+    <!-- MODAL ADICIONAR CAIXA -->
     <div class="modal-overlay" id="modal-adicionar">
         <div class="modal-content">
             <div class="modal-header">
@@ -546,6 +555,7 @@
         // GESTÃO DE PLÁSTICO BOLHA
         // =====================================================================
         let rolosDeBolha = [];
+        let roloTimeout = null; // Variável para controlar a atualização e evitar oscilação
 
         async function carregarPlasticoBolha() {
             const alertContainer = document.getElementById('bubble-wrap-alert-container');
@@ -638,21 +648,21 @@
                         <div class="card-caixa card-rolo">
                             <h3 style="display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; margin-bottom: 15px;">
                                 Rolo
-                                <button class="btn-excluir" onclick="excluirRolo('${rolo.id}')" style="padding: 6px 12px; font-size: 0.8rem; background: rgba(255,69,58,0.1); color: var(--apple-red); border-radius: 8px; font-weight: 600;">Excluir</button>
+                                <button class="btn-excluir" onclick="excluirRolo('${rolo.id}')" style="padding: 6px 12px; font-size: 0.85rem; background: rgba(255,69,58,0.1); color: var(--apple-red); border-radius: 8px; font-weight: 600;">Excluir</button>
                             </h3>
-                            <p style="margin: 4px 0;"><span>Largura Fixa:</span> <strong>${rolo.largura} cm</strong></p>
-                            <p style="margin: 4px 0;"><span>Comp. Original:</span> <strong>${rolo.comprimentoInicial} m</strong></p>
+                            <p style="margin: 4px 0;"><span>Largura Fixa:</span> <strong style="text-align: right;">${rolo.largura} cm</strong></p>
+                            <p style="margin: 4px 0;"><span>Comp. Original:</span> <strong style="text-align: right;">${rolo.comprimentoInicial} m</strong></p>
                             
                             <div style="margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
                                 <div style="display: flex; flex-direction: column; gap: 4px;">
                                     <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Restante</span>
-                                    <span style="color: ${corRolo}; font-weight: 800; font-size: 1.1rem;">${Number(rolo.comprimentoAtual).toFixed(1)} m</span>
+                                    <span id="label-restante-${rolo.id}" style="color: ${corRolo}; font-weight: 800; font-size: 1.1rem; transition: color 0.3s;">${Number(rolo.comprimentoAtual).toFixed(1)} m</span>
                                 </div>
                                 
                                 <div class="rolo-controls">
-                                    <button class="btn-rolo-calc" onclick="alterarRolo('${rolo.id}', -0.5)">-</button>
+                                    <button class="btn-rolo-calc" onclick="alterarRoloVisivo('${rolo.id}', -0.5)">-</button>
                                     <input type="number" class="rolo-val-input" id="rolo-input-${rolo.id}" value="${Number(rolo.comprimentoAtual).toFixed(1)}" step="0.1" onchange="salvarRoloManual('${rolo.id}')">
-                                    <button class="btn-rolo-calc" onclick="alterarRolo('${rolo.id}', 0.5)">+</button>
+                                    <button class="btn-rolo-calc" onclick="alterarRoloVisivo('${rolo.id}', 0.5)">+</button>
                                 </div>
                             </div>
                         </div>
@@ -699,22 +709,39 @@
                 }
                 document.getElementById('form-novo-rolo').reset();
                 fecharModalNovoRolo();
-                carregarPlasticoBolha();
+                await carregarPlasticoBolha();
             } catch(e) { console.error("Erro", e); }
             finally { btn.textContent = "Adicionar ao Estoque"; btn.disabled = false; }
         });
 
-        window.alterarRolo = async function(id, variacao) {
+        // FUNÇÃO ATUALIZADA: Altera visualmente na hora e só grava no banco após a pessoa parar de clicar
+        window.alterarRoloVisivo = function(id, variacao) {
             const input = document.getElementById(`rolo-input-${id}`);
+            const label = document.getElementById(`label-restante-${id}`);
+            
             let valAtual = Number(input.value);
             let novoVal = Math.max(0, valAtual + variacao);
             
             input.value = novoVal.toFixed(1);
+            label.textContent = novoVal.toFixed(1) + " m";
             
-            try {
-                await updateDoc(doc(db, "plastico_bolha", id), { comprimentoAtual: novoVal });
-                carregarPlasticoBolha();
-            } catch (e) { console.error("Erro ao alterar", e); }
+            // Muda a cor da label imediatamente para dar feedback visual
+            const roloRef = rolosDeBolha.find(r => r.id === id);
+            if(roloRef) {
+                const pctg = (novoVal / roloRef.comprimentoInicial) * 100;
+                label.style.color = pctg < 20 ? 'var(--apple-red)' : (pctg < 50 ? 'var(--warning-yellow)' : 'var(--safe-green)');
+            }
+
+            // Cancela a gravação anterior se a pessoa clicar muito rápido
+            if (roloTimeout) clearTimeout(roloTimeout);
+            
+            // Aguarda 1 segundo após o último clique para enviar ao Firebase e recarregar a tela principal
+            roloTimeout = setTimeout(async () => {
+                try {
+                    await updateDoc(doc(db, "plastico_bolha", id), { comprimentoAtual: novoVal });
+                    await carregarPlasticoBolha();
+                } catch (e) { console.error("Erro ao alterar banco", e); }
+            }, 800);
         }
 
         window.salvarRoloManual = async function(id) {
@@ -723,14 +750,14 @@
             
             try {
                 await updateDoc(doc(db, "plastico_bolha", id), { comprimentoAtual: novoVal });
-                carregarPlasticoBolha(); 
+                await carregarPlasticoBolha(); 
             } catch (e) { console.error("Erro ao alterar", e); }
         }
 
         window.excluirRolo = async function(id) {
             if(await guardConfirm("Deseja remover este rolo do estoque permanentemente?", "Remover Rolo")) {
                 await deleteDoc(doc(db, "plastico_bolha", id));
-                carregarPlasticoBolha();
+                await carregarPlasticoBolha();
             }
         }
 
