@@ -5451,5 +5451,10 @@ display: flex;
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
+    .shop-product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .shop-card {
+        width: 220px;
+    }
 }
