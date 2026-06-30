@@ -460,11 +460,11 @@
             `;
             
             if (querySnapshot.empty) {
-                lista.innerHTML = cardAdicionarHTML + '<p style="color: var(--text-secondary); width: 100%; text-align: center; padding: 40px 0; grid-column: 1 / -1;">Nenhuma caixa cadastrada no momento.</p>'; 
+                lista.innerHTML = '<p style="color: var(--text-secondary); width: 100%; text-align: center; padding: 40px 0; grid-column: 1 / -1;">Nenhuma caixa cadastrada no momento.</p>' + cardAdicionarHTML; 
                 return;
             }
 
-            let htmlRender = cardAdicionarHTML;
+            let htmlRender = '';
 
             querySnapshot.forEach((doc) => {
                 const cx = doc.data();
@@ -485,6 +485,7 @@
                 `;
             });
             
+            htmlRender += cardAdicionarHTML;
             lista.innerHTML = htmlRender;
         }
 
@@ -519,7 +520,9 @@
             btn.textContent = "Salvando..."; btn.disabled = true;
 
             const id = document.getElementById('edit-id').value;
-            await updateDoc(doc(db, "caixas", id), {
+            const refDoc = doc(db, "caixas", id);
+
+            await updateDoc(refDoc, {
                 nome: document.getElementById('edit-nome').value,
                 altura: Number(document.getElementById('edit-alt').value),
                 largura: Number(document.getElementById('edit-larg').value),
@@ -529,7 +532,8 @@
             });
 
             btn.textContent = "Salvar Alterações"; btn.disabled = false;
-            fecharModalEdicao(); carregarCaixas();
+            fecharModalEdicao();
+            carregarCaixas();
         });
 
         document.getElementById('form-caixa').addEventListener('submit', async (e) => {
@@ -549,13 +553,16 @@
             document.getElementById('form-caixa').reset();
             btn.textContent = "Feito"; btn.disabled = false;
             fecharModalAdicionar(); carregarCaixas();
+            
+            // Rola suavemente para ver o grid atualizado
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // =====================================================================
         // GESTÃO DE PLÁSTICO BOLHA
         // =====================================================================
         let rolosDeBolha = [];
-        let roloTimeout = null; // Variável para controlar a atualização e evitar oscilação
+        let roloTimeout = null; 
 
         async function carregarPlasticoBolha() {
             const alertContainer = document.getElementById('bubble-wrap-alert-container');
@@ -638,7 +645,7 @@
                     </div>
                 `;
 
-                let htmlRolos = cardAdicionarRoloHTML;
+                let htmlRolos = '';
                 
                 rolosDeBolha.forEach((rolo) => {
                     const pctg = (rolo.comprimentoAtual / rolo.comprimentoInicial) * 100;
@@ -669,6 +676,7 @@
                     `;
                 });
                 
+                htmlRolos += cardAdicionarRoloHTML;
                 listaModal.innerHTML = htmlRolos;
 
             } catch (error) {
@@ -714,7 +722,6 @@
             finally { btn.textContent = "Adicionar ao Estoque"; btn.disabled = false; }
         });
 
-        // FUNÇÃO ATUALIZADA: Altera visualmente na hora e só grava no banco após a pessoa parar de clicar
         window.alterarRoloVisivo = function(id, variacao) {
             const input = document.getElementById(`rolo-input-${id}`);
             const label = document.getElementById(`label-restante-${id}`);
@@ -725,17 +732,14 @@
             input.value = novoVal.toFixed(1);
             label.textContent = novoVal.toFixed(1) + " m";
             
-            // Muda a cor da label imediatamente para dar feedback visual
             const roloRef = rolosDeBolha.find(r => r.id === id);
             if(roloRef) {
                 const pctg = (novoVal / roloRef.comprimentoInicial) * 100;
                 label.style.color = pctg < 20 ? 'var(--apple-red)' : (pctg < 50 ? 'var(--warning-yellow)' : 'var(--safe-green)');
             }
 
-            // Cancela a gravação anterior se a pessoa clicar muito rápido
             if (roloTimeout) clearTimeout(roloTimeout);
             
-            // Aguarda 1 segundo após o último clique para enviar ao Firebase e recarregar a tela principal
             roloTimeout = setTimeout(async () => {
                 try {
                     await updateDoc(doc(db, "plastico_bolha", id), { comprimentoAtual: novoVal });
