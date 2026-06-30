@@ -5192,7 +5192,7 @@ display: flex;
 
     .shop-card {
         width: 100%;
-        max-width: 100% !important;
+        max-width: 220px !important;
         min-width: 0 !important;
         height: 100% !important; 
         display: flex;
