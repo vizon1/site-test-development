@@ -5449,3 +5449,7 @@ display: flex;
 .btn-voltar-loja:hover svg {
     transform: translateX(-4px); /* Animação elegante puxando a seta para trás */
 }
+
+@media (min-width: 768px) and (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+}
