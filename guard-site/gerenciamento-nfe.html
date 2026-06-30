@@ -80,7 +80,7 @@
             width: 100%; box-sizing: border-box; overflow-x: auto;
         }
 
-        .admin-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        .admin-table { width: 100%; border-collapse: collapse; min-width: 850px; }
         .admin-table th {
             text-align: left; padding: 15px 10px; color: var(--text-secondary); 
             font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
@@ -116,7 +116,7 @@
         .btn-view:hover { background: rgba(255,255,255,0.1); }
 
         /* =========================================================
-           MODAL DE UPLOAD DE ARQUIVO (DESIGN APPLE)
+           MODAIS (DESIGN APPLE)
            ========================================================= */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.75);
@@ -129,16 +129,19 @@
             background-color: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
             width: 95%; max-width: 500px; display: flex; flex-direction: column;
             transform: translateY(20px) scale(0.98); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); overflow: hidden; max-height: 90vh;
         }
         .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
 
+        /* Tamanho específico para o modal de detalhes */
+        #modal-detalhes .modal-content { max-width: 700px; }
+
         .modal-header { padding: 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
         .modal-header h3 { margin: 0; color: #fff; font-size: 1.25rem; font-weight: 700;}
-        .modal-close { background: #222; border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close { background: #222; border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
         .modal-close:hover { color: #fff; background: #333; }
 
-        .modal-body { padding: 30px; text-align: center; }
+        .modal-body { padding: 30px; text-align: center; overflow-y: auto;}
         
         /* Área de Drag & Drop Fake / Input de Ficheiro */
         .file-upload-area {
@@ -155,7 +158,7 @@
             border-color: var(--accent); background: rgba(255, 255, 0, 0.05);
         }
         .file-upload-area svg { width: 48px; height: 48px; color: var(--accent); }
-        .file-upload-area input[type="file"] { display: none; } /* Oculta o input feio do navegador */
+        .file-upload-area input[type="file"] { display: none; }
         .file-name-display { font-size: 0.9rem; color: #d2d2d7; font-weight: 600; word-break: break-all;}
 
         .modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; gap: 15px;}
@@ -166,7 +169,21 @@
         .btn-salvar-modal:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
         /* =========================================================
-           RESPONSIVIDADE DA TABELA (MOBILE)
+           ESTILOS DOS DETALHES DO PEDIDO (GRID DE INFORMAÇÕES)
+           ========================================================= */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .info-block { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 16px; }
+        .info-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; display: block; letter-spacing: 0.5px;}
+        .info-value { font-size: 1rem; color: #fff; font-weight: 500; margin: 0 0 15px 0; word-break: break-word; line-height: 1.4; }
+        .info-value:last-child { margin-bottom: 0; }
+        
+        .items-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;}
+        .item-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; color: #d2d2d7; gap: 15px;}
+        .item-row strong { color: #fff; }
+        .item-row .item-qtd { color: var(--text-secondary); font-size: 0.85rem;}
+
+        /* =========================================================
+           RESPONSIVIDADE DA TABELA E MODAIS (MOBILE)
            ========================================================= */
         @media (max-width: 768px) {
             .page-header { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 15px; }
@@ -177,6 +194,8 @@
             .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
             .modal-footer { flex-direction: column; }
             .btn-cancelar, .btn-salvar-modal { width: 100%; text-align: center; padding: 16px;}
+            
+            .info-grid { grid-template-columns: 1fr; gap: 15px;}
 
             /* Conversão da tabela para blocos empilhados */
             .admin-table thead { display: none !important; }
@@ -188,7 +207,7 @@
                 padding: 14px 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important;
                 text-align: right !important; gap: 20px !important; position: static !important;
             }
-            .admin-table td:last-child { border-bottom: none !important; justify-content: center !important; }
+            .admin-table td:last-child { border-bottom: none !important; justify-content: center !important; flex-wrap: wrap;}
         
             .admin-table td::before {
                 content: attr(data-label) !important; position: static !important; font-weight: 600 !important;
@@ -197,9 +216,9 @@
             }
 
             .admin-table td[data-label="Cliente"] .client-name { text-align: right; word-break: break-word; font-size: 0.95rem;}
-            .admin-table td[data-label="Ações"] { justify-content: center !important; padding-top: 15px !important; }
+            .admin-table td[data-label="Ações"] { justify-content: center !important; padding-top: 15px !important; gap: 8px !important;}
             .admin-table td[data-label="Ações"]::before { display: none !important; }
-            .btn-action { width: 100%; text-align: center; }
+            .btn-action { flex: 1; text-align: center; padding: 10px; font-size: 0.8rem;}
         }
 
         /* Animação de Loading */
@@ -245,6 +264,7 @@
         </div>
     </main>
 
+    <!-- MODAL DE UPLOAD DE NF-E -->
     <div id="modal-upload" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -278,12 +298,71 @@
         </div>
     </div>
 
+    <!-- MODAL DETALHES DO PEDIDO (PARA GERAR NF-E) -->
+    <div id="modal-detalhes" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Informações para NF-e</h3>
+                <button class="modal-close" onclick="fecharModalDetalhes()">&times;</button>
+            </div>
+            
+            <div class="modal-body" style="text-align: left; padding: 25px;">
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span class="info-label">Dados do Cliente</span>
+                        <p class="info-value" id="det-nome">-</p>
+                        <span class="info-label">CPF / CNPJ</span>
+                        <p class="info-value" id="det-cpf">-</p>
+                        <span class="info-label">Telefone</span>
+                        <p class="info-value" id="det-telefone">-</p>
+                        <span class="info-label">E-mail</span>
+                        <p class="info-value" id="det-email">-</p>
+                    </div>
+                    
+                    <div class="info-block">
+                        <span class="info-label">Endereço de Entrega</span>
+                        <p class="info-value" id="det-endereco">-</p>
+                        <span class="info-label">Bairro</span>
+                        <p class="info-value" id="det-bairro">-</p>
+                        <span class="info-label">Cidade / UF</span>
+                        <p class="info-value" id="det-cidade-uf">-</p>
+                        <span class="info-label">CEP</span>
+                        <p class="info-value" id="det-cep">-</p>
+                    </div>
+                </div>
+
+                <div class="info-block" style="margin-bottom: 20px;">
+                    <span class="info-label">Resumo Financeiro</span>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa;">Subtotal dos Produtos:</span>
+                        <strong style="color: #fff;" id="det-subtotal">R$ 0,00</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa;">Valor do Frete:</span>
+                        <strong style="color: #fff;" id="det-frete">R$ 0,00</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-top: 15px; margin-top: 10px; border-top: 1px dashed #444;">
+                        <span style="color: #fff; font-weight: bold;">Total Pago:</span>
+                        <strong style="color: var(--accent); font-size: 1.2rem;" id="det-total">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <div class="info-block" style="margin-bottom: 0;">
+                    <span class="info-label">Itens Comprados</span>
+                    <ul class="items-list" id="det-itens">
+                        <!-- Injetado via JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Alertas Padrão Apple -->
     <script src="apple-alerts.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        // IMPORTAÇÃO NOVA DO STORAGE (Essencial para uploads de ficheiros)
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -297,7 +376,7 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app); // Inicializa a base de ficheiros
+        const storage = getStorage(app);
 
         let pedidosGlobal = [];
 
@@ -312,7 +391,6 @@
             pedidosGlobal = [];
             
             try {
-                // Ordena do pedido mais novo para o mais antigo
                 const q = query(collection(db, "pedidos"), orderBy("dataCriacao", "desc"));
                 const querySnapshot = await getDocs(q);
                 let html = '';
@@ -324,16 +402,18 @@
                     const idCurto = pedido.id.substring(0, 8).toUpperCase();
                     const temNfe = pedido.nfeUrl && pedido.nfeUrl !== "";
                     
-                    // Renderiza a Label
                     const badgeNfe = temNfe 
                         ? '<span class="badge-nfe badge-anexada">Anexada</span>' 
                         : '<span class="badge-nfe badge-pendente">Pendente</span>';
 
-                    // Renderiza o Botão (Se tem NFe, mostra botão de ver, se não, botão de anexar)
+                    // NOVO: Adicionado botão INFO ao lado do botão de anexar/ver nota
+                    const botaoInfo = `<button class="btn-action btn-view" onclick="abrirModalDetalhes('${pedido.id}')" style="margin-right:8px;">Info</button>`;
+
                     const botaoAcao = temNfe
-                        ? `<button class="btn-action btn-view" onclick="window.open('${pedido.nfeUrl}', '_blank')">Ver Nota</button>
+                        ? `${botaoInfo}
+                           <button class="btn-action btn-view" onclick="window.open('${pedido.nfeUrl}', '_blank')">Ver Nota</button>
                            <button class="btn-action btn-upload" onclick="abrirModalUpload('${pedido.id}')" style="margin-left:8px; padding:8px 12px; font-size: 0.75rem;">Substituir</button>`
-                        : `<button class="btn-action btn-upload" onclick="abrirModalUpload('${pedido.id}')">Anexar NF-e</button>`;
+                        : `${botaoInfo}<button class="btn-action btn-upload" onclick="abrirModalUpload('${pedido.id}')">Anexar NF-e</button>`;
 
                     html += `
                         <tr>
@@ -346,7 +426,7 @@
                             </td>
                             <td data-label="Valor">R$ ${pedido.total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                             <td data-label="Status NF-e">${badgeNfe}</td>
-                            <td data-label="Ações" style="text-align: right; min-width: 150px;">
+                            <td data-label="Ações" style="text-align: right; min-width: 220px;">
                                 ${botaoAcao}
                             </td>
                         </tr>
@@ -361,6 +441,63 @@
                 tbody.innerHTML = '<tr><td colspan="5" style="color: var(--apple-red); text-align: center; padding: 40px;">Erro ao ligar ao banco de dados.</td></tr>';
             }
         }
+
+        // ==========================================
+        // LÓGICA DO MODAL DE DETALHES (INFORMAÇÕES)
+        // ==========================================
+        const modalDetalhes = document.getElementById('modal-detalhes');
+
+        window.abrirModalDetalhes = function(idPedido) {
+            const pedido = pedidosGlobal.find(p => p.id === idPedido);
+            if(!pedido) return;
+
+            // Preenche Dados do Cliente
+            document.getElementById('det-nome').textContent = pedido.clienteNome || "-";
+            document.getElementById('det-cpf').textContent = pedido.clienteCpf || "-";
+            document.getElementById('det-telefone').textContent = pedido.clienteTelefone || "-";
+            document.getElementById('det-email').textContent = pedido.clienteEmail || "-";
+
+            // Preenche Endereço
+            const end = pedido.enderecoEntrega || {};
+            document.getElementById('det-endereco').textContent = end.rua ? `${end.rua}, ${end.numero}` : "-";
+            document.getElementById('det-bairro').textContent = end.bairro || "-";
+            document.getElementById('det-cidade-uf').textContent = end.cidade ? `${end.cidade} / ${end.estado}` : "-";
+            document.getElementById('det-cep').textContent = end.cep || "-";
+
+            // Preenche Valores
+            document.getElementById('det-subtotal').textContent = `R$ ${Number(pedido.subtotal).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('det-frete').textContent = `R$ ${Number(pedido.frete).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('det-total').textContent = `R$ ${Number(pedido.total).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+
+            // Preenche Itens
+            const ulItens = document.getElementById('det-itens');
+            ulItens.innerHTML = '';
+            if(pedido.itens && pedido.itens.length > 0) {
+                pedido.itens.forEach(item => {
+                    const precoNumerico = parseFloat(String(item.preco).replace(/\./g, '').replace(',', '.'));
+                    const totalItem = precoNumerico * item.quantidade;
+                    ulItens.innerHTML += `
+                        <li class="item-row">
+                            <span><span class="item-qtd">${item.quantidade}x</span> ${item.titulo}</span>
+                            <strong>R$ ${totalItem.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong>
+                        </li>
+                    `;
+                });
+            } else {
+                ulItens.innerHTML = '<li class="item-row" style="color: #888;">Nenhum item registrado.</li>';
+            }
+
+            modalDetalhes.classList.add('active');
+        };
+
+        window.fecharModalDetalhes = function() {
+            modalDetalhes.classList.remove('active');
+        };
+
+        modalDetalhes.addEventListener('click', (e) => {
+            if (e.target === modalDetalhes) fecharModalDetalhes();
+        });
+
 
         // ==========================================
         // LÓGICA DO MODAL DE UPLOAD
@@ -424,17 +561,10 @@
             btnUpload.innerHTML = '<span class="spinner"></span> A enviar...';
 
             try {
-                // 1. Cria uma referência ("pasta") no Firebase Storage
-                // Os arquivos ficarão salvos em: notas_fiscais/ID_DO_PEDIDO.pdf
                 const storageRef = ref(storage, `notas_fiscais/${pedidoId}.pdf`);
-
-                // 2. Faz o upload físico do PDF
                 await uploadBytes(storageRef, file);
-
-                // 3. Pega a URL pública (segura) gerada pelo Firebase
                 const downloadURL = await getDownloadURL(storageRef);
 
-                // 4. Salva a URL dentro do documento do Pedido no Firestore
                 const pedidoDocRef = doc(db, "pedidos", pedidoId);
                 await updateDoc(pedidoDocRef, {
                     nfeUrl: downloadURL
@@ -442,7 +572,7 @@
 
                 await guardAlert("A Nota Fiscal foi anexada com sucesso. O cliente já pode baixar!", "Sucesso");
                 fecharModal();
-                carregarPedidos(); // Recarrega a tabela para mostrar a badge verde
+                carregarPedidos(); 
 
             } catch (error) {
                 console.error("Erro no upload:", error);
