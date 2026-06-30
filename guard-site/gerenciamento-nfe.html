@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Gerenciar NF-e - Admin Guard</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* =========================================================
+           VARIÁVEIS APPLE E RESET
+           ========================================================= */
+        :root {
+            --bg-color: #000000;
+            --surface-color: rgba(28, 28, 30, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --apple-red: #ff453a;
+            --accent: #FFFF00;
+            --safe-green: #32d74b;
+        }
+
+        html, body {
+            overflow-x: hidden; width: 100%; margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-primary);
+            font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-image: radial-gradient(circle at 50% 0%, rgba(255,255,0,0.02) 0%, transparent 60%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* =========================================================
+           CABEÇALHO ADMINISTRATIVO BLINDADO
+           ========================================================= */
+        header {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000;
+        }
+        .header-content {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .back-arrow { 
+            color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; 
+            font-weight: 500; font-size: 1rem; transition: color 0.2s ease; gap: 4px;
+        }
+        .back-arrow:hover { color: #ffffff; }
+        .admin-title {
+            color: var(--apple-red); font-weight: 700; font-size: 1.1rem; 
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .store-link {
+            background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            transition: all 0.2s ease; display: flex; align-items: center; gap: 6px;
+        }
+        .store-link:hover { background: rgba(255, 255, 255, 0.2); }
+
+        /* =========================================================
+           LAYOUT PRINCIPAL E TABELA
+           ========================================================= */
+        .panel-container {
+            display: block; max-width: 1200px; margin: 40px auto 80px; padding: 0 24px; 
+            width: 100%; box-sizing: border-box;
+        }
+        
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%;
+        }
+        .page-header h1 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.5px;}
+
+        .table-wrapper {
+            background: var(--surface-color); border: 1px solid var(--border-color);
+            border-radius: 24px; padding: 20px 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            width: 100%; box-sizing: border-box; overflow-x: auto;
+        }
+
+        .admin-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        .admin-table th {
+            text-align: left; padding: 15px 10px; color: var(--text-secondary); 
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .admin-table td {
+            padding: 18px 10px; vertical-align: middle; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.95rem; color: #fff; font-weight: 500;
+        }
+        .admin-table tbody tr:hover { background-color: rgba(255,255,255,0.02); }
+        .admin-table tbody tr:last-child td { border-bottom: none; }
+
+        /* Estilo da Célula Cliente/Pedido */
+        .client-name { font-weight: 700; font-size: 1.05rem; display: block; margin-bottom: 4px; }
+        .order-id { color: var(--text-secondary); font-size: 0.8rem; font-family: monospace; }
+        .order-date { color: #aaa; font-size: 0.85rem; }
+
+        /* Badges de Status NF-e */
+        .badge-nfe {
+            padding: 6px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .badge-pendente { background: rgba(255, 69, 58, 0.1); color: var(--apple-red); border: 1px solid rgba(255, 69, 58, 0.3); }
+        .badge-anexada { background: rgba(50, 215, 75, 0.1); color: var(--safe-green); border: 1px solid rgba(50, 215, 75, 0.3); }
+
+        .btn-action {
+            background: none; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; 
+            font-weight: 700; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent; text-transform: uppercase;
+        }
+        .btn-upload { background: var(--accent); color: #000; box-shadow: 0 4px 10px rgba(255,255,0,0.1); }
+        .btn-upload:hover { background: #e6e600; transform: translateY(-2px); }
+        
+        .btn-view { background: rgba(255,255,255,0.05); color: #fff; border-color: rgba(255,255,255,0.1); }
+        .btn-view:hover { background: rgba(255,255,255,0.1); }
+
+        /* =========================================================
+           MODAL DE UPLOAD DE ARQUIVO (DESIGN APPLE)
+           ========================================================= */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 2000;
+            display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-content {
+            background-color: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+            width: 95%; max-width: 500px; display: flex; flex-direction: column;
+            transform: translateY(20px) scale(0.98); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); overflow: hidden;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+
+        .modal-header { padding: 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; color: #fff; font-size: 1.25rem; font-weight: 700;}
+        .modal-close { background: #222; border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close:hover { color: #fff; background: #333; }
+
+        .modal-body { padding: 30px; text-align: center; }
+        
+        /* Área de Drag & Drop Fake / Input de Ficheiro */
+        .file-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+        }
+        .file-upload-area:hover, .file-upload-area.has-file {
+            border-color: var(--accent); background: rgba(255, 255, 0, 0.05);
+        }
+        .file-upload-area svg { width: 48px; height: 48px; color: var(--accent); }
+        .file-upload-area input[type="file"] { display: none; } /* Oculta o input feio do navegador */
+        .file-name-display { font-size: 0.9rem; color: #d2d2d7; font-weight: 600; word-break: break-all;}
+
+        .modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; gap: 15px;}
+        .btn-cancelar { background: transparent; color: #86868b; border: 1px solid #424245; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-cancelar:hover { color: #fff; border-color: #666; background: rgba(255,255,255,0.05);}
+        .btn-salvar-modal { background-color: var(--accent); color: #000; border: none; padding: 12px 32px; border-radius: 10px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        .btn-salvar-modal:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 0, 0.2); background-color: #fff433; }
+        .btn-salvar-modal:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* =========================================================
+           RESPONSIVIDADE DA TABELA (MOBILE)
+           ========================================================= */
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 15px; }
+            .table-wrapper { padding: 15px; border-radius: 16px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+            .admin-title { font-size: 1rem; }
+            .header-content { padding: 0 15px; }
+            
+            .modal-content { width: 100%; max-width: none; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); max-height: 90vh; }
+            .modal-footer { flex-direction: column; }
+            .btn-cancelar, .btn-salvar-modal { width: 100%; text-align: center; padding: 16px;}
+
+            /* Conversão da tabela para blocos empilhados */
+            .admin-table thead { display: none !important; }
+            .admin-table, .admin-table tbody, .admin-table tr, .admin-table td { display: block !important; width: 100% !important; box-sizing: border-box !important; }
+            .admin-table tr { margin-bottom: 20px !important; background-color: var(--surface-color) !important; border: 1px solid var(--border-color) !important; border-radius: 16px !important; padding: 15px !important; }
+            
+            .admin-table td {
+                display: flex !important; justify-content: space-between !important; align-items: center !important;
+                padding: 14px 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+                text-align: right !important; gap: 20px !important; position: static !important;
+            }
+            .admin-table td:last-child { border-bottom: none !important; justify-content: center !important; }
+        
+            .admin-table td::before {
+                content: attr(data-label) !important; position: static !important; font-weight: 600 !important;
+                color: var(--text-secondary) !important; text-transform: uppercase !important; font-size: 0.8rem !important;
+                text-align: left !important; width: auto !important; flex-shrink: 0 !important; margin-top: 0 !important;
+            }
+
+            .admin-table td[data-label="Cliente"] .client-name { text-align: right; word-break: break-word; font-size: 0.95rem;}
+            .admin-table td[data-label="Ações"] { justify-content: center !important; padding-top: 15px !important; }
+            .admin-table td[data-label="Ações"]::before { display: none !important; }
+            .btn-action { width: 100%; text-align: center; }
+        }
+
+        /* Animação de Loading */
+        .spinner { width: 18px; height: 18px; border: 3px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 8px;}
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="admin.html" class="back-arrow" title="Voltar ao Painel">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Voltar</span>
+            </a>
+            <div class="admin-title">ADMINISTRAÇÃO</div>
+            <a href="store.html" class="store-link">
+                Ver Loja <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="panel-container">
+        <div class="page-header">
+            <h1>Gerenciamento de NF-e</h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Cliente / Pedido</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Status NF-e</th>
+                        <th style="text-align: right;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-pedidos">
+                    <tr><td colspan="5" style="text-align: center; color: var(--accent); padding: 40px;">Buscando pedidos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="modal-upload" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Anexar NF-e ao Pedido</h3>
+                <button class="modal-close" onclick="fecharModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <p style="color: #888; margin-top: 0; margin-bottom: 20px;">Pedido ID: <strong id="upload-pedido-id" style="color: #fff;">...</strong></p>
+                
+                <form id="form-upload-nfe">
+                    <input type="hidden" id="hidden-pedido-id">
+                    
+                    <label class="file-upload-area" id="dropzone">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <polyline points="9 15 12 12 15 15"></polyline>
+                        </svg>
+                        <span id="nfe-file-name" class="file-name-display">Clique aqui para buscar o ficheiro PDF</span>
+                        <input type="file" id="nfe-file" accept="application/pdf" required>
+                    </label>
+
+                    <div class="modal-footer" style="padding: 20px 0 0 0; border: none;">
+                        <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                        <button type="submit" class="btn-salvar-modal" id="btn-enviar-upload" disabled>Fazer Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="apple-alerts.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        // IMPORTAÇÃO NOVA DO STORAGE (Essencial para uploads de ficheiros)
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app); // Inicializa a base de ficheiros
+
+        let pedidosGlobal = [];
+
+        function formatarData(isoString) {
+            const data = new Date(isoString);
+            return data.toLocaleDateString('pt-BR') + ' às ' + data.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+        }
+
+        async function carregarPedidos() {
+            const tbody = document.getElementById('tabela-pedidos');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--accent); padding: 40px;">Buscando pedidos...</td></tr>';
+            pedidosGlobal = [];
+            
+            try {
+                // Ordena do pedido mais novo para o mais antigo
+                const q = query(collection(db, "pedidos"), orderBy("dataCriacao", "desc"));
+                const querySnapshot = await getDocs(q);
+                let html = '';
+                
+                querySnapshot.forEach((documento) => {
+                    const pedido = { id: documento.id, ...documento.data() };
+                    pedidosGlobal.push(pedido);
+                    
+                    const idCurto = pedido.id.substring(0, 8).toUpperCase();
+                    const temNfe = pedido.nfeUrl && pedido.nfeUrl !== "";
+                    
+                    // Renderiza a Label
+                    const badgeNfe = temNfe 
+                        ? '<span class="badge-nfe badge-anexada">Anexada</span>' 
+                        : '<span class="badge-nfe badge-pendente">Pendente</span>';
+
+                    // Renderiza o Botão (Se tem NFe, mostra botão de ver, se não, botão de anexar)
+                    const botaoAcao = temNfe
+                        ? `<button class="btn-action btn-view" onclick="window.open('${pedido.nfeUrl}', '_blank')">Ver Nota</button>
+                           <button class="btn-action btn-upload" onclick="abrirModalUpload('${pedido.id}')" style="margin-left:8px; padding:8px 12px; font-size: 0.75rem;">Substituir</button>`
+                        : `<button class="btn-action btn-upload" onclick="abrirModalUpload('${pedido.id}')">Anexar NF-e</button>`;
+
+                    html += `
+                        <tr>
+                            <td data-label="Cliente">
+                                <span class="client-name">${pedido.clienteNome}</span>
+                                <span class="order-id">#${idCurto}</span>
+                            </td>
+                            <td data-label="Data">
+                                <span class="order-date">${formatarData(pedido.dataCriacao)}</span>
+                            </td>
+                            <td data-label="Valor">R$ ${pedido.total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                            <td data-label="Status NF-e">${badgeNfe}</td>
+                            <td data-label="Ações" style="text-align: right; min-width: 150px;">
+                                ${botaoAcao}
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                if(html === '') html = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--text-secondary);">Nenhum pedido encontrado.</td></tr>';
+                tbody.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Erro ao carregar pedidos:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="color: var(--apple-red); text-align: center; padding: 40px;">Erro ao ligar ao banco de dados.</td></tr>';
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO MODAL DE UPLOAD
+        // ==========================================
+        const modalUpload = document.getElementById('modal-upload');
+        const fileInput = document.getElementById('nfe-file');
+        const fileNameDisplay = document.getElementById('nfe-file-name');
+        const dropzone = document.getElementById('dropzone');
+        const btnUpload = document.getElementById('btn-enviar-upload');
+
+        window.abrirModalUpload = function(idPedido) {
+            document.getElementById('hidden-pedido-id').value = idPedido;
+            document.getElementById('upload-pedido-id').textContent = "#" + idPedido.substring(0, 8).toUpperCase();
+            
+            // Reseta a interface do input
+            fileInput.value = "";
+            fileNameDisplay.textContent = "Clique aqui para buscar o ficheiro PDF";
+            dropzone.classList.remove('has-file');
+            btnUpload.disabled = true;
+
+            modalUpload.classList.add('active');
+        };
+
+        window.fecharModal = function() {
+            modalUpload.classList.remove('active');
+        };
+
+        // Fecha modal ao clicar no fundo escuro
+        modalUpload.addEventListener('click', (e) => {
+            if (e.target === modalUpload) fecharModal();
+        });
+
+        // Efeitos Visuais ao selecionar ficheiro
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                const file = this.files[0];
+                if (file.type !== "application/pdf") {
+                    guardAlert("Por favor, selecione apenas arquivos em formato PDF.", "Formato Inválido");
+                    this.value = "";
+                    return;
+                }
+                fileNameDisplay.textContent = file.name;
+                dropzone.classList.add('has-file');
+                btnUpload.disabled = false;
+            }
+        });
+
+        // ==========================================
+        // O UPLOAD MÁGICO PARA O FIREBASE STORAGE
+        // ==========================================
+        document.getElementById('form-upload-nfe').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const pedidoId = document.getElementById('hidden-pedido-id').value;
+            
+            // Muda o visual do botão para loading
+            btnUpload.disabled = true;
+            btnUpload.innerHTML = '<span class="spinner"></span> A enviar...';
+
+            try {
+                // 1. Cria uma referência ("pasta") no Firebase Storage
+                // Os arquivos ficarão salvos em: notas_fiscais/ID_DO_PEDIDO.pdf
+                const storageRef = ref(storage, `notas_fiscais/${pedidoId}.pdf`);
+
+                // 2. Faz o upload físico do PDF
+                await uploadBytes(storageRef, file);
+
+                // 3. Pega a URL pública (segura) gerada pelo Firebase
+                const downloadURL = await getDownloadURL(storageRef);
+
+                // 4. Salva a URL dentro do documento do Pedido no Firestore
+                const pedidoDocRef = doc(db, "pedidos", pedidoId);
+                await updateDoc(pedidoDocRef, {
+                    nfeUrl: downloadURL
+                });
+
+                await guardAlert("A Nota Fiscal foi anexada com sucesso. O cliente já pode baixar!", "Sucesso");
+                fecharModal();
+                carregarPedidos(); // Recarrega a tabela para mostrar a badge verde
+
+            } catch (error) {
+                console.error("Erro no upload:", error);
+                guardAlert("Ocorreu um erro ao enviar o arquivo. Verifique sua conexão.", "Erro no Upload");
+            } finally {
+                btnUpload.innerHTML = 'Fazer Upload';
+            }
+        });
+
+        // Inicia a tabela assim que abre a página
+        carregarPedidos();
+    </script>
+</body>
+</html>
