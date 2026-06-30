@@ -585,16 +585,47 @@
 
                 // --- 2. RENDERIZAR OS CARDS DENTRO DO MODAL DE GESTÃO ---
                 const cardAdicionarRoloHTML = `
-                    <div class="card-caixa card-adicionar" onclick="abrirModalNovoRolo()">
+                    <div class="card-adicionar-sleek" onclick="abrirModalNovoRolo()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        <span>Adicionar Rolos</span>
+                        <span>Adicionar Novos Rolos</span>
                     </div>
                 `;
 
                 let htmlRolos = cardAdicionarRoloHTML;
+
+                rolosDeBolha.forEach((rolo) => {
+                    const pctg = (rolo.comprimentoAtual / rolo.comprimentoInicial) * 100;
+                    const corRolo = pctg < 20 ? 'var(--apple-red)' : (pctg < 50 ? 'var(--warning-yellow)' : 'var(--safe-green)');
+
+                    htmlRolos += `
+                        <div class="card-caixa card-rolo">
+                            <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                                Rolo
+                                <button class="btn-excluir" onclick="excluirRolo('${rolo.id}')" style="padding: 4px 8px; border: none; background: transparent; font-size: 1.2rem;">&times;</button>
+                            </h3>
+                            <p><span>Largura Fixa:</span> <strong>${rolo.largura} cm</strong></p>
+                            <p><span>Comp. Original:</span> <strong>${rolo.comprimentoInicial} m</strong></p>
+                            
+                            <div style="margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Restante</span>
+                                    <span style="color: ${corRolo}; font-weight: 800; font-size: 1.1rem;">${Number(rolo.comprimentoAtual).toFixed(1)} m</span>
+                                </div>
+                                
+                                <div class="rolo-controls">
+                                    <button class="btn-rolo-calc" onclick="alterarRolo('${rolo.id}', -0.5)">-</button>
+                                    <input type="number" class="rolo-val-input" id="rolo-input-${rolo.id}" value="${Number(rolo.comprimentoAtual).toFixed(1)}" step="0.1" onchange="salvarRoloManual('${rolo.id}')">
+                                    <button class="btn-rolo-calc" onclick="alterarRolo('${rolo.id}', 0.5)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                listaModal.innerHTML = htmlRolos;
                 
                 rolosDeBolha.forEach((rolo) => {
                     const pctg = (rolo.comprimentoAtual / rolo.comprimentoInicial) * 100;
