@@ -129,11 +129,55 @@
         .step-text { color: #d2d2d7; font-size: 0.95rem; line-height: 1.5; }
         .step-text strong { color: #fff; }
 
-        /* Área de Cópia do Código */
-        .code-area { margin-bottom: 30px; }
+        /* =========================================================
+           ÁREA UNIFICADA DO QR CODE E COPIA/COLA
+           ========================================================= */
+        .pix-payment-box {
+            background: linear-gradient(145deg, #161618, #0e0e0f);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .qr-code-wrapper {
+            background-color: #ffffff; /* Fundo branco obrigatório para o leitor funcionar */
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .qr-code-wrapper img {
+            width: 200px;
+            height: 200px;
+            display: block;
+        }
+
+        .divider-pix {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .divider-pix::before, .divider-pix::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #333;
+        }
         
         .code-input-fake {
-            background-color: #111;
+            background-color: #050505;
             border: 1px dashed #424245;
             padding: 16px;
             border-radius: 12px;
@@ -143,6 +187,8 @@
             word-break: break-all;
             margin-bottom: 15px;
             user-select: all;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Botão Estilo Nike Premium */
@@ -170,7 +216,7 @@
 
         .btn-voltar-loja {
             background: none; border: none; color: #86868b; font-size: 0.95rem; font-weight: 600;
-            text-transform: uppercase; cursor: pointer; text-decoration: underline; margin-top: 20px; transition: color 0.2s;
+            text-transform: uppercase; cursor: pointer; text-decoration: underline; transition: color 0.2s;
         }
         .btn-voltar-loja:hover { color: #fff; }
 
@@ -180,6 +226,7 @@
             .pix-title { font-size: 1.4rem; }
             .pix-valor { font-size: 1.8rem; }
             .btn-copy { padding: 18px; font-size: 1rem; }
+            .qr-code-wrapper img { width: 180px; height: 180px; }
         }
     </style>
 </head>
@@ -224,15 +271,21 @@
                 </div>
                 <div class="step-item">
                     <div class="step-number">2</div>
-                    <div class="step-text">Escolha a opção de pagamento via <strong>PIX</strong> e depois selecione <strong>"Pix Copia e Cola"</strong>.</div>
+                    <div class="step-text">Escolha a opção de pagamento via <strong>PIX</strong>.</div>
                 </div>
                 <div class="step-item">
                     <div class="step-number">3</div>
-                    <div class="step-text">Cole o código abaixo e confirme o valor.</div>
+                    <div class="step-text">Faça a leitura do <strong>QR Code</strong> abaixo ou escolha <strong>"Pix Copia e Cola"</strong>.</div>
                 </div>
             </div>
 
-            <div class="code-area">
+            <div class="pix-payment-box">
+                <div class="qr-code-wrapper">
+                    <img id="imagem-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=00020126580014br.gov.bcb.pix0136Guard-Pagamentos-Seguros-00000000000000520400005303986540510.005802BR5913Itarare-SP6009Guard%20LTDA62070503***63041234&bgcolor=ffffff" alt="Escaneie este QR Code">
+                </div>
+
+                <div class="divider-pix">Ou copie o código</div>
+
                 <div class="code-input-fake" id="codigoPixTexto">00020126580014br.gov.bcb.pix0136Guard-Pagamentos-Seguros-00000000000000520400005303986540510.005802BR5913Itarare-SP6009Guard LTDA62070503***63041234</div>
                 
                 <button type="button" class="btn-copy" id="btnCopiarPix">
