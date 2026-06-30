@@ -281,14 +281,6 @@
         .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
         .btn-checkout:active { transform: translateY(0); }
 
-        .btn-checkout {
-            background-color: #FFFF00; color: #000; border: none; padding: 17px; border-radius: 40px;
-            font-size: 1.15rem; font-weight: 800; cursor: pointer; width: 60%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
-        .btn-checkout:active { transform: translateY(0); }
-            
         /* ==========================================
                              RESPONSIVIDADE
            ========================================== */
@@ -713,6 +705,10 @@
         const executarLogout = async (e) => {
             e.preventDefault();
             try {
+                // 1. Destrói o cookie de administrador na API
+                await fetch('/api/admin-logout', { method: 'POST' }).catch(err => console.log("Aviso ao limpar cookie:", err));
+                
+                // 2. Destrói a sessão de usuário no Firebase
                 await signOut(auth);
                 window.location.reload(); 
             } catch (error) {
@@ -863,18 +859,16 @@
                 <div class="shop-card">
                     <span class="shop-card-category">${nomeCat}</span>
                     <a href="produto.html?id=${p.id}" style="text-decoration: none; color: inherit; display: contents;">
-                        <div class="shop-card-img">
-                            <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'">
+                        <div class="shop-card-img" display: flex; justify-content: center; align-items: center;>
+                            <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'" style="width: 80%; height: 80%; object-fit: contain;"/>
                         </div>
                     </a>
                     <div class="shop-card-body">
                         <a href="produto.html?id=${p.id}" style="text-decoration: none; color: inherit;">
                             <h4>${p.titulo}</h4>
                         </a>
-                        <a href="produto.html?id=${p.id}" style="text-decoration: none; color: inherit; display: contents;">
-                            <div class="shop-card-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
-                            <div class="shop-card-price">R$ ${p.preco}</div>
-                        </a>
+                        <div class="shop-card-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
+                        <div class="shop-card-price">R$ ${p.preco}</div>
                         <div class="shop-card-actions">
                             <button class="btn-add-cart" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Carrinho</button>
                             <button class="btn-buy-now" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Comprar</button>
@@ -1097,7 +1091,7 @@
         }
 
         document.getElementById('mobile-cart-btn')?.addEventListener('click', abrirCarrinho);
-        document.getElementById('floating-cart-btn')?.addEventListener('click', abrirCarrinho); // <- Nova linha
+        document.getElementById('floating-cart-btn')?.addEventListener('click', abrirCarrinho); 
         document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
         cartOverlay?.addEventListener('click', fecharCarrinho);
 
