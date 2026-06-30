@@ -5455,6 +5455,6 @@ display: flex;
         grid-template-columns: repeat(3, 1fr);
     }
     .shop-card {
-        width: 220px;
+        width: 220px !important;
     }
 }
