@@ -84,14 +84,14 @@
     <header>
         <div id="header">
             <div style="display: flex; align-items: center; gap: 20px;">
-                <a href="store.html" class="back-arrow" title="Voltar à Loja">
+                <a href="store" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
                 
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <a href="index" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
                     <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
                     <span class="page-title-text">MEUS PEDIDOS</span>
                 </div>
@@ -105,9 +105,9 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         
                         <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item" style="color:#FFFF00;">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
-                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <a href="meus-pedidos" class="dropdown-item" style="color:#FFFF00;">Meus pedidos</a>
+                            <a href="minhas-informacoes" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
                         </div>
@@ -170,7 +170,7 @@
             btnLogout.addEventListener('click', async (e) => {
                 e.preventDefault();
                 await signOut(auth);
-                window.location.href = "index.html";
+                window.location.href = "index";
             });
         }
 
@@ -254,7 +254,7 @@
 
                 carregarPedidosProtegidos(user.uid);
             } else {
-                window.location.href = "login.html";
+                window.location.href = "login";
             }
         });
 
@@ -327,7 +327,7 @@
                                 <p class="pedido-total">R$ ${total}</p>
                             </div>
                             <div class="pedido-footer">
-                                <a href="detalhes-pedidos.html?id=${pedido.idReal}" style="text-decoration: none;">
+                                <a href="detalhes-pedidos?id=${pedido.idReal}" style="text-decoration: none;">
                                     <button class="btn-detalhes">Ver Detalhes</button>
                                 </a>
                             </div>
