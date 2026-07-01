@@ -222,11 +222,11 @@
     <header>
         <div id="header">
             <div style="display: flex; align-items: center; gap: 20px;">
-                <a href="store.html" class="back-arrow" title="Voltar à Loja">
+                <a href="store" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </a>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="index.html" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="checkout-logo-img"></a>
+                    <a href="index" style="display: flex;"><img src="imagens/logo.webp" alt="Logo Guard" class="checkout-logo-img"></a>
                     <div style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px;"></div>
                     <span class="checkout-title-text">CHECKOUT SEGURO</span>
                 </div>
@@ -1100,7 +1100,7 @@
         const totalFinalEl = document.getElementById('checkout-total-final');
 
         function renderizarResumo() {
-            if (itensCheckout.length === 0) { alert("A sua sessão de compra está vazia."); window.location.href = "store.html"; return; }
+            if (itensCheckout.length === 0) { alert("A sua sessão de compra está vazia."); window.location.href = "store"; return; }
             itemsContainer.innerHTML = ''; let subtotal = 0;
 
             itensCheckout.forEach(item => {
@@ -1341,10 +1341,10 @@
             localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
             localStorage.removeItem(storageKey);
 
-            if (metodoSelecionado === 'pix') window.location.href = "pagamento-pix.html";
+            if (metodoSelecionado === 'pix') window.location.href = "pagamento-pix";
             else {
                 await alert(`Pedido Registrado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`, "Sucesso");
-                window.location.href = "meus-pedidos.html"; 
+                window.location.href = "meus-pedidos"; 
             }
         });
     </script>
