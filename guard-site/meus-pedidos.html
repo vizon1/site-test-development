@@ -277,15 +277,29 @@
                     pedidosArray.push({ idReal: doc.id, ...doc.data() });
                 });
 
+                // Ordenação corrigida para interpretar a data guardada no checkout
                 pedidosArray.sort((a, b) => {
-                    const dataA = a.dataCriacao ? (a.dataCriacao.seconds || 0) : 0;
-                    const dataB = b.dataCriacao ? (b.dataCriacao.seconds || 0) : 0;
-                    return dataB - dataA;
+                    const timeA = a.dataCriacao ? new Date(a.dataCriacao.seconds ? a.dataCriacao.seconds * 1000 : a.dataCriacao).getTime() : 0;
+                    const timeB = b.dataCriacao ? new Date(b.dataCriacao.seconds ? b.dataCriacao.seconds * 1000 : b.dataCriacao).getTime() : 0;
+                    return timeB - timeA;
                 });
 
                 pedidosArray.forEach((pedido) => {
                     const idCurto = pedido.idReal.substring(0, 8).toUpperCase();
-                    let dataFormatada = pedido.data || "Data indisponível";
+                    
+                    // Formatação correta da data (Lê Timestamp do Firebase ou String ISO)
+                    let dataFormatada = "Data indisponível";
+                    if (pedido.dataCriacao) {
+                        const dataObj = typeof pedido.dataCriacao === 'string' 
+                            ? new Date(pedido.dataCriacao) 
+                            : new Date(pedido.dataCriacao.seconds * 1000);
+                        
+                        dataFormatada = dataObj.toLocaleDateString('pt-BR', { 
+                            day: '2-digit', month: '2-digit', year: 'numeric' 
+                        }) + ' às ' + dataObj.toLocaleTimeString('pt-BR', { 
+                            hour: '2-digit', minute: '2-digit' 
+                        });
+                    }
                     
                     let nomeItem = "Equipamento Guard";
                     if (pedido.itens && Array.isArray(pedido.itens) && pedido.itens.length > 0) {
@@ -297,8 +311,6 @@
                     }
 
                     const total = pedido.total || "0,00";
-                    
-                    // Aplica o motor visual
                     const infoStatus = processarStatusPedido(pedido.status);
 
                     html += `
