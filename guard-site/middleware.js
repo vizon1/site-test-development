@@ -1,10 +1,10 @@
 export const config = {
     // 🚨 AQUI ESTÃO AS PÁGINAS PROTEGIDAS
     matcher: [
-        '/admin.html',
-        '/painel.html',
-        '/gerenciamento-anuncios.html',
-        '/gerenciador-caixas.html'
+        '/admin',
+        '/painel',
+        '/gerenciamento-anuncios',
+        '/gerenciador-caixas'
     ],
 };
 
@@ -17,7 +17,7 @@ export default function middleware(request) {
 
     if (!hasAdminToken) {
         // Se a pessoa NÃO TIVER o token, redireciona para a loja imediatamente
-        const url = new URL('/store.html', request.url);
+        const url = new URL('/store', request.url);
         return Response.redirect(url, 302);
     }
 
