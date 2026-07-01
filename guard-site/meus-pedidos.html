@@ -42,26 +42,38 @@
         .page-title-text { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; }
         .title-container { display: flex; align-items: center; gap: 15px; }
 
+        /* =========================================================
+           BADGES DE STATUS PROFISSIONAIS
+           ========================================================= */
+        .pedido-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .status-pendente { background: rgba(255, 214, 10, 0.1); color: #ffd60a; border: 1px solid rgba(255, 214, 10, 0.2); }
+        .status-aprovado { background: rgba(50, 215, 75, 0.1); color: #32d74b; border: 1px solid rgba(50, 215, 75, 0.2); }
+        .status-preparando { background: rgba(255, 159, 10, 0.1); color: #ff9f0a; border: 1px solid rgba(255, 159, 10, 0.2); }
+        .status-enviado { background: rgba(10, 132, 255, 0.1); color: #0a84ff; border: 1px solid rgba(10, 132, 255, 0.2); }
+        .status-cancelado { background: rgba(255, 69, 58, 0.1); color: #ff453a; border: 1px solid rgba(255, 69, 58, 0.2); }
+
         /* ==== AJUSTES PARA MOBILE ==== */
         @media (max-width: 768px) {
-            #header { padding: 0 15px; height: 65px; justify-content: flex-start; /* Alinha os itens à esquerda já que não tem o perfil na direita */ }
-            
-            /* Logo um pouco maior no mobile (antes estava 35px) */
+            #header { padding: 0 15px; height: 65px; justify-content: flex-start; }
             .page-logo-img { height: 42px; } 
-            
             .page-title-text { font-size: 1rem; }
-            
-            /* Deixa a logo, barra e texto bem próximos no mobile */
             .title-container { gap: 8px; margin-left: 15px; } 
-
-            /* Oculta o menu de perfil do usuário inteiramente no mobile */
             #desktop-cart-group { display: none !important; }
         }
 
         @media (max-width: 480px) {
-            /* Como removemos o perfil, não precisamos mais esconder o texto e a barra! 
-               Eles agora têm espaço de sobra para aparecer. */
-            .page-logo-img { height: 38px; } /* Ajuste fino para telas muito pequenas */
+            .page-logo-img { height: 38px; } 
             .page-title-text { font-size: 0.9rem; }
             .title-separator { height: 20px !important; }
         }
@@ -141,7 +153,6 @@
         const userAvatar = document.getElementById('user-avatar');
         const btnLogout = document.getElementById('btn-logout');
 
-        // Lógica de Abrir/Fechar o Menu
         if(loggedInUI) {
             loggedInUI.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -155,7 +166,6 @@
             }
         });
 
-        // Lógica de Sair
         if(btnLogout) {
             btnLogout.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -165,19 +175,70 @@
         }
 
         // ==========================================
-        // LÓGICA DE PEDIDOS E AUTENTICAÇÃO
+        // MOTOR INTELIGENTE DE STATUS
         // ==========================================
-        function obterClasseStatus(status) {
-            const s = status ? status.toLowerCase() : '';
-            if (s.includes('enviando') || s.includes('caminho') || s.includes('aprovado')) return 'status-verde';
-            if (s.includes('entregue')) return 'status-azul';
-            if (s.includes('cancelado') || s.includes('recusado')) return 'status-vermelho';
-            return 'status-amarelo'; 
+        function processarStatusPedido(statusOriginal) {
+            const s = (statusOriginal || '').toLowerCase();
+            
+            // 1. Pagamento Aprovado
+            if (s.includes('aprovado') || s.includes('pago')) {
+                return { 
+                    texto: "Pagamento Aprovado", 
+                    classe: "status-aprovado", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>' 
+                };
+            }
+            // 2. Preparando Envio / Separando no Estoque
+            if (s.includes('preparan') || s.includes('separando')) {
+                return { 
+                    texto: "Preparando Envio", 
+                    classe: "status-preparando", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>' 
+                };
+            }
+            // 3. Em Rota de Entrega / Enviado
+            if (s.includes('envia') || s.includes('caminho') || s.includes('trânsito') || s.includes('transito') || s.includes('rota')) {
+                return { 
+                    texto: "Em Trânsito", 
+                    classe: "status-enviado", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>' 
+                };
+            }
+            // 4. Pedido Entregue ao Cliente
+            if (s.includes('entregue')) {
+                return { 
+                    texto: "Pedido Entregue", 
+                    classe: "status-aprovado", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>' 
+                };
+            }
+            // 5. Cancelado / Falha no pagamento
+            if (s.includes('cancelado') || s.includes('recusado') || s.includes('falha')) {
+                return { 
+                    texto: "Cancelado", 
+                    classe: "status-cancelado", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>' 
+                };
+            }
+            // 6. Analisando / Processando o Cartão
+            if (s.includes('processando') || s.includes('analisando')) {
+                return { 
+                    texto: "Analisando Pagamento", 
+                    classe: "status-pendente", 
+                    icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>' 
+                };
+            }
+            
+            // 7. Padrão: Boleto Pendente / PIX Pendente
+            return { 
+                texto: "Aguardando Pagamento", 
+                classe: "status-pendente", 
+                icone: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>' 
+            };
         }
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // 1. Carregar Dados do Perfil no Header
                 let nome = user.displayName;
                 if (!nome) {
                     try {
@@ -191,7 +252,6 @@
                 if(userFirstName) userFirstName.textContent = primeiroNome;
                 if(userAvatar) userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true`;
 
-                // 2. Buscar e renderizar os pedidos
                 carregarPedidosProtegidos(user.uid);
             } else {
                 window.location.href = "login.html";
@@ -237,8 +297,9 @@
                     }
 
                     const total = pedido.total || "0,00";
-                    const statusStr = pedido.status || "Aguardando pagamento";
-                    const classeCss = obterClasseStatus(statusStr);
+                    
+                    // Aplica o motor visual
+                    const infoStatus = processarStatusPedido(pedido.status);
 
                     html += `
                         <div class="pedido-card">
@@ -247,7 +308,7 @@
                                     <span class="pedido-id">Pedido #${idCurto}</span>
                                     <span class="pedido-data">${dataFormatada}</span>
                                 </div>
-                                <div class="pedido-badge ${classeCss}">${statusStr}</div>
+                                <div class="pedido-badge ${infoStatus.classe}">${infoStatus.icone} ${infoStatus.texto}</div>
                             </div>
                             <div class="pedido-body">
                                 <p class="pedido-item">${nomeItem}</p>
