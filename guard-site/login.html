@@ -309,7 +309,7 @@
 
                 // Se a API bater palmas (Achar o email na lista do backend)
                 if (res.ok) {
-                    window.location.href = "admin.html"; // Redireciona para a central de comando
+                    window.location.href = "admin"; // Redireciona para a central de comando
                     return;
                 }
             } catch(e) {
@@ -317,7 +317,7 @@
             }
             
             // Se falhou (não é administrador), manda o cliente para a loja normal
-            window.location.href = "store.html";
+            window.location.href = "store";
         }
 
         if(form) {
