@@ -200,6 +200,10 @@
             .checkout-container { display: flex; flex-direction: column; padding: 0 16px; gap: 30px; margin-top: 20px; }
             .box-pessoais  { order: 1; } .box-endereco  { order: 2; } .box-frete     { order: 3; } .box-resumo    { order: 4; } .box-pagamento { order: 5; } .box-cadastro-opcional { order: 6; } .btn-submit-wrapper { order: 7; }
         }
+
+        @media (min-width: 992px) {
+            .checkout-box{ position: sticky};
+        }
         @media (max-width: 600px) {
             .checkout-box { padding: 24px 20px; border-radius: 16px; }
             .form-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; } 
