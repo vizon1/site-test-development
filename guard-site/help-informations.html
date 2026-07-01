@@ -181,7 +181,7 @@
 
         <ul class="sidebar-nav">
             <li id="mobile-auth-login" style="display: none;">
-                <a href="login.html">
+                <a href="login">
                     <div class="nav-item-content" style="color: #ffffae; font-weight: 600;">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         <span>Fazer Login ou Cadastrar</span>
@@ -197,15 +197,15 @@
                 </div>
             </li>
 
-            <li><a href="index.html"><div class="nav-item-content"><span>Início</span></div></a></li>
-            <li><a href="store.html"><div class="nav-item-content"><span>Loja</span></div></a></li>
-            <li><a href="meus-pedidos.html"><div class="nav-item-content"><span>Meus pedidos</span></div></a></li>
-            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes.html"><div class="nav-item-content"><span>Minhas informações</span></div></a></li>
-            <li><a href="home-alarm.html"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
-            <li><a href="enterprise-alarm.html"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
-            <li><a href="rural-alarm.html"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
-            <li><a href="cameras.html"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
-            <li class="active"><a href="help-informations.html"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
+            <li><a href="index"><div class="nav-item-content"><span>Início</span></div></a></li>
+            <li><a href="store"><div class="nav-item-content"><span>Loja</span></div></a></li>
+            <li><a href="meus-pedidos"><div class="nav-item-content"><span>Meus pedidos</span></div></a></li>
+            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes"><div class="nav-item-content"><span>Minhas informações</span></div></a></li>
+            <li><a href="home-alarm"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
+            <li><a href="enterprise-alarm"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
+            <li><a href="rural-alarm"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
+            <li><a href="cameras"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
+            <li class="active"><a href="help-informations"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
 
             <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
                 <a href="#" id="mobile-btn-logout">
@@ -224,7 +224,7 @@
                 </a>
             </div>
             <div class="sidebar-actions">
-                <a href="index.html#advertisement-calculator" class="sidebar-btn-primary" onclick="document.getElementById('sidebar-menu').classList.remove('active'); document.getElementById('sidebar-overlay').classList.remove('active');">SOLICITAR ORÇAMENTO</a>
+                <a href="index#advertisement-calculator" class="sidebar-btn-primary" onclick="document.getElementById('sidebar-menu').classList.remove('active'); document.getElementById('sidebar-overlay').classList.remove('active');">SOLICITAR ORÇAMENTO</a>
             </div>
         </div>
     </div>
@@ -236,26 +236,26 @@
             </div>
             
             <div id="logo-container"> 
-                <a href="index.html"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
+                <a href="index"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
             
             <nav id="nav-container">
                 <ul id="navigation-bar">
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="store.html">Loja</a></li>
-                    <li><a href="home-alarm.html">Alarme para casa</a></li>
-                    <li><a href="enterprise-alarm.html">Alarme para empresa</a></li>
-                    <li><a href="rural-alarm.html">Alarme para área rural</a></li>
-                    <li><a href="cameras.html">Câmeras</a></li>
+                    <li><a href="index">Início</a></li>
+                    <li><a href="store">Loja</a></li>
+                    <li><a href="home-alarm">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm">Alarme para empresa</a></li>
+                    <li><a href="rural-alarm">Alarme para área rural</a></li>
+                    <li><a href="cameras">Câmeras</a></li>
                 </ul>
             </nav>
             
             <div id="desktop-cart-group">
                 <div id="auth-section">
                     <div id="logged-out-ui" style="display: none; align-items: center; justify-content:center; gap: 6px;">
-                        <a href="login.html" class="auth-link">Faça Login</a>
+                        <a href="login" class="auth-link">Faça Login</a>
                         <span class="auth-separator">ou</span>
-                        <a href="login.html" class="auth-link">Cadastre-se</a>
+                        <a href="login" class="auth-link">Cadastre-se</a>
                     </div>
 
                     <div id="logged-in-ui" style="display: none;">
@@ -267,9 +267,9 @@
                         </svg>
 
                         <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
-                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <a href="meus-pedidos" class="dropdown-item">Meus pedidos</a>
+                            <a href="minhas-informacoes" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
                         </div>
@@ -399,7 +399,7 @@
                 </div>
             </div>
             <div class="guard-banner-action">
-                <a href="index.html#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
+                <a href="index#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
                     CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
                 </a>
             </div>
@@ -413,9 +413,9 @@
 
         <footer class="main-footer">
             <div class="footer-links">
-                <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
-                <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
-                <a href="help-informations.html">AJUDA E INFORMAÇÕES</a> <span class="separator"></span>
+                <a href="politica-cookies">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+                <a href="privacy-policy">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
+                <a href="help-informations">AJUDA E INFORMAÇÕES</a> <span class="separator"></span>
             </div>
             
             <div class="footer-contact">
