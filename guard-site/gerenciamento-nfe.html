@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         /* =========================================================
-           VARIÁVEIS APPLE E RESET
+           VARIÁVEIS APPLE DARK MODE E RESET
            ========================================================= */
         :root {
             --bg-color: #000000;
@@ -31,6 +31,12 @@
             background-image: radial-gradient(circle at 50% 0%, rgba(255,255,0,0.02) 0%, transparent 60%);
             -webkit-font-smoothing: antialiased;
         }
+
+        /* BARRA DE ROLAGEM CUSTOMIZADA DARK MODE (Para os Modais) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000000; border-radius: 4px;}
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
 
         /* =========================================================
            CABEÇALHO ADMINISTRATIVO BLINDADO
@@ -183,12 +189,17 @@
         .item-row strong { color: #fff; }
         .item-row .item-qtd { color: var(--text-secondary); font-size: 0.85rem;}
 
+        /* Animação de Loading */
+        .spinner { width: 18px; height: 18px; border: 3px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 8px;}
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         /* =========================================================
-           RESPONSIVIDADE DA TABELA E MODAIS (MOBILE)
+           RESPONSIVIDADE DA TABELA E MODAIS (MOBILE ATÉ 1024px)
            ========================================================= */
-        @media (max-width: 768px) {
-            .page-header { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 15px; }
-            .table-wrapper { padding: 15px; border-radius: 16px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+        @media (max-width: 1024px) {
+            .page-header { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 20px; margin-top: 120px; }
+            .page-header h1 { font-size: 1.8rem; }
+            .table-wrapper { padding: 0; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
             .admin-title { font-size: 1rem; }
             .header-content { padding: 0 15px; }
             
@@ -198,33 +209,70 @@
             
             .info-grid { grid-template-columns: 1fr; gap: 15px;}
 
-            /* Conversão da tabela para blocos empilhados */
+            /* Conversão da tabela para Cards (Estilo Apple) */
             .admin-table thead { display: none !important; }
-            .admin-table, .admin-table tbody, .admin-table tr, .admin-table td { display: block !important; width: 100% !important; box-sizing: border-box !important; }
-            .admin-table tr { margin-bottom: 20px !important; background-color: var(--surface-color) !important; border: 1px solid var(--border-color) !important; border-radius: 16px !important; padding: 15px !important; }
+            .admin-table, .admin-table tbody { display: block !important; width: 100% !important; }
+            
+            .admin-table tr { 
+                display: flex !important; flex-direction: column !important;
+                background-color: #111 !important; 
+                border: 1px solid rgba(255,255,255,0.08) !important; 
+                border-radius: 20px !important; 
+                margin-bottom: 20px !important; 
+                padding: 24px !important; 
+                gap: 12px !important;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.3) !important;
+            }
             
             .admin-table td {
                 display: flex !important; justify-content: space-between !important; align-items: center !important;
-                padding: 14px 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-                text-align: right !important; gap: 20px !important; position: static !important;
+                padding: 0 !important; border: none !important;
+                text-align: right !important; width: 100% !important; box-sizing: border-box !important;
             }
-            .admin-table td:last-child { border-bottom: none !important; justify-content: center !important; flex-wrap: wrap;}
-        
+
             .admin-table td::before {
-                content: attr(data-label) !important; position: static !important; font-weight: 600 !important;
+                content: attr(data-label); font-weight: 600 !important;
                 color: var(--text-secondary) !important; text-transform: uppercase !important; font-size: 0.8rem !important;
-                text-align: left !important; width: auto !important; flex-shrink: 0 !important; margin-top: 0 !important;
+                text-align: left !important;
             }
 
-            .admin-table td[data-label="Cliente"] .client-name { text-align: right; word-break: break-word; font-size: 0.95rem;}
-            .admin-table td[data-label="Ações"] { justify-content: center !important; padding-top: 15px !important; gap: 8px !important;}
-            .admin-table td[data-label="Ações"]::before { display: none !important; }
-            .btn-action { flex: 1; text-align: center; padding: 10px; font-size: 0.8rem;}
-        }
+            /* Célula Cliente - Nome e ID */
+            .admin-table td[data-label="Cliente"] {
+                flex-direction: column !important; align-items: flex-start !important; gap: 8px !important;
+            }
+            .admin-table td[data-label="Cliente"]::before { display: none !important; }
+            .admin-table td[data-label="Cliente"] .client-name { font-size: 1.3rem !important; font-weight: 700 !important; color: #fff !important; text-align: left !important; margin: 0 !important;}
+            .admin-table td[data-label="Cliente"] .order-id { font-size: 0.8rem !important; background: rgba(255,255,0,0.1) !important; color: var(--accent) !important; padding: 6px 12px !important; border-radius: 8px !important; font-weight: 700 !important; letter-spacing: 1px;}
 
-        /* Animação de Loading */
-        .spinner { width: 18px; height: 18px; border: 3px solid rgba(0,0,0,0.2); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 8px;}
-        @keyframes spin { to { transform: rotate(360deg); } }
+            /* Célula Data */
+            .admin-table td[data-label="Data"] { justify-content: flex-start !important; padding-bottom: 16px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+            .admin-table td[data-label="Data"]::before { display: none !important; }
+            .admin-table td[data-label="Data"] .order-date { color: var(--text-secondary) !important; font-size: 0.95rem !important; }
+
+            /* Célula Valor */
+            .admin-table td[data-label="Valor"] { font-size: 1.25rem !important; font-weight: 800 !important; color: #fff !important; padding-top: 8px !important;}
+            
+            /* Célula Status */
+            .admin-table td[data-label="Status NF-e"] { padding-bottom: 16px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+
+            /* Célula Ações */
+            .admin-table td[data-label="Ações"] { justify-content: space-between !important; padding-top: 12px !important; gap: 12px !important; flex-wrap: wrap !important; flex-direction: row !important;}
+            .admin-table td[data-label="Ações"]::before { display: none !important; }
+            
+            /* Anular estilos inline que vinham do JS e aplicar tamanho touch-friendly */
+            .btn-action { 
+                flex: 1 1 auto !important; 
+                margin: 0 !important; 
+                padding: 16px !important; 
+                font-size: 0.95rem !important; 
+                border-radius: 12px !important;
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important; 
+            }
+            .btn-upload { background: var(--accent) !important; color: #000 !important; min-width: 100% !important;}
+            .btn-view { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important;}
+        }
     </style>
 </head>
 <body>
@@ -407,7 +455,6 @@
                         ? '<span class="badge-nfe badge-anexada">Anexada</span>' 
                         : '<span class="badge-nfe badge-pendente">Pendente</span>';
 
-                    // NOVO: Adicionado botão INFO ao lado do botão de anexar/ver nota
                     const botaoInfo = `<button class="btn-action btn-view" onclick="abrirModalDetalhes('${pedido.id}')" style="margin-right:8px;">Info</button>`;
 
                     const botaoAcao = temNfe
