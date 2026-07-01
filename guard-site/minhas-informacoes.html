@@ -235,14 +235,14 @@
     <header>
         <div id="header">
             <div style="display: flex; align-items: center; gap: 20px; min-width: 0;">
-                <a href="store.html" class="back-arrow" title="Voltar à Loja">
+                <a href="store" class="back-arrow" title="Voltar à Loja">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
                 
                 <div style="display: flex; align-items: center; gap: 15px; min-width: 0;">
-                    <a href="index.html" style="display: flex; flex-shrink: 0;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <a href="index" style="display: flex; flex-shrink: 0;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
                     <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px; flex-shrink: 0;"></div>
                     <span class="page-title-text">MINHAS INFORMAÇÕES</span>
                 </div>
@@ -256,9 +256,9 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         
                         <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item" style="color:#FFFF00;">Minhas informações</a>
-                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <a href="meus-pedidos" class="dropdown-item">Meus pedidos</a>
+                            <a href="minhas-informacoes" class="dropdown-item" style="color:#FFFF00;">Minhas informações</a>
+                            <a href="help-informations" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
                         </div>
@@ -488,8 +488,8 @@
 
     <footer class="main-footer">
         <div class="footer-links">
-            <a href="politica-cookies.html">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
-            <a href="privacy-policy.html">POLÍTICA DE PRIVACIDADE</a>
+            <a href="politica-cookies">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy">POLÍTICA DE PRIVACIDADE</a>
         </div>
         <div class="footer-contact">
             GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
@@ -595,7 +595,7 @@
                     document.getElementById('form-senha').style.display = 'none';
                 }
             } else {
-                window.location.href = "login.html";
+                window.location.href = "login";
             }
         });
 
@@ -1005,7 +1005,7 @@
             if (confirm("TEM A CERTEZA? Esta ação apagará definitivamente a sua conta Guard ID.")) {
                 try {
                     await deleteUser(usuarioAtual);
-                    alert("Conta excluída. Lamentamos vê-lo partir."); window.location.href = "index.html";
+                    alert("Conta excluída. Lamentamos vê-lo partir."); window.location.href = "index";
                 } catch (err) {
                     if (err.code === 'auth/requires-recent-login') alert("Por segurança, saia da sua conta, faça login novamente e tente excluir.");
                     else alert("Erro ao excluir: " + err.message);
@@ -1015,7 +1015,7 @@
 
         document.getElementById('btn-logout').addEventListener('click', async (e) => {
             e.preventDefault();
-            await signOut(auth); window.location.href = "index.html";
+            await signOut(auth); window.location.href = "index";
         });
     </script>
     <script src="apple-alerts.js"></script>
