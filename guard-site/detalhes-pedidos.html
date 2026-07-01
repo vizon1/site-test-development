@@ -72,14 +72,14 @@
     <header>
         <div id="header">
             <div style="display: flex; align-items: center; min-width: 0;">
-                <a href="meus-pedidos.html" class="back-arrow" title="Voltar aos Pedidos">
+                <a href="meus-pedidos" class="back-arrow" title="Voltar aos Pedidos">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </a>
                 
                 <div class="title-container">
-                    <a href="index.html" style="display: flex; flex-shrink: 0;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
+                    <a href="index" style="display: flex; flex-shrink: 0;"><img src="imagens/logo.webp" alt="Logo Guard" class="page-logo-img"></a>
                     <div class="title-separator" style="height: 24px; width: 3px; background-color: #FFFF00; border-radius: 2px; flex-shrink: 0;"></div>
                     <span class="page-title-text">DETALHES DO PEDIDO</span>
                 </div>
@@ -93,9 +93,9 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         
                         <div id="profile-dropdown" class="profile-dropdown">
-                            <a href="meus-pedidos.html" class="dropdown-item">Meus pedidos</a>
-                            <a href="minhas-informacoes.html" class="dropdown-item">Minhas informações</a>
-                            <a href="help-informations.html" class="dropdown-item">Suporte</a>
+                            <a href="meus-pedidos" class="dropdown-item">Meus pedidos</a>
+                            <a href="minhas-informacoes" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations" class="dropdown-item">Suporte</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
                         </div>
@@ -188,7 +188,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Extrai o ID da URL (ex: detalhes-pedido.html?id=123xyz)
+        // Extrai o ID da URL (ex: detalhes-pedido?id=123xyz)
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('id');
 
@@ -218,7 +218,7 @@
             btnLogout.addEventListener('click', async (e) => {
                 e.preventDefault();
                 await signOut(auth);
-                window.location.href = "index.html";
+                window.location.href = "index";
             });
         }
 
@@ -251,12 +251,12 @@
                 // Carregar Dados do Pedido
                 if (!orderId) {
                     alert("Pedido não encontrado.");
-                    window.location.href = "meus-pedidos.html";
+                    window.location.href = "meus-pedidos";
                     return;
                 }
                 carregarDetalhesPedido(user.uid, orderId);
             } else {
-                window.location.href = "login.html";
+                window.location.href = "login";
             }
         });
 
@@ -271,7 +271,7 @@
                     // VERIFICAÇÃO DE SEGURANÇA: Só mostra se o pedido pertencer ao utilizador logado
                     if (pedido.userId !== userUid) {
                         alert("Não tem permissão para visualizar este pedido.");
-                        window.location.href = "meus-pedidos.html";
+                        window.location.href = "meus-pedidos";
                         return;
                     }
 
