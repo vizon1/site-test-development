@@ -4,8 +4,8 @@ export const config = {
         '/painel',
         '/gerenciamento-anuncios',
         '/gerenciador-caixas',
-        '/gerenciamento-nfe.html',
-        '/gerenciamento-envios.html'
+        '/gerenciamento-nfe',
+        '/gerenciamento-envios'
     ],
 };
 
