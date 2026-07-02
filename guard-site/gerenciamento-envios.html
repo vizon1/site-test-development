@@ -474,14 +474,13 @@
             pedidosGlobal = [];
             
             try {
-                // Traz todos os pedidos do banco de dados
                 const q = query(collection(db, "pedidos"));
                 const querySnapshot = await getDocs(q);
                 
                 querySnapshot.forEach((documento) => {
                     const pedido = { id: documento.id, ...documento.data() };
                     
-                    // LÓGICA INTELIGENTE DE STATUS E PRIORIDADES
+                    // Converte para minúsculas para não ter problema com maiúsculas/minúsculas
                     const sLower = (pedido.status || "").toLowerCase();
                     const temRastreio = pedido.codigoRastreio && pedido.codigoRastreio !== "";
                     
@@ -494,10 +493,11 @@
                         computedStatus = "entregue"; prioridade = 4;
                     } else if (temRastreio || sLower.includes("trânsito") || sLower.includes("transito") || sLower.includes("enviado") || sLower.includes("caminho")) {
                         computedStatus = "em_transito"; prioridade = 3;
-                    } else if (!temRastreio && (sLower.includes("aprovado") || sLower.includes("pago") || sLower.includes("preparando"))) {
-                        computedStatus = "aguardando_envio"; prioridade = 1; // MÁXIMA PRIORIDADE
+                    } else if (!temRastreio && (sLower.includes("aprovado") || sLower.includes("pago") || sLower.includes("preparando") || sLower.includes("envio") || sLower.includes("confirmado"))) {
+                        // AGORA ELE RECONHECE A PALAVRA "ENVIO" TAMBÉM!
+                        computedStatus = "aguardando_envio"; prioridade = 1; 
                     } else {
-                        computedStatus = "aguardando_pagamento"; prioridade = 2; // PENDENTES DE PAGAMENTO
+                        computedStatus = "aguardando_pagamento"; prioridade = 2; 
                     }
 
                     pedido.computedStatus = computedStatus;
@@ -515,7 +515,6 @@
         }
 
         // Função que desenha a tabela na tela baseada no Filtro escolhido
-        // Função que desenha a tabela na tela baseada no Filtro escolhido
         function renderizarTabela() {
             const tbody = document.getElementById('tabela-envios');
             const filtro = document.getElementById('filtro-status').value;
@@ -529,21 +528,12 @@
 
             // Ordena os pedidos (Prioridade primeiro, depois por data mais recente)
             pedidosFiltrados.sort((a, b) => {
-                // 1º: Ordena pela prioridade (1, 2, 3...)
                 if (a.prioridade !== b.prioridade) return a.prioridade - b.prioridade;
                 
-                // 2º: Proteção extra contra datas apagadas ou editadas manualmente no banco
-                let timeA = 0;
-                let timeB = 0;
+                // Proteção contra datas vazias de edições manuais
+                let timeA = a.dataCriacao ? new Date(a.dataCriacao.seconds ? a.dataCriacao.seconds * 1000 : a.dataCriacao).getTime() : 0;
+                let timeB = b.dataCriacao ? new Date(b.dataCriacao.seconds ? b.dataCriacao.seconds * 1000 : b.dataCriacao).getTime() : 0;
                 
-                if (a.dataCriacao) {
-                    timeA = new Date(a.dataCriacao.seconds ? a.dataCriacao.seconds * 1000 : a.dataCriacao).getTime();
-                }
-                if (b.dataCriacao) {
-                    timeB = new Date(b.dataCriacao.seconds ? b.dataCriacao.seconds * 1000 : b.dataCriacao).getTime();
-                }
-                
-                // Se a data for inválida (NaN), transforma em 0 para não quebrar a lista
                 if (isNaN(timeA)) timeA = 0;
                 if (isNaN(timeB)) timeB = 0;
                 
@@ -555,7 +545,6 @@
                 const statusAtual = pedido.status || "Aguardando Pagamento";
                 const temRastreio = pedido.codigoRastreio && pedido.codigoRastreio !== "";
 
-                // Verifica se deve bloquear o botão (Aguardando Pgto ou Cancelado)
                 const isBloqueado = (pedido.computedStatus === "aguardando_pagamento" || pedido.computedStatus === "cancelado");
                 
                 let badgeRastreio = '';
