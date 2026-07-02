@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Todo o CSS embutido, sem depender do Style.css -->
     <style>
         /* =========================================================
            VARIÁVEIS APPLE DARK MODE E RESET GERAL
@@ -88,7 +87,7 @@
             width: 100%; box-sizing: border-box; overflow-x: auto;
         }
 
-        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table { width: 100%; border-collapse: collapse; min-width: 900px; }
         .admin-table th {
             text-align: left; padding: 15px 10px; color: var(--text-secondary); 
             font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
@@ -105,7 +104,7 @@
         .client-name { font-weight: 700; font-size: 1.05rem; display: block; margin-bottom: 4px; }
         .order-id { color: var(--text-secondary); font-size: 0.8rem; font-family: monospace; }
         
-        .rastreio-code-display { font-family: monospace; font-size: 1rem; color: var(--accent); font-weight: 700; letter-spacing: 1px; display: block; margin-top: 4px;}
+        .rastreio-code-display { font-family: monospace; font-size: 1rem; color: var(--accent); font-weight: 700; letter-spacing: 1px; display: block; margin-top: 2px;}
         .transportadora-display { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;}
 
         /* Badges */
@@ -222,8 +221,8 @@
 
             .admin-table td[data-label="Status do Pedido"] { padding-bottom: 16px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
             
-            .admin-table td[data-label="Rastreio"] { flex-direction: column; align-items: flex-end !important; justify-content: center !important;}
-            .admin-table td[data-label="Rastreio"]::before { margin-bottom: 8px;}
+            /* Célula de Rastreio Corrigida para Mobile */
+            .admin-table td[data-label="Rastreio"] { align-items: flex-start !important; padding-bottom: 16px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
 
             .admin-table td[data-label="Ações"] { justify-content: space-between !important; padding-top: 12px !important; gap: 12px !important; flex-wrap: wrap !important; flex-direction: row !important;}
             .admin-table td[data-label="Ações"]::before { display: none !important; }
@@ -273,7 +272,6 @@
         </div>
     </main>
 
-    <!-- MODAL VINCULAR RASTREIO -->
     <div id="modal-rastreio" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -291,8 +289,11 @@
                         <label>Transportadora</label>
                         <select id="input-transportadora" required>
                             <option value="" disabled selected>Selecione...</option>
-                            <option value="Correios">Correios - Sedex</option>
-                            <option value="Correios">Correios - PAC</option>
+                            <option value="Correios">Correios (Sedex / PAC)</option>
+                            <option value="Jadlog">Jadlog</option>
+                            <option value="Azul Cargo">Azul Cargo</option>
+                            <option value="Loggi">Loggi</option>
+                            <option value="Outra">Outra Transportadora</option>
                         </select>
                     </div>
 
@@ -315,7 +316,6 @@
         </div>
     </div>
 
-    <!-- Script de Alertas (Importando o Padrão do Projeto) -->
     <script src="apple-alerts.js"></script>
 
     <script type="module">
@@ -356,23 +356,27 @@
                     const statusAtual = pedido.status || "Aguardando Pagamento";
                     const temRastreio = pedido.codigoRastreio && pedido.codigoRastreio !== "";
                     
-                    // Renderiza Badge de Rastreio
+                    // Renderiza Badge de Rastreio com div embrulhando para flex column à direita
                     let badgeRastreio = '';
                     if (temRastreio) {
                         badgeRastreio = `
-                            <span class="badge badge-sucesso">
-                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                Anexado
-                            </span>
-                            <span class="transportadora-display">${pedido.transportadora || 'Correios'}</span>
-                            <span class="rastreio-code-display">${pedido.codigoRastreio}</span>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; text-align: right; gap: 4px;">
+                                <span class="badge badge-sucesso">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    Anexado
+                                </span>
+                                <span class="transportadora-display" style="margin-top: 4px;">${pedido.transportadora || 'Correios'}</span>
+                                <span class="rastreio-code-display" style="margin-top: 0;">${pedido.codigoRastreio}</span>
+                            </div>
                         `;
                     } else {
                         badgeRastreio = `
-                            <span class="badge badge-pendente">
-                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                Aguardando Envio
-                            </span>
+                            <div style="display: flex; justify-content: flex-end;">
+                                <span class="badge badge-pendente">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    Aguardando Envio
+                                </span>
+                            </div>
                         `;
                     }
 
