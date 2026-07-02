@@ -411,6 +411,8 @@
             border-radius: 0;
         }
     }
+
+    .resized-screen { gap: 50px }
         
     @media (max-width: 370px) {
             .resized-screen { gap: 20px !important; }
@@ -938,7 +940,7 @@
                                 <div class="product-info-category">${nomeCat}</div>
                                 <h1 class="product-info-title">${p.titulo}</h1>
                                 
-                                <div class="resized-screen" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 50px;">
+                                <div class="resized-screen" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 20px; flex-wrap: wrap; ">
                                     <div class="product-info-rating" style="margin-bottom: 0;">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
                                     
                                     <button type="button" class="share-minimalist" onclick="compartilharProduto('${p.id}', '${p.titulo}')" title="Compartilhar no WhatsApp">
