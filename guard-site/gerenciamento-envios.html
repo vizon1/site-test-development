@@ -515,6 +515,7 @@
         }
 
         // Função que desenha a tabela na tela baseada no Filtro escolhido
+        // Função que desenha a tabela na tela baseada no Filtro escolhido
         function renderizarTabela() {
             const tbody = document.getElementById('tabela-envios');
             const filtro = document.getElementById('filtro-status').value;
@@ -528,9 +529,24 @@
 
             // Ordena os pedidos (Prioridade primeiro, depois por data mais recente)
             pedidosFiltrados.sort((a, b) => {
+                // 1º: Ordena pela prioridade (1, 2, 3...)
                 if (a.prioridade !== b.prioridade) return a.prioridade - b.prioridade;
-                const timeA = a.dataCriacao ? new Date(a.dataCriacao.seconds ? a.dataCriacao.seconds * 1000 : a.dataCriacao).getTime() : 0;
-                const timeB = b.dataCriacao ? new Date(b.dataCriacao.seconds ? b.dataCriacao.seconds * 1000 : b.dataCriacao).getTime() : 0;
+                
+                // 2º: Proteção extra contra datas apagadas ou editadas manualmente no banco
+                let timeA = 0;
+                let timeB = 0;
+                
+                if (a.dataCriacao) {
+                    timeA = new Date(a.dataCriacao.seconds ? a.dataCriacao.seconds * 1000 : a.dataCriacao).getTime();
+                }
+                if (b.dataCriacao) {
+                    timeB = new Date(b.dataCriacao.seconds ? b.dataCriacao.seconds * 1000 : b.dataCriacao).getTime();
+                }
+                
+                // Se a data for inválida (NaN), transforma em 0 para não quebrar a lista
+                if (isNaN(timeA)) timeA = 0;
+                if (isNaN(timeB)) timeB = 0;
+                
                 return timeB - timeA;
             });
 
