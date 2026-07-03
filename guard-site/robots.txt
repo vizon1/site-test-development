@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 
-# Bloqueio de páginas administrativas e de controle
 Disallow: /admin
 Disallow: /painel
 Disallow: /gerenciamento-anuncios
@@ -9,7 +8,6 @@ Disallow: /gerenciador-caixas
 Disallow: /gerenciamento-nfe
 Disallow: /gerenciamento-envios
 
-# Bloqueio de páginas de clientes e funil de pagamento
 Disallow: /checkout
 Disallow: /pagamento-pix
 Disallow: /login
@@ -17,5 +15,4 @@ Disallow: /meus-pedidos
 Disallow: /detalhes-pedidos
 Disallow: /minhas-informacoes
 
-# Caminho do Sitemap para o Google
-Sitemap: https://seudominio.com.br/sitemap.xml
+Sitemap: https://site-test-development.vercel.app/sitemap.xml
