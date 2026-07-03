@@ -319,6 +319,94 @@
         .floating-whatsapp-btn:hover { transform: scale(1.1); background-color: #25D366; }
         
         .resized-screen { gap: 50px; }
+
+        /* ==========================================
+           BANNER LGPD / COOKIES (ESTILO APPLE)
+           ========================================== */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(28, 28, 30, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: none; /* Escondido por padrão, ativado via JS */
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .cookie-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .cookie-text {
+            color: #f5f5f7;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        .cookie-text a {
+            color: #FFFF00;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .cookie-text a:hover {
+            text-decoration: underline;
+        }
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-cookie {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-cookie-accept {
+            background-color: #FFFF00;
+            color: #000;
+        }
+        .btn-cookie-accept:hover {
+            background-color: #fff433;
+            transform: scale(1.05);
+        }
+        .btn-cookie-decline {
+            background-color: transparent;
+            color: #86868b;
+            border: 1px solid #424245;
+        }
+        .btn-cookie-decline:hover {
+            background-color: #2c2c2e;
+            color: #fff;
+        }
+        @media (min-width: 768px) {
+            .cookie-banner {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .cookie-content {
+                flex: 1;
+            }
+            .cookie-buttons {
+                flex-shrink: 0;
+            }
+        }
+
         
         /* ==========================================
            RESPONSIVIDADE GERAL E LOJA
@@ -593,6 +681,18 @@
             GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
         </div>
     </footer>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content">
+            <p class="cookie-text">
+                Nós usamos cookies para melhorar sua experiência de navegação, personalizar conteúdos e analisar nosso tráfego. Ao continuar, você concorda com nossa <a href="politica-cookies">Política de Cookies</a> e <a href="privacy-policy">Política de Privacidade</a>.
+            </p>
+        </div>
+        <div class="cookie-buttons">
+            <button id="btn-decline-cookies" class="btn-cookie btn-cookie-decline">Apenas Essenciais</button>
+            <button id="btn-accept-cookies" class="btn-cookie btn-cookie-accept">Aceitar Todos</button>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -1064,6 +1164,37 @@
 
         atualizarCarrinho();
         inicializarProduto();
+
+        // ==========================================
+        // SISTEMA DO BANNER LGPD / COOKIES
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookieBanner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('btn-accept-cookies');
+            const declineBtn = document.getElementById('btn-decline-cookies');
+
+            // Verifica se o usuário já aceitou/recusou antes (salvo no cache)
+            if (!localStorage.getItem('guard_cookie_consent')) {
+                cookieBanner.style.display = 'flex';
+                // Adiciona uma classe no body para ajustar o WhatsApp no mobile
+                document.body.classList.add('has-cookie-banner');
+            }
+
+            const fecharBanner = (status) => {
+                localStorage.setItem('guard_cookie_consent', status);
+                cookieBanner.style.opacity = '0';
+                document.body.classList.remove('has-cookie-banner');
+                
+                // Aguarda a animação sumir para remover o HTML da tela
+                setTimeout(() => {
+                    cookieBanner.style.display = 'none';
+                }, 300); 
+            };
+
+            acceptBtn?.addEventListener('click', () => fecharBanner('accepted'));
+            declineBtn?.addEventListener('click', () => fecharBanner('declined'));
+        });
+        
     </script>
     <script src="apple-alerts.js"></script>
 </body>
