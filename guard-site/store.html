@@ -1,4 +1,123 @@
-/* ==========================================
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Loja Oficial Guard - Equipamentos de Segurança</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(15, 15, 15, 0.5) !important;
+            backdrop-filter: blur(25px) !important;
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            width: 100%;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transform: translateZ(0); 
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+        }
+
+        header.header-scrolled {
+            background-color: rgba(10, 10, 10, 0.85) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 86px; 
+            padding: 0 24px;
+            box-sizing: border-box;
+            transition: height 0.3s ease;
+            gap: 15px;
+        }
+
+        header.header-scrolled #header {
+            height: 60px;
+        }
+
+        #logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #logo-container img {
+            height: 60px !important;
+            width: auto;
+            display: block;
+            transition: height 0.3s ease;
+        }
+
+        header.header-scrolled #logo-container img {
+            height: 45px; 
+        }
+
+        #nav-container {
+            flex: 2; 
+            display: flex;
+            justify-content: center;
+        }
+
+        #navigation-bar {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            align-items: center;
+        }
+
+        #navigation-bar a {
+            color: #d2d2d7;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+            white-space: nowrap; 
+        }
+
+        #navigation-bar a:hover { color: #ffffff; border-bottom: solid 2px #ffff00;}
+
+        #navigation-bar a.active-nav {
+            color: #FFFF00;
+            font-weight: 600;
+            border-bottom: 2px solid #FFFF00;
+            padding-bottom: 4px;
+        }
+
+        #desktop-cart-group {
+            flex: 1; 
+            display: flex !important; 
+            align-items: center;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        #auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            padding-left: 20px;
+            height: 28px;
+            min-width: 130px; 
+        }
+
+       /* ==========================================
            ESTILOS DOS MENUS DE USUÁRIO E ADM
            ========================================== */
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; padding-bottom: 0px; border: 0px;}
@@ -32,3 +151,1087 @@
         #adm-dropdown.active { display: flex; animation: fadeIn 0.2s ease forwards; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ==========================================
+           CARRINHO FLUTUANTE (ESTILO APPLE)
+           ========================================== */
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30%;
+            background-color: rgba(28, 28, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f7;
+            cursor: pointer;
+            z-index: 1999;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+        }
+
+        .floating-cart-btn:hover {
+            transform: scale(1.08);
+            background-color: rgba(44, 44, 46, 0.85);
+            color: #fff;
+        }
+
+        #floating-cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: #ff3b30;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 20px;
+            border: 2px solid #000;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        /* ==========================================
+           BOTÃO WHATSAPP FLUTUANTE
+           ========================================== */
+        .floating-whatsapp-btn {
+            position: fixed;
+            bottom: 110px; /* Acima do carrinho no desktop */
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(37, 211, 102, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 1999;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .floating-whatsapp-btn:hover {
+            transform: scale(1.1);
+            background-color: #25D366;
+            color: #fff;
+        }
+
+        /* ==========================================
+           BANNER LGPD / COOKIES (ESTILO APPLE)
+           ========================================== */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(28, 28, 30, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: none; /* Escondido por padrão, ativado via JS */
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .cookie-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .cookie-text {
+            color: #f5f5f7;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        .cookie-text a {
+            color: #FFFF00;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .cookie-text a:hover {
+            text-decoration: underline;
+        }
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-cookie {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-cookie-accept {
+            background-color: #FFFF00;
+            color: #000;
+        }
+        .btn-cookie-accept:hover {
+            background-color: #fff433;
+            transform: scale(1.05);
+        }
+        .btn-cookie-decline {
+            background-color: transparent;
+            color: #86868b;
+            border: 1px solid #424245;
+        }
+        .btn-cookie-decline:hover {
+            background-color: #2c2c2e;
+            color: #fff;
+        }
+        @media (min-width: 768px) {
+            .cookie-banner {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .cookie-content {
+                flex: 1;
+            }
+            .cookie-buttons {
+                flex-shrink: 0;
+            }
+        }
+
+        .btn-checkout {
+            background-color: #FFFF00; color: #000; border: none; padding: 10px; border-radius: 40px;
+            font-size: 1.15rem; font-weight: 800; cursor: pointer; width: 60%; transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433; }
+        .btn-checkout:active { transform: translateY(0); }
+
+        /* ==========================================
+                                     RESPONSIVIDADE
+           ========================================== */
+        @media (min-width: 921px) and (max-width: 1150px) {
+            #navigation-bar { gap: 12px; } 
+            #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
+            #desktop-cart-group { gap: 12px; }
+            #auth-section { padding-left: 12px; min-width: auto; }
+            .auth-link { font-size: 0.75rem; }
+            #user-first-name { display: none; } 
+        }
+
+        @media (max-width: 920px) {
+            #nav-container { display: none !important; }
+            #desktop-cart-group { display: none !important; }
+            #auth-section { display: none !important; }
+            .cart-sidebar { max-width: 100%; border-left: none; }
+            .cookie-banner { width: 85%; padding: 15px; }
+        }
+
+        @media (max-width: 920px) {
+            #header {
+                position: relative;
+            }
+            
+            #logo-container {
+                position: absolute !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: max-content !important;
+                justify-content: center !important;
+                gap: 0 !important;
+            }
+
+            .badge-adm-loja {
+                position: absolute !important;
+                left: 100% !important; 
+                top: 50% !important;
+                transform: translateY(-50%) !important; 
+                margin-left: 8px !important; 
+                white-space: nowrap !important;
+            }
+
+            .shop-card-rating {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                white-space: normal !important;
+            }
+            
+            .shop-card-rating span.star-half {
+                display: inline-block !important;
+                margin-top: 0 !important;
+                margin-right: 5px !important;
+                transform: translateY(-1.5px) !important;
+            }
+            
+            .shop-card-rating span.star-fill {
+                display: inline-block !important;
+                margin-top: 0 !important;
+            }
+            
+            .shop-card-rating span:last-child {
+                display: inline-block !important;
+                margin-top: 0 !important;
+                font-size: 0.65rem !important;
+            }
+
+            #adm-dropdown {
+                top: 25px;
+                left: -120px;
+                margin-top: 15px;
+                border-radius: 15px;
+                padding: 10px 5px;
+            }
+        }
+
+        @media (max-width: 920px) {
+            .floating-cart-btn { display: none !important; }
+            .logo-container img { height: 60px !important; }
+            
+            /* Ajuste do WhatsApp no Mobile */
+            .floating-whatsapp-btn {
+                bottom: 30px; /* Assume o lugar do carrinho */
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+            /* Se o banner LGPD aparecer no mobile, sobe o Whatsapp */
+            .has-cookie-banner .floating-whatsapp-btn {
+                bottom: 180px; 
+            }
+        }
+        
+        .shop-card-img {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        .shop-card-img img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 0;
+        }
+        
+    </style>
+</head>
+<body style="background-color: #000; margin: 0; font-family: 'Fira Sans', sans-serif; color: #fff;">
+    <div id="sidebar-overlay"></div>
+
+    <div id="sidebar-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo-dot"></span>
+                <span class="sidebar-logo-text">GUARD</span>
+            </div>
+            <div id="close-menu-btn" class="close-btn" title="Fechar Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li id="mobile-auth-login" style="display: none;">
+                <a href="login">
+                    <div class="nav-item-content" style="color: #ffffae; font-weight: 600;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Fazer Login ou Cadastrar</span>
+                    </div>
+                </a>
+            </li>
+
+            <li id="mobile-auth-user" style="display: none; padding: 15px 20px; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
+                <img id="mobile-user-avatar" src="" alt="Perfil" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 0.75rem; color: #86868b; text-transform: uppercase; letter-spacing: 1px;">Sessão iniciada</span>
+                    <span id="mobile-user-first-name" style="font-size: 1.1rem; font-weight: 600; color: #f5f5f7;"></span>
+                </div>
+            </li>
+
+            <li><a href="index"><div class="nav-item-content"><span>Início</span></div></a></li>
+            <li class="active"><a href="store"><div class="nav-item-content"><span>Loja</span></div></a></li>
+            <li><a href="meus-pedidos"><div class="nav-item-content"><span>Meus pedidos</span></div></a></li>
+            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes"><div class="nav-item-content"><span>Minhas informações</span></div></a></li>
+            <li><a href="home-alarm"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
+            <li><a href="enterprise-alarm"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
+            <li><a href="rural-alarm"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
+            <li><a href="cameras"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
+            <li><a href="help-informations"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
+
+            <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
+                <a href="#" id="mobile-btn-logout">
+                    <div class="nav-item-content" style="color: #ff4444; font-weight: 500;">
+                        <span>Sair da conta</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="sidebar-support-card">
+                <span class="support-title">Central de Atendimento</span>
+                <a href="tel:15988246986" class="support-phone">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    (15) 98824-6986
+                </a>
+            </div>
+            <div class="sidebar-actions">
+                <a href="index#advertisement-calculator" class="sidebar-btn-primary" onclick="toggleMenu();">SOLICITAR ORÇAMENTO</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div id="header">
+            <div id="mobile-menu-btn" class="mobile-icon" style="display: none;">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </div>
+            
+            <div id="logo-container" style="display: flex; align-items: center; gap: 12px;"> 
+                <a href="index">
+                    <img src="imagens/logo.webp" alt="Logo Guard" id="logo">
+                </a>
+                
+                <div id="badge-adm-wrapper">
+                    <span id="badge-adm-header" class="badge-adm-loja">ADM</span>
+                    <div id="adm-dropdown">
+                        <a href="admin" class="dropdown-item" style="color: argb(224, 224, 224, 0.1); font-weight: 600;">Ir para o Painel de Controle</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative;">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                <span id="mobile-cart-count" style="position: absolute; top: -4px; right: -6px; background: #ff3b30; color: white; border-radius: 10px; padding: 1px 5px; font-size: 0.6rem; font-weight: bold;">0</span>
+            </div>
+            
+            <nav id="nav-container">
+                <ul id="navigation-bar">
+                    <li><a href="index">Início</a></li>
+                    <li><a href="store" class="active-nav">Loja</a></li>
+                    <li><a href="home-alarm">Alarme para casa</a></li>
+                    <li><a href="enterprise-alarm">Alarme para empresa</a></li>
+                    <li><a href="rural-alarm">Alarme para área rural</a></li>
+                    <li><a href="cameras">Câmeras</a></li>
+                </ul>
+            </nav>
+            
+            <div id="desktop-cart-group">
+                <div id="auth-section">
+                    <div id="logged-out-ui" style="display: none; align-items: center; justify-content:center; gap: 6px;">
+                        <a href="login" class="auth-link">Faça Login</a>
+                        <span class="auth-separator">ou</span>
+                        <a href="login" class="auth-link">Cadastre-se</a>
+                    </div>
+
+                    <div id="logged-in-ui" style="display: none;">
+                        <img id="user-avatar" src="" alt="Perfil">
+                        <span id="user-first-name"></span>
+                        
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+
+                        <div id="profile-dropdown" class="profile-dropdown">
+                            <a href="meus-pedidos" class="dropdown-item">Meus pedidos</a>
+                            <a href="minhas-informacoes" class="dropdown-item">Minhas informações</a>
+                            <a href="help-informations" class="dropdown-item">Suporte</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="btn-logout" class="dropdown-item logout">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="shop-page-wrapper">
+        <div class="shop-hero-banner">
+            <h1 class="shop-huge-title">Guard Store</h1>
+            <p>Tudo o que precisa para a sua segurança em um só lugar.</p>
+        </div>
+
+        <div class="shop-controls-bar">
+            <div class="shop-search">
+                <input type="text" id="searchInput" placeholder="Procurar equipamentos...">
+                <button class="btn-search" id="searchBtn">Procurar</button>
+            </div>
+        </div>
+
+        <div class="shop-main-layout">
+            <aside class="shop-sidebar-filters">
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                    <ul class="filter-list" id="categoryFilter">
+                        <li class="active"><a href="#" data-filter="all">TODOS OS PRODUTOS <span class="badge" id="badge-all">0</span></a></li>
+                        <li><a href="#" data-filter="cameras">CÂMERAS <span class="badge" id="badge-cameras">0</span></a></li>
+                        <li><a href="#" data-filter="dvrs">DVRS / NVRS <span class="badge" id="badge-dvrs">0</span></a></li>
+                        <li><a href="#" data-filter="alarmes">CENTRAIS DE ALARME <span class="badge" id="badge-alarmes">0</span></a></li>
+                        <li><a href="#" data-filter="sensores">SENSORES <span class="badge" id="badge-sensores">0</span></a></li>
+                        <li><a href="#" data-filter="outros">OUTROS <span class="badge" id="badge-outros">0</span></a></li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <div class="shop-product-grid" id="produtosGrid">
+            </div>
+            
+        </div>
+
+        <div class="shop-pagination" id="paginationContainer">
+        </div>
+
+        <div class="shop-recommendations" id="recommendationsSection" style="display: none;">
+            <h2>Explore as nossas recomendações</h2>
+            <div class="shop-product-grid" id="recomendacoesGrid">
+                </div>
+        </div>
+    </section>
+    
+    <a href="https://wa.me/5515988246986" target="_blank" class="floating-whatsapp-btn" title="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a5.8 5.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <div id="floating-cart-btn" class="floating-cart-btn" title="Carrinho">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span id="floating-cart-count">0</span>
+    </div>
+
+    <div id="cart-overlay" class="cart-overlay"></div>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <button id="close-cart-btn" class="close-btn" title="Fechar">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            </div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
+            <a href="checkout" style="text-decoration: none; width: 100%; display: flex; justify-content: center;">
+                <button class="btn-checkout">Finalizar Compra</button>
+            </a>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="politica-cookies">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy">POLÍTICA DE PRIVACIDADE</a>
+        </div>
+        <div class="footer-contact">
+            GUARD 2026 | WHATSAPP <strong>(15) 98824-6986</strong>
+        </div>
+    </footer>
+
+    <!-- INÍCIO DO BANNER LGPD -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content">
+            <p class="cookie-text">
+                Nós usamos cookies para melhorar sua experiência de navegação, personalizar conteúdos e analisar nosso tráfego. Ao continuar, você concorda com nossa <a href="politica-cookies">Política de Cookies</a> e <a href="privacy-policy">Política de Privacidade</a>.
+            </p>
+        </div>
+        <div class="cookie-buttons">
+            <button id="btn-decline-cookies" class="btn-cookie btn-cookie-decline">Apenas Essenciais</button>
+            <button id="btn-accept-cookies" class="btn-cookie btn-cookie-accept">Aceitar Todos</button>
+        </div>
+    </div>
+    <!-- FIM DO BANNER LGPD -->
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
+            authDomain: "loja-guard.firebaseapp.com",
+            projectId: "loja-guard",
+            storageBucket: "loja-guard.firebasestorage.app",
+            messagingSenderId: "1084706871985",
+            appId: "1:1084706871985:web:c3af274bfb7f99843d6090"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        if (window.innerWidth <= 920) {
+            document.getElementById('mobile-menu-btn').style.display = 'flex';
+            document.getElementById('mobile-cart-btn').style.display = 'flex';
+        }
+
+        const loggedOutUI = document.getElementById('logged-out-ui');
+        const loggedInUI = document.getElementById('logged-in-ui');
+        const userFirstName = document.getElementById('user-first-name');
+        const userAvatar = document.getElementById('user-avatar');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const btnLogout = document.getElementById('btn-logout');
+
+        const mobileAuthLogin = document.getElementById('mobile-auth-login');
+        const mobileAuthUser = document.getElementById('mobile-auth-user');
+        const mobileAuthLogout = document.getElementById('mobile-auth-logout');
+        const mobileUserFirstName = document.getElementById('mobile-user-first-name');
+        const mobileUserAvatar = document.getElementById('mobile-user-avatar');
+        const mobileNavInfo = document.getElementById('mobile-nav-info');
+        const mobileBtnLogout = document.getElementById('mobile-btn-logout');
+
+        onAuthStateChanged(auth, async (user) => {
+            const authSection = document.getElementById('auth-section');
+
+            if (user) {
+                if(loggedOutUI) loggedOutUI.style.display = 'none';
+                if(loggedInUI) loggedInUI.style.display = 'flex';
+                
+                if(mobileAuthLogin) mobileAuthLogin.style.display = 'none';
+                if(mobileAuthUser) mobileAuthUser.style.display = 'flex';
+                if(mobileAuthLogout) mobileAuthLogout.style.display = 'block';
+                if(mobileNavInfo) mobileNavInfo.style.display = 'block';
+
+                let nome = user.displayName;
+                let foto = user.photoURL;
+
+                if (!nome) {
+                    try {
+                        const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+                        if (docSnap.exists() && docSnap.data().nome) {
+                            nome = docSnap.data().nome;
+                        } else {
+                            nome = "Cliente";
+                        }
+                    } catch (e) {
+                        nome = "Cliente";
+                    }
+                }
+
+                const primeiroNome = nome.split(' ')[0];
+                const fallbackFoto = `https://ui-avatars.com/api/?name=${primeiroNome}&background=2c2c2e&color=fff&rounded=true&font-size=0.4`;
+                
+                if(userFirstName) userFirstName.textContent = primeiroNome;
+                if(mobileUserFirstName) mobileUserFirstName.textContent = primeiroNome;
+
+                if(userAvatar) userAvatar.src = foto || fallbackFoto;
+                if(mobileUserAvatar) mobileUserAvatar.src = foto || fallbackFoto;
+
+            } else {
+                if(loggedOutUI) loggedOutUI.style.display = 'flex';
+                if(loggedInUI) loggedInUI.style.display = 'none';
+                if(profileDropdown) profileDropdown.classList.remove('active');
+                
+                if(mobileAuthLogin) mobileAuthLogin.style.display = 'block';
+                if(mobileAuthUser) mobileAuthUser.style.display = 'none';
+                if(mobileAuthLogout) mobileAuthLogout.style.display = 'none';
+                if(mobileNavInfo) mobileNavInfo.style.display = 'none';
+            }
+
+            if (authSection) authSection.style.opacity = '1';
+        });
+
+        const badgeAdmWrapper = document.getElementById('badge-adm-wrapper');
+        const admDropdown = document.getElementById('adm-dropdown');
+        if(badgeAdmWrapper) {
+            badgeAdmWrapper.addEventListener('click', (e) => {
+                e.stopPropagation();
+                admDropdown.classList.toggle('active');
+                if(profileDropdown) profileDropdown.classList.remove('active');
+            });
+        }
+
+        if(loggedInUI) {
+            loggedInUI.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('active');
+                if(admDropdown) admDropdown.classList.remove('active');
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (loggedInUI && !loggedInUI.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+            if (badgeAdmWrapper && !badgeAdmWrapper.contains(e.target)) {
+                admDropdown.classList.remove('active');
+            }
+        });
+
+        const executarLogout = async (e) => {
+            e.preventDefault();
+            try {
+                await fetch('/api/admin-logout', { method: 'POST' }).catch(err => console.log("Aviso ao limpar cookie:", err));
+                await signOut(auth);
+                window.location.reload(); 
+            } catch (error) {
+                console.error("Erro ao sair da conta:", error);
+                alert("Ocorreu um erro ao terminar a sessão.");
+            }
+        };
+
+        if(btnLogout) btnLogout.addEventListener('click', executarLogout);
+        if(mobileBtnLogout) mobileBtnLogout.addEventListener('click', executarLogout);
+
+        let todosProdutos = [];
+        let produtosFiltrados = [];
+        let paginaAtual = 1;
+        const itensPorPagina = 10;
+        let filtroCategoriaAtiva = 'all';
+
+        const tagsDaCategoria = {
+            cameras: "camera câmera intelbras câmeras cameras camara cftv video monitoramento vigilancia ip wifi wi-fi sem fio bullet dome lente filmagem externa interna seguranca",
+            alarmes: "central alarme sirene sensor intrusao panico seguranca protecao movimento presenca barreira choque painel teclado bateria",
+            dvrs: "dvr nvr gravador gravacao armazenamento hd disco rigido memoria video cftv stand alone canais imagem receptor",
+            sensores: "sensor movimento infravermelho presenca porta janela magnetico",
+            outros: "outros diversos acessorios cabo 1 metro fonte carregador suporte conector balun peca reposicao"
+        };
+        const nomesCategorias = { cameras: 'Câmeras', dvrs: 'DVRs', alarmes: 'Alarmes', sensores: 'Sensores', outros: 'Outros' };
+
+        async function inicializarLoja() {
+            const grid = document.getElementById('produtosGrid');
+            grid.innerHTML = '<p style="color:#FFFF00; text-align:center; width:100%; padding:20px;">Carregando...</p>';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                querySnapshot.forEach((doc) => {
+                    todosProdutos.push({ id: doc.id, ...doc.data() });
+                });
+                
+                atualizarContadores();
+                renderizarRecomendacoes();
+                aplicarFiltros();
+            } catch (error) {
+                console.error("Erro ao buscar dados:", error);
+                grid.innerHTML = '<p style="color:red; text-align:center; width:100%;">Erro de ligação com o banco de dados.</p>';
+            }
+        }
+
+        function atualizarContadores() {
+            const contagens = { all: todosProdutos.length, cameras: 0, dvrs: 0, alarmes: 0, sensores: 0, outros: 0 };
+            todosProdutos.forEach(p => {
+                if (contagens[p.categoria] !== undefined) contagens[p.categoria]++;
+            });
+            
+            document.getElementById('badge-all').textContent = contagens.all;
+            document.getElementById('badge-cameras').textContent = contagens.cameras;
+            document.getElementById('badge-dvrs').textContent = contagens.dvrs;
+            document.getElementById('badge-alarmes').textContent = contagens.alarmes;
+            document.getElementById('badge-sensores').textContent = contagens.sensores;
+            document.getElementById('badge-outros').textContent = contagens.outros;
+        }
+
+        function renderizarRecomendacoes() {
+            const recGrid = document.getElementById('recomendacoesGrid');
+            const recSection = document.getElementById('recommendationsSection');
+            const recomendados = todosProdutos.filter(p => p.recomendado === true);
+
+            if (recomendados.length > 0) {
+                recSection.style.display = 'block';
+                recGrid.innerHTML = recomendados.map(p => criarHTMLdoCard(p)).join('');
+            } else {
+                recSection.style.display = 'none';
+            }
+        }
+
+        const removeAcentos = (texto) => {
+            if (!texto) return ""; 
+            return String(texto).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        };
+        
+        function aplicarFiltros() {
+            const termoPesquisa = removeAcentos(document.getElementById('searchInput').value || "");
+            
+            produtosFiltrados = todosProdutos.filter(p => {
+                const titulo = removeAcentos(p.titulo || "");
+                const tags = removeAcentos(tagsDaCategoria[p.categoria] || "");
+                const batePesquisa = titulo.includes(termoPesquisa) || tags.includes(termoPesquisa);
+                const bateCategoria = filtroCategoriaAtiva === 'all' || p.categoria === filtroCategoriaAtiva;
+                
+                return batePesquisa && bateCategoria;
+            });
+
+            paginaAtual = 1;
+            renderizarGridPrincipal();
+        }
+
+        function renderizarGridPrincipal() {
+            const grid = document.getElementById('produtosGrid');
+            const paginationContainer = document.getElementById('paginationContainer');
+            grid.innerHTML = '';
+            paginationContainer.innerHTML = '';
+
+            if (produtosFiltrados.length === 0) {
+                grid.innerHTML = '<p style="color:#aaa; text-align:center; width:100%; grid-column: 1/-1;">Nenhum produto encontrado.</p>';
+                return;
+            }
+
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = inicio + itensPorPagina;
+            const produtosDaPagina = produtosFiltrados.slice(inicio, fim);
+
+            grid.innerHTML = produtosDaPagina.map(p => criarHTMLdoCard(p)).join('');
+            renderizarBotoesPaginacao();
+        }
+
+        function renderizarBotoesPaginacao() {
+            const container = document.getElementById('paginationContainer');
+            const totalPaginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
+
+            if (totalPaginas <= 1) return;
+
+            for (let i = 1; i <= totalPaginas; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === paginaAtual ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => mudarPagina(i);
+                container.appendChild(btn);
+            }
+
+            if (paginaAtual < totalPaginas) {
+                const btnProximo = document.createElement('button');
+                btnProximo.className = 'page-btn';
+                btnProximo.innerHTML = 'Próximo &#8250;';
+                btnProximo.onclick = () => mudarPagina(paginaAtual + 1);
+                container.appendChild(btnProximo);
+            }
+        }
+
+        function mudarPagina(novaPagina) {
+            paginaAtual = novaPagina;
+            renderizarGridPrincipal();
+            document.querySelector('.shop-main-layout').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function criarHTMLdoCard(p) {
+            const nomeCat = nomesCategorias[p.categoria] || p.categoria;
+            const estrelasVisuais = (p.estrelas || "").replace('½', '<span class="star-half">☆<span class="star-fill">★</span></span>');
+
+            return `
+                <div class="shop-card">
+                    <span class="shop-card-category">${nomeCat}</span>
+                    <a href="produto?id=${p.id}" style="text-decoration: none; color: inherit; display: contents;">
+                        <div class="shop-card-img" display: flex; justify-content: center; align-items: center;>
+                            <img loading="lazy" src="${p.imagem}" alt="${p.titulo}" onerror="this.src='imagens/logo.webp'" style="width: 80%; height: 80%; object-fit: contain;"/>
+                        </div>
+                    </a>
+                    <div class="shop-card-body">
+                        <a href="produto?id=${p.id}" style="text-decoration: none; color: inherit;">
+                            <h4>${p.titulo}</h4>
+                        </a>
+                        <div class="shop-card-rating">${estrelasVisuais} <span>(${p.avaliacoes} avaliações)</span></div>
+                        <div class="shop-card-price">R$ ${p.preco}</div>
+                        <div class="shop-card-actions">
+                            <button class="btn-add-cart" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Carrinho</button>
+                            <button class="btn-buy-now" data-id="${p.id}" data-titulo="${p.titulo}" data-preco="${p.preco}" data-imagem="${p.imagem}">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchContainer = document.querySelector('.shop-search');
+        
+        const errorText = document.createElement('div');
+        errorText.className = 'search-error-msg';
+        errorText.textContent = 'Por favor, informe o equipamento desejado.';
+        searchContainer.appendChild(errorText);
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const termo = searchInput.value.trim();
+            
+            searchContainer.classList.remove('error-border');
+            errorText.classList.remove('show');
+            searchBtn.classList.add('loading');
+            
+            if (termo === "") {
+                setTimeout(() => {
+                    searchBtn.classList.remove('loading');
+                    searchContainer.classList.add('error-border');
+                    errorText.classList.add('show');
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    searchBtn.classList.remove('loading');
+                    aplicarFiltros();
+                }, 500); 
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchContainer.classList.remove('error-border');
+            errorText.classList.remove('show');
+            aplicarFiltros();
+
+            if (window.innerWidth <= 920) {
+                if (e.target.value.trim() !== '') {
+                    document.body.classList.add('is-searching-mobile');
+                } else {
+                    document.body.classList.remove('is-searching-mobile');
+                }
+            }
+        });
+
+        document.querySelectorAll('#categoryFilter a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('#categoryFilter li').forEach(li => li.classList.remove('active'));
+                link.parentElement.classList.add('active');
+                filtroCategoriaAtiva = link.getAttribute('data-filter');
+                aplicarFiltros();
+            });
+        });
+
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.toggle('active'));
+        document.getElementById('close-menu-btn')?.addEventListener('click', () => document.getElementById('sidebar-menu').classList.remove('active'));
+
+        let carrinho = [];
+        try {
+            carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+        } catch (e) {
+            carrinho = [];
+            localStorage.removeItem('guard_carrinho');
+        }
+
+        function atualizarCarrinho() {
+            try {
+                const container = document.getElementById('cart-items-container');
+                const mobileCountBadge = document.getElementById('mobile-cart-count');
+                const floatingCountBadge = document.getElementById('floating-cart-count'); 
+                const totalDisplay = document.getElementById('cart-total-price');
+                
+                container.innerHTML = '';
+                let totalDinheiro = 0;
+                let totalItens = 0;
+
+                if (carrinho.length === 0) {
+                    container.innerHTML = '<p style="color:#86868b; text-align:center; margin-top:40px; font-weight: 500;">Seu carrinho está vazio.</p>';
+                }
+
+                carrinho.forEach((item) => {
+                    const precoStr = String(item.preco || "0,00");
+                    const precoNumerico = parseFloat(precoStr.replace(/\./g, '').replace(',', '.'));
+                    
+                    if (!isNaN(precoNumerico)) {
+                        totalDinheiro += (precoNumerico * item.quantidade);
+                    }
+                    totalItens += item.quantidade;
+
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.src='imagens/logo.webp'">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.titulo}</div>
+                                <div class="cart-item-price">R$ ${item.preco}</div>
+                                <div class="cart-item-qty">
+                                    <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="qty-input" data-id="${item.id}" value="${item.quantidade}" min="1">
+                                    <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-remove" data-id="${item.id}" title="Remover">&times;</div>
+                        </div>
+                    `;
+                });
+
+                if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+                if(floatingCountBadge) floatingCountBadge.textContent = totalItens; 
+                if(totalDisplay) totalDisplay.textContent = 'R$ ' + totalDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                localStorage.setItem('guard_carrinho', JSON.stringify(carrinho));
+            } catch(e) {
+                console.error("Erro no motor do carrinho:", e);
+                localStorage.removeItem('guard_carrinho'); 
+                carrinho = [];
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-add-cart')) {
+                const btn = e.target;
+                const itemId = btn.dataset.id;
+                const itemExistente = carrinho.find(i => i.id === itemId);
+                
+                if (itemExistente) {
+                    itemExistente.quantidade += 1;
+                } else {
+                    carrinho.push({
+                        id: itemId,
+                        titulo: btn.dataset.titulo,
+                        preco: btn.dataset.preco,
+                        imagem: btn.dataset.imagem,
+                        quantidade: 1
+                    });
+                }
+                atualizarCarrinho();
+                abrirCarrinho();
+            }
+
+            if (e.target.classList.contains('btn-buy-now')) {
+                const btn = e.target;
+                const itemComprado = [{
+                    id: btn.dataset.id,
+                    titulo: btn.dataset.titulo,
+                    preco: btn.dataset.preco,
+                    imagem: btn.dataset.imagem,
+                    quantidade: 1
+                }];
+                localStorage.setItem('guard_compra_direta', JSON.stringify(itemComprado));
+                window.location.href = "checkout?direto=true";
+            }
+
+            if (e.target.classList.contains('qty-plus')) {
+                const item = carrinho.find(i => i.id === e.target.dataset.id);
+                if (item) {
+                    item.quantidade += 1;
+                    atualizarCarrinho();
+                }
+            }
+
+            if (e.target.classList.contains('qty-minus')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    if (carrinho[index].quantidade > 1) {
+                        carrinho[index].quantidade -= 1;
+                    } else {
+                        carrinho.splice(index, 1);
+                    }
+                    atualizarCarrinho();
+                }
+            }
+
+            if (e.target.classList.contains('cart-item-remove')) {
+                const index = carrinho.findIndex(i => i.id === e.target.dataset.id);
+                if (index !== -1) {
+                    carrinho.splice(index, 1);
+                    atualizarCarrinho();
+                }
+            }
+        });
+
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                const itemId = e.target.dataset.id;
+                let novaQuantidade = parseInt(e.target.value);
+
+                if (isNaN(novaQuantidade) || novaQuantidade < 1) {
+                    novaQuantidade = 1;
+                }
+
+                const item = carrinho.find(i => i.id === itemId);
+                if (item) {
+                    item.quantidade = novaQuantidade;
+                    atualizarCarrinho();
+                }
+            }
+        });
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function abrirCarrinho() {
+            if(cartSidebar) cartSidebar.classList.add('active');
+            if(cartOverlay) cartOverlay.classList.add('active');
+        }
+
+        function fecharCarrinho() {
+            if(cartSidebar) cartSidebar.classList.remove('active');
+            if(cartOverlay) cartOverlay.classList.remove('active');
+        }
+
+        document.getElementById('mobile-cart-btn')?.addEventListener('click', abrirCarrinho);
+        document.getElementById('floating-cart-btn')?.addEventListener('click', abrirCarrinho); 
+        document.getElementById('close-cart-btn')?.addEventListener('click', fecharCarrinho);
+        cartOverlay?.addEventListener('click', fecharCarrinho);
+
+        atualizarCarrinho();
+        inicializarLoja();
+
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth > 768) {
+                const header = document.querySelector('header');
+                if (window.scrollY > 20) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            }
+        });
+
+        async function checarSeloAdmin() {
+            try {
+                const resposta = await fetch('/api/verificar-admin');
+                
+                if (resposta.ok) {
+                    const dados = await resposta.json();
+                    
+                    if (dados.isAdmin) {
+                        const encontrarElemento = setInterval(() => {
+                            const badgeAdm = document.getElementById('badge-adm-header');
+                            if (badgeAdm) {
+                                badgeAdm.style.display = 'inline-block';
+                                clearInterval(encontrarElemento);
+                            }
+                        }, 100);
+        
+                        setTimeout(() => clearInterval(encontrarElemento), 5000);
+                    }
+                }
+            } catch (erro) {}
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checarSeloAdmin);
+        } else {
+            checarSeloAdmin();
+        }
+
+        // ==========================================
+        // SISTEMA DO BANNER LGPD / COOKIES
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookieBanner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('btn-accept-cookies');
+            const declineBtn = document.getElementById('btn-decline-cookies');
+
+            // Verifica se o usuário já aceitou/recusou antes (salvo no cache)
+            if (!localStorage.getItem('guard_cookie_consent')) {
+                cookieBanner.style.display = 'flex';
+                // Adiciona uma classe no body para ajustar o WhatsApp no mobile
+                document.body.classList.add('has-cookie-banner');
+            }
+
+            const fecharBanner = (status) => {
+                localStorage.setItem('guard_cookie_consent', status);
+                cookieBanner.style.opacity = '0';
+                document.body.classList.remove('has-cookie-banner');
+                
+                // Aguarda a animação sumir para remover o HTML da tela
+                setTimeout(() => {
+                    cookieBanner.style.display = 'none';
+                }, 300); 
+            };
+
+            acceptBtn?.addEventListener('click', () => fecharBanner('accepted'));
+            declineBtn?.addEventListener('click', () => fecharBanner('declined'));
+        });
+        
+    </script>
+    <script src="apple-alerts.js"></script>
+</body>
+</html>
