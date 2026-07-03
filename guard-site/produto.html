@@ -962,6 +962,38 @@
                     `;
 
                     carregarSimilares(p.categoria, p.id);
+
+                    // ==========================================
+                    // INJEÇÃO DE DADOS ESTRUTURADOS (SEO GOOGLE)
+                    // ==========================================
+                    try {
+                        // Converte "1.250,90" ou "199,90" para formato numérico (ex: 1250.90) exigido pelo Google
+                        const precoLimpoStr = String(p.preco || "0").replace(/\./g, '').replace(',', '.');
+                        const precoNumericoStr = parseFloat(precoLimpoStr).toFixed(2);
+
+                        const scriptSchema = document.createElement('script');
+                        scriptSchema.type = 'application/ld+json';
+                        scriptSchema.text = JSON.stringify({
+                            "@context": "https://schema.org/",
+                            "@type": "Product",
+                            "name": p.titulo,
+                            "image": [ p.imagem ],
+                            "description": p.descricao || p.titulo,
+                            "sku": p.id,
+                            "offers": {
+                                "@type": "Offer",
+                                "url": window.location.href,
+                                "priceCurrency": "BRL",
+                                "price": precoNumericoStr,
+                                "availability": "https://schema.org/InStock",
+                                "itemCondition": "https://schema.org/NewCondition"
+                            }
+                        });
+                        document.head.appendChild(scriptSchema);
+                    } catch (seoError) {
+                        console.error("Erro ao gerar Schema SEO:", seoError);
+                    }
+
                 } else {
                     alert("Este produto já não existe ou foi removido.");
                     window.location.href = "store";
