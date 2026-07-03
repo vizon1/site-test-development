@@ -1313,39 +1313,61 @@
                 bairro: bairroInput.value.trim(), cidade: cidadeInput.value.trim(), estado: estadoSelect.value.toUpperCase()
             };
 
-            const novoPedido = {
+        // 1. FILTRA OS DADOS
+            const pacoteSeguro = itensCheckout.map(item => ({
+                id: item.id,
+                quantidade: item.quantidade
+            }));
+
+            // 2. MONTA O PACOTE DE INFORMAÇÕES
+            const dadosDoClienteParaAPI = {
                 userId: finalUserId,
                 clienteEmail: emailDigitado,
                 clienteNome: nomeInput.value.trim(),
                 clienteCpf: cpfInput.value,
                 clienteTelefone: telefoneInput.value,
-                itens: itensCheckout,
-                subtotal: subtotalCompra,
+                itens: pacoteSeguro,
                 frete: valorFrete,
-                total: subtotalCompra + valorFrete,
                 enderecoEntrega: enderecoPedido,
-                metodoPagamento: metodoSelecionado, 
-                status: (metodoSelecionado === 'cartao_credito' || metodoSelecionado === 'cartao_debito') ? 'Processando Pagamento' : 'Aguardando Pagamento',
-                dataCriacao: new Date().toISOString()
+                metodoPagamento: metodoSelecionado,
+                caixaUsada: caixaSelecionadaGlobal ? caixaSelecionadaGlobal.id : null
             };
 
-            try { 
-                await addDoc(collection(db, "pedidos"), novoPedido); 
-                
-                if (caixaSelecionadaGlobal) {
-                    const cxRef = doc(db, "caixas", caixaSelecionadaGlobal.id);
-                    await setDoc(cxRef, { estoque: caixaSelecionadaGlobal.estoque - 1 }, { merge: true });
+            try {
+
+                const resposta = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosDoClienteParaAPI)
+                });
+
+                const resultado = await resposta.json();
+
+                if (resultado.sucesso) {
+
+                    localStorage.setItem('guard_total_pedido', resultado.totalAprovado);
+                    localStorage.setItem('guard_id_pedido_atual', resultado.idPedido);
+                    localStorage.removeItem(storageKey);
+
+                    if (metodoSelecionado === 'pix') {
+                        window.location.href = "pagamento-pix";
+                    } else {
+                        await alert(`Pedido Registrado com Sucesso!\n\nValor seguro calculado: R$ ${resultado.totalAprovado.replace('.', ',')}\n\nAcompanhe o status na aba Meus Pedidos.`, "Sucesso");
+                        window.location.href = "meus-pedidos"; 
+                    }
+                } else {
+                    await alert("Erro de segurança: " + resultado.erro, "Erro");
+                    btnSalvar.textContent = "Confirmar e Pagar"; 
+                    btnSalvar.disabled = false;
                 }
-            } catch (error) { console.error("Erro ao gerar pedido:", error); }
 
-            localStorage.setItem('guard_total_pedido', totalFinalEl.textContent);
-            localStorage.removeItem(storageKey);
-
-            if (metodoSelecionado === 'pix') window.location.href = "pagamento-pix";
-            else {
-                await alert(`Pedido Registrado com Sucesso!\n\nAcompanhe o status na aba Meus Pedidos.`, "Sucesso");
-                window.location.href = "meus-pedidos"; 
+            } catch (error) { 
+                console.error("Erro ao gerar pedido seguro:", error); 
+                await alert("Falha na conexão com os servidores seguros da Guard.", "Erro");
+                btnSalvar.textContent = "Confirmar e Pagar"; 
+                btnSalvar.disabled = false;
             }
+    
         });
     </script>
 </body>
