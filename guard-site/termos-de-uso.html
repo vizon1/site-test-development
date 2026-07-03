@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Termos de Uso - Guard Store</title>
+    <link rel="icon" type="image/webp" href="imagens/logo.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           RESET E ESTILOS GERAIS (DARK MODE)
+           ========================================== */
+        :root {
+            --bg-color: #000000;
+            --surface-color: #111111;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent: #FFFF00;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        html, body {
+            margin: 0; padding: 0; width: 100%;
+            background-color: var(--bg-color); color: var(--text-primary);
+            font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER SIMPLIFICADO */
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            height: 70px;
+        }
+        .back-link {
+            position: absolute; left: 24px; color: var(--text-secondary);
+            text-decoration: none; display: flex; align-items: center; gap: 8px;
+            font-size: 0.9rem; font-weight: 500; transition: color 0.2s;
+        }
+        .back-link:hover { color: #fff; }
+        .logo-img { height: 45px; width: auto; }
+
+        /* CONTEÚDO DA POLÍTICA */
+        .policy-container {
+            max-width: 800px; margin: 60px auto 100px; padding: 0 24px;
+        }
+        .policy-header {
+            text-align: center; margin-bottom: 50px;
+        }
+        .policy-header h1 {
+            font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px;
+        }
+        .policy-header p {
+            color: var(--text-secondary); font-size: 1.1rem; margin: 0;
+        }
+
+        .policy-content {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        .policy-section {
+            margin-bottom: 35px;
+        }
+        .policy-section:last-child { margin-bottom: 0; }
+        .policy-section h2 {
+            font-size: 1.3rem; font-weight: 700; color: var(--accent);
+            margin-top: 0; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .policy-section p {
+            color: #d2d2d7; font-size: 1rem; margin-bottom: 15px;
+        }
+        .policy-section ul {
+            color: #d2d2d7; padding-left: 20px; margin-bottom: 15px;
+        }
+        .policy-section li { margin-bottom: 8px; }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 30px 24px; border-top: 1px solid var(--border-color);
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .policy-container { margin-top: 40px; }
+            .policy-header h1 { font-size: 2rem; }
+            .policy-content { padding: 25px; }
+            .back-link span { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="store" class="back-link">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>Voltar à Loja</span>
+        </a>
+        <img src="imagens/logo.webp" alt="Guard Store" class="logo-img" onerror="this.style.display='none'">
+    </header>
+
+    <main class="policy-container">
+        <div class="policy-header">
+            <h1>Termos de Uso</h1>
+            <p>Regras e condições para a utilização da nossa loja.</p>
+        </div>
+
+        <div class="policy-content">
+            <div class="policy-section">
+                <h2>1. Aceitação dos Termos</h2>
+                <p>Ao acessar e utilizar o site da <strong>Guard Store</strong>, você concorda expressamente com os Termos e Condições de Uso aqui descritos. Se você não concordar com qualquer parte destes termos, recomendamos que não utilize nossos serviços.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>2. Cadastro e Conta do Usuário</h2>
+                <p>Para realizar compras, poderá ser exigido um cadastro. O usuário é responsável por manter a confidencialidade dos dados de sua conta e de sua senha.</p>
+                <ul>
+                    <li>As informações fornecidas devem ser exatas, precisas e verdadeiras.</li>
+                    <li>A Guard Store não se responsabiliza por compras realizadas por terceiros utilizando a conta do usuário devido ao compartilhamento de senhas.</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>3. Informações sobre Produtos</h2>
+                <p>Nós nos esforçamos para apresentar as descrições e imagens dos nossos equipamentos de segurança da forma mais precisa possível. No entanto, pequenas variações de cor, design ou especificações técnicas podem ocorrer de acordo com atualizações do fabricante.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>4. Preços e Pagamentos</h2>
+                <p>Os preços exibidos no site estão em Reais (BRL) e podem ser alterados sem aviso prévio. O valor válido é o que consta no carrinho no momento da finalização da compra. Os métodos de pagamento aceitos estão descritos na página de checkout e são processados de forma segura.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>5. Responsabilidade sobre Instalação</h2>
+                <p>A Guard Store comercializa os equipamentos, mas <strong>não se responsabiliza pela instalação incorreta</strong> ou configuração inadequada dos dispositivos (como câmeras, DVRs e alarmes) feita pelo cliente ou por técnicos terceirizados. Danos causados por má instalação invalidam a garantia legal do produto.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. Direitos Autorais</h2>
+                <p>Todo o conteúdo deste site, incluindo textos, logotipos, gráficos e imagens, é de propriedade exclusiva da Guard Store. É expressamente proibida a cópia, reprodução ou distribuição não autorizada de qualquer material sem consentimento prévio.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>7. Alterações nos Termos</h2>
+                <p>A Guard Store reserva-se o direito de atualizar ou modificar estes Termos de Uso a qualquer momento, visando adaptar-se a novas legislações ou mudanças operacionais. A versão válida é sempre a mais recente publicada nesta página.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>8. Contato</h2>
+                <p>Caso tenha dúvidas sobre estes Termos de Uso, entre em contato conosco pelos nossos canais oficiais:</p>
+                <p><strong>WhatsApp / Telefone:</strong> (15) 98824-6986</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        GUARD 2026 | CNPJ protegido e verificado.
+    </footer>
+
+</body>
+</html>
