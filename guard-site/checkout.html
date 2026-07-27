@@ -1008,9 +1008,7 @@
                 }
 
                 const payload = { from: { postal_code: CEP_ORIGEM }, to: { postal_code: cepDestino }, products: payloadProducts };
-                console.log("Enviando para API:", payload);
 
-                // CHAMADA REAL À API
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1018,9 +1016,7 @@
                 });
 
                 const cotacoes = await response.json();
-                console.log("Resposta do Melhor Envio:", cotacoes);
 
-                // Tratamento se a API retornar erro de Token ou Servidor (Objeto em vez de Array)
                 if (!response.ok || !Array.isArray(cotacoes)) {
                     const msgErro = cotacoes.message || cotacoes.error || JSON.stringify(cotacoes);
                     freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;"><b>Erro na API do Melhor Envio:</b><br>${msgErro}</div>`;
@@ -1030,51 +1026,60 @@
                 freteResultados.innerHTML = '';
                 let encontrouOpcao = false;
                 let motivosRecusa = [];
+                let renderIndex = 0; // Usado para selecionar o primeiro item visível
 
-                // Ordena do frete mais barato para o mais caro
                 cotacoes.sort((a, b) => {
                     const precoA = parseFloat(a.custom_price || a.price || 0);
                     const precoB = parseFloat(b.custom_price || b.price || 0);
                     return precoA - precoB;
                 });
 
-                cotacoes.forEach((opcao, index) => {
+                cotacoes.forEach((opcao) => {
                     if (opcao.error) {
                         motivosRecusa.push(`<b>${opcao.name}:</b> ${opcao.error}`);
                         return; 
                     }
+
+                    // ==========================================
+                    // FILTRO RÍGIDO: APENAS CORREIOS (PAC E SEDEX)
+                    // ==========================================
+                    const nomeEmpresa = (opcao.company && opcao.company.name) ? opcao.company.name.toLowerCase() : "";
+                    const nomeServico = (opcao.name) ? opcao.name.toLowerCase() : "";
+                    
+                    if (!nomeEmpresa.includes('correios')) return;
+                    if (!nomeServico.includes('pac') && !nomeServico.includes('sedex')) return;
+                    // ==========================================
                     
                     encontrouOpcao = true;
                     
-                    // Pega o custom_price (se tiver desconto) ou price normal
                     const valor = parseFloat(opcao.custom_price || opcao.price);
                     const prazo = opcao.custom_delivery_time || opcao.delivery_time;
-                    const nomeTransp = (opcao.company && opcao.company.name) ? opcao.company.name : "Transportadora";
-                    const imgTransp = (opcao.company && opcao.company.picture) ? opcao.company.picture : "imagens/logo.webp";
+                    const nomeTranspReal = opcao.company.name;
+                    const imgTransp = opcao.company.picture || "imagens/logo.webp";
 
                     freteResultados.innerHTML += `
-                        <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
+                        <div class="frete-opcao ${renderIndex === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
                             <div class="frete-info-container">
                                 <div class="frete-radio-circle"></div>
                                 <img src="${imgTransp}" alt="Logo" style="width:30px; margin-right:15px; border-radius:4px; background:#fff; padding:2px;">
                                 <div>
-                                    <span class="frete-nome">${nomeTransp} - ${opcao.name}</span>
+                                    <span class="frete-nome">${nomeTranspReal} - ${opcao.name}</span>
                                     <span class="frete-prazo">Entrega em até ${prazo} dias úteis</span>
                                 </div>
                             </div>
                             <div class="frete-valor">R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
                         </div>
                     `;
+                    renderIndex++;
                 });
 
                 if (encontrouOpcao) {
                     const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
                     if (primeiraOpcao) selecionarFrete(primeiraOpcao);
                 } else {
-                    // SE NENHUMA OPÇÃO FOR VÁLIDA, MOSTRA O PORQUÊ NA TELA!
                     freteResultados.innerHTML = `
                         <div style="color: #ff4444; font-size: 0.9rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;">
-                            <b>O Melhor Envio recusou a cotação. Motivos:</b><br><br>
+                            <b>Nenhuma opção de Correios disponível. Motivos reportados:</b><br><br>
                             ${motivosRecusa.join('<br>')}
                         </div>`;
                 }
@@ -1084,7 +1089,7 @@
                 freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Erro interno ao processar frete. Abra o F12 (Console) para ver.</div>`;
             }
         }
-
+        
         cepInput.addEventListener('input', async (e) => {
             let v = e.target.value.replace(/\D/g, ""); v = v.replace(/^(\d{5})(\d)/, "$1-$2"); e.target.value = v.substring(0, 9);
             const cepLimpo = v.replace(/\D/g, '');
