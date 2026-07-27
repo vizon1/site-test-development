@@ -928,7 +928,7 @@
             if (cepDestino.length !== 8) return;
 
             freteVazio.style.display = 'none'; freteResultados.style.display = 'flex';
-            freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.95rem; padding: 20px; text-align: center; font-weight: 500;">A consultar transportadoras...</div>';
+            freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.95rem; padding: 20px; text-align: center; font-weight: 500;">A consultar transportadoras no Melhor Envio...</div>';
 
             try {
                 let pesoTotalItens = 0;
@@ -937,16 +937,17 @@
                 let valorSeguro = 0;
 
                 for (const item of itensCheckout) {
-                    const docSnap = await getDoc(doc(db, "produtos", item.id));
                     let a = 15, l = 20, c = 20, p = 0.5; 
-                    
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        if(data.altura) a = parseFloat(String(data.altura).replace(',','.'));
-                        if(data.largura) l = parseFloat(String(data.largura).replace(',','.'));
-                        if(data.comprimento) c = parseFloat(String(data.comprimento).replace(',','.'));
-                        if(data.peso) p = parseFloat(String(data.peso).replace(',','.'));
-                    }
+                    try {
+                        const docSnap = await getDoc(doc(db, "produtos", item.id));
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            if(data.altura) a = parseFloat(String(data.altura).replace(',','.'));
+                            if(data.largura) l = parseFloat(String(data.largura).replace(',','.'));
+                            if(data.comprimento) c = parseFloat(String(data.comprimento).replace(',','.'));
+                            if(data.peso) p = parseFloat(String(data.peso).replace(',','.'));
+                        }
+                    } catch(e) { console.warn("Usando dimensões padrão para", item.id); }
                     
                     const qtd = parseInt(item.quantidade);
                     pesoTotalItens += (p * qtd);
@@ -959,105 +960,128 @@
                 }
 
                 let melhorCaixa = null;
-                const caixasSnap = await getDocs(collection(db, "caixas"));
-                let menorSobraDeVolume = Infinity;
+                try {
+                    const caixasSnap = await getDocs(collection(db, "caixas"));
+                    let menorSobraDeVolume = Infinity;
 
-                caixasSnap.forEach(doc => {
-                    const cx = { id: doc.id, ...doc.data() };
-                    if (cx.estoque > 0) {
-                        const altCx = Number(cx.altura), largCx = Number(cx.largura), compCx = Number(cx.comprimento);
-                        const volumeCx = altCx * largCx * compCx;
-                        const maiorLadoCx = Math.max(altCx, largCx, compCx);
-                        const somaLados = altCx + largCx + compCx;
+                    caixasSnap.forEach(doc => {
+                        const cx = { id: doc.id, ...doc.data() };
+                        if (cx.estoque > 0) {
+                            const altCx = Number(cx.altura), largCx = Number(cx.largura), compCx = Number(cx.comprimento);
+                            const volumeCx = altCx * largCx * compCx;
+                            const maiorLadoCx = Math.max(altCx, largCx, compCx);
+                            const somaLados = altCx + largCx + compCx;
 
-                        if (volumeCx >= volumeTotalItens && maiorLadoCx >= maiorDimensaoUnit && somaLados <= 200) {
-                            const sobra = volumeCx - volumeTotalItens;
-                            if (sobra < menorSobraDeVolume) {
-                                menorSobraDeVolume = sobra;
-                                melhorCaixa = cx;
+                            if (volumeCx >= volumeTotalItens && maiorLadoCx >= maiorDimensaoUnit && somaLados <= 200) {
+                                const sobra = volumeCx - volumeTotalItens;
+                                if (sobra < menorSobraDeVolume) {
+                                    menorSobraDeVolume = sobra;
+                                    melhorCaixa = cx;
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                } catch(e) { console.warn("Erro ao ler caixas."); }
 
                 let payloadProducts = [];
                 if (melhorCaixa) {
                     caixaSelecionadaGlobal = melhorCaixa;
                     const pesoFinalPacote = pesoTotalItens + Number(melhorCaixa.pesoVazia || 0.1) + 0.05;
                     payloadProducts.push({ 
-                        id: "caixa_" + melhorCaixa.id, weight: pesoFinalPacote, 
-                        width: Number(melhorCaixa.largura), height: Number(melhorCaixa.altura), length: Number(melhorCaixa.comprimento), 
-                        insurance_value: valorSeguro, quantity: 1 
+                        id: "caixa_" + melhorCaixa.id, 
+                        weight: pesoFinalPacote, 
+                        width: Number(melhorCaixa.largura), 
+                        height: Number(melhorCaixa.altura), 
+                        length: Number(melhorCaixa.comprimento), 
+                        insurance_value: valorSeguro, 
+                        quantity: 1 
                     });
                 } else {
                     caixaSelecionadaGlobal = null;
                     payloadProducts.push({ 
-                        id: "pacote_generico", weight: pesoTotalItens + 0.1, 
-                        width: 20, height: 15, length: 20, insurance_value: valorSeguro, quantity: 1 
+                        id: "pacote_generico", 
+                        weight: pesoTotalItens + 0.1, 
+                        width: 20, height: 15, length: 20, 
+                        insurance_value: valorSeguro, 
+                        quantity: 1 
                     });
                 }
 
                 const payload = { from: { postal_code: CEP_ORIGEM }, to: { postal_code: cepDestino }, products: payloadProducts };
+                console.log("Enviando para API:", payload);
 
-                // CHAMADA REAL À SUA API (Melhor Envio)
+                // CHAMADA REAL À API
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error("Erro devolvido pela API:", errorData);
-                    throw new Error('Falha na cotação do frete.');
+                const cotacoes = await response.json();
+                console.log("Resposta do Melhor Envio:", cotacoes);
+
+                // Tratamento se a API retornar erro de Token ou Servidor (Objeto em vez de Array)
+                if (!response.ok || !Array.isArray(cotacoes)) {
+                    const msgErro = cotacoes.message || cotacoes.error || JSON.stringify(cotacoes);
+                    freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;"><b>Erro na API do Melhor Envio:</b><br>${msgErro}</div>`;
+                    return;
                 }
 
-                const cotacoes = await response.json();
                 freteResultados.innerHTML = '';
                 let encontrouOpcao = false;
+                let motivosRecusa = [];
 
-                if (Array.isArray(cotacoes)) {
-                    // Ordena do frete mais barato para o mais caro
-                    cotacoes.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                // Ordena do frete mais barato para o mais caro
+                cotacoes.sort((a, b) => {
+                    const precoA = parseFloat(a.custom_price || a.price || 0);
+                    const precoB = parseFloat(b.custom_price || b.price || 0);
+                    return precoA - precoB;
+                });
 
-                    cotacoes.forEach((opcao, index) => {
-                        if (opcao.error) return; 
-                        
-                        encontrouOpcao = true;
-                        
-                        const valor = parseFloat(opcao.price);
-                        const prazo = opcao.custom_delivery_time || opcao.delivery_time;
-                        const nomeTransp = (opcao.company && opcao.company.name) ? opcao.company.name : "Transportadora";
-                        const imgTransp = (opcao.company && opcao.company.picture) ? opcao.company.picture : "imagens/logo.webp";
-
-                        freteResultados.innerHTML += `
-                            <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
-                                <div class="frete-info-container">
-                                    <div class="frete-radio-circle"></div>
-                                    <img src="${imgTransp}" alt="Logo" style="width:30px; margin-right:15px; border-radius:4px; background:#fff; padding:2px;">
-                                    <div>
-                                        <span class="frete-nome">${nomeTransp} - ${opcao.name}</span>
-                                        <span class="frete-prazo">Entrega em até ${prazo} dias úteis</span>
-                                    </div>
-                                </div>
-                                <div class="frete-valor">R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                            </div>
-                        `;
-                    });
-
-                    if (encontrouOpcao) {
-                        const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
-                        if (primeiraOpcao) selecionarFrete(primeiraOpcao);
+                cotacoes.forEach((opcao, index) => {
+                    if (opcao.error) {
+                        motivosRecusa.push(`<b>${opcao.name}:</b> ${opcao.error}`);
+                        return; 
                     }
-                }
+                    
+                    encontrouOpcao = true;
+                    
+                    // Pega o custom_price (se tiver desconto) ou price normal
+                    const valor = parseFloat(opcao.custom_price || opcao.price);
+                    const prazo = opcao.custom_delivery_time || opcao.delivery_time;
+                    const nomeTransp = (opcao.company && opcao.company.name) ? opcao.company.name : "Transportadora";
+                    const imgTransp = (opcao.company && opcao.company.picture) ? opcao.company.picture : "imagens/logo.webp";
 
-                if (!encontrouOpcao) {
-                    freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Nenhuma transportadora disponível para este CEP.</div>';
+                    freteResultados.innerHTML += `
+                        <div class="frete-opcao ${index === 0 ? 'selecionado' : ''}" data-valor="${valor}" onclick="selecionarFrete(this)">
+                            <div class="frete-info-container">
+                                <div class="frete-radio-circle"></div>
+                                <img src="${imgTransp}" alt="Logo" style="width:30px; margin-right:15px; border-radius:4px; background:#fff; padding:2px;">
+                                <div>
+                                    <span class="frete-nome">${nomeTransp} - ${opcao.name}</span>
+                                    <span class="frete-prazo">Entrega em até ${prazo} dias úteis</span>
+                                </div>
+                            </div>
+                            <div class="frete-valor">R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                        </div>
+                    `;
+                });
+
+                if (encontrouOpcao) {
+                    const primeiraOpcao = freteResultados.querySelector('.frete-opcao');
+                    if (primeiraOpcao) selecionarFrete(primeiraOpcao);
+                } else {
+                    // SE NENHUMA OPÇÃO FOR VÁLIDA, MOSTRA O PORQUÊ NA TELA!
+                    freteResultados.innerHTML = `
+                        <div style="color: #ff4444; font-size: 0.9rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;">
+                            <b>O Melhor Envio recusou a cotação. Motivos:</b><br><br>
+                            ${motivosRecusa.join('<br>')}
+                        </div>`;
                 }
 
             } catch (error) {
-                console.error("Erro ao processar frete na rota interna:", error);
-                freteResultados.innerHTML = '<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Ocorreu um erro ao calcular o frete. Verifique a consola (F12) para os detalhes.</div>';
+                console.error("Erro no script de frete:", error);
+                freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; text-align: center;">Erro interno ao processar frete. Abra o F12 (Console) para ver.</div>`;
             }
         }
 
