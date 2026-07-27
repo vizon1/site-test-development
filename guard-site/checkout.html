@@ -946,13 +946,11 @@
             freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.95rem; padding: 20px; text-align: center; font-weight: 500;">A consultar transportadoras no Melhor Envio...</div>';
 
             try {
-                let pesoTotalItens = 0;
-                let volumeTotalItens = 0;
-                let maiorDimensaoUnit = 0;
-                let valorSeguro = 0;
+                let payloadProducts = [];
 
+                // 1. Busca os dados de cada produto individualmente no banco
                 for (const item of itensCheckout) {
-                    let a = 15, l = 20, c = 20, p = 0.5; 
+                    let a = 15, l = 15, c = 20, p = 0.5; // Dimensões padrão seguras caso não exista no BD
                     try {
                         const docSnap = await getDoc(doc(db, "produtos", item.id));
                         if (docSnap.exists()) {
@@ -965,65 +963,25 @@
                     } catch(e) { console.warn("Usando dimensões padrão para", item.id); }
                     
                     const qtd = parseInt(item.quantidade);
-                    pesoTotalItens += (p * qtd);
-                    volumeTotalItens += (a * l * c * qtd);
-                    maiorDimensaoUnit = Math.max(maiorDimensaoUnit, a, l, c);
-                    
                     const precoLimpo = String(item.preco).replace(/[^\d,]/g, '');
                     const precoNumerico = parseFloat(precoLimpo.replace(',', '.'));
-                    valorSeguro += (precoNumerico * qtd);
-                }
-
-                let melhorCaixa = null;
-                try {
-                    const caixasSnap = await getDocs(collection(db, "caixas"));
-                    let menorSobraDeVolume = Infinity;
-
-                    caixasSnap.forEach(doc => {
-                        const cx = { id: doc.id, ...doc.data() };
-                        if (cx.estoque > 0) {
-                            const altCx = Number(cx.altura), largCx = Number(cx.largura), compCx = Number(cx.comprimento);
-                            const volumeCx = altCx * largCx * compCx;
-                            const maiorLadoCx = Math.max(altCx, largCx, compCx);
-                            const somaLados = altCx + largCx + compCx;
-
-                            if (volumeCx >= volumeTotalItens && maiorLadoCx >= maiorDimensaoUnit && somaLados <= 200) {
-                                const sobra = volumeCx - volumeTotalItens;
-                                if (sobra < menorSobraDeVolume) {
-                                    menorSobraDeVolume = sobra;
-                                    melhorCaixa = cx;
-                                }
-                            }
-                        }
-                    });
-                } catch(e) { console.warn("Erro ao ler caixas."); }
-
-                let payloadProducts = [];
-                if (melhorCaixa) {
-                    caixaSelecionadaGlobal = melhorCaixa;
-                    const pesoFinalPacote = pesoTotalItens + Number(melhorCaixa.pesoVazia || 0.1) + 0.05;
-                    payloadProducts.push({ 
-                        id: "caixa_" + melhorCaixa.id, 
-                        weight: pesoFinalPacote, 
-                        width: Number(melhorCaixa.largura), 
-                        height: Number(melhorCaixa.altura), 
-                        length: Number(melhorCaixa.comprimento), 
-                        insurance_value: valorSeguro, 
-                        quantity: 1 
-                    });
-                } else {
-                    caixaSelecionadaGlobal = null;
-                    payloadProducts.push({ 
-                        id: "pacote_generico", 
-                        weight: pesoTotalItens + 0.1, 
-                        width: 20, height: 15, length: 20, 
-                        insurance_value: valorSeguro, 
-                        quantity: 1 
+                    
+                    // 2. Adiciona o produto na lista com a QUANTIDADE REAL. 
+                    // O Melhor Envio fará a cubagem somando essas quantidades no bastidor.
+                    payloadProducts.push({
+                        id: item.id,
+                        weight: p,
+                        width: l,
+                        height: a,
+                        length: c,
+                        insurance_value: precoNumerico,
+                        quantity: qtd
                     });
                 }
 
                 const payload = { from: { postal_code: CEP_ORIGEM }, to: { postal_code: cepDestino }, products: payloadProducts };
 
+                // 3. Chamada à API
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1041,7 +999,7 @@
                 freteResultados.innerHTML = '';
                 let encontrouOpcao = false;
                 let motivosRecusa = [];
-                let renderIndex = 0; // Usado para selecionar o primeiro item visível
+                let renderIndex = 0;
 
                 cotacoes.sort((a, b) => {
                     const precoA = parseFloat(a.custom_price || a.price || 0);
@@ -1055,15 +1013,12 @@
                         return; 
                     }
 
-                    // ==========================================
                     // FILTRO RÍGIDO: APENAS CORREIOS (PAC E SEDEX)
-                    // ==========================================
                     const nomeEmpresa = (opcao.company && opcao.company.name) ? opcao.company.name.toLowerCase() : "";
                     const nomeServico = (opcao.name) ? opcao.name.toLowerCase() : "";
                     
                     if (!nomeEmpresa.includes('correios')) return;
                     if (!nomeServico.includes('pac') && !nomeServico.includes('sedex')) return;
-                    // ==========================================
                     
                     encontrouOpcao = true;
                     
