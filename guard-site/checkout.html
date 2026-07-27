@@ -943,14 +943,17 @@
             if (cepDestino.length !== 8) return;
 
             freteVazio.style.display = 'none'; freteResultados.style.display = 'flex';
-            freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.95rem; padding: 20px; text-align: center; font-weight: 500;">A consultar transportadoras no Melhor Envio...</div>';
+            freteResultados.innerHTML = '<div style="color: #FFFF00; font-size: 0.95rem; padding: 20px; text-align: center; font-weight: 500;">A empacotar itens e a consultar Correios...</div>';
 
             try {
-                let payloadProducts = [];
+                let pesoTotalItens = 0;
+                let volumeTotalItens = 0;
+                let maiorLadoItemGeral = 0;
+                let valorSeguro = 0;
 
-                // 1. Busca os dados de cada produto individualmente no banco
+                // 1. Somar peso, volume e valor de todos os itens do carrinho
                 for (const item of itensCheckout) {
-                    let a = 15, l = 15, c = 20, p = 0.5; // Dimensões padrão seguras caso não exista no BD
+                    let a = 15, l = 20, c = 20, p = 0.5; // Padrões caso falte no banco
                     try {
                         const docSnap = await getDoc(doc(db, "produtos", item.id));
                         if (docSnap.exists()) {
@@ -963,25 +966,80 @@
                     } catch(e) { console.warn("Usando dimensões padrão para", item.id); }
                     
                     const qtd = parseInt(item.quantidade);
-                    const precoLimpo = String(item.preco).replace(/[^\d,]/g, '');
-                    const precoNumerico = parseFloat(precoLimpo.replace(',', '.'));
+                    const precoNumerico = parseFloat(String(item.preco).replace(/[^\d,]/g, '').replace(',', '.'));
                     
-                    // 2. Adiciona o produto na lista com a QUANTIDADE REAL. 
-                    // O Melhor Envio fará a cubagem somando essas quantidades no bastidor.
+                    pesoTotalItens += (p * qtd);
+                    volumeTotalItens += (a * l * c * qtd); // Altura * Largura * Comprimento
+                    maiorLadoItemGeral = Math.max(maiorLadoItemGeral, a, l, c);
+                    valorSeguro += (precoNumerico * qtd);
+                }
+
+                // 2. Procurar a melhor caixa no Banco de Dados
+                let melhorCaixa = null;
+                try {
+                    const caixasSnap = await getDocs(collection(db, "caixas"));
+                    let menorSobraDeVolume = Infinity;
+
+                    caixasSnap.forEach(doc => {
+                        const cx = { id: doc.id, ...doc.data() };
+                        const altCx = Number(cx.altura || 0);
+                        const largCx = Number(cx.largura || 0);
+                        const compCx = Number(cx.comprimento || 0);
+                        const pesoCaixaVazia = Number(cx.peso || cx.pesoVazia || 0.2); // Padrão 200g
+                        
+                        const volumeCx = altCx * largCx * compCx;
+                        const maiorLadoCx = Math.max(altCx, largCx, compCx);
+
+                        // Verifica se o volume da caixa comporta os itens e se a maior dimensão do item cabe na caixa
+                        if (volumeCx >= volumeTotalItens && maiorLadoCx >= maiorLadoItemGeral) {
+                            const sobra = volumeCx - volumeTotalItens;
+                            // Seleciona a caixa que deixa o menor espaço vazio (mais barata/justa)
+                            if (sobra < menorSobraDeVolume) {
+                                menorSobraDeVolume = sobra;
+                                cx.pesoReal = pesoCaixaVazia; 
+                                melhorCaixa = cx;
+                            }
+                        }
+                    });
+                } catch(e) { console.warn("Erro ao buscar caixas:", e); }
+
+                let payloadProducts = [];
+                
+                if (melhorCaixa) {
+                    // 3A. Se encontrou uma caixa que serve, envia APENAS ESTA CAIXA para a API
+                    caixaSelecionadaGlobal = melhorCaixa; 
+                    const pesoTotalComEmbalagem = pesoTotalItens + melhorCaixa.pesoReal;
+
                     payloadProducts.push({
-                        id: item.id,
-                        weight: p,
-                        width: l,
-                        height: a,
-                        length: c,
-                        insurance_value: precoNumerico,
-                        quantity: qtd
+                        id: "caixa_" + melhorCaixa.id,
+                        weight: pesoTotalComEmbalagem,
+                        width: Number(melhorCaixa.largura),
+                        height: Number(melhorCaixa.altura),
+                        length: Number(melhorCaixa.comprimento),
+                        insurance_value: valorSeguro,
+                        quantity: 1 // É apenas 1 volume (A sua caixa contendo todos os itens dentro)
+                    });
+                } else {
+                    // 3B. FALLBACK: Se compraram MUITOS itens e não cabe em nenhuma caixa sua
+                    // Ele simula uma caixa "quadrada" gigante para não travar a venda
+                    caixaSelecionadaGlobal = null;
+                    const arestaVirtual = Math.ceil(Math.cbrt(volumeTotalItens));
+                    const ladoCaixaVirtual = Math.max(arestaVirtual, maiorLadoItemGeral);
+
+                    payloadProducts.push({
+                        id: "pacote_virtual_gigante",
+                        weight: pesoTotalItens + 0.5,
+                        width: ladoCaixaVirtual,
+                        height: ladoCaixaVirtual,
+                        length: ladoCaixaVirtual,
+                        insurance_value: valorSeguro,
+                        quantity: 1
                     });
                 }
 
                 const payload = { from: { postal_code: CEP_ORIGEM }, to: { postal_code: cepDestino }, products: payloadProducts };
 
-                // 3. Chamada à API
+                // 4. Faz a requisição na API
                 const response = await fetch('/api/frete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -992,7 +1050,7 @@
 
                 if (!response.ok || !Array.isArray(cotacoes)) {
                     const msgErro = cotacoes.message || cotacoes.error || JSON.stringify(cotacoes);
-                    freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;"><b>Erro na API do Melhor Envio:</b><br>${msgErro}</div>`;
+                    freteResultados.innerHTML = `<div style="color: #ff4444; font-size: 0.95rem; padding: 20px; background: rgba(255,0,0,0.1); border-radius: 8px;"><b>Erro na API:</b><br>${msgErro}</div>`;
                     return;
                 }
 
@@ -1013,7 +1071,6 @@
                         return; 
                     }
 
-                    // FILTRO RÍGIDO: APENAS CORREIOS (PAC E SEDEX)
                     const nomeEmpresa = (opcao.company && opcao.company.name) ? opcao.company.name.toLowerCase() : "";
                     const nomeServico = (opcao.name) ? opcao.name.toLowerCase() : "";
                     
