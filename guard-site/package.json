@@ -1,0 +1,8 @@
+{
+  "name": "loja-guard",
+  "version": "1.0.0",
+  "description": "Site Guard Alarmes",
+  "dependencies": {
+    "firebase-admin": "^12.2.0"
+  }
+}
