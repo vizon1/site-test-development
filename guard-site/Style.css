@@ -18,16 +18,13 @@ body {
 }
 
 html {
-    scroll-behavior: smooth; /* A MÁGICA: Faz com que todos os links com # deslizem suavemente */
+    scroll-behavior: smooth;
 }
 
 :root {
     font-family: 'Fira Sans', sans-serif;
 }
 
-/* =========================================
-   CORREÇÃO DEFINITIVA DO BUG DO MENU (FLICKERING)
-   ========================================= */
 header {
     position: fixed !important;
     background-color: rgba(15, 15, 15, 0.5) !important;
@@ -45,9 +42,6 @@ header {
     margin-top: 0 !important;
 }
 
-/* =========================================
-   NOVO BANNER PROMOCIONAL GUARD (AQUI NO TOPO!)
-   ========================================= */
 .guard-premium-banner {
     background: linear-gradient(90deg, #0a0a0a 0%, #1a1a1a 100%);
     border-top: 1px solid #333333;
@@ -163,7 +157,6 @@ header {
     padding-bottom: 2px;
 }
 
-/* Responsividade do Novo Banner para Celulares */
 @media (max-width: 900px) {
     .guard-premium-banner {
         flex-direction: column;
@@ -189,11 +182,11 @@ header {
 }
 
 header {
-    position: -webkit-sticky; /* Comando mágico para o menu travar no iPhone */
+    position: -webkit-sticky;
     position: sticky;
     background-color: transparent;
     top: 0;
-    z-index: 9999; /* Valor bem alto para garantir que fique por cima de todas as imagens */
+    z-index: 9999;
     width: 100%;
 }
 
@@ -217,26 +210,23 @@ header {
     transition: height 0.4s ease, padding 0.4s ease, background-color 0.4s ease; 
 }
 
-/* Novo estado do header quando a página rolar para baixo */
 #header.header-scrolled {
-    height: 100px; /* O cabeçalho fica mais fino */
-    padding-left: 3%; /* Abre bastante espaço na esquerda... */
-    padding-right: 3%; /* ...e na direita, para o botão caber folgado */
-    background-color: rgba(50, 50, 50, 0.3); /* Fica mais escuro para leitura */
+    height: 100px;
+    padding-left: 3%;
+    padding-right: 3%;
+    background-color: rgba(50, 50, 50, 0.3);
     font-size: 12px;
 }
 
 #logo {
-    width: 6vw; /* Reduzido o tamanho padrão inicial (era 7vw) */
+    width: 6vw;
     padding-left: 1vw;
     display: block;
-    /* A MÁGICA: Faz a logo encolher suavemente junto com o header */
     transition: width 0.4s ease; 
 }
 
-/* Tamanho da logo quando o usuário rolar a página para baixo */
 #header.header-scrolled #logo {
-    width: 5vw; /* Fica menor para se ajustar perfeitamente ao header de 80px */
+    width: 5vw;
 }
 
 #nav-container {
@@ -247,8 +237,8 @@ header {
 
 #navigation-bar {
     display: flex;
-    justify-content: flex-end; /* Empurra todos os links para a direita */
-    gap: 3vw; /* Cria um espaçamento perfeito e responsivo entre os links */
+    justify-content: flex-end;
+    gap: 3vw;
     width: 100%;
     padding: 0;
 }
@@ -275,21 +265,17 @@ nav ul li a:hover {
 }
 
 #background-image {
-    /* A MÁGICA: Puxa a imagem para trás do cabeçalho */
     margin-top: -140px; 
-    
-    /* Dá um respiro para o texto e a calculadora não ficarem escondidos sob o menu */
     padding-top: 140px; 
-    
     height: auto;
-    min-height: 100vh; /* Garante que a imagem preencha a tela */
+    min-height: 100vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("imagens/background-house.webp");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     display: flex;
     justify-content: space-around;
-    align-items: center; /* Mantém os itens alinhados no topo respeitando o padding */
+    align-items: center;
 }
 
 /* =========================================
@@ -297,9 +283,9 @@ nav ul li a:hover {
    ========================================= */
 #menu-orcamento {
     width: 100%;
-    max-width: 290px; /* Reduzido de 350px */
+    max-width: 290px;
     height: auto;
-    padding: 25px 20px; /* Espaçamento interno reduzido */
+    padding: 25px 20px;
     background-color: rgba(18, 18, 18, 0.75);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
@@ -316,7 +302,7 @@ nav ul li a:hover {
 #menu-orcamento-tittle {
     text-align: center;
     color: #FFFF00;
-    font-size: 26px; /* Reduzido de 32px */
+    font-size: 26px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -325,7 +311,7 @@ nav ul li a:hover {
 #menu-orcamento-subtittle {
     text-align: center;
     color: #cccccc;
-    font-size: 13px; /* Reduzido de 15px */
+    font-size: 13px;
     margin: 4px 0 18px 0;
 }
 
@@ -333,12 +319,12 @@ nav ul li a:hover {
     background-color: #FFFF00;
     color: #000000;
     width: 100%;
-    height: 48px; /* Reduzido de 60px */
+    height: 48px;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px; /* Reduzido de 20px */
+    font-size: 16px;
     font-weight: 800;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(255, 255, 0, 0.15);
@@ -353,7 +339,7 @@ nav ul li a:hover {
 
 #information-above {
     color: #999999;
-    font-size: 11px; /* Reduzido de 13px */
+    font-size: 11px;
     margin: 15px 0 10px 0;
 }
 
@@ -361,14 +347,13 @@ nav ul li a:hover {
     color: #FFFFFF;
 }
 
-/* Campo de Telefone mais compacto */
 .phone-container {
     display: flex;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 255, 255, 0.162);
     border-radius: 50px;
-    padding: 4px; /* Ajustado */
+    padding: 4px;
     box-sizing: border-box;
     width: 100%;
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -384,8 +369,8 @@ nav ul li a:hover {
     width: 100%;
     border: none;
     outline: none;
-    padding: 8px 12px; /* Reduzido de 10px 15px */
-    font-size: 14px; /* Reduzido de 16px */
+    padding: 8px 12px;
+    font-size: 14px;
     background: transparent;
     color: #FFFFFF;
 }
@@ -402,7 +387,7 @@ nav ul li a:hover {
     color: #000000;
     border: none;
     border-radius: 50px;
-    padding: 8px 14px; /* Reduzido */
+    padding: 8px 14px;
     font-size: 12.5px;
     font-weight: 800;
     cursor: pointer;
@@ -417,7 +402,7 @@ nav ul li a:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px; /* Reduzido de 24px */
+    width: 20px;
     height: 20px;
     background-color: #000000;
     border-radius: 50%;
@@ -446,7 +431,7 @@ nav ul li a:hover {
 }
 
 #orcamento-bottom-part p a {
-    font-size: 24px; /* Número gigante reduzido de 32px */
+    font-size: 24px;
     font-weight: 800;
     color: #FFFF00;
     cursor: pointer;
@@ -503,11 +488,11 @@ nav ul li a:hover {
 }
 
 #text-header {
-    font-size: 52px; /* Tamanho adequado para destaque */
+    font-size: 52px;
     font-weight: 800;
     max-width: 700px;
-    margin-left: 0; /* Puxa um pouquinho mais para a esquerda */
-    margin-top: -100px; /* REMOVIDO o margin-top para o alinhamento central funcionar */
+    margin-left: 0;
+    margin-top: -100px;
     background-color: transparent;
     font-family: 'Fira Sans', sans-serif;
     line-height: 1.1;
@@ -522,14 +507,14 @@ nav ul li a:hover {
 }
 
 #text-header .hero-subtitle {
-    font-size: 10px !important; /* Força o tamanho correto */
-    font-weight: 400 !important; /* Tira o negrito */
-    color: #f4f4f4 !important; /* Força a cor cinza claro */
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    color: #f4f4f4 !important;
     margin-top: 5px;
     text-shadow: 0px 2px 10px rgba(0,0,0,0.9);
     line-height: 3;
     font-family: 'Fira Sans', sans-serif;
-    display: block; /* Garante que ele pule para a linha de baixo */
+    display: block;
 }
 
 #menu-orcamento-top {
@@ -689,11 +674,10 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Base do Card */
 #subtittle-cards-displayer > li {
     flex: 1;
-    background-color: #121212; /* Fundo sólido elegante */
-    border: 2px solid #333333; /* Borda cinza sutil */
+    background-color: #121212;
+    border: 2px solid #333333;
     border-radius: 20px;
     padding: 0 0 35px 0;
     display: flex;
@@ -702,14 +686,12 @@ nav ul li a:hover {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito Hover (Acende ao passar o mouse) */
 #subtittle-cards-displayer > li:hover {
     transform: translateY(-8px);
     border-color: #FFFF00;
     box-shadow: 0 10px 30px rgba(255, 255, 0, 0.1);
 }
 
-/* Imagem do Card */
 .card-image {
     width: 100%;
     height: 200px;
@@ -719,7 +701,6 @@ nav ul li a:hover {
     border-bottom: 2px solid #222222;
 }
 
-/* Títulos */
 #subtittle-cards-displayer h3 {
     color: #FFFFFF;
     font-size: 22px;
@@ -736,7 +717,6 @@ nav ul li a:hover {
     padding: 0 30px;
 }
 
-/* Lista e Textos */
 .card-features {
     list-style: none;
     padding: 0 30px;
@@ -746,17 +726,15 @@ nav ul li a:hover {
     gap: 15px;
 }
 
-/* A MÁGICA QUE CONSERTA O TEXTO QUEBRADO */
 .card-features li {
     color: #cccccc;
     font-size: 14.5px;
     line-height: 1.6;
-    position: relative; /* Base de ancoragem para o ícone */
-    padding-left: 36px; /* Abre espaço na esquerda para o ícone não amassar o texto */
-    display: block; /* Garante que o texto flua normalmente como um parágrafo */
+    position: relative;
+    padding-left: 36px;
+    display: block;
 }
 
-/* Ícone da Seta Amarela */
 .card-features .icon-arrow {
     position: absolute;
     left: 0;
@@ -775,7 +753,6 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Palavras em Destaque */
 .card-features strong {
     color: #FFFF00;
     font-weight: 700;
@@ -788,8 +765,8 @@ nav ul li a:hover {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: stretch; /* Força as duas colunas a terem a exata mesma altura */
-    gap: 30px; /* Alinhado com o espaçamento da seção superior */
+    align-items: stretch;
+    gap: 30px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
@@ -797,31 +774,27 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Transformando as colunas em Cards Idênticos */
 .video-control-left, 
 .video-control-right {
     flex: 1;
     background-color: #121212;
-    border: 2px solid #333333; /* Borda cinza de 2px conforme solicitado */
+    border: 2px solid #333333;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* O card da esquerda não tem padding em cima para a imagem colar na borda */
 .video-control-left {
     padding: 0 0 35px 0;
     overflow: hidden;
 }
 
-/* O card da direita tem padding por igual */
 .video-control-right {
-    flex: 1.2; /* Ligeiramente mais largo para acomodar bem as listas */
+    flex: 1.2;
     padding: 35px 30px;
 }
 
-/* Efeito Hover (Acende em amarelo) */
 .video-control-left:hover, 
 .video-control-right:hover {
     transform: translateY(-8px);
@@ -836,7 +809,7 @@ nav ul li a:hover {
     width: 100%;
     height: 250px;
     background-color: #121212;
-    border: none; /* Substitui o antigo formato arredondado irregular */
+    border: none;
     border-radius: 20px 20px 0 0;
     border-bottom: 2px solid #222222;
     margin-bottom: 25px;
@@ -857,7 +830,7 @@ nav ul li a:hover {
 }
 
 .video-control-text h3 {
-    color: #FFFFFF; /* Padronizado para branco igual ao título principal */
+    color: #FFFFFF;
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 15px;
@@ -899,20 +872,18 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Linha central tracejada que conecta os ícones */
 .benefits-list::before {
     content: '';
     position: absolute;
-    left: 20px; /* Eixo Y centralizado com os novos ícones */
+    left: 20px;
     top: 25px;
     bottom: 30px;
     width: 2px;
-    border-left: 2px dashed #333333; /* Começa discreta */
+    border-left: 2px dashed #333333;
     z-index: 0;
     transition: border-color 0.3s ease;
 }
 
-/* A linha e as bordas acendem juntas quando o mouse passa no card */
 .video-control-right:hover .benefits-list::before {
     border-color: #FFFF00;
 }
@@ -924,11 +895,10 @@ nav ul li a:hover {
     z-index: 1;
 }
 
-/* Círculos dos ícones */
 .benefit-icon {
     width: 42px;
     height: 42px;
-    border: 2px solid #333333; /* Borda cinza inicial (2px) */
+    border: 2px solid #333333;
     border-radius: 50%;
     background-color: #121212;
     display: flex;
@@ -953,7 +923,7 @@ nav ul li a:hover {
     color: #cccccc;
     font-size: 14.5px;
     line-height: 1.6;
-    padding-top: 10px; /* Centraliza visualmente o texto com o ícone lateral */
+    padding-top: 10px;
     background-color: transparent;
 }
 
@@ -1015,15 +985,14 @@ nav ul li a:hover {
     position: relative;
     display: flex;
     justify-content: center;
-    gap: 200px; /* ← AUMENTE AQUI: Mudei de 120px para 200px para afastar as colunas */
+    gap: 200px;
     width: 100%;
-    max-width: 1100px; /* ← AUMENTE AQUI: Mudei de 1000px para 1100px para dar mais espaço na tela */
+    max-width: 1100px;
     margin: 0 auto;
     padding: 20px 20px 100px 20px;
     background-color: transparent;
 }
 
-/* Linha divisória central */
 .best-protection-line {
     position: absolute;
     top: 0;
@@ -1035,8 +1004,6 @@ nav ul li a:hover {
     z-index: 0;
 }
 
-/* Ícone central com efeito de círculos/ondas (ripple) */
-/* Container que alinha as ondas e o ícone perfeitamente no centro */
 .center-animation-container {
     position: absolute;
     top: 50%;
@@ -1048,7 +1015,6 @@ nav ul li a:hover {
     z-index: 2;
 }
 
-/* O ícone da casinha sem as sombras antigas */
 .best-protection-icon {
     width: 60px;
     height: 60px;
@@ -1066,7 +1032,6 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* O truque das ondas: Bordas transparentes em cima e embaixo, amarelas dos lados */
 .wave {
     position: absolute;
     border-radius: 50%;
@@ -1078,7 +1043,6 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Tamanhos crescendo e tempos de atraso diferentes para a onda ir de 1 a 3 */
 .wave1 {
     width: 90px;
     height: 90px;
@@ -1097,32 +1061,28 @@ nav ul li a:hover {
     animation-delay: 0.8s;
 }
 
-/* A animação que faz a onda piscar e sumir suavemente */
 @keyframes signalWave {
     0% { opacity: 0; }
     25% { opacity: 1; }
     100% { opacity: 0; }
 }
-/* Colunas do Grid */
+
 .best-protection-column {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 60px; /* Distância entre os cards na mesma coluna */
+    gap: 60px;
     background-color: transparent;
     z-index: 1;
 }
 
-/* Empurra a coluna da direita para baixo criando o zigue-zague */
 .offset-top {
     margin-top: 100px; 
 }
 
-/* Cards individuais */
-/* Cards individuais */
 .bp-card {
-    background-color: #121212; /* Fundo sólido elegante */
-    border: 2px solid #333333; /* Borda cinza 2px */
+    background-color: #121212;
+    border: 2px solid #333333;
     border-radius: 20px;
     padding: 0 0 35px 0;
     display: flex;
@@ -1131,25 +1091,22 @@ nav ul li a:hover {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito Hover (Acende em amarelo) */
 .bp-card:hover {
     transform: translateY(-8px);
     border-color: #FFFF00;
     box-shadow: 0 10px 30px rgba(255, 255, 0, 0.1);
 }
 
-/* Contêiner da imagem */
 .bp-img-wrapper {
     width: 100%;
     height: 220px;
     overflow: hidden;
-    border: none; /* Remove a borda amarela antiga */
-    border-bottom: 2px solid #222222; /* Divisória sutil para o texto */
+    border: none;
+    border-bottom: 2px solid #222222;
     margin-bottom: 25px;
     background-color: #121212;
 }
 
-/* Anula os recortes antigos para a imagem preencher o card de ponta a ponta */
 .shape-left, 
 .shape-right {
     border-radius: 0; 
@@ -1163,7 +1120,6 @@ nav ul li a:hover {
     background-color: transparent;
 }
 
-/* Textos dos cards */
 .bp-card h3 {
     color: #FFFFFF;
     font-size: 22px;
@@ -1183,8 +1139,8 @@ nav ul li a:hover {
 
 .monitoring-services-section {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas exatas */
-    gap: 30px; /* Espaço entre os cards */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
@@ -1194,15 +1150,14 @@ nav ul li a:hover {
 
 .service-card {
     background-color: #121212;
-    border: 2px solid #333333; /* Borda cinza inicial sutil */
+    border: 2px solid #333333;
     border-radius: 20px;
     padding: 35px 30px;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s ease; /* Transição suave para o hover */
+    transition: all 0.3s ease;
 }
 
-/* Efeito de iluminação e elevação ao passar o mouse */
 .service-card:hover {
     border-color: #FFFF00;
     transform: translateY(-8px);
@@ -1245,11 +1200,10 @@ nav ul li a:hover {
     width: 100%;
     min-height: 600px;
     display: flex;
-    justify-content: flex-end; /* Joga o texto para a direita */
+    justify-content: flex-end;
     align-items: center;
     padding: 40px 10%;
     
-    /* A MÁGICA: Mistura um gradiente escuro com a sua imagem de fundo */
     background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%), 
                 url('imagens/teste2.webp'); 
     background-size: cover;
@@ -1260,7 +1214,7 @@ nav ul li a:hover {
 }
 
 .company-info-content {
-    max-width: 50%; /* O texto ocupa só metade da tela na direita */
+    max-width: 50%;
     color: #F5F5F5;
 }
 
@@ -1294,7 +1248,6 @@ nav ul li a:hover {
     color: #F5F5F5;
 }
 
-/* Bolinhas vazadas personalizadas (estilo da referência) */
 .company-features-list li::before {
     content: '';
     position: absolute;
@@ -1302,7 +1255,7 @@ nav ul li a:hover {
     top: 6px;
     width: 6px;
     height: 6px;
-    border: 2px solid #FFFF00; /* Bolinha com borda amarela */
+    border: 2px solid #FFFF00;
     border-radius: 50%;
     background-color: transparent;
 }
@@ -1312,7 +1265,7 @@ nav ul li a:hover {
    ========================================= */
 .header-action-btn {
     margin-left: 0; 
-    max-width: 0; /* A MÁGICA: Zera o espaço físico do botão quando invisível */
+    max-width: 0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -1323,8 +1276,8 @@ nav ul li a:hover {
 }
 
 .header-action-btn.show-btn {
-    max-width: 300px; /* Abre o espaço físico na barra para o botão aparecer */
-    margin-left: 2vw; /* Cria o espaço entre "PRODUTOS" e o botão */
+    max-width: 300px;
+    margin-left: 2vw;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -1338,16 +1291,16 @@ nav ul li a:hover {
     color: #000000;
     border: none;
     border-radius: 50px;
-    padding: 8px 12px 8px 20px; /* Espaço ajustado para acomodar o círculo preto */
+    padding: 8px 12px 8px 20px;
     font-size: 13px;
     font-weight: 800;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap; /* Impede o botão de quebrar em duas linhas */
+    white-space: nowrap;
 }
 
 .header-submit-button:hover {
-    background-color: #d4d400; /* Fica um pouco mais escuro ao passar o mouse */
+    background-color: #d4d400;
     transform: scale(1.02);
 }
 
@@ -1405,7 +1358,6 @@ nav ul li a:hover {
 .anos-experiencia-section {
     width: 100%;
     height: 500px;
-    /* Aqui reaproveitamos a imagem de fundo que já tem no site */
     background-image: url('imagens/background-session-11-years.webp'); 
     background-size: cover;
     background-position: center;
@@ -1420,7 +1372,7 @@ nav ul li a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Escurece bastante a imagem de fundo */
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1438,7 +1390,7 @@ nav ul li a:hover {
 
 .anos-experiencia-overlay h2 strong {
     font-weight: 800;
-    color: #FFFFFF; /* Dá o destaque no "Mais de 13 anos" */
+    color: #FFFFFF;
     background-color: transparent;
 }
 
@@ -1473,7 +1425,7 @@ nav ul li a:hover {
     font-weight: 500;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
-    border-bottom: none; /* Remove a borda padrão de links do site */
+    border-bottom: none;
     padding: 0;
     background-color: transparent;
 }
@@ -1511,7 +1463,7 @@ nav ul li a:hover {
     left: -100%;
     width: 88%;
     max-width: 360px;
-    height: 100dvh; /* Altura do ecrã visível */
+    height: 100dvh;
     background-color: rgba(10, 10, 10, 0.95);
     backdrop-filter: blur(25px);
     z-index: 10000;
@@ -1547,7 +1499,7 @@ nav ul li a:hover {
     align-items: center;
     padding: 30px 24px 20px 24px;
     background-color: transparent;
-    flex-shrink: 0; /* A MÁGICA 2: Trava o cabeçalho do menu */
+    flex-shrink: 0;
 }
 
 .sidebar-brand {
@@ -1556,7 +1508,6 @@ nav ul li a:hover {
     gap: 10px;
 }
 
-/* Pequeno ponto de status neon dinâmico próximo à logo */
 .sidebar-logo-dot {
     width: 7px;
     height: 7px;
@@ -1594,8 +1545,8 @@ nav ul li a:hover {
 }
 
 .sidebar-nav {
-    flex-grow: 1; /* A MÁGICA: Empurra o footer para baixo */
-    overflow-y: auto; /* Rola apenas o que estiver no meio */
+    flex-grow: 1;
+    overflow-y: auto;
     padding-bottom: 20px;
 }
 
@@ -1612,7 +1563,7 @@ nav ul li a:hover {
     font-size: 15px !important;
     font-weight: 600 !important;
     text-transform: none !important; 
-    border-radius: 12px !important; /* Cria as caixas arredondadas da interface */
+    border-radius: 12px !important;
     border: none !important;
     transition: all 0.25s ease !important;
     background: transparent;
@@ -1632,7 +1583,7 @@ nav ul li a:hover {
 .sidebar-nav-icon {
     width: 20px;
     height: 20px;
-    color: #666666; /* Ícone padrão mais apagado como no design */
+    color: #666666;
     transition: color 0.25s ease;
     background: transparent;
 }
@@ -1645,7 +1596,6 @@ nav ul li a:hover {
     background: transparent;
 }
 
-/* Efeito Hover nos itens */
 .sidebar-nav li a:hover {
     color: #ffffff !important;
     background-color: rgba(255, 255, 255, 0.03) !important;
@@ -1655,7 +1605,6 @@ nav ul li a:hover {
     color: #ffffff;
 }
 
-/* Item Ativo/Selecionado (Igual aos prints das plataformas) */
 .sidebar-nav li.active a {
     color: #FFFF00 !important;
     background-color: rgba(255, 255, 0, 0.06) !important;
@@ -1666,7 +1615,6 @@ nav ul li a:hover {
     color: #FFFF00;
 }
 
-/* Pequena barra vertical luminosa na lateral esquerda do item ativo */
 .sidebar-nav li.active a::before {
     content: '';
     position: absolute;
@@ -1680,14 +1628,13 @@ nav ul li a:hover {
 }
 
 .sidebar-footer {
-    flex-shrink: 0; /* A MÁGICA: Impede que este bloco diminua de tamanho */
+    flex-shrink: 0;
     background-color: rgba(10, 10, 10, 0.98);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: 20px 18px 30px 18px;
     margin-top: auto;
 }
 
-/* Card de Suporte */
 .sidebar-support-card {
     background-color: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.04);
@@ -1723,7 +1670,6 @@ nav ul li a:hover {
     color: #FFFF00;
 }
 
-/* Botões de Ação */
 .sidebar-actions {
     display: flex;
     flex-direction: column;
@@ -1767,25 +1713,22 @@ nav ul li a:hover {
     transform: translateY(-1px);
 }
 
-/* Botão Solicitar na Calculadora (Amarelo com Ícone Circulado) */
 .btn-calculadora-solicitar {
     width: 100%;
     background-color: #FFFF00;
     color: #000000;
     border: none;
     border-radius: 25px;
-    padding: 10px 15px; /* Ajuste do padding para acomodar o ícone */
+    padding: 10px 15px;
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 10px;
-
-    /* A MÁGICA: Flexbox para alinhar texto e ícone centralizados */
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px; /* Espaço entre o texto e o círculo */
+    gap: 10px;
 }
 
 .btn-calculadora-solicitar .icon-circle {
@@ -1795,12 +1738,12 @@ nav ul li a:hover {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #000000; /* Círculo preto */
-    color: #FFFF00; /* Seta amarela */
-    font-size: 24px; /* Tamanho do caractere › */
-    font-weight: 300; /* Seta mais fina igual à referência */
+    background-color: #000000;
+    color: #FFFF00;
+    font-size: 24px;
+    font-weight: 300;
     line-height: 1;
-    padding-bottom: 2px; /* Ajuste visual de centralização do caractere */
+    padding-bottom: 2px;
 }
 
 /* =========================================
@@ -1848,7 +1791,7 @@ nav ul li a:hover {
 .quote-icon {
     color: #FFFF00;
     font-size: 70px;
-    font-family: Georgia, serif; /* Fonte serifada dá aquele visual clássico de aspas */
+    font-family: Georgia, serif;
     line-height: 0.5;
     margin-bottom: 20px;
 }
@@ -1857,7 +1800,7 @@ nav ul li a:hover {
     color: #F5F5F5;
     font-size: 15px;
     line-height: 1.6;
-    flex-grow: 1; /* Empurra o rodapé (foto e estrelas) lá para o fundo do card */
+    flex-grow: 1;
     margin-bottom: 25px;
 }
 
@@ -1890,10 +1833,9 @@ nav ul li a:hover {
 .review-avatar svg {
     width: 30px;
     height: 30px;
-    fill: #777777; /* Cor do ícone de avatar */
+    fill: #777777;
 }
 
-/* Se você usar imagens em vez do SVG no futuro */
 .review-avatar img {
     width: 100%;
     height: 100%;
@@ -1906,13 +1848,12 @@ nav ul li a:hover {
     letter-spacing: 2px;
 }
 
-/* Animação de Carregamento no Botão Finalizar */
 .spinner-calc {
     width: 20px;
     height: 20px;
     border: 3px solid rgba(255, 255, 0, 0.3);
     border-radius: 50%;
-    border-top-color: #FFFF00; /* Cor amarela principal */
+    border-top-color: #FFFF00;
     animation: girarSpinner 0.8s ease-in-out infinite;
     background-color: transparent;
 }
@@ -1923,7 +1864,6 @@ nav ul li a:hover {
     to { transform: rotate(360deg); }
 }
 
-/* Deixa as avaliações em 1 coluna nos celulares e tablets */
 @media (max-width: 900px) {
     .reviews-container {
         grid-template-columns: 1fr;
@@ -1945,12 +1885,11 @@ nav ul li a:hover {
     background-color: #121212;
     border: 2px solid #333;
     border-radius: 20px;
-    padding: 12px 25px; /* Alinhado com o padding da opção de cima */
+    padding: 12px 25px;
     transition: all 0.3s ease;
     width: 100%;
 }
 
-/* Efeito de foco quando o usuário clica para digitar */
 .opcao-input-texto:focus-within {
     border-color: #FFFF00;
     background-color: rgba(255, 255, 0, 0.05);
@@ -1972,7 +1911,6 @@ nav ul li a:hover {
     font-weight: 500;
 }
 
-/* Botão de seta (Avançar) */
 .btn-avancar-input {
     width: 36px;
     height: 36px;
@@ -1986,7 +1924,7 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding-bottom: 4px; /* Ajuste óptico para centralizar a seta */
+    padding-bottom: 4px;
     margin-left: 15px;
     transition: all 0.3s ease;
 }
@@ -1996,8 +1934,6 @@ nav ul li a:hover {
     color: #000000;
 }
 
-
-/* Ajustes para ecrãs menores (Tablets e Telemóveis) */
 @media (max-width: 768px) {
     .anos-experiencia-section {
         height: 200px;
@@ -2013,7 +1949,7 @@ nav ul li a:hover {
     }
 
     .footer-links .separator {
-        display: none; /* Oculta as barras verticais no telemóvel para ficar mais limpo */
+        display: none;
     }
 
     .footer-contact {
@@ -2023,7 +1959,6 @@ nav ul li a:hover {
     }
 }
 
-/* Ajuste para celulares */
 @media (max-width: 768px) {
     .footer-disclaimer {
         padding: 30px 20px 40px 20px;
@@ -2033,7 +1968,6 @@ nav ul li a:hover {
     }
 }
 
-/* Responsividade: Transforma em 1 coluna em telas menores (celulares) */
 @media (max-width: 900px) {
     .monitoring-services-section {
         grid-template-columns: 1fr;
@@ -2044,7 +1978,6 @@ nav ul li a:hover {
    RESPONSIVIDADE (Tablets e Celulares)
    ========================================= */
 
-/* Ajustes para Tablets (Telas menores que 1024px) */
 @media (max-width: 1024px) {
 
     .header-action-btn {
@@ -2070,11 +2003,11 @@ nav ul li a:hover {
         max-width: 100% !important;
         margin-top: -80px !important; 
         padding: 160px 0px 0px 0px !important; 
-        background-size: 100% auto !important; /* Trava a largura na tela e tira o zoom */
-        background-repeat: no-repeat !important; /* Impede que a imagem se repita */
+        background-size: 100% auto !important;
+        background-repeat: no-repeat !important;
         background-position: center top !important; 
         
-        background-color: #000000 !important; /* Fundo preto caso a imagem acabe antes do formulário */
+        background-color: #000000 !important;
     }
 
     #text-header {
@@ -2096,7 +2029,7 @@ nav ul li a:hover {
         -webkit-backdrop-filter: blur(25px) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
         border-bottom: none !important;
-        border-top: 2px solid #FFFF00 !important; /* Neon no topo */
+        border-top: 2px solid #FFFF00 !important;
         border-radius: 30px 30px 0 0 !important;
         padding: 35px 25px !important;
         height: auto !important;
@@ -2124,29 +2057,26 @@ nav ul li a:hover {
         margin-top: 50px;
     }
 
-    /* 3. Botão "Calcular Agora" */
     #actionbutton {
-        border-radius: 50px; /* Deixa o botão oval como na referência */
+        border-radius: 50px;
         height: 65px;
         font-size: 24px;
         margin: 20px 0;
         box-shadow: none;
     }
 
-    /* 4. Campo de Telefone */
     .phone-container {
-        max-width: 100%; /* Ocupa a tela toda */
-        height: 55px; /* Deixa o campo mais alto para clicar fácil no celular */
+        max-width: 100%;
+        height: 55px;
     }
 
-    /* 5. Seção do Número de Telefone Gigante */
     #orcamento-bottom-part {
         padding: 15px 0 0 0;
     }
 
     #orcamento-bottom-part p {
         display: flex;
-        flex-direction: column; /* Coloca o texto em cima e o número embaixo */
+        flex-direction: column;
         align-items: center;
         font-size: 14px;
         color: #cccccc;
@@ -2154,20 +2084,16 @@ nav ul li a:hover {
     }
 
     #orcamento-bottom-part p a {
-        font-size: 38px; /* Número gigante igual à foto */
+        font-size: 38px;
         color: #FFFF00;
         font-weight: 800;
     }
 
     .best-protection-section {
-        gap: 60px; /* Reduz aquele gap de 200px para telas médias */
+        gap: 60px;
     }
-}
-
-/* Ajustes para Celulares (Telas menores que 768px) */
-@media (max-width: 768px) {
+}   
     
-    /* Ajustes para Celulares (Telas menores que 768px) */
 @media (max-width: 768px) {
     
     /* =======================================
@@ -2180,7 +2106,7 @@ nav ul li a:hover {
         align-items: center !important;
         height: 85px !important;
         padding: 0 20px !important;
-        background-color: rgba(15, 15, 15, 0.6) !important; /* Fundo escuro premium */
+        background-color: rgba(15, 15, 15, 0.6) !important;
         backdrop-filter: blur(25px) !important;
         -webkit-backdrop-filter: blur(25px) !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -2188,7 +2114,7 @@ nav ul li a:hover {
     }
 
     #nav-container {
-        display: none !important; /* Esconde a lista de links gigante */
+        display: none !important;
     }
 
     #logo-container {
@@ -2208,24 +2134,23 @@ nav ul li a:hover {
     }
 
     #logo {
-        height: 60px !important; /* Tamanho mais elegante para a logo */
+        height: 60px !important;
         width: auto !important; 
         object-fit: contain !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Transformando os ícones em Botões Acrílicos (estilo App) */
     .mobile-icon {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         width: 48px !important;
         height: 48px !important;
-        background-color: rgba(255, 255, 255, 0.03) !important; /* Fundo de vidro */
-        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Borda suave */
-        border-radius: 14px !important; /* Quadrado com cantos arredondados (squircle) */
-        color: #cccccc !important; /* Ícone cinza claro elegante */
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        color: #cccccc !important;
         transition: all 0.3s ease !important;
         cursor: pointer;
     }
@@ -2235,12 +2160,10 @@ nav ul li a:hover {
         height: 22px !important;
     }
 
-    /* Oculta os textos "MENU" e "LIGAR" para ficar minimalista */
     .mobile-icon span {
         display: none !important;
     }
 
-    /* Efeito ao tocar no botão (Acende em neon) */
     .mobile-icon:active, 
     .mobile-icon:hover {
         background-color: rgba(255, 255, 0, 0.08) !important;
@@ -2249,23 +2172,19 @@ nav ul li a:hover {
         box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
     }
 
-    /* ... mantenha o restante do código mobile daqui para baixo ... */
-
    /* =======================================
        ÁREA INICIAL MOBILE (Imagem, Título e Caixa)
        ======================================= */
        
-   /* 1. Imagem de Fundo (Ajuste de espaço) */
     #background-image {
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
         align-items: center !important;
         height: auto !important;
-        padding: 40px 0px 0px 0px !important; /* Tiramos o excesso de padding embaixo */
+        padding: 40px 0px 0px 0px !important;
     }
 
-    /* 2. Título (Branco, moderno e com espaço para não ser engolido) */
     #text-header {
         color: #FFFFFF !important;
         height: 300px;
@@ -2276,16 +2195,15 @@ nav ul li a:hover {
         font-weight: 800 !important;
         line-height: 0.6 !important; 
         text-align: center !important;
-        margin: 0 0 20px 0 !important; /* ← A MÁGICA: Essa margem de 90px embaixo salva o texto da caixa preta! */
+        margin: 0 0 20px 0 !important;
         max-width: 340px !important;
         text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9) !important;
     }
 
-    /* 3. Caixa do Formulário (Aumentando a sobreposição) */
     #menu-orcamento {
         width: 100% !important;
         max-width: 100% !important;
-        margin: -60px 0 0 0 !important; /* Puxa a caixa para cima da imagem */
+        margin: -60px 0 0 0 !important;
         background-color: #121212 !important;
         backdrop-filter: none !important;
         border: none !important;
@@ -2316,7 +2234,6 @@ nav ul li a:hover {
         text-align: center;
     }
 
-    /* Formulário Calculadora */
     #form-etapas {
         padding: 0;
     }
@@ -2334,7 +2251,6 @@ nav ul li a:hover {
         font-size: 16px;
     }
 
-    /* 3 Cards Iniciais (Detecção, Intervenção, Polícia) */
     #subtittle-cards-displayer {
         flex-direction: column;
         align-items: center;
@@ -2346,11 +2262,9 @@ nav ul li a:hover {
         max-width: 400px;
     }
 
-    /* Adaptação da Seção da Empresa para Celular */
     #company-info-section {
         justify-content: center;
         padding: 40px 20px;
-        /* No celular, o gradiente escurece de cima para baixo para dar leitura */
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.9) 60%, rgba(0, 0, 0, 1) 100%), 
                     url('imagens/teste3.webp');
         background-size: cover;
@@ -2360,21 +2274,19 @@ nav ul li a:hover {
     .company-info-content {
         max-width: 100%;
         text-align: left;
-        margin-top: 80px; /* Empurra o texto um pouco para baixo para mostrar a imagem no topo */
+        margin-top: 80px;
     }
 
     .company-info-content h2 {
         font-size: 32px;
     }
 
-    /* Sessão Videomonitoramento */
     .video-control-section {
         flex-direction: column;
         gap: 40px;
         padding: 20px;
     }
 
-    /* Banners Vermelhos de Promoção */
     .background-red-promotion {
         flex-direction: column;
         height: auto;
@@ -2387,7 +2299,6 @@ nav ul li a:hover {
         font-size: 18px;
     }
 
-    /* Sessão Melhor Proteção contra Roubo */
     .best-protection-section {
         flex-direction: column;
         gap: 40px;
@@ -2399,25 +2310,23 @@ nav ul li a:hover {
     }
 
     .offset-top {
-        margin-top: 0; /* Remove o efeito zigue-zague no celular para não ficar um buraco em branco */
+        margin-top: 0;
     }
 
-    /* Linha e Animação Central */
     .best-protection-line {
-        display: none; /* Esconde a linha vertical, pois os cards agora estão um embaixo do outro */
+        display: none;
     }
 
     .center-animation-container {
-        position: relative; /* Tira do meio da tela e coloca no fluxo normal */
+        position: relative;
         top: 0;
         left: 0;
         transform: none;
-        margin: 0 auto 40px auto; /* Mantém a animação centralizada no topo desta sessão */
+        margin: 0 auto 40px auto;
     }
 
-    /* Grade de Serviços 24h */
     .monitoring-services-section {
-        grid-template-columns: 1fr; /* Força tudo a ficar em 1 única coluna */
+        grid-template-columns: 1fr;
         padding: 20px;
     }
 
@@ -2425,15 +2334,13 @@ nav ul li a:hover {
         margin-top: -80px !important; 
         padding: 115px 0px 0px 0px !important; 
         background-position: center top !important;
-        
-        /* AS 3 REGRAS PARA ESTICAR DE PONTA A PONTA: */
         width: 100% !important;
         background-size: 100% auto !important; 
         background-repeat: no-repeat !important;
     }
     
     #menu-orcamento {
-        margin: 0 !important; /* Impede a caixa de subir por cima da imagem */
+        margin: 0 !important;
     }
 
     #subtitle-1 {
@@ -2443,9 +2350,6 @@ nav ul li a:hover {
     
     }
 }
-
-
-/*SEÇÃO ALARME PARA CASA
 
 /* =========================================
    PÁGINA: ALARME RESIDENCIAL
@@ -2811,10 +2715,9 @@ strong {
     background-color: #000000;
     color: #ffffff;
     font-family: 'Fira Sans', sans-serif;
-    padding-top: 100px; /* Espaço para o header fixo */
+    padding-top: 100px;
 }
 
-/* Hero Banner */
 .shop-hero-banner {
     text-align: center;
     padding: 60px 20px;
@@ -2836,7 +2739,6 @@ strong {
     font-size: 1.2rem;
 }
 
-/* Barra de Pesquisa */
 .shop-controls-bar {
     max-width: 1200px;
     margin: 30px auto;
@@ -2876,7 +2778,6 @@ strong {
     transition: 0.3s;
 }
 
-/* Layout Principal */
 .shop-main-layout {
     display: flex;
     max-width: 1200px;
@@ -2885,7 +2786,6 @@ strong {
     gap: 30px;
 }
 
-/* Barra Lateral (Filtros) */
 .shop-sidebar-filters {
     flex: 0 0 250px;
 }
@@ -2961,7 +2861,7 @@ strong {
 .shop-card:hover, .shop-card:active, .shop-card:focus {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-    border-color: #666666; /* A borda cinza acende ligeiramente ao passar o mouse */
+    border-color: #666666;
     outline: none;
 }
 
@@ -2980,21 +2880,21 @@ strong {
 
 .shop-card-img {
     width: 100%;
-    height: 180px; /* Altura máxima cravada em 180px */
+    height: 180px;
     background: #ffffff;
     margin: 0;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid #222222; /* Mantém a linha divisória com o texto */
+    border-bottom: 2px solid #222222;
 }
 
 .shop-card-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Preenche priorizando a altura sem distorcer */
-    object-position: center; /* Mantém o foco no centro da imagem */
+    object-fit: cover;
+    object-position: center;
     border-radius: 0; 
 }
 
@@ -3105,7 +3005,6 @@ strong {
     border-color: #FFFF00;
 }
 
-/* Recomendações */
 .shop-recommendations {
     max-width: 1200px;
     margin: 60px auto;
@@ -3118,19 +3017,16 @@ strong {
     color: #fff;
 }
 
-/* Força a secção de recomendações a ter 4 cards por linha */
 .shop-recommendations .shop-product-grid {
     grid-template-columns: repeat(4, 1fr);
 }
 
-/* Mantém 2 cards por linha no celular para não esmagar os produtos */
 @media (max-width: 900px) {
     .shop-recommendations .shop-product-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Responsividade */
 @media (max-width: 900px) {
     .shop-main-layout {
         flex-direction: column;
@@ -3195,12 +3091,12 @@ strong {
 .form-row {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* Permite que os itens pulem para a linha de baixo se faltar espaço */
+    flex-wrap: wrap;
 }
 
 .form-row .input-group {
     flex: 1;
-    min-width: 200px; /* Garante uma largura mínima, forçando a quebra de linha elegante */
+    min-width: 200px;
 }
 
 .input-group {
@@ -3232,14 +3128,13 @@ strong {
     outline: none;
     transition: 0.3s;
     box-sizing: border-box; 
-    height: 50px; /* Garante alinhamento milimétrico na mesma reta */
+    height: 50px;
 }
 
-/* Regra específica para travar a área da descrição */
 .input-group textarea {
     height: auto; 
     min-height: 120px;
-    resize: none; /* Desativa a alça que permite esticar a caixa */
+    resize: none;
 }
 
 .input-group input:focus,
@@ -3249,7 +3144,6 @@ strong {
     box-shadow: 0 0 5px rgba(255, 255, 0, 0.2);
 }
 
-/* Estilização Customizada para Upload de Arquivo */
 .input-group input[type="file"] {
     display: none;
 }
@@ -3301,7 +3195,6 @@ strong {
     box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
 }
 
-/* Coluna de Visualização Direita */
 .panel-preview-section {
     flex: 0 0 350px;
     background: #050505;
@@ -3323,7 +3216,6 @@ strong {
     justify-content: center;
 }
 
-/* Responsividade do Painel */
 @media (max-width: 850px) {
     .panel-container {
         flex-direction: column;
@@ -3339,19 +3231,16 @@ strong {
     }
 }
 
-/* Remove as setinhas do input type="number" no Chrome, Safari, Edge e Opera */
 .input-group input[type="number"]::-webkit-outer-spin-button,
 .input-group input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* Remove as setinhas do input type="number" no Firefox */
 .input-group input[type="number"] {
     -moz-appearance: textfield;
 }
 
-/* Correção Global: Fundo branco ao autocompletar ou colar */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -3364,16 +3253,15 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important; /* Força o fundo escuro */
-    -webkit-text-fill-color: #ffffff !important; /* Força a fonte branca */
-    transition: background-color 5000s ease-in-out 0s; /* Evita que a cor pisque */
+    -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* =========================================
    CHECKBOX PERSONALIZADO (DESTACAR ITEM)
    ========================================= */
 
-/* Contêiner principal para posicionamento */
 .custom-checkbox-container {
     display: flex;
     align-items: center;
@@ -3381,7 +3269,6 @@ select:-webkit-autofill:active {
     gap: 12px;
 }
 
-/* Oculta o checkbox nativo visualmente, mas o mantém acessível */
 .custom-checkbox-container input[type="checkbox"] {
     opacity: 0;
     position: absolute;
@@ -3389,69 +3276,58 @@ select:-webkit-autofill:active {
     height: 0;
 }
 
-/* Estiliza o rótulo (texto) e cria o contêiner visual */
 .custom-checkbox-container label {
     position: relative;
-    padding-left: 32px; /* Espaço para o quadrado personalizado */
+    padding-left: 32px;
     cursor: pointer;
     font-size: 0.95rem;
     color: #ffffff;
-    text-transform: none; /* Mantém o texto em minúsculas/maiúsculas normais */
+    text-transform: none;
     letter-spacing: 0.3px;
     display: inline-block;
 }
 
-/* Cria o quadrado personalizado (estado desmarcado) */
 .custom-checkbox-container label::before {
     content: "";
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translateY(-50%); /* Centraliza verticalmente */
+    transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    background-color: #0a0a0a; /* Fundo preto escuro */
-    border: 2px solid rgba(255, 255, 255, 0.3); /* Borda sutil cinza */
-    border-radius: 4px; /* Bordas arredondadas */
-    transition: all 0.2s ease; /* Transição suave de cor */
+    background-color: #0a0a0a;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
-/* Cria o ícone de marcação (o "v") */
 .custom-checkbox-container label::after {
     content: "";
     position: absolute;
     left: 7px;
     top: 50%;
-    transform: translateY(-55%) rotate(45deg); /* Posição e rotação do 'v' */
+    transform: translateY(-55%) rotate(45deg);
     width: 6px;
     height: 11px;
-    border: solid #000; /* Cor preta para o 'v' */
-    border-width: 0 2px 2px 0; /* Cria as bordas que formam o 'v' */
-    opacity: 0; /* Oculto inicialmente */
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    opacity: 0;
     transition: all 0.2s ease;
 }
 
-/* --- ESTADOS INTERATIVOS --- */
-
-/* Hover: Borda amarela ao passar o mouse */
 .custom-checkbox-container label:hover::before {
     border-color: #FFFF00;
 }
 
-/* Estado Marcado: Fundo amarelo, borda amarela e ícone visível */
 .custom-checkbox-container input[type="checkbox"]:checked + label::before {
     background-color: #FFFF00;
     border-color: #FFFF00;
 }
 
-/* Mostra o ícone de marcação preto quando marcado */
 .custom-checkbox-container input[type="checkbox"]:checked + label::after {
     opacity: 1;
 }
 
-/* =========================================
-   CARRINHO LATERAL (DRAWER)
-   ========================================= */
 /* =========================================
    CARRINHO LATERAL (DRAWER) E QUANTIDADES
    ========================================= */
@@ -3465,7 +3341,7 @@ select:-webkit-autofill:active {
     position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; 
     background: #0a0a0a; z-index: 99999; transition: 0.3s ease-in-out; 
     display: flex; flex-direction: column; border-left: 1px solid #222;
-    box-sizing: border-box; /* Evita que o painel quebre de tamanho */
+    box-sizing: border-box;
 }
 .cart-sidebar.active { right: 0; }
 
@@ -3474,7 +3350,7 @@ select:-webkit-autofill:active {
     justify-content: space-between; align-items: center; color: #FFFF00; 
 }
 .cart-header h2 {
-    margin: 0; /* Remove a margem padrão que estava a bugar o topo */
+    margin: 0;
     font-size: 1.5rem;
 }
 
@@ -3489,7 +3365,6 @@ select:-webkit-autofill:active {
 .cart-item-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; line-height: 1.2;}
 .cart-item-price { color: #FFFF00; font-size: 0.9rem; margin-bottom: 8px; }
 
-/* Novos Controles de Quantidade */
 .cart-item-qty {
     display: flex;
     align-items: center;
@@ -3539,7 +3414,6 @@ select:-webkit-autofill:active {
    BOTÃO FLUTUANTE E CAMPO DE QUANTIDADE
    ========================================= */
 
-/* Botão flutuante do carrinho */
 .floating-cart-btn {
     position: fixed;
     bottom: 30px;
@@ -3563,7 +3437,6 @@ select:-webkit-autofill:active {
     background: #e6e600;
 }
 
-/* Campo de digitação de quantidade no carrinho */
 .qty-input {
     width: 50px;
     height: 28px;
@@ -3576,10 +3449,9 @@ select:-webkit-autofill:active {
     font-size: 0.9rem;
     font-weight: bold;
     outline: none;
-    appearance: textfield; /* Remove as setas padrão no Firefox */
+    appearance: textfield;
 }
 
-/* Remove as setas padrão do campo numérico no Chrome/Safari */
 .qty-input::-webkit-outer-spin-button,
 .qty-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -3602,7 +3474,6 @@ select:-webkit-autofill:active {
     cursor: pointer;
 }
 
-/* Badge de contagem para o botão do cabeçalho mobile */
 .mobile-cart-badge {
     position: absolute;
     top: -3px;
@@ -3616,14 +3487,13 @@ select:-webkit-autofill:active {
     line-height: 1;
 }
 
-/* Media Query para telas de até 768px (Celulares e Tablets) */
 @media (max-width: 768px) {
     #mobile-cart-btn {
-        display: flex; /* Ativa o botão no header */
+        display: flex;
     }
     
     #floating-cart-btn {
-        display: none !important; /* Desativa por completo o botão flutuante amarelo */
+        display: none !important;
     }
 }
 
@@ -3643,7 +3513,7 @@ select:-webkit-autofill:active {
 
 .checkout-wrapper {
     max-width: 1200px;
-    margin: 160px auto 60px auto; /* 160px no topo afasta o corpo do cabeçalho fixo */
+    margin: 160px auto 60px auto;
     padding: 0 20px;
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -3666,17 +3536,15 @@ select:-webkit-autofill:active {
     padding-bottom: 10px;
 }
 
-/* Espaçamento correto entre as linhas do formulário */
 .checkout-form .form-row {
     margin-bottom: 25px;
 }
 
-/* Resumo do Pedido (Com proteção anti-colisão de textos) */
 .summary-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px; /* Garante margem de segurança entre texto e preço */
+    gap: 15px;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid #1a1a1a;
@@ -3686,8 +3554,8 @@ select:-webkit-autofill:active {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1; /* Permite que esta área ocupe o espaço restante */
-    min-width: 0; /* Impede que o título estoure o limite do card */
+    flex: 1;
+    min-width: 0;
 }
 
 .summary-item-img {
@@ -3695,7 +3563,7 @@ select:-webkit-autofill:active {
     height: 50px;
     border-radius: 6px;
     object-fit: cover;
-    flex-shrink: 0; /* Impede a imagem de amassar */
+    flex-shrink: 0;
 }
 
 .summary-item-title {
@@ -3714,8 +3582,8 @@ select:-webkit-autofill:active {
 .summary-item-price {
     color: #FFFF00;
     font-weight: bold;
-    white-space: nowrap; /* Força o preço a ficar sempre na mesma linha */
-    flex-shrink: 0; /* Protege o preço para não ser esmagado pelo título longo */
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .summary-totals {
@@ -3745,11 +3613,10 @@ select:-webkit-autofill:active {
     color: #FFFF00;
 }
 
-/* Responsividade do Checkout */
 @media (max-width: 900px) {
     .checkout-wrapper {
         grid-template-columns: 1fr;
-        margin-top: 120px; /* No mobile o header costuma ser menor */
+        margin-top: 120px;
     }
     .checkout-section {
         order: 2;
@@ -3782,20 +3649,20 @@ select:-webkit-autofill:active {
 
 @media (max-width: 900px) {
     .shop-product-grid {
-        grid-template-columns: repeat(2, 1fr); /* Força exatamente 2 colunas no celular */
-        gap: 12px; /* Reduz o espaço entre eles */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     
     .shop-card-img {
-        height: 150px; /* Reduz a altura da imagem no mobile para não ficar gigante */
+        height: 150px;
     }
     
     .shop-card-body {
-        padding: 12px; /* Menos margem interna para ganhar espaço */
+        padding: 12px;
     }
     
     .shop-card-body h4 {
-        font-size: 0.95rem; /* Texto do título menor */
+        font-size: 0.95rem;
     }
     
     .shop-card-price {
@@ -3804,7 +3671,7 @@ select:-webkit-autofill:active {
     }
     
     .shop-card-actions {
-        flex-direction: column; /* Coloca o botão Comprar embaixo do Carrinho */
+        flex-direction: column;
         gap: 8px;
     }
     
@@ -3820,18 +3687,17 @@ select:-webkit-autofill:active {
 .star-half {
     position: relative;
     display: inline-block;
-    color: #FFFF00; /* Estrela de fundo (vazia) */
+    color: #FFFF00;
 }
 .star-half .star-fill {
     position: absolute;
     left: 0;
     top: 0;
-    width: 50%; /* Corta a estrela cheia exatamente ao meio */
+    width: 50%;
     overflow: hidden;
-    color: #FFFF00; /* Estrela de cima (cheia) */
+    color: #FFFF00;
 }
 
-/* Oculta o carrinho desktop em ecrãs menores */
 @media (max-width: 1024px) {
     #desktop-cart-group {
         display: none !important;
@@ -3913,8 +3779,7 @@ select:-webkit-autofill:active {
     font-size: 1.05rem;
     line-height: 1.6;
     margin-bottom: 40px;
-    white-space: pre-wrap; /* Mantém as quebras de linha digitadas no painel */
-}
+    white-space: pre-wrap;
 
 .product-action-buttons {
     display: flex;
@@ -3930,7 +3795,6 @@ select:-webkit-autofill:active {
     cursor: pointer;
 }
 
-/* Responsividade do Produto */
 @media (max-width: 900px) {
     .product-page-container {
         flex-direction: column;
@@ -3950,72 +3814,57 @@ select:-webkit-autofill:active {
    (AESTHETIC & PROFISSIONAL)
    ========================================= */
 
-/* Estilo geral do site para contexto (fundo escuro, detalhes amarelos) */
 body {
-    background-color: #000; /* Fundo preto aesthetic */
-    color: #fff; /* Texto branco */
+    background-color: #000;
+    color: #fff;
     font-family: 'Fira Sans', sans-serif;
 }
 
-/* Container da coluna da imagem na página do produto */
 .product-image-container {
-    flex: 1; /* Ajuste conforme seu layout flexbox */ /* Espaçamento interno */
+    flex: 1;
 }
 
-/* A div mágica que força a proporção quadrada (1:1) */
 .square-image-box {
-    width: 80%; /* Ocupa toda a largura da coluna */
-    aspect-ratio: 1 / 1; /* Força a caixa a ser sempre um quadrado perfeito */
-    
-    /* Estilo "Aesthetic" combinando com o site */
-    background-color: #fff; /* Fundo cinza muito escuro para a caixa */
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    background-color: #fff;
     border: 2px solid rgb(74, 74, 74);
-    border-radius: 50px; /* Cantos arredondados elegantes */
-    
-    /* Configurações para o corte da imagem */
-    overflow: hidden; /* Corta o que estiver fora da caixa */
+    border-radius: 50px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Estilo para a imagem dentro da caixa quadrada */
 .square-image-box img {
-    width: 80%; /* Preenche a largura da caixa */
-    height: 80%; /* Preenche a altura da caixa */
-    
-    /* A propriedade crucial para não distorcer */
-    object-fit: cover; /* Escala a imagem para preencher, cortando o excesso se necessário, sem esticar */
-    object-position: center; /* Mantém o centro da imagem visível no corte */
-    
-    /* Suavidade e consistência */
-    border-radius: inherit; /* Herda os cantos arredondados da caixa pai */
-    transition: transform 0.3s ease; /* Transição suave para hover, opcional */
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    transition: transform 0.3s ease;
 }
 
-/* Efeito de zoom sutil ao passar o mouse, opcional e aesthetic */
 .square-image-box:hover img {
-    transform: scale(1.03); /* Zoom de 3% para um toque profissional */
+    transform: scale(1.03);
 }
 
 /* =========================================
    ANIMAÇÃO E VALIDAÇÃO DA BARRA DE PESQUISA
    ========================================= */
 .shop-search {
-    position: relative; /* Necessário para posicionar o texto de erro abaixo */
+    position: relative;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Estado de Erro na Caixa */
 .shop-search.error-border {
     border-color: #ff4444 !important;
     box-shadow: 0 0 12px rgba(255, 68, 68, 0.25);
 }
-
-/* Mensagem de Erro Profissional */
+    
 .search-error-msg {
     position: absolute;
-    bottom: -25px; /* Fica pendurado logo abaixo da barra */
+    bottom: -25px;
     left: 15px;
     color: #ff4444;
     font-size: 0.8rem;
@@ -4031,14 +3880,12 @@ body {
     visibility: visible;
 }
 
-/* Oculta o texto do botão durante o carregamento e ancora a animação */
 .btn-search.loading {
     color: transparent !important;
     pointer-events: none;
-    position: relative; /* A MÁGICA: Esta linha prende o círculo dentro do botão */
+    position: relative;
 }
 
-/* Cria o círculo giratório de carregamento */
 .btn-search.loading::after {
     content: "";
     position: absolute;
@@ -4132,7 +3979,6 @@ body {
     border-color: #888;
 }
 
-/* Quando o cliente seleciona a opção */
 .frete-opcao.selecionado {
     border-color: #FFFF00;
     background: rgba(255, 255, 0, 0.05);
@@ -4161,7 +4007,7 @@ body {
    ========================================= */
 #cep-frete {
     flex: 1;
-    background-color: transparent; /* Fundo invisível para combinar com o resto do form */
+    background-color: transparent;
     border: 1px solid #333;
     color: #fff;
     padding: 14px 15px;
@@ -4171,7 +4017,6 @@ body {
     transition: border-color 0.3s ease;
 }
 
-/* Borda amarela ao clicar para digitar */
 #cep-frete:focus {
     border-color: #FFFF00;
 }
@@ -4191,10 +4036,9 @@ body {
     justify-content: center;
 }
 
-/* Efeito ao passar o rato (hover) */
 #btn-calcular-frete:hover {
     background-color: #e6e600;
-    transform: translateY(-2px); /* Pequeno salto para dar vida ao botão */
+    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 255, 0, 0.2);
 }
 
@@ -4217,7 +4061,6 @@ body {
     transition: all 0.2s ease;
 }
 
-/* Quando selecionado, a borda fica amarela e ganha um miolo amarelo */
 .frete-opcao.selecionado .frete-radio-circle {
     border-color: #FFFF00;
 }
@@ -4264,7 +4107,6 @@ body {
     background-color: #1a1a1a;
 }
 
-/* Botões da Tabela */
 .btn-admin {
     padding: 8px 16px;
     border: none;
@@ -4290,18 +4132,17 @@ body {
 }
 .btn-deletar:hover { background-color: rgba(255, 68, 68, 0.1); }
 
-/* Modal de Edição (Pop-up) */
 .admin-modal-overlay {
-    display: none; /* Escondido por padrão */
+    display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.85);
-    z-index: 9999; /* MÁGICA: Força o modal a ficar acima do Header */
-    align-items: flex-start; /* Evita que o topo seja cortado no telemóvel */
+    z-index: 9999;
+    align-items: flex-start;
     justify-content: center;
     backdrop-filter: blur(5px);
-    overflow-y: auto; /* Permite rolar a tela escura */
-    padding: 60px 20px; /* Dá espaço no topo e em baixo para rolar livremente */
+    overflow-y: auto;
+    padding: 60px 20px;
 }
 
 .admin-modal {
@@ -4312,7 +4153,7 @@ body {
     max-width: 500px;
     border: 1px solid #333;
     box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-    margin: auto; /* Centraliza a caixa automaticamente */
+    margin: auto;
 }
 
 .admin-modal label {
@@ -4332,7 +4173,7 @@ body {
     border-radius: 6px;
     font-family: inherit;
     outline: none;
-    resize: vertical; /* Permite ao utilizador puxar a caixa de descrição para baixo */
+    resize: vertical;
 }
 
 .admin-modal input:focus, .admin-modal textarea:focus, .admin-select:focus {
@@ -4368,7 +4209,7 @@ body {
    ========================================= */
 @media (max-width: 768px) {
     .admin-table thead {
-        display: none; /* Esconde o cabeçalho original no mobile */
+        display: none;
     }
     
     .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
@@ -4386,7 +4227,7 @@ body {
     
     .admin-table td {
         text-align: right;
-        padding-left: 45%; /* Abre espaço à esquerda para o título injetado */
+        padding-left: 45%;
         position: relative;
         border-bottom: 1px solid #222;
         min-height: 40px;
@@ -4403,7 +4244,6 @@ body {
         padding-left: 0;
     }
 
-    /* O truque: Puxa o "data-label" do HTML e escreve-o à esquerda */
     .admin-table td::before {
         content: attr(data-label);
         position: absolute;
@@ -4429,14 +4269,12 @@ body {
     }
     
     .shop-product-grid {
-        /* Define 3 colunas por padrão abaixo de 900px */
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
-        justify-items: center; /* Mantém os cards centralizados se a grelha for maior que eles */
+        justify-items: center;
     }
     
     .shop-card {
-        /* Limites estritos solicitados */
         max-width: 240px !important;
         min-width: 145px !important;
         max-height: 380px !important;
@@ -4455,7 +4293,7 @@ body {
     
     .shop-card-body {
         padding: 10px;
-        flex: 1; /* Preenche o resto do limite de 380px */
+        flex: 1;
     }
     
     .shop-card-body h4 {
@@ -4480,7 +4318,7 @@ body {
     .shop-card-actions {
         flex-direction: column; 
         gap: 6px;
-        margin-top: auto; /* Empurra os botões para o fundo do limite de altura */
+        margin-top: auto;
     }
     
     .shop-card-actions button {
@@ -4495,29 +4333,27 @@ body {
 @media (max-width: 720px) {
     .shop-product-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px; /* Reduz o espaço vazio entre os cards */
-        padding: 0 5px; /* Reduz a margem da tela para aproveitar espaço */
+        gap: 8px;
+        padding: 0 5px;
     }
 
     .shop-card {
-        /* Destrava as medidas rígidas que quebram o telemóvel */
         max-width: 100%;
-        height: 100%; /* Garante que os dois cards da linha alinhem a altura */
+        height: 100%;
     }
 
-    /* Reduz o interior para manter a proporção exata */
     .shop-card-img {
         height: 100px; 
         margin-bottom: 8px;
     }
 
     .shop-card-body {
-        padding: 8px; /* Menos espaço vazio interno */
+        padding: 8px;
     }
 
     .shop-card-body h4 {
-        font-size: 0.75rem; /* Texto mais compacto */
-        height: 2.6em; /* Ajuste para o texto não sobrepor */
+        font-size: 0.75rem;
+        height: 2.6em;
         margin-bottom: 6px;
     }
 
@@ -4527,7 +4363,7 @@ body {
     }
 
     .shop-card-price {
-        font-size: 0.95rem; /* Preço ligeiramente menor */
+        font-size: 0.95rem;
         margin-bottom: 8px;
     }
 
@@ -4536,28 +4372,24 @@ body {
     }
 
     .shop-card-actions button {
-        padding: 6px; /* Botões mais finos */
+        padding: 6px;
         font-size: 0.7rem;
     }
 
-    /* Ajuste da etiqueta sobre a imagem no telemóvel */
     .shop-card-category {
-        top: 5px;    /* Puxa a etiqueta mais para cima */
-        right: 5px;  /* Puxa a etiqueta mais para a direita */
-        font-size: 0.6rem; /* Reduz ligeiramente a letra para não pesar na foto */
-        padding: 3px 8px;  /* Diminui a "gordura" preta à volta do texto */
+        top: 5px;
+        right: 5px;
+        font-size: 0.6rem;
+        padding: 3px 8px;
     }
-
-    /* Garantir que todos os Títulos tenham o mesmo comportamento */
+    
     .admin-table td[data-label="Título"] {
         display: flex !important;
-        justify-content: flex-end !important; /* Força o alinhamento à direita */
+        justify-content: flex-end !important;
         width: 100% !important;
         text-align: right !important;
-        /* Removemos o max-width rígido para o texto fluir dentro da coluna */
     }
 
-    /* Garantir que a célula que contém o Título não quebre o layout */
     .admin-table td {
         display: flex !important;
         justify-content: flex-end !important;
@@ -4567,18 +4399,18 @@ body {
 
     .btn-panel-submit {
         display: block !important;
-        margin: 15px auto !important; /* Centraliza o botão no eixo X */
-        width: 100% !important;    /* Força o botão a esticar de ponta a ponta no formulário */
+        margin: 15px auto !important;
+        width: 100% !important;
         text-align: center;
     }
 }
 
 .btn-novo-anuncio {
-    background-color: #1a1a1a; /* Fundo escuro elegante */
-    color: #FFFF00;           /* Texto amarelo da marca */
+    background-color: #1a1a1a; 
+    color: #FFFF00;
     border: 1px solid #FFFF00;
     padding: 12px 24px;
-    border-radius: 12px;      /* Bordas bem arredondadas */
+    border-radius: 12px;
     font-weight: 800;
     font-size: 0.9rem;
     cursor: pointer;
@@ -4593,22 +4425,21 @@ body {
     transform: scale(1.02);
 }
 
-/* Botão Quadrado (+) ao lado do título */
 .btn-novo-anuncio-quadrado {
-    background-color: transparent; /* Fundo transparente ou #111 se preferir preenchido */
+    background-color: transparent;
     color: #FFFF00;
-    border: 2px solid #FFFF00; /* Borda amarela destacada */
-    width: 40px;               /* Largura fixa */
-    height: 40px;              /* Altura idêntica à largura (Quadrado) */
+    border: 2px solid #FFFF00;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;       /* Quinas arredondadas */
-    font-size: 1.8rem;         /* Tamanho grande para o + */
+    border-radius: 10px;      
+    font-size: 1.8rem;
     font-weight: 400;
     cursor: pointer;
     transition: all 0.2s ease;
-    padding-bottom: 4px;       /* Ajuste ótico para centralizar o + perfeitamente */
+    padding-bottom: 4px;
 }
 
 .btn-novo-anuncio-quadrado:hover {
@@ -4621,7 +4452,7 @@ body {
    PÁGINA: MEUS PEDIDOS (ESTÉTICA PREMIUM)
    ========================================= */
 .pedidos-wrapper {
-    max-width: 800px; /* Mais estreito para leitura elegante */
+    max-width: 800px;
     margin: 140px auto 60px;
     padding: 0 20px;
 }
@@ -4646,11 +4477,10 @@ body {
     gap: 20px;
 }
 
-/* O Cartão do Pedido */
 .pedido-card {
     background-color: #111;
     border: 1px solid #222;
-    border-radius: 20px; /* Bordas bem arredondadas estilo Apple */
+    border-radius: 20px;
     padding: 24px;
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
@@ -4683,15 +4513,14 @@ body {
     margin-top: 4px;
 }
 
-/* Badges de Status (Ghost Buttons) */
 .pedido-badge {
     padding: 6px 14px;
-    border-radius: 50px; /* Formato pílula */
+    border-radius: 50px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background-color: transparent; /* Fundo transparente */
+    background-color: transparent;
 }
 
 .status-amarelo {
@@ -4700,16 +4529,15 @@ body {
 }
 
 .status-verde {
-    border: 1px solid #32CD32; /* Verde sofisticado */
+    border: 1px solid #32CD32;
     color: #32CD32;
 }
 
 .status-azul {
-    border: 1px solid #1E90FF; /* Azul limpo */
+    border: 1px solid #1E90FF;
     color: #1E90FF;
 }
 
-/* Corpo e Footer do Cartão */
 .pedido-body {
     display: flex;
     justify-content: space-between;
@@ -4751,7 +4579,6 @@ body {
     border-color: #555;
 }
 
-/* Responsividade Mobile */
 @media (max-width: 600px) {
     .pedido-header {
         flex-direction: column;
@@ -4804,7 +4631,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* Grelha de Informações */
 .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -4814,7 +4640,7 @@ body {
 .details-card {
     background-color: #0a0a0a;
     border: 1px solid #1a1a1a;
-    border-radius: 24px; /* Raio grande estilo Apple */
+    border-radius: 24px;
     padding: 32px;
     margin-bottom: 24px;
 }
@@ -4829,7 +4655,7 @@ body {
 }
 
 .details-card h3 i {
-    color: #444; /* Ícones discretos */
+    color: #444;
     font-size: 1rem;
 }
 
@@ -4854,7 +4680,6 @@ body {
     font-size: 1rem;
 }
 
-/* Rastreio e NFe */
 .tracking-code {
     font-family: monospace;
     background: #111;
@@ -4890,7 +4715,6 @@ body {
     color: #000;
 }
 
-/* Lista de Itens */
 .order-item {
     display: flex;
     align-items: center;
@@ -4924,7 +4748,6 @@ body {
     font-weight: 600;
 }
 
-/* Resumo Financeiro */
 .summary-line {
     display: flex;
     justify-content: space-between;
@@ -4942,7 +4765,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Mobile */
 @media (max-width: 850px) {
     .details-grid {
         grid-template-columns: 1fr;
@@ -4955,47 +4777,43 @@ body {
 /* =========================================
    ANIMAÇÃO DO CABEÇALHO (SHRINK ON SCROLL)
    ========================================= */
-/* Tamanho Original */
+
 #header {
-    height: 100px; /* Altura padrão que definiu antes */
-    transition: all 0.3s ease; /* Transição suave */
-    /* (Mantenha aqui os outros estilos de display flex, padding, etc. que já possuía) */
+    height: 100px;
+    transition: all 0.3s ease;
 }
 
 #logo {
-    max-height: 80px; /* Tamanho original da logo */
+    max-height: 80px;
     transition: all 0.3s ease;
 }
 
-/* Tamanho Encolhido (ativado pelo JS) */
 #header.scrolled {
-    height: 60px !important; /* Altura menor */
-    padding: 0 5% !important; /* Ajuste opcional de padding */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Adiciona sombra fina para destacar */
+    height: 60px !important;
+    padding: 0 5% !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* Como a logo se comporta quando a página rola */
 #header.scrolled #logo {
     max-height: 45px !important; 
-    width: auto !important; /* Mantém a proporção correta da largura */
-    object-fit: contain !important; /* Impede qualquer tipo de esticamento ou achatamento */
+    width: auto !important;
+    object-fit: contain !important;
     transition: all 0.3s ease;
 }
 
-/* Como os botões/textos do painel se comportam */
 #header.scrolled .panel-header-title span {
-    font-size: 1.1rem !important; /* Texto do meio fica menor */
+    font-size: 1.1rem !important;
     transition: all 0.3s ease;
 }
 
 #header.scrolled .header-submit-button {
-    padding: 8px 16px !important; /* Botão de "VER LOJA" encolhe */
+    padding: 8px 16px !important;
     font-size: 0.8rem !important;
     transition: all 0.3s ease;
 }
 
 #header.scrolled .icon-circle-header {
-    width: 20px !important; /* Círculo da setinha encolhe */
+    width: 20px !important;
     height: 20px !important;
     line-height: 18px !important;
 }
@@ -5046,7 +4864,7 @@ display: flex;
     transition: border-color 0.3s ease;
 }
 .apple-input-group input:focus, .form-row-apple input:focus {
-    border-color: #FFFF00; /* Destaque sutil na cor da marca */
+    border-color: #FFFF00;
 }
 .form-row-apple {
     display: flex;
@@ -5056,7 +4874,7 @@ display: flex;
 .btn-apple-primary {
     width: 100%;
     padding: 16px;
-    background-color: #ffff00; /* Azul padrão Apple para ações principais */
+    background-color: #ffff00;
     color: #000;
     border: none;
     border-radius: 12px;
@@ -5109,7 +4927,7 @@ display: flex;
     .shop-card-img {
         width: 100%;
         height: auto; 
-        aspect-ratio: 4 / 3; /* Força a proporção da imagem para não distorcer */
+        aspect-ratio: 4 / 3;
         margin-bottom: 5px;
     }
     
@@ -5161,19 +4979,16 @@ display: flex;
     }
 }
 
-/* Força a secção de recomendações a ter 4 cards por linha em PCs */
 .shop-recommendations .shop-product-grid {
     grid-template-columns: repeat(4, 1fr);
 }
 
-/* Entre 721px e 900px (Tablets e telas médias): Mantém 3 cards */
 @media (max-width: 900px) {
     .shop-recommendations .shop-product-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Abaixo de 720px (Celulares): Reduz para 2 cards para não esmagar */
 @media (max-width: 720px) {
     .shop-recommendations .shop-product-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -5185,7 +5000,7 @@ display: flex;
    ========================================= */
 @media (max-width: 900px) {
     .shop-product-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 cards por linha */
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         padding: 0 5px;
     }
@@ -5198,10 +5013,9 @@ display: flex;
         display: flex;
         flex-direction: column;
         border-radius: 25px;
-        overflow: hidden; /* Garante que a foto não vaze das bordas arredondadas */
+        overflow: hidden;
     }
 
-    /* A MÁGICA: Quadrado perfeito para a imagem ser o maior destaque (60% do card) */
     .shop-card-img {
         width: 100%;
         height: auto;
@@ -5217,7 +5031,6 @@ display: flex;
         object-position: center;
     }
 
-    /* Redução de espaços para as letras e preço ficarem compactos */
     .shop-card-body {
         padding: 10px;
         flex: 1;
@@ -5226,10 +5039,9 @@ display: flex;
     }
 
     .shop-card-body h4 {
-        font-size: 0.75rem; /* Letras menores e mais finas */
+        font-size: 0.75rem;
         margin-bottom: 4px;
         line-height: 1.2;
-        /* Trava em 2 linhas */
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -5245,21 +5057,20 @@ display: flex;
 
     .shop-card-rating span {
         font-size: 0.6rem;
-        display: block; /* Quebra para economizar espaço horizontal */
+        display: block;
         margin-top: 2px;
     }
 
     .shop-card-price {
-        font-size: 1.05rem; /* Preço menor */
+        font-size: 1.05rem;
         font-weight: 800;
         margin-bottom: 10px;
-        margin-top: auto; /* Empurra os botões para o fundo */
+        margin-top: auto;
     }
 
-    /* Botões robustos intactos */
     .shop-card-actions {
         display: flex;
-        flex-direction: column; /* Empilhados */
+        flex-direction: column;
         gap: 6px;
     }
 
@@ -5270,7 +5081,6 @@ display: flex;
         border-radius: 17px;
     }
 
-    /* Etiqueta pequena colada no topo */
     .shop-card-category {
         font-size: 0.6rem;
         padding: 3px 6px;
@@ -5374,7 +5184,7 @@ display: flex;
     
     .apple-alert-btn {
         flex: 1; background: transparent; border: none; padding: 15px;
-        font-size: 1.05rem; font-weight: 500; color: #0a84ff; /* Azul da Apple */
+        font-size: 1.05rem; font-weight: 500; color: #0a84ff;
         cursor: pointer; transition: background 0.2s; font-family: inherit;
     }
     .apple-alert-btn:hover { background: rgba(255, 255, 255, 0.05); }
@@ -5447,7 +5257,7 @@ display: flex;
 }
 
 .btn-voltar-loja:hover svg {
-    transform: translateX(-4px); /* Animação elegante puxando a seta para trás */
+    transform: translateX(-4px);
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
