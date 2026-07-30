@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           ESTILOS GERAIS (DARK MODE GUARD)
-           ========================================== */
         :root {
             --bg-color: #000000;
             --surface-color: #111111;
@@ -30,7 +27,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* HEADER MINIMALISTA */
         header {
             position: sticky; top: 0; z-index: 1000;
             background-color: rgba(10, 10, 10, 0.85);
@@ -41,7 +37,6 @@
         }
         .logo-img { height: 45px; width: auto; }
 
-        /* CONTEÚDO CENTRAL 404 */
         .not-found-container {
             flex-grow: 1;
             display: flex; flex-direction: column;
@@ -71,7 +66,6 @@
             color: var(--text-secondary); font-size: 1.1rem; max-width: 500px; margin: 0 auto 40px; line-height: 1.5;
         }
 
-        /* BOTÃO DE AÇÃO */
         .btn-return {
             background-color: var(--accent); color: #000; text-decoration: none;
             padding: 16px 32px; border-radius: 40px; font-size: 1.05rem; font-weight: 800;
@@ -82,8 +76,7 @@
             transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 0, 0.2); background-color: #fff433;
         }
         .btn-return:active { transform: translateY(0); }
-
-        /* FOOTER */
+        
         footer {
             text-align: center; padding: 30px 24px; border-top: 1px solid var(--border-color);
             font-size: 0.85rem; color: var(--text-secondary); flex-shrink: 0;
