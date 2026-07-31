@@ -206,37 +206,55 @@
             }
         }
 
+        /* ===================================================
+           CORREÇÃO DO HERO PARA CELULAR (Alinhamento à Esquerda)
+           =================================================== */
         @media (max-width: 599px) {
             #background-image {
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: flex-start !important;
-                align-items: center !important;
+                align-items: flex-start !important; /* Move elementos para a esquerda */
                 height: auto !important;
-                padding: 100px 15px 0 15px !important;
+                padding: 100px 20px 0 20px !important; /* 20px para igualar o alinhamento da logo */
                 margin-top: 0 !important;
             }
 
             #text-header {
                 margin: 25px 0 90px 0 !important;
-                text-align: center !important;
+                text-align: left !important; /* Força o texto para a esquerda */
                 height: auto !important;
                 display: flex;
                 flex-direction: column;
+                align-items: flex-start !important;
+                width: 100% !important;
             }
 
             #text-header .linha-branca, 
             #text-header .linha-amarela {
-                font-size: 28px !important;
-                line-height: 0.3 !important;
+                font-size: 34px !important; /* Aumentado a fonte para mobile */
+                line-height: 1.1 !important; /* Correção para a fonte não esmagar */
+                display: block !important;
+            }
+
+            #text-header .linha-amarela {
+                margin-top: 6px !important; /* Espaçamento entre as frases principais */
+            }
+
+            #text-header .hero-subtitle {
+                font-size: 16px !important;
+                text-align: left !important;
+                margin-top: 15px !important;
+                line-height: 1.4 !important;
             }
 
             #menu-orcamento {
-                width: 108% !important;
-                max-width: 108% !important;
-                margin-right: -24px !important;
-                margin-left: -24px !important;
-                border-radius: 60px 60px 0 0 !important;
+                align-self: center !important; /* Mantém a caixa de orçamento no meio da tela */
+                width: calc(100% + 40px) !important;
+                max-width: calc(100% + 40px) !important;
+                margin-right: -20px !important;
+                margin-left: -20px !important;
+                border-radius: 40px 40px 0 0 !important;
                 border-top: 3px solid #FFFF00 !important;
             }
         }
@@ -370,7 +388,7 @@
                 <a href="index"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
 
-            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none;">
+            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none; color: #d2d2d7;">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
                     <rect x="4" y="8" width="16" height="14" rx="2"></rect>
@@ -1216,4 +1234,4 @@
     </script>
     <script src="apple-alerts.js"></script>
 </body>
-</html>
+</html>)
