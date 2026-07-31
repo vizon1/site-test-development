@@ -1,204 +1,249 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Câmeras de Segurança Guard - Videomonitoramento Integrado</title>
-    
+    <title>Guard - Soluções em Segurança e Monitoramento</title>
+    <meta name="google-site-verification" content="JY0g7hDhR5bkiXRK5KzFw3GN5OkVlqsIx4hDpPDNcWM" />
     <link rel="icon" type="image/webp" href="imagens/logo.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* ==========================================
-           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
-           ========================================== */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: rgba(15, 15, 15, 0.5) !important;
-            backdrop-filter: blur(25px) !important;
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            width: 100%;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0); /* Anti-Flicker GPU */
-            -webkit-transform: translateZ(0);
-            will-change: transform;
-        }
-
-        header.header-scrolled {
-            background-color: rgba(10, 10, 10, 0.85) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
-        }
-
-        #header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 86px; 
-            padding: 0 24px;
-            box-sizing: border-box;
-            transition: height 0.3s ease;
-            gap: 15px; /* Impede que os elementos se toquem */
-        }
-
-        header.header-scrolled #header {
-            height: 60px;
-        }
-
-        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
-        #logo-container {
-            flex: 1;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        #logo-container img {
-            height: 60px;
-            width: auto;
-            display: block;
-            transition: height 0.3s ease;
-        }
-
-        header.header-scrolled #logo-container img {
-            height: 45px; 
-        }
-
-        #nav-container {
-            flex: 2; /* Ocupa a maior parte do centro */
-            display: flex;
-            justify-content: center;
-        }
-
-        #navigation-bar {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            align-items: center;
-        }
-
-        #navigation-bar a {
-            color: #d2d2d7;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            transition: color 0.2s ease;
-            white-space: nowrap; 
-        }
-
+        header { position: sticky; top: 0; z-index: 1000; background-color: rgba(15, 15, 15, 0.5) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: saturate(180%) blur(20px); width: 100%; transition: background-color 0.3s ease, border-color 0.3s ease; transform: translateZ(0); -webkit-transform: translateZ(0); will-change: transform; }
+        header.header-scrolled { background-color: rgba(10, 10, 10, 0.85) !important; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        #header { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; height: 86px !important; padding: 0 24px; box-sizing: border-box; transition: height 0.3s ease; gap: 15px; }
+        header.header-scrolled #header { height: 60px !important; }
+        
+        #logo-container { flex: 1; display: flex; justify-content: flex-start; align-items: center; }
+        #logo-container img { height: 60px !important; width: auto; display: block; transition: height 0.3s ease; }
+        header.header-scrolled #logo-container img { height: 45px !important; }
+        
+        #nav-container { flex: 2; display: flex; justify-content: center; }
+        #navigation-bar { display: flex; gap: 24px; list-style: none; padding: 0; margin: 0; align-items: center; }
+        #navigation-bar a { color: #d2d2d7; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.2s ease; white-space: nowrap; }
         #navigation-bar a:hover { color: #ffffff; border-bottom: solid 2px #ffff00;}
-
-        #navigation-bar a.active-nav {
-            color: #FFFF00;
-            font-weight: 600;
-            border-bottom: 2px solid #FFFF00;
-            padding-bottom: 4px;
-        }
-
-        /* Agrupamento da Direita */
-        #desktop-cart-group {
-            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
-            display: flex !important; 
-            align-items: center;
-            justify-content: flex-end;
-            gap: 20px;
-        }
-
-        #open-cart-btn {
-            cursor: pointer;
-            color: #d2d2d7;
-            display: flex;
-            align-items: center;
-            position: relative;
-            transition: color 0.2s ease;
-            text-decoration: none;
-        }
-        #open-cart-btn:hover { color: #ffffff; }
-
-        #cart-count {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background: #ff3b30;
-            color: white;
-            border-radius: 12px;
-            padding: 2px 5px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            min-width: 16px;
-            text-align: center;
-            box-sizing: border-box;
-            border: 2px solid rgba(10, 10, 10, 0.85);
-        }
-
-        /* Espaço Fixo e Alinhado à Direita para Autenticação */
-        #auth-section {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            padding-left: 20px;
-            height: 28px;
-            min-width: 130px; 
-        }
-
+        #navigation-bar a.active-nav { color: #FFFF00; font-weight: 600; border-bottom: 2px solid #FFFF00; padding-bottom: 4px; }
+        
+        #desktop-cart-group { flex: 1; display: flex !important; align-items: center; justify-content: flex-end; gap: 20px; }
+        
+        /* Esconde o carrinho antigo do PC, pois agora flutua */
+        #open-cart-btn { display: none !important; }
+        
+        #auth-section { display: flex; align-items: center; justify-content: flex-end; border-left: 1px solid rgba(255, 255, 255, 0.15); padding-left: 20px; height: 28px; min-width: 130px; }
         .auth-link { color: #86868b; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
         .auth-link:hover { color: #ffffff; }
         .auth-separator { color: #424245; font-size: 0.8rem; margin: 0 8px; }
-
+        
         #logged-in-ui { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         #logged-in-ui:hover #user-first-name { color: #ffffff; }
         #user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #424245; transition: transform 0.2s; }
         #user-first-name { font-size: 0.9rem; font-weight: 500; color: #d2d2d7; transition: color 0.2s ease; white-space: nowrap; }
-
-        .profile-dropdown {
-            display: none; position: absolute; top: 100%; right: 0; margin-top: 20px;
-            background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px;
-            width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-        }
+        .profile-dropdown { display: none; position: absolute; top: 100%; right: 0; margin-top: 20px; background-color: #1d1d1f; border: 1px solid #424245; border-radius: 12px; width: 200px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
         .profile-dropdown.active { display: flex; animation: fadeIn 0.2s ease forwards; }
         .dropdown-item { padding: 12px 16px; color: #f5f5f7; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease; display: flex; align-items: center; }
         .dropdown-item:hover { background-color: #2c2c2e; }
         .dropdown-divider { height: 1px; background-color: #424245; margin: 4px 0; }
         .dropdown-item.logout { color: #ff4444; }
         .dropdown-item.logout:hover { background-color: rgba(255, 68, 68, 0.1); }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==========================================
-           RESPONSIVIDADE INTELIGENTE
-           ========================================== */
-        @media (min-width: 769px) and (max-width: 1150px) {
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30%;
+            background-color: rgba(28, 28, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f7;
+            cursor: pointer;
+            z-index: 1999;
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+        }
+
+        .floating-cart-btn:hover {
+            transform: scale(1.08);
+            background-color: rgba(44, 44, 46, 0.85);
+            color: #fff;
+        }
+
+        #floating-cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: #ff3b30;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 20px;
+            border: 2px solid #000;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        @media (max-width: 920px) {
+            .floating-cart-btn { display: none !important; }
+        }
+        
+        @media (min-width: 921px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
             #auth-section { padding-left: 12px; min-width: auto; }
             .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
+            #user-first-name { display: none; } 
         }
 
-        @media (max-width: 768px) {
-            #nav-container { display: none; }
-            #desktop-cart-group { display: none !important; }
-            #header { padding: 0 15px; height: 80px !important; } 
-            #logo-container img { height: 60px !important; } 
+        @media (max-width: 920px) {
+            #nav-container, #desktop-cart-group, #auth-section { display: none !important; }
+            
+            #header { 
+                padding: 0 20px !important; 
+                height: 80px !important; 
+                justify-content: space-between !important;
+                background-color: rgba(15, 15, 15, 0.6) !important;
+                flex-direction: row !important;
+            } 
+            
+            #logo-container { 
+                flex: 1 !important; 
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important;
+            }
+            #logo-container a { margin: 0 auto; display: flex; }
+            #logo-container img { height: 60px !important; width: auto !important; object-fit: contain !important; margin: 0 !important; } 
+            
+            .cart-sidebar { max-width: 100%; border-left: none; }
+
+            .mobile-icon, #mobile-menu-btn, #mobile-cart-btn {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 48px !important;
+                height: 48px !important;
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 14px !important;
+                color: #cccccc !important;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+            .mobile-icon svg { width: 22px !important; height: 22px !important; }
+            .mobile-icon span:not(.mobile-cart-badge) { display: none !important; }
+            
+            .mobile-icon:active, 
+            .mobile-icon:hover {
+                background-color: rgba(255, 255, 0, 0.08) !important;
+                border-color: rgba(255, 255, 0, 0.3) !important;
+                color: #FFFF00 !important;
+                box-shadow: 0 0 15px rgba(255, 255, 0, 0.1) !important;
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 1024px) {
+            #background-image {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                height: auto !important;
+                min-height: 100vh !important;
+                padding: 120px 20px 60px 20px !important; 
+                margin-top: 0 !important;
+                background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url("imagens/background-house.webp") !important;
+                background-position: center !important;
+                background-size: cover !important;
+                gap: 40px !important; 
+            }
+
+            #text-header {
+                max-width: 600px !important;
+                margin: 0 auto !important; 
+                text-align: center !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                padding: 0 !important;
+            }
+
+            #text-header .linha-branca, 
+            #text-header .linha-amarela {
+                font-size: 42px !important; 
+                line-height: 0.5 !important;
+            }
+
+            #text-header .hero-subtitle {
+                font-size: 16px !important;
+                display: block !important;
+            }
+
+            #menu-orcamento {
+                width: 100% !important;
+                max-width: 450px !important; 
+                margin: 0 auto !important; 
+                border-radius: 25px !important; 
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-top: 3px solid #FFFF00 !important; 
+                padding: 40px 30px !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
+                background-color: rgba(15, 15, 15, 0.85) !important;
+                backdrop-filter: blur(25px) !important;
+                -webkit-backdrop-filter: blur(25px) !important;
+            }
+        }
+
+        @media (max-width: 599px) {
+            #background-image {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                height: auto !important;
+                padding: 100px 15px 0 15px !important;
+                margin-top: 0 !important;
+            }
+
+            #text-header {
+                margin: 25px 0 90px 0 !important;
+                text-align: center !important;
+                height: auto !important;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #text-header .linha-branca, 
+            #text-header .linha-amarela {
+                font-size: 28px !important;
+                line-height: 0.3 !important;
+            }
+
+            #menu-orcamento {
+                width: 108% !important;
+                max-width: 108% !important;
+                margin-right: -24px !important;
+                margin-left: -24px !important;
+                border-radius: 60px 60px 0 0 !important;
+                border-top: 3px solid #FFFF00 !important;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <div id="sidebar-overlay"></div>
 
     <div id="sidebar-menu" class="sidebar">
         <div class="sidebar-header">
@@ -211,7 +256,7 @@
             </div>
         </div>
 
-        <ul class="sidebar-nav">
+        <ul class="sidebar-nav">         
             <li id="mobile-auth-user" style="display: none; padding: 15px 20px; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
                 <img id="mobile-user-avatar" src="" alt="Perfil" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid #424245;">
                 <div style="display: flex; flex-direction: column;">
@@ -220,15 +265,78 @@
                 </div>
             </li>
 
-            <li><a href="index"><div class="nav-item-content"><span>Início</span></div></a></li>
-            <li><a href="store"><div class="nav-item-content"><span>Loja</span></div></a></li>
-            <li><a href="meus-pedidos"><div class="nav-item-content"><span>Meus pedidos</span></div></a></li>
-            <li id="mobile-nav-info" style="display: none;"><a href="minhas-informacoes"><div class="nav-item-content"><span>Minhas informações</span></div></a></li>
-            <li><a href="home-alarm"><div class="nav-item-content"><span>Alarme para casa</span></div></a></li>
-            <li><a href="enterprise-alarm"><div class="nav-item-content"><span>Alarme para empresa</span></div></a></li>
-            <li><a href="rural-alarm"><div class="nav-item-content"><span>Alarme para zona rural</span></div></a></li>
-            <li class="active"><a href="cameras"><div class="nav-item-content"><span>Câmeras</span></div></a></li>
-            <li><a href="help-informations"><div class="nav-item-content"><span>Ajuda e Informações</span></div></a></li>
+            <li class="active">
+                <a href="index">
+                    <div class="nav-item-content">
+                        <span>Início</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="store">
+                    <div class="nav-item-content">
+                        <span>Loja</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="meus-pedidos">
+                    <div class="nav-item-content">
+                        <span>Meus pedidos</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li id="mobile-nav-info" style="display: none;">
+                <a href="minhas-informacoes">
+                    <div class="nav-item-content">
+                        <span>Minhas informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="home-alarm">
+                    <div class="nav-item-content">
+                        <span>Alarme para casa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="enterprise-alarm">
+                    <div class="nav-item-content">
+                        <span>Alarme para empresa</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="rural-alarm">
+                    <div class="nav-item-content">
+                        <span>Alarme para zona rural</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="cameras">
+                    <div class="nav-item-content">
+                        <span>Câmeras</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
+            <li>
+                <a href="help-informations">
+                    <div class="nav-item-content">
+                        <span>Ajuda e Informações</span>
+                    </div>
+                    <span class="sidebar-arrow">&#8250;</span>
+                </a>
+            </li>
 
             <li id="mobile-auth-logout" style="display: none; margin-top: 15px;">
                 <a href="#" id="mobile-btn-logout">
@@ -262,7 +370,7 @@
                 <a href="index"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
 
-            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none; color: #d2d2d7;">
+            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none;">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
                     <rect x="4" y="8" width="16" height="14" rx="2"></rect>
@@ -273,12 +381,12 @@
             
             <nav id="nav-container">
                 <ul id="navigation-bar">
-                    <li><a href="index">Início</a></li>
+                    <li><a href="index" class="active-nav">Início</a></li>
                     <li><a href="store">Loja</a></li>
                     <li><a href="home-alarm">Alarme para casa</a></li>
                     <li><a href="enterprise-alarm">Alarme para empresa</a></li>
                     <li><a href="rural-alarm">Alarme para área rural</a></li>
-                    <li><a href="cameras" class="active-nav">Câmeras</a></li>
+                    <li><a href="cameras">Câmeras</a></li>
                 </ul>
             </nav>
             
@@ -310,205 +418,328 @@
             </div>
         </div>
     </header>
-
+    
     <section>
-        <!-- ESTILO BLINDADO (IGNORA O STYLE.CSS ANTIGO) -->
-        <style>
-            #hero-cameras {
-                width: 100%;
-                min-height: 100vh !important;
-                margin-top: -86px !important; /* Puxa a imagem para debaixo do menu */
-                padding-top: 86px !important; /* Empurra o texto para baixo do menu */
-                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url("imagens/background-cam.webp") !important;
-                background-size: cover !important;
-                background-position: center !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            #texto-cameras {
-                display: block !important;
-                text-align: left !important;
-                max-width: 1200px !important;
-                width: 100% !important;
-                padding: 0 24px !important;
-                z-index: 2 !important;
-            }
-
-            #texto-cameras .linha-branca {
-                display: block !important;
-                color: #FFFFFF !important;
-                font-size: 42px !important;
-                font-weight: 800 !important;
-                line-height: 1.1 !important;
-            }
-
-            #texto-cameras .linha-amarela {
-                display: block !important;
-                color: #FFFF00 !important;
-                font-size: 52px !important;
-                font-weight: 800 !important;
-                line-height: 1.1 !important;
-                margin-top: 5px !important;
-            }
-
-            #texto-cameras .hero-subtitle {
-                display: block !important;
-                color: #cccccc !important;
-                font-size: 18px !important;
-                margin-top: 20px !important;
-                line-height: 1.5 !important;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.8) !important;
-                max-width: 650px !important;
-            }
-            
-            #botao-cameras {
-                display: inline-flex !important;
-                margin-top: 40px !important;
-                text-decoration: none !important;
-            }
-        </style>
-
-        <!-- NOVO HTML USANDO OS IDs -->
-        <div id="hero-cameras">
-            <div id="texto-cameras">
-                <span class="linha-branca">Seus próprios olhos no local</span>
-                <span class="linha-amarela">Videomonitoramento Guard</span>
-                <p class="hero-subtitle">Um alarme avisa que algo aconteceu. A câmera mostra exatamente o que é. Aumente a precisão da sua segurança, controle acessos ao vivo pelo app e grave provas em alta resolução.</p>
-                <a href="index#advertisement-calculator" class="btn-guard-glow" id="botao-cameras">
-                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
-                </a>
+        <div id="background-image">
+            <div id="text-header">
+                <span class="linha-branca">Líder em monitoramento</span><br>
+                <span class="linha-amarela">residencial e empresarial</span>
+                <p class="hero-subtitle">Controle total e proteção 24h na palma da sua mão.</p>
+            </div>
+            <div id="menu-orcamento">
+                <div id="menu-orcamento-top">
+                    <div id="menu-orcamento-tittle">
+                        CALCULE
+                    </div>
+                    <div id="menu-orcamento-subtittle">
+                        o orçamento do Alarme Guard
+                    </div>
+                    <div id="actionbutton" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                        CALCULAR AGORA
+                    </div>
+                    <div id="information-above">
+                        Se preferir <strong id="call-strong">LIGAMOS</strong> para você
+                    </div>
+                    <div id="phone-container-background">
+                        <form id="form-telefone-rapido" class="phone-container" action="https://formspree.io/f/mjgzyoyg" method="POST">
+                            <input type="tel" name="Ligacao_Solicitada" placeholder="Seu telefone" class="phone-input" maxlength="15" required />
+                            <button type="submit" class="submit-btn">
+                                ENVIAR
+                                <span class="icon-arrow">&#8250;</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div id="orcamento-bottom-part">
+                    <p>
+                    ligue agora 
+                    <a>
+                        (15) 98824-6986
+                    </a>
+                    </p>
+                    <small>
+                        <p>
+                             Ao clicar em enviar, você aceita nossa <a href="./privacy-policy">política de privacidade</a> e <a href="./politica-cookies">política de cookies.</a>
+                        </p>
+                    </small>
+                </div>
             </div>
         </div>
 
-        <div id="subtittle-cards-container">
-            <h2 class="subtittle-cards" style="text-align: center;">
-                <span>Por que adicionar câmeras ao seu Alarme?</span>
-            </h2>
+        <div id="advertisement-calculator">
+            <span>Qual sistema melhor atende</span>
+            <span>sua necessidade?</span>
         </div>
         
+        <div id="calculator">
+            <form id="form-etapas" action="https://formspree.io/f/mjgzyoyg" method="POST">
+            
+                <div class="step active" id="step-1" data-next="step-2">
+                    <h3 class="pergunta-form">Defina o foco do seu sistema de segurança:</h3>
+                    <label class="opcao-radio"><span>Sistema de videomonitoramento (Câmeras)</span><input type="radio" name="1_Foco_do_Sistema" value="Câmeras" data-skip-to="step-2-cameras"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sistema de alarme</span><input type="radio" name="1_Foco_do_Sistema" value="Alarme" data-skip-to="step-2-alarme"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Ambos (Alarme e câmeras)</span><input type="radio" name="1_Foco_do_Sistema" value="Alarme e Câmeras" data-skip-to="step-2-cameras"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-cameras">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="2_Tipo_de_Imovel" value="Residência" data-skip-to="step-tipo-res-cam"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="2_Tipo_de_Imovel" value="Empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-alarme">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="2_Tipo_de_Imovel" value="Residência" data-skip-to="step-tipo-res-ala"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="2_Tipo_de_Imovel" value="Empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-2-ambos">
+                    <h3 class="pergunta-form">A instalação é para uma residência ou empresa?</h3>
+                    <label class="opcao-radio"><span>Residência</span><input type="radio" name="2_Tipo_de_Imovel" value="Residência" data-skip-to="step-tipo-res-amb"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Empresa</span><input type="radio" name="2_Tipo_de_Imovel" value="Empresa" data-skip-to="step-emp-1"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-cam" data-next="step-veg-cam">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="3_Estilo_da_Residencia" value="Casa em bairro aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="3_Estilo_da_Residencia" value="Condomínio Fechado"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="3_Estilo_da_Residencia" value="Chácara ou Área Rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-veg-cam" data-next="step-4-res">
+                    <h3 class="pergunta-form">Há árvores ou vegetação alta que possam bloquear o ângulo de visão das câmeras?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="4_Vegetacao_Alta_no_Local" value="Sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="4_Vegetacao_Alta_no_Local" value="Não"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-ala" data-next="step-3-ala">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="3_Estilo_da_Residencia" value="Casa em bairro aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="3_Estilo_da_Residencia" value="Condomínio Fechado"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="3_Estilo_da_Residencia" value="Chácara ou Área Rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-tipo-res-amb" data-next="step-roubo-ala">
+                    <h3 class="pergunta-form">Qual é o tipo da sua residência?</h3>
+                    <label class="opcao-radio"><span>Casa em bairro aberto</span><input type="radio" name="3_Estilo_da_Residencia" value="Casa em bairro aberto"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Casa em condomínio fechado</span><input type="radio" name="3_Estilo_da_Residencia" value="Condomínio Fechado"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Chácara ou área rural</span><input type="radio" name="3_Estilo_da_Residencia" value="Chácara ou Área Rural"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-3-ala" data-next="step-roubo-ala">
+                    <h3 class="pergunta-form">Você tem câmeras em sua casa?</h3>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="4_Possui_Cameras_Instaladas" value="Não possui"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim, Intelbras</span><input type="radio" name="4_Possui_Cameras_Instaladas" value="Sim (Intelbras)"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim, de outra marca</span><input type="radio" name="4_Possui_Cameras_Instaladas" value="Sim (Outra Marca)"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-roubo-ala" data-next="step-pets">
+                    <h3 class="pergunta-form">A sua casa ou a do seu vizinho foi furtada recentemente?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="5_Ocorreu_Furto_Recente" value="Sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="5_Ocorreu_Furto_Recente" value="Não"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-pets" data-next="step-4-res">
+                    <h3 class="pergunta-form">Existem animais de estimação na casa?</h3>
+                    <label class="opcao-radio"><span>Sim - pequeno porte</span><input type="radio" name="6_Possui_Animais" value="Sim (Pequeno Porte)"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Sim - grande porte</span><input type="radio" name="6_Possui_Animais" value="Sim (Grande Porte)"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="6_Possui_Animais" value="Não possui"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-4-res" data-next="step-loc-res">
+                    <h3 class="pergunta-form">Qual é a área aproximada do local?</h3>
+                    <label class="opcao-radio"><span>Até 100m²</span><input type="radio" name="7_Area_do_Local" value="Até 100m²"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>100 a 200m²</span><input type="radio" name="7_Area_do_Local" value="De 100 a 200m²"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Mais de 200m²</span><input type="radio" name="7_Area_do_Local" value="Mais de 200m²"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-loc-res" data-next="step-final">
+                    <h3 class="pergunta-form">Onde está localizada a sua residência?</h3>
+                    <label class="opcao-radio"><span>Itararé-SP</span><input type="radio" name="8_Localizacao_da_Residencia" value="Itararé-SP"><span class="custom-radio"></span></label>
+                    
+                    <div class="opcao-input-texto">
+                        <input type="text" id="q_res_loc_outra" name="8_Localizacao_da_Residencia_Outra" placeholder="Outra (digite a cidade...)" class="input-cidade-campo">
+                        <button type="button" class="btn-avancar-input" id="btn-avancar-cidade-res">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-emp-1" data-next="step-emp-2">
+                    <h3 class="pergunta-form">Como você classifica a sua empresa?</h3>
+                    <label class="opcao-radio"><span>Varejo ou ponto comercial</span><input type="radio" name="3_Classificacao_da_Empresa" value="Varejo/Comércio de Rua"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Ambiente Corporativo</span><input type="radio" name="3_Classificacao_da_Empresa" value="Ambiente Corporativo"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Setor Industrial ou galpão</span><input type="radio" name="3_Classificacao_da_Empresa" value="Setor Industrial/Galpão"><span class="custom-radio"></span></label>
+                    
+                    <div class="opcao-input-texto">
+                        <input type="text" id="q_emp_class_outra" name="3_Classificacao_da_Empresa_Outro" placeholder="Outro segmento (digite qual...)" class="input-cidade-campo">
+                        <button type="button" class="btn-avancar-input" id="btn-avancar-segmento">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-emp-2" data-next="step-emp-3">
+                    <h3 class="pergunta-form">Onde está localizada a sua empresa?</h3>
+                    <label class="opcao-radio"><span>Itararé-SP</span><input type="radio" name="4_Localizacao_da_Empresa" value="Itararé-SP"><span class="custom-radio"></span></label>
+                    
+                    <div class="opcao-input-texto">
+                        <input type="text" id="q_emp_loc_outra" name="4_Localizacao_da_Empresa_Outra" placeholder="Outra (digite a cidade...)" class="input-cidade-campo">
+                        <button type="button" class="btn-avancar-input" id="btn-avancar-cidade">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-emp-3" data-next="step-emp-4">
+                    <h3 class="pergunta-form">Sua empresa ou alguma na proximidade foi furtada recentemente?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="5_Ocorreu_Furto_Recente" value="Sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="5_Ocorreu_Furto_Recente" value="Não"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-emp-4" data-next="step-emp-5">
+                    <h3 class="pergunta-form">Qual é a área aproximada do local?</h3>
+                    <label class="opcao-radio"><span>Até 100m²</span><input type="radio" name="6_Area_do_Local" value="Até 100m²"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>100 a 200m²</span><input type="radio" name="6_Area_do_Local" value="De 100 a 200m²"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Mais de 200m²</span><input type="radio" name="6_Area_do_Local" value="Mais de 200m²"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-emp-5" data-next="step-final">
+                    <h3 class="pergunta-form">O imóvel possui área externa, pátio ou estacionamento aberto?</h3>
+                    <label class="opcao-radio"><span>Sim</span><input type="radio" name="7_Possui_Area_Externa_Aberta" value="Sim"><span class="custom-radio"></span></label>
+                    <label class="opcao-radio"><span>Não</span><input type="radio" name="7_Possui_Area_Externa_Aberta" value="Não"><span class="custom-radio"></span></label>
+                </div>
+
+                <div class="step" id="step-final">
+                    <h3 class="pergunta-form">Estamos quase lá! Para finalizar seu orçamento, por favor, informe seu endereço e telefone abaixo:</h3>
+                    
+                    <div class="phone-container" style="max-width: 100%; margin-top: 15px; padding: 6px;">
+                        <input type="text" id="endereco-final" name="8_Endereco_do_Cliente" placeholder="Endereço completo (Rua, Número, Bairro)" class="phone-input" required>
+                    </div>
+
+                    <div class="phone-container" style="max-width: 100%; margin-top: 15px;">
+                        <input type="tel" id="telefone-final" name="Telefone_de_Contato_do_Cliente" placeholder="Seu telefone" class="phone-input" maxlength="15" required>
+                        <button type="submit" class="submit-btn" id="btn-finalizar-calc" style="width: auto; min-width: 140px; justify-content: center;">
+                            <span id="texto-finalizar">FINALIZAR</span>
+                            <div class="spinner-calc" id="loader-finalizar" style="display: none;"></div>
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div id="subtittle-cards-container">
+            <h2 class="subtittle-cards" id="subtitle-1">
+                <span>Proteja-se com o monitoramento 24h</span>
+                <span>Guard</span>
+            </h2>
+        </div>
         <ul id="subtittle-cards-displayer">
             <li>
-                <img src="imagens/app-guard-alar-cam.webp" alt="Acesso ao vivo" class="card-image">
-                <h3>Controle 24h na sua mão</h3>
-                <p class="card-subtitle">Acesso pelo App Guard</p>
+                <img src="imagens/cam-house-hard.webp" alt="Descrição da imagem" class="card-image">
+                <h3>Detecção antecipada</h3>
+                <p class="card-subtitle">agindo antes da invasão</p>
                 <ul class="card-features">
-                    <li><span class="icon-arrow">&#8250;</span> Está longe e bateu a dúvida? Abra o aplicativo e <strong>veja ao vivo</strong> tudo o que está acontecendo no seu imóvel.</li>
-                    <li><span class="icon-arrow">&#8250;</span> Monitore a chegada de funcionários, prestadores de serviço ou certifique-se de que sua <strong>família está bem</strong>.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Placa <strong>Guard</strong> faz o ladrão pensar duas vezes antes de invadir.</li>
+                    <li><span class="icon-arrow">&#8250;</span> As <strong>melhores câmeras de segurança e sensores</strong> de última geração para detecção antecipada.</li>
+                    <li><span class="icon-arrow">&#8250;</span> <strong>Em caso de violação</strong>, o alarme dispara e sinaliza a Central.</li>
                 </ul>
             </li>
 
             <li>
-                <img src="imagens/operator-image-viewer-home.webp" alt="Verificação de Disparo" class="card-image">
-                <h3>Verificação Imediata</h3>
-                <p class="card-subtitle">O diferencial contra alarmes falsos</p>
+                <img src="imagens/operator-image-viewer-home.webp" alt="Descrição da imagem" class="card-image">
+                <h3>Intervenção humana imediata</h3>
+                <p class="card-subtitle">pela nossa Central de Monitoramento 24 horas</p>
                 <ul class="card-features">
-                    <li><span class="icon-arrow">&#8250;</span> Se o alarme disparar, nossa Central acessa as câmeras <strong>instantaneamente</strong> para avaliar a situação.</li>
-                    <li><span class="icon-arrow">&#8250;</span> Ao confirmar visualmente a invasão, acionamos as <strong>forças competentes</strong>, garantindo uma resposta imediata.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Recebemos as imagens das câmeras, <strong>verificamos se há uma invasão</strong> acontecendo e agimos em segundos.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Profissionais <strong>Guard</strong> treinados para agir em situações de emergência, <strong>24 horas por dia, 7 dias por semana</strong>.</li>
                 </ul>
             </li>
 
             <li>
-                <img src="imagens/person-detected.webp" alt="Gravação de Provas" class="card-image">
-                <h3>Coleta de Evidências</h3>
-                <p class="card-subtitle">Gravação em Alta Resolução</p>
+                <img src="imagens/sirene-image-viewer-home.webp" alt="Descrição da imagem" class="card-image">
+                <h3>Aviso às autoridades imediatamente</h3>
+                <p class="card-subtitle">ação rápida para garantir sua proteção</p>
                 <ul class="card-features">
-                    <li><span class="icon-arrow">&#8250;</span> Mais do que <strong>inibir crimes</strong>, as câmeras são fundamentais para <strong>identificar invasores</strong>.</li>
-                    <li><span class="icon-arrow">&#8250;</span> Tenha um histórico visual gravado com <strong>qualidade HD</strong> para resgate rápido de imagens caso sejam necessárias <strong>provas legais</strong>.</li>
+                    <li><span class="icon-arrow">&#8250;</span> Resposta rápida e eficaz, com notificação às <strong>autoridades competentes</strong>.</li>
+                    <li><span class="icon-arrow">&#8250;</span> <strong>Suporte e acompanhamento remoto</strong> até a chegada de ajuda especializada.</li>
                 </ul>
             </li>
         </ul>
-
-        <div class="guard-premium-banner" style="margin-top: 50px;">
-            <div class="guard-banner-content">
-                <div class="guard-banner-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                </div>
-                <div class="guard-banner-text">
-                    <h3 class="guard-banner-title">O complemento perfeito para o seu alarme</h3>
-                    <p class="guard-banner-subtitle">Simule seu projeto com videomonitoramento e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
-                </div>
-            </div>
-            <div class="guard-banner-action">
-                <a href="index#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
-                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
-                </a>
-            </div>
-        </div>
-
         <div id="subtittle-cards-container">
-            <h2 class="subtittle-cards" style="text-align: center; margin-top: 60px;">
-                <span>Tecnologia de ponta a favor da sua tranquilidade</span>
+            <h2 class="subtittle-cards">
+                <span>Videomonitoramento e controle</span>
+                <span>na palma da sua mão</span>
             </h2>
         </div>
-        
-        <div class="best-protection-section">
-            <div class="best-protection-line"></div>
-            
-            <div class="center-animation-container">
-                <div class="wave wave1"></div>
-                <div class="wave wave2"></div>
-                <div class="wave wave3"></div>
-                <div class="best-protection-icon">
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 8A4 4 0 0 0 8 12A4 4 0 0 0 12 16A4 4 0 0 0 16 12A4 4 0 0 0 12 8Z" /></svg>
+        <div class="video-control-section">
+            <div class="video-control-left">
+                <div class="camera-image-container">
+                    <img src="imagens/camera-dome.webp" alt="Câmera Intelbras Dome" class="camera-dome-img">
                 </div>
-            </div>
-            
-            <div class="best-protection-column">
-                <div class="bp-card">
-                    <div class="bp-img-wrapper shape-left">
-                        <img src="imagens/noturn-view-camera.webp" alt="Visão Noturna" class="bp-img">
-                    </div>
-                    <h3>Visão Noturna Inteligente</h3>
-                    <p>A escuridão <strong>não é um obstáculo</strong>. Nossas câmeras contam com sensores infravermelhos que garantem <strong>imagens nítidas</strong> e claras mesmo durante a madrugada ou em ambientes com pouca luz.</p>
-                </div>
-                <div class="bp-card">
-                    <div class="bp-img-wrapper shape-right">
-                        <img src="imagens/background-cam.webp" alt="Integração Total" class="bp-img">
-                    </div>
-                    <h3>Dupla Barreira de Proteção</h3>
-                    <p>Um alarme sozinho avisa a invasão, mas as câmeras unidas ao sistema <strong>evitam o início da ação</strong>. O invasor desiste antes mesmo de tentar tocar no seu patrimônio, sabendo que a sua <strong>imagem já está sendo monitorada pela nossa central</strong>.</p>
+                <div class="video-control-text">
+                    <h3>Para não se preocupar</h3>
+                    <p>Na <strong>Guard</strong> você pode gerenciar tudo o que acontece no seu imóvel direto pelo celular. <strong>Controle tudo pelo app</strong>, arme e desarme, veja quem tem acesso ao seu imóvel e tenha o controle das câmeras em <strong>tempo real</strong>.</p>
                 </div>
             </div>
 
-            <div class="best-protection-column offset-top">
-                <div class="bp-card">
-                    <div class="bp-img-wrapper shape-left">
-                        <img src="imagens/house-cam-front.webp" alt="Privacidade Garantida" class="bp-img">
-                    </div>
-                    <h3>Expertise Técnica Guard</h3>
-                    <p>Nossa equipe técnica projeta o posicionamento dos seus equipamentos com <strong>engenharia e expertise</strong>. O perímetro dos seus muros e recuos é mapeado milimetricamente para que <strong>nenhum movimento passe despercebido</strong>.</p>
-                </div>
-                <div class="bp-card">
-                    <div class="bp-img-wrapper shape-right">
-                        <img src="imagens/delivery-guy.webp" alt="Alta Resolução" class="bp-img">
-                    </div>
-                    <h3>Gravação em Alta Resolução HD</h3>
-                    <p>Identifique detalhes cruciais, como rostos e placas de veículos. Com captura em <strong>alta definição e gravação contínua</strong>, você não perde nenhum detalhe do que acontece no seu patrimônio.</p>
-                </div>
+            <div class="video-control-right">
+                <h3 class="benefits-title">Benefícios de ter a câmera de segurança</h3>
+                <ul class="benefits-list">
+                    
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Acesso às câmeras em tempo real, controlando os acessos da sua residência ou negócio.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Gravação de imagens em alta resolução para visualização e coletas de provas.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Garantia total de privacidade das imagens, acesso da Central de Monitoramento apenas após o disparo do sistema.
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM12 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5-4H7V4h10v13z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            Aplicativo móvel com usabilidade intuitiva para acompanhar sua residência onde estiver.
+                        </div>
+                    </li>
+
+                </ul>
             </div>
         </div>
 
-        <div class="guard-premium-banner" style="margin-top: 50px;">
+        <div class="guard-premium-banner">
             <div class="guard-banner-content">
                 <div class="guard-banner-icon">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
                 </div>
                 <div class="guard-banner-text">
-                    <h3 class="guard-banner-title">O complemento perfeito para o seu alarme</h3>
-                    <p class="guard-banner-subtitle">Simule seu projeto com videomonitoramento e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                    <h3 class="guard-banner-title">Sua segurança não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
                 </div>
             </div>
             <div class="guard-banner-action">
-                <a href="index#advertisement-calculator" class="btn-guard-glow" style="text-decoration: none;">
+                <button class="btn-guard-glow" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
                     CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
-                </a>
+                </button>
             </div>
         </div>
-
+        
         <div id="subtittle-cards-container">
-            <h2 class="subtittle-cards" style="text-align: center;">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 40px;">
                 <span>Diferenciais da Guard</span>
             </h2>
         </div>
@@ -516,69 +747,161 @@
         <div class="monitoring-services-section">
             <div class="service-card">
                 <div class="service-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
                 </div>
-                <h3>Verificação imediata</h3>
-                <p>Com o auxílio do vídeo, a triagem e o tratamento das ocorrências pela nossa Central ganham agilidade máxima, filtrando as ameaças reais com tempo de resposta recorde.</p>
+                <h3>Monitoramento profissional</h3>
+                <p>Com o serviço de monitoramento profissional 24h da Guard, a sua proteção contra invasões é reforçada. Contamos com uma equipe de especialistas que analisam disparos e acionam a polícia imediatamente.</p>
             </div>
 
             <div class="service-card">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
                 </div>
-                <h3>Visualização Móvel pelo App</h3>
-                <p>Acesse as imagens ao vivo das suas câmeras com apenas um clique e de qualquer lugar do mundo.</p>
+                <h3>Sua segurança em qualquer lugar</h3>
+                <p>Através do aplicativo exclusivo Guard você gerencia o seu alarme de qualquer lugar do mundo, acessando através do seu smartphone e acompanhando as imagens em tempo real.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <h3>Botão Pânico</h3>
+                <p>Em caso de emergência, você aciona o botão pânico, e nós enviamos as forças competentes rapidamente para o seu local.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                </div>
+                <h3>Resposta em Poucos Segundos</h3>
+                <p>A Central de Monitoramento do Alarme Guard é altamente capacitada para verificar o disparo do alarme e atuar imediatamente, de acordo com o nível da ocorrência.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                    </svg>
+                </div>
+                <h3>Instalação limpa e rápida</h3>
+                <p>Nossos técnicos especializados realizam uma instalação estratégica, rápida e sem necessidade de reformas ou fios expostos pela casa.</p>
             </div>
 
             <div class="service-card">
                 <div class="service-icon">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
                 </div>
-                <h3>Instalação e Suporte Técnico</h3>
-                <p>Contamos com uma equipe qualificada para realizar a instalação, manutenções ou ajustes de equipamentos sempre que solicitado.</p>
+                <h3>Serviço Técnico</h3>
+                <p>Clientes Guard têm à disposição um atendimento especializado. Nossa equipe técnica e de suporte funciona de forma eficiente para sanar dúvidas ou resolver problemas no equipamento.</p>
             </div>
+        </div>
+        <div id="reviews-section">
+            <h2 class="subtittle-cards" style="text-align: center; margin-top: 60px; margin-bottom: 20px !important;">
+                <span>Opiniões dos nossos clientes sobre o</span>
+                <span>alarme Guard</span>
+            </h2>
+            <p class="reviews-subtitle">Com a Guard, milhares de clientes deixaram o medo no passado</p>
+
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">Muito bom mesmo! O sistema é super avançado e o app é maravilhoso, bem simples de usar no dia a dia para acompanhar as imagens. Vale muito a pena.</p>
+                    <p class="review-author">Camila Rocha — 31 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-1.webp" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">Passamos por uma tentativa de assalto aqui e foi o videomonitoramento que nos salvou. O sistema ajudou a identificar os rapazes na hora, a polícia chegou rapidinho e pegou eles.</p>
+                    <p class="review-author">Sandra Ramos - 61 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-2.webp" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="quote-icon">“</div>
+                    <p class="review-text">Só tenho elogios para a Guard. O pessoal é muito ágil e resolve tudo sem enrolação sempre que preciso. Gosto demais do sistema e da atenção que eles dão para o cliente. Vale muito a pena</p>
+                    <p class="review-author">Antônio Reis - 65 anos</p>
+                    <div class="review-footer">
+                        <div class="review-avatar">
+                            <img src="imagens/profile-photo-3.webp" alt="Foto do cliente">
+                        </div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guard-premium-banner">
+            <div class="guard-banner-content">
+                <div class="guard-banner-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                </div>
+                <div class="guard-banner-text">
+                    <h3 class="guard-banner-title">Sua segurança não pode esperar</h3>
+                    <p class="guard-banner-subtitle">Simule seu projeto agora e <span class="highlight-yellow">desbloqueie até 40% de desconto</span>.</p>
+                </div>
+            </div>
+            <div class="guard-banner-action">
+                <button class="btn-guard-glow" onclick="document.getElementById('advertisement-calculator').scrollIntoView({behavior: 'smooth'});">
+                    CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
+                </button>
+            </div>
+        </div>
+
+        <div id="company-info-section">
+            <div class="company-info-content">
+                <h2>24 horas por dia, 7 dias por semana</h2>
+                <p>A Guard possui uma Central de Monitoramento moderna e altamente preparada para proteger o seu patrimônio. Ligue a qualquer hora do dia, qualquer dia do ano, para pedir uma manutenção, consultar sobre o gerenciamento do seu sistema de alarme ou solicitar suporte imediato.</p>
+                
+                <ul class="company-features-list">
+                    <li>Atendimento 24h, todos os dias do ano.</li>
+                    <li>Ação imediata com acionamento das autoridades em caso de invasão confirmada.</li>
+                    <li>Equipe de pronta-resposta qualificada para verificação tática no local.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p>*<strong>Calcular on-line</strong> faz parte do processo de estudo de segurança, um processo onde recebemos informações on-line das necessidades de segurança do usuário que continua com uma chamada telefônica para tratar a informação sensível e finaliza com um estudo de segurança na casa/empresa do usuário.</p>
+            <p>*Consulte as condições através do telefone <strong class="destaque-amarelo">(15) 98824-6986</strong></p>
         </div>
 
         <div class="anos-experiencia-section">
             <div class="anos-experiencia-overlay">
-                <h2><strong>Mais de 11 anos</strong> monitorando seu patrimônio com excelência</h2>
+                <h2><strong>Mais de 11 anos</strong> cuidando do seu patrimônio</h2>
             </div>
         </div>
 
-        <footer class="main-footer">
-            <div class="footer-links">
-                <a href="politica-cookies">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
-                <a href="privacy-policy">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
-                <a href="help-informations">AJUDA E INFORMAÇÕES</a> <span class="separator"></span>
-            </div>
-            
-            <div class="footer-contact">
-                GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
-            </div>
-        </footer>
     </section>
     
-    <div id="cart-overlay" class="cart-overlay"></div>
-    <div id="cart-sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h2>Seu Carrinho</h2>
-            <div id="close-cart-btn" class="close-btn" style="font-size: 2rem; cursor: pointer;">&times;</div>
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="politica-cookies">POLÍTICA DE COOKIES</a> <span class="separator">|</span>
+            <a href="privacy-policy">POLÍTICA DE PRIVACIDADE</a> <span class="separator">|</span>
+            <a href="help-informations">AJUDA E INFORMAÇÕES</a> <span class="separator"></span>
         </div>
-        <div class="cart-items" id="cart-items-container">
-            </div>
-        <div class="cart-footer">
-            <div class="cart-total">Total: <span id="cart-total-price">R$ 0,00</span></div>
-            <a href="checkout" style="text-decoration: none; width: 100%;">
-                <button class="btn-checkout">Finalizar Compra</button>
-            </a>
+        
+        <div class="footer-contact">
+            GUARD 2026 | LIGUE <strong>(15) 98824-6986</strong>
         </div>
-    </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+        // SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyBLDntUspio2er8xe71wOCyObbYa-HaH20",
             authDomain: "loja-guard.firebaseapp.com",
@@ -591,12 +914,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
-        // Ajuste inicial para mobile
-        if (window.innerWidth <= 768) {
-            document.getElementById('mobile-menu-btn').style.display = 'flex';
-            document.getElementById('mobile-cart-btn').style.display = 'flex';
-        }
 
         const loggedOutUI = document.getElementById('logged-out-ui');
         const loggedInUI = document.getElementById('logged-in-ui');
@@ -694,37 +1011,20 @@
             localStorage.removeItem('guard_carrinho');
         }
 
-        function atualizarCarrinhoContador() {
+        function atualizarContadorCarrinho() {
             let totalItens = 0;
             carrinho.forEach((item) => {
                 totalItens += item.quantidade;
             });
             
-            const countBadge = document.getElementById('cart-count');
             const mobileCountBadge = document.getElementById('mobile-cart-count');
+            const floatingCountBadge = document.getElementById('floating-cart-count');
             
-            if(countBadge) countBadge.textContent = totalItens;
             if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+            if(floatingCountBadge) floatingCountBadge.textContent = totalItens;
         }
 
-        atualizarCarrinhoContador();
-
-        const sidebarMenu = document.getElementById('sidebar-menu');
-        const overlaySidebar = document.getElementById('sidebar-overlay');
-        
-        window.toggleMenu = function() {
-            sidebarMenu.classList.toggle('active');
-            overlaySidebar.classList.toggle('active');
-            if (sidebarMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
-        document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
-        overlaySidebar?.addEventListener('click', toggleMenu);
+        atualizarContadorCarrinho();
 
         window.addEventListener('scroll', function() {
             if (window.innerWidth > 768) {
@@ -736,6 +1036,183 @@
                 }
             }
         });
+
+        const sidebar = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('sidebar-overlay');
+        window.toggleMenu = function() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMenu);
+        document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
+        overlay?.addEventListener('click', toggleMenu);
+
+        const phoneInputs = document.querySelectorAll('input[type="tel"]');
+        phoneInputs.forEach(function(phoneInput) {
+            phoneInput.addEventListener('input', function (e) {
+                let numeroLimpo = e.target.value.replace(/\D/g, '');
+                let formatado = '';
+
+                if (numeroLimpo.length > 0) {
+                    formatado = '(' + numeroLimpo.substring(0, 2);
+                    if (numeroLimpo.length > 2) {
+                        formatado += ') ' + numeroLimpo.substring(2, 7);
+                        if (numeroLimpo.length > 7) {
+                            formatado += '-' + numeroLimpo.substring(7, 11);
+                        }
+                    }
+                }
+                e.target.value = formatado;
+            });
+        });
+
+        document.querySelectorAll('.opcao-radio input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const currentStep = this.closest('.step');
+                const nextStepId = this.getAttribute('data-skip-to') || currentStep.getAttribute('data-next');        
+
+                if (nextStepId) {
+                    setTimeout(() => {
+                        currentStep.classList.remove('active');
+                        document.getElementById(nextStepId).classList.add('active');
+                    }, 400); 
+                }
+            });
+        });
+
+        function configurarCampoTexto(inputId, btnId) {
+            const inputElement = document.getElementById(inputId);
+            const btnElement = document.getElementById(btnId);
+
+            function avancarEtapa() {
+                if (inputElement && inputElement.value.trim() !== "") {
+                    const currentStep = inputElement.closest('.step');
+                    const nextStepId = currentStep.getAttribute('data-next');
+                    if (nextStepId) {
+                        currentStep.classList.remove('active');
+                        document.getElementById(nextStepId).classList.add('active');
+                    }
+                } else if (inputElement) {
+                    inputElement.focus();
+                    inputElement.closest('.opcao-input-texto').style.borderColor = "#FFFF00"; 
+                }
+            }
+
+            if (btnElement) btnElement.addEventListener('click', avancarEtapa);
+
+            if (inputElement) {
+                inputElement.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        avancarEtapa();
+                    }
+                });
+                
+                inputElement.addEventListener('input', function() {
+                    this.closest('.opcao-input-texto').style.borderColor = "";
+                });
+            }
+        }
+
+        configurarCampoTexto('q_emp_loc_outra', 'btn-avancar-cidade');
+        configurarCampoTexto('q_emp_class_outra', 'btn-avancar-segmento');
+        configurarCampoTexto('q_res_loc_outra', 'btn-avancar-cidade-res');
+
+        const formEtapas = document.getElementById('form-etapas');
+        if (formEtapas) {
+            formEtapas.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+
+                const inputEnd = document.getElementById('endereco-final');
+                const inputTel = document.getElementById('telefone-final');
+                const btnFinalizar = document.getElementById('btn-finalizar-calc');
+                const textoFinalizar = document.getElementById('texto-finalizar');
+                const loaderFinalizar = document.getElementById('loader-finalizar');
+
+                if (!inputEnd || inputEnd.value.trim() === "") {
+                    inputEnd.focus();
+                    inputEnd.closest('.phone-container').style.borderColor = "#FFFF00"; 
+                    return;
+                }
+                inputEnd.closest('.phone-container').style.borderColor = "rgba(255, 255, 255, 0.162)";
+
+                if (!inputTel || inputTel.value.length < 14) {
+                    inputTel.focus();
+                    inputTel.closest('.phone-container').style.borderColor = "#FFFF00";
+                    return;
+                }
+                inputTel.closest('.phone-container').style.borderColor = "rgba(255, 255, 255, 0.162)";
+
+                if (textoFinalizar && loaderFinalizar) {
+                    textoFinalizar.style.display = 'none';
+                    loaderFinalizar.style.display = 'block';
+                    btnFinalizar.style.pointerEvents = 'none';
+                    btnFinalizar.style.opacity = '0.9';
+                }
+
+                const formData = new FormData(formEtapas);
+
+                fetch(formEtapas.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = 'sucesso'; 
+                    } else {
+                        alert('Ocorreu um erro no envio. Por favor, tente novamente.');
+                        textoFinalizar.style.display = 'block';
+                        loaderFinalizar.style.display = 'none';
+                        btnFinalizar.style.pointerEvents = 'auto';
+                        btnFinalizar.style.opacity = '1';
+                    }
+                }).catch(error => {
+                    alert('Erro de conexão. Verifique a sua internet.');
+                    textoFinalizar.style.display = 'block';
+                    loaderFinalizar.style.display = 'none';
+                    btnFinalizar.style.pointerEvents = 'auto';
+                    btnFinalizar.style.opacity = '1';
+                });
+            });
+        }
+
+        const formTelefoneRapido = document.getElementById('form-telefone-rapido');
+        if (formTelefoneRapido) {
+            formTelefoneRapido.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+        
+                const formData = new FormData(formTelefoneRapido);
+                const btnEnviar = formTelefoneRapido.querySelector('.submit-btn');
+                const textoOriginal = btnEnviar.innerHTML;
+        
+                btnEnviar.innerHTML = 'ENVIANDO...';
+                btnEnviar.style.pointerEvents = 'none';
+        
+                fetch(formTelefoneRapido.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = 'sucesso'; 
+                    } else {
+                        alert('Ocorreu um erro no envio. Por favor, tente novamente.');
+                        btnEnviar.innerHTML = textoOriginal;
+                        btnEnviar.style.pointerEvents = 'auto';
+                    }
+                }).catch(error => {
+                    alert('Erro de conexão. Verifique a sua internet.');
+                    btnEnviar.innerHTML = textoOriginal;
+                    btnEnviar.style.pointerEvents = 'auto';
+                });
+            });
+        }
     </script>
     <script src="apple-alerts.js"></script>
 </body>
