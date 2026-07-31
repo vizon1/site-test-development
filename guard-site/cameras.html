@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
     <style>
+        /* ==========================================
+           CABEÇALHO NÍVEL APPLE (FLEXBOX BLINDADO)
+           ========================================== */
         header {
             position: sticky;
             top: 0;
@@ -21,7 +24,7 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             width: 100%;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            transform: translateZ(0);
+            transform: translateZ(0); /* Anti-Flicker GPU */
             -webkit-transform: translateZ(0);
             will-change: transform;
         }
@@ -41,13 +44,14 @@
             padding: 0 24px;
             box-sizing: border-box;
             transition: height 0.3s ease;
-            gap: 15px;
+            gap: 15px; /* Impede que os elementos se toquem */
         }
 
         header.header-scrolled #header {
             height: 60px;
         }
 
+        /* Estrutura Flexbox Proporcional para garantir o centro perfeito sem sobreposição */
         #logo-container {
             flex: 1;
             display: flex;
@@ -67,7 +71,7 @@
         }
 
         #nav-container {
-            flex: 2;
+            flex: 2; /* Ocupa a maior parte do centro */
             display: flex;
             justify-content: center;
         }
@@ -101,8 +105,9 @@
             padding-bottom: 4px;
         }
 
+        /* Agrupamento da Direita */
         #desktop-cart-group {
-            flex: 1;
+            flex: 1; /* Equilibra o peso com a logo para o menu ficar no meio */
             display: flex !important; 
             align-items: center;
             justify-content: flex-end;
@@ -116,6 +121,7 @@
             align-items: center;
             position: relative;
             transition: color 0.2s ease;
+            text-decoration: none;
         }
         #open-cart-btn:hover { color: #ffffff; }
 
@@ -135,6 +141,7 @@
             border: 2px solid rgba(10, 10, 10, 0.85);
         }
 
+        /* Espaço Fixo e Alinhado à Direita para Autenticação */
         #auth-section {
             display: flex;
             align-items: center;
@@ -168,13 +175,16 @@
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ==========================================
+           RESPONSIVIDADE INTELIGENTE
+           ========================================== */
         @media (min-width: 769px) and (max-width: 1150px) {
             #navigation-bar { gap: 12px; } 
             #navigation-bar a { font-size: 0.75rem; letter-spacing: 0; } 
             #desktop-cart-group { gap: 12px; }
             #auth-section { padding-left: 12px; min-width: auto; }
             .auth-link { font-size: 0.75rem; }
-            #user-first-name { display: none; }
+            #user-first-name { display: none; } /* Oculta o nome, mantem a foto */
         }
 
         @media (max-width: 768px) {
@@ -252,7 +262,7 @@
                 <a href="index"><img src="imagens/logo.webp" alt="Logo Guard" id="logo"></a>
             </div>
 
-            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none;">
+            <a href="store" id="mobile-cart-btn" class="mobile-icon" style="display: none; position: relative; text-decoration: none; color: #d2d2d7;">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
                     <rect x="4" y="8" width="16" height="14" rx="2"></rect>
@@ -302,12 +312,71 @@
     </header>
 
     <section>
-        <div class="cameras-hero">
-            <div class="cameras-hero-text">
-                <span class="linha-branca">Seus próprios olhos no local</span><br>
+        <!-- ESTILO BLINDADO (IGNORA O STYLE.CSS ANTIGO) -->
+        <style>
+            #hero-cameras {
+                width: 100%;
+                min-height: 100vh !important;
+                margin-top: -86px !important; /* Puxa a imagem para debaixo do menu */
+                padding-top: 86px !important; /* Empurra o texto para baixo do menu */
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url("imagens/background-cam.webp") !important;
+                background-size: cover !important;
+                background-position: center !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            #texto-cameras {
+                display: block !important;
+                text-align: left !important;
+                max-width: 1200px !important;
+                width: 100% !important;
+                padding: 0 24px !important;
+                z-index: 2 !important;
+            }
+
+            #texto-cameras .linha-branca {
+                display: block !important;
+                color: #FFFFFF !important;
+                font-size: 42px !important;
+                font-weight: 800 !important;
+                line-height: 1.1 !important;
+            }
+
+            #texto-cameras .linha-amarela {
+                display: block !important;
+                color: #FFFF00 !important;
+                font-size: 52px !important;
+                font-weight: 800 !important;
+                line-height: 1.1 !important;
+                margin-top: 5px !important;
+            }
+
+            #texto-cameras .hero-subtitle {
+                display: block !important;
+                color: #cccccc !important;
+                font-size: 18px !important;
+                margin-top: 20px !important;
+                line-height: 1.5 !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.8) !important;
+                max-width: 650px !important;
+            }
+            
+            #botao-cameras {
+                display: inline-flex !important;
+                margin-top: 40px !important;
+                text-decoration: none !important;
+            }
+        </style>
+
+        <!-- NOVO HTML USANDO OS IDs -->
+        <div id="hero-cameras">
+            <div id="texto-cameras">
+                <span class="linha-branca">Seus próprios olhos no local</span>
                 <span class="linha-amarela">Videomonitoramento Guard</span>
                 <p class="hero-subtitle">Um alarme avisa que algo aconteceu. A câmera mostra exatamente o que é. Aumente a precisão da sua segurança, controle acessos ao vivo pelo app e grave provas em alta resolução.</p>
-                <a href="index#advertisement-calculator" class="btn-guard-glow" style="margin-top: 40px; text-decoration: none;">
+                <a href="index#advertisement-calculator" class="btn-guard-glow" id="botao-cameras">
                     CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
                 </a>
             </div>
@@ -523,6 +592,7 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
+        // Ajuste inicial para mobile
         if (window.innerWidth <= 768) {
             document.getElementById('mobile-menu-btn').style.display = 'flex';
             document.getElementById('mobile-cart-btn').style.display = 'flex';
@@ -615,6 +685,29 @@
 
         if(btnLogout) btnLogout.addEventListener('click', executarLogout);
         if(mobileBtnLogout) mobileBtnLogout.addEventListener('click', executarLogout);
+
+        let carrinho = [];
+        try {
+            carrinho = JSON.parse(localStorage.getItem('guard_carrinho')) || [];
+        } catch (e) {
+            carrinho = [];
+            localStorage.removeItem('guard_carrinho');
+        }
+
+        function atualizarCarrinhoContador() {
+            let totalItens = 0;
+            carrinho.forEach((item) => {
+                totalItens += item.quantidade;
+            });
+            
+            const countBadge = document.getElementById('cart-count');
+            const mobileCountBadge = document.getElementById('mobile-cart-count');
+            
+            if(countBadge) countBadge.textContent = totalItens;
+            if(mobileCountBadge) mobileCountBadge.textContent = totalItens;
+        }
+
+        atualizarCarrinhoContador();
 
         const sidebarMenu = document.getElementById('sidebar-menu');
         const overlaySidebar = document.getElementById('sidebar-overlay');
