@@ -191,6 +191,32 @@
             #header { padding: 0 15px; height: 80px !important; } 
             #logo-container img { height: 60px !important; } 
         }
+
+        /* ==========================================
+           CORREÇÃO DA SEÇÃO HERO (ALARME RESIDENCIAL)
+           ========================================== */
+        .residential-hero {
+            position: relative;
+            width: 100%;
+            min-height: 60vh; 
+            display: flex;
+            align-items: center; 
+            justify-content: flex-start;
+            padding-top: 90px; /* Empurra o conteúdo para baixo, livrando o cabeçalho */
+            background-color: #0a0a0a; /* Fundo de segurança caso a imagem não carregue */
+            
+            /* Adicione a sua imagem de fundo aqui tirando os comentários da linha abaixo */
+            /* background-image: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('imagens/sua-imagem-aqui.webp'); */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .residential-hero-text {
+            max-width: 800px;
+            padding: 0 5%;
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 
