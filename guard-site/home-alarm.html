@@ -191,6 +191,39 @@
             #header { padding: 0 15px; height: 80px !important; } 
             #logo-container img { height: 60px !important; } 
         }
+
+        <style>
+        /* =======================================================
+           CORREÇÃO BLINDADA DO HERO (SOBRESCREVE O STYLE.CSS)
+           ======================================================= */
+        section .residential-hero {
+            min-height: 100vh !important; /* Força a ocupar toda a altura da tela */
+            padding-top: 100px !important; /* Afasta o texto do cabeçalho */
+            margin-top: 0 !important; 
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url("imagens/house-protected-home.webp") !important;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+    
+        section .residential-hero-text {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important; /* Conserta o erro do botão amarelo esticado */
+            text-align: center !important;
+            max-width: 900px !important;
+            width: 100% !important;
+        }
+    
+        section .residential-hero-text a.btn-guard-glow {
+            width: max-content !important; /* Trava o tamanho do botão ao texto */
+            margin-top: 40px !important;
+            padding: 10px 14px 10px 24px !important;
+        }
+        
+</style>
     </style>
 </head>
 
