@@ -2356,10 +2356,7 @@ nav ul li a:hover {
    ========================================= */
 .residential-hero {
     width: 100%;
-    min-height: 80vh;
-    margin-top: -140px; 
-    padding-top: 180px; 
-    padding-bottom: 80px;
+    min-height: calc(100vh - 86px);
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)), url("imagens/house-protected-home.webp");
     background-size: cover;
     background-position: center;
@@ -2370,11 +2367,10 @@ nav ul li a:hover {
 }
 
 .residential-hero-text {
+    display: block !important;
+    width: 100%;
     max-width: 900px;
     padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .residential-hero-text .linha-branca {
