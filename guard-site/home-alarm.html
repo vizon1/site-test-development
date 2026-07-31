@@ -191,69 +191,6 @@
             #header { padding: 0 15px; height: 80px !important; } 
             #logo-container img { height: 60px !important; } 
         }
-
-        /* ==========================================
-           CORREÇÃO DEFINITIVA - HERO ALARME
-           ========================================== */
-        .residential-hero {
-            position: relative;
-            width: 100%;
-            min-height: 85vh; 
-            display: flex;
-            align-items: center; 
-            justify-content: flex-start;
-            
-            /* Puxa o fundo para debaixo do cabeçalho translúcido */
-            margin-top: -86px; 
-            /* Empurra APENAS o texto para baixo para não ficar escondido */
-            padding: 140px 5% 40px 5%; 
-            
-            background-color: #0a0a0a;
-            /* Lembre-se de colocar o caminho real da sua imagem aqui embaixo */
-            background-image: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 100%), url('imagens/sua-imagem-aqui.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .residential-hero-text {
-            /* Remove o flexbox que estava a destruir a formatação do texto */
-            display: block !important; 
-            max-width: 750px;
-            z-index: 2;
-        }
-
-        .residential-hero-text .linha-branca {
-            display: block;
-            color: #ffffff;
-            font-size: 1.6rem;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .residential-hero-text .linha-amarela {
-            display: block;
-            color: #FFFF00;
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 25px;
-        }
-
-        .residential-hero-text .hero-subtitle {
-            color: #d2d2d7;
-            font-size: 1.15rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            max-width: 600px;
-        }
-        
-        .residential-hero-text {
-            max-width: 800px;
-            padding: 0 5%;
-            position: relative;
-            z-index: 2;
-        }
     </style>
 </head>
 
