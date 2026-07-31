@@ -310,14 +310,73 @@
             </div>
         </div>
     </header>
-
+    
     <section>
-        <div class="enterprise-hero">
-            <div class="enterprise-hero-text">
-                <span class="linha-branca">Proteção completa para o seu negócio</span><br>
+        <!-- ESTILO BLINDADO (IGNORA O STYLE.CSS ANTIGO) -->
+        <style>
+            #hero-alarme-empresa {
+                width: 100%;
+                min-height: 100vh !important;
+                margin-top: -86px !important; /* Puxa a imagem para debaixo do menu */
+                padding-top: 86px !important; /* Empurra o texto para baixo do menu */
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url("imagens/enterprise-benner.webp") !important;
+                background-size: cover !important;
+                background-position: center !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            #texto-alarme-empresa {
+                display: block !important;
+                text-align: left !important;
+                max-width: 1200px !important;
+                width: 100% !important;
+                padding: 0 24px !important;
+                z-index: 2 !important;
+            }
+
+            #texto-alarme-empresa .linha-branca {
+                display: block !important;
+                color: #FFFFFF !important;
+                font-size: 42px !important;
+                font-weight: 800 !important;
+                line-height: 1.1 !important;
+            }
+
+            #texto-alarme-empresa .linha-amarela {
+                display: block !important;
+                color: #FFFF00 !important;
+                font-size: 52px !important;
+                font-weight: 800 !important;
+                line-height: 1.1 !important;
+                margin-top: 5px !important;
+            }
+
+            #texto-alarme-empresa .hero-subtitle {
+                display: block !important;
+                color: #cccccc !important;
+                font-size: 18px !important;
+                margin-top: 20px !important;
+                line-height: 1.5 !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.8) !important;
+                max-width: 650px !important;
+            }
+            
+            #botao-alarme-empresa {
+                display: inline-flex !important;
+                margin-top: 40px !important;
+                text-decoration: none !important;
+            }
+        </style>
+
+        <!-- NOVO HTML USANDO OS IDs -->
+        <div id="hero-alarme-empresa">
+            <div id="texto-alarme-empresa">
+                <span class="linha-branca">Proteção completa para o seu negócio</span>
                 <span class="linha-amarela">Alarme Empresarial Guard</span>
                 <p class="hero-subtitle">Mantenha sua empresa segura fora do horário comercial. Proteja seu estoque, controle o acesso de funcionários pelo app e garanta resposta imediata das autoridades competentes.</p>
-                <a href="index#advertisement-calculator" class="btn-guard-glow" style="margin-top: 40px; text-decoration: none;">
+                <a href="index#advertisement-calculator" class="btn-guard-glow" id="botao-alarme-empresa">
                     CALCULAR PROJETO <div class="icon-circle">&#8250;</div>
                 </a>
             </div>
